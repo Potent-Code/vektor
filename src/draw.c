@@ -5,17 +5,8 @@
 
 #include "draw.h"
 
-//void cleanup(void)
-//{
-//	TTF_CloseFont(font);
-//	TTF_Quit();
-//}
-
 void init_scene(void)
 {
-	//TTF_Init();
-	//font = TTF_OpenFont("Tahoma.ttf",11);
-	//atexit(cleanup);
 	if(0>load_texture("gfx/textures/bg/world_map_2.texture"))
 	{
 		fprintf(stderr,"Error loading texture!\n");
@@ -37,68 +28,6 @@ void render(void)
 {
 	double et;
 	framecount++;
-
-	/*// up
-	if(controls[0] && ! (controls[2] || controls[3]))
-	{
-		dir_frame=4.;
-	}
-
-	// down
-	if(controls[1] && ! (controls[2] || controls[3]))
-	{
-		dir_frame=0.;
-	}
-
-	// up right and up left
-	if(controls[0] && (controls[2] || controls[3]))
-	{
-		dir_frame=3.;
-	}
-
-	// down right and down left
-	if(controls[1] && (controls[2] || controls[3]))
-	{
-		dir_frame=1.;
-	}
-
-	// right and left
-	if((controls[2] || controls[3]) && ! controls[1]  && ! controls[0])
-	{
-		dir_frame=2.;
-	}
-
-	// left/right
-	if(controls[2])
-	{
-		flip=1;
-	}
-	if(controls[3])
-	{
-		flip=0;
-	}
-
-	texcoords[0][0]+=dir_frame/6.;
-	texcoords[1][0]+=dir_frame/6.;
-	texcoords[2][0]+=dir_frame/6.;
-	texcoords[3][0]+=dir_frame/6.;
-
-	// mirroring
-	if(flip && !(dir_frame==0 || dir_frame==4))
-	{
-		// the 2px shift is in here for reasons
-		// i dont yet understand...for now it gets
-		// rid of some artifacting after flipping
-		// swap bottom points
-		tmp=texcoords[0][0]-(2./198.);
-		texcoords[0][0]=texcoords[1][0];
-		texcoords[1][0]=tmp;
-
-		// swap top points
-		tmp=texcoords[2][0];
-		texcoords[2][0]=texcoords[3][0];
-		texcoords[3][0]=tmp-(2./198.);
-	}*/
 
 	glDisable(GL_DEPTH_TEST);
 	glShadeModel(GL_SMOOTH);
@@ -140,7 +69,7 @@ void render(void)
 
 	if((et = (double)(clock()-t)/CLOCKS_PER_SEC) >= .25)
 	{
-		fprintf(stderr,"\r%.f\tfps",framecount/et);
+		//fprintf(stderr,"\r%.f\tfps",framecount/et);
 		framecount=1;
 		t=clock();
 	}
