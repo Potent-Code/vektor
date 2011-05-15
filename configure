@@ -567,7 +567,7 @@ PACKAGE_STRING='vektor 0.1'
 PACKAGE_BUGREPORT='ryan.lucchese@gmail.com'
 PACKAGE_URL=''
 
-ac_unique_file="draw.h"
+ac_unique_file="src/draw.h"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
@@ -2864,7 +2864,7 @@ am__tar='${AMTAR} chof - "$$tardir"'; am__untar='${AMTAR} xf -'
 
 
 
-ac_config_headers="$ac_config_headers config.h"
+ac_config_headers="$ac_config_headers src/config.h"
 
 
 
@@ -16100,7 +16100,7 @@ cat >>$CONFIG_STATUS <<\_ACEOF || ac_write_fail=1
 for ac_config_target in $ac_config_targets
 do
   case $ac_config_target in
-    "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
+    "src/config.h") CONFIG_HEADERS="$CONFIG_HEADERS src/config.h" ;;
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "vektor.pc") CONFIG_FILES="$CONFIG_FILES vektor.pc" ;;

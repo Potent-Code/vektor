@@ -4,8 +4,8 @@
 AC_PREREQ([2.60])
 AC_INIT([vektor], [0.1], [ryan.lucchese@gmail.com])
 AM_INIT_AUTOMAKE([vektor], [0.1])
-AC_CONFIG_SRCDIR([draw.h])
-AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_SRCDIR([src/draw.h])
+AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_MACRO_DIR([m4])
 
 # Checks for programs.
