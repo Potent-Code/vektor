@@ -44,9 +44,6 @@
    and to 0 otherwise. */
 #undef HAVE_REALLOC
 
-/* Define to 1 if you have the <SDL/SDL.h> header file. */
-#undef HAVE_SDL_SDL_H
-
 /* Define to 1 if you have the `select' function. */
 #undef HAVE_SELECT
 
@@ -82,6 +79,12 @@
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
+
+/* Use nonstandard varargs form for the GLU tesselator callback */
+#undef HAVE_VARARGS_GLU_TESSCB
+
+/* Define to 1 if you have the <windows.h> header file. */
+#undef HAVE_WINDOWS_H
 
 /* Define to the sub-directory in which libtool stores uninstalled libraries.
    */
