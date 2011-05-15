@@ -1,7 +1,7 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.65])
+AC_PREREQ([2.60])
 AC_INIT([vektor], [0.1], [ryan.lucchese@gmail.com])
 AM_INIT_AUTOMAKE([vektor], [0.1])
 AC_CONFIG_SRCDIR([draw.h])
@@ -13,6 +13,7 @@ AC_PROG_CC
 AC_PROG_LIBTOOL
 
 # Checks for libraries.
+AC_PROG_CXX
 AX_CHECK_GL
 AX_CHECK_GLU
 
