@@ -10,8 +10,8 @@
 
 #define MAX_TEXTURES 25
 
-GLuint gltextures[MAX_TEXTURES];
-int texture_number;
+static GLuint gltextures[MAX_TEXTURES];
+static int texture_number;
 
 int load_texture(const char *filename);
 GLuint SDL_GL_LoadTexture(SDL_Surface *surface, GLfloat *texcoord);

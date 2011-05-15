@@ -9,8 +9,8 @@
 #include <sys/socket.h>
 #include <sys/time.h>
 
-int sockfd;
-fd_set rd;
+static int sockfd;
+static fd_set rd;
 
 void init_network(void);
 void recv_message(char *buffer);
