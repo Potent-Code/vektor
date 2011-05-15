@@ -23,5 +23,5 @@ AC_TYPE_SIZE_T
 AC_FUNC_MALLOC
 AC_FUNC_REALLOC
 AC_CHECK_FUNCS([gethostbyname memmove memset select socket])
-
+AC_CONFIG_FILES([vektor.pc])
 AC_OUTPUT(Makefile)

@@ -11,14 +11,18 @@
 #include <sys/types.h>
 
 #include "texture.h"
+#include "input.h"
 #include "sdl.h"
-#include "mesh.h"
-#include "particle.h"
+#include "player.h"
+
+sprite player;
+float dir_frame;
+int flip;
 
 clock_t t,at,mt;
 unsigned int framecount;
 
 void init_scene(void);
-void render(mesh space, GLUquadricObj *quadric);
+void render(void);
 
 #endif

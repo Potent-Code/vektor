@@ -1,0 +1,11 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Vektor
+Description: Vektor game engine
+Requires: libpng-1.4 sdl-1.2
+Version: 0.1
+Libs: -lGL -lGLU -lSDL -lpng
+Cflags: 
