@@ -10595,11 +10595,9 @@ CC="$lt_save_CC"
 
 
 # Checks for libraries.
-AX_CHECK_GL
-AX_CHECK_GLU
 
 # Checks for header files.
-for ac_header in fcntl.h netdb.h stdlib.h string.h sys/param.h sys/socket.h sys/time.h unistd.h
+for ac_header in fcntl.h netdb.h stdlib.h string.h sys/param.h sys/socket.h sys/time.h unistd.h SDL/SDL.h
 do :
   as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
 ac_fn_c_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"
@@ -10613,7 +10611,51 @@ fi
 
 done
 
-#AC_CHECK_HEADERS([gl.h glu.h SDL.h])
+for ac_header in GL/gl.h GL/glu.h
+do :
+  as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
+ac_fn_c_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"
+eval as_val=\$$as_ac_Header
+   if test "x$as_val" = x""yes; then :
+  cat >>confdefs.h <<_ACEOF
+#define `$as_echo "HAVE_$ac_header" | $as_tr_cpp` 1
+_ACEOF
+ cat "#include <GL/gl.h>
+#include <GL/glu.h>
+" >> sdl.h
+fi
+
+done
+
+for ac_header in OpenGL/gl.h OpenGL/glu.h
+do :
+  as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
+ac_fn_c_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"
+eval as_val=\$$as_ac_Header
+   if test "x$as_val" = x""yes; then :
+  cat >>confdefs.h <<_ACEOF
+#define `$as_echo "HAVE_$ac_header" | $as_tr_cpp` 1
+_ACEOF
+ cat "#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
+" >> sdl.h
+fi
+
+done
+
+for ac_header in SDL/SDL.h
+do :
+  ac_fn_c_check_header_mongrel "$LINENO" "SDL/SDL.h" "ac_cv_header_SDL_SDL_h" "$ac_includes_default"
+if test "x$ac_cv_header_SDL_SDL_h" = x""yes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_SDL_SDL_H 1
+_ACEOF
+ cat "#include <SDL/SDL.h>
+#endif" >> sdl.h
+fi
+
+done
+
 
 # Checks for typedefs, structures, and compiler characteristics.
 ac_fn_c_check_type "$LINENO" "size_t" "ac_cv_type_size_t" "$ac_includes_default"

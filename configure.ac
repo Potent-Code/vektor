@@ -12,12 +12,17 @@ AC_PROG_CC
 AC_PROG_LIBTOOL
 
 # Checks for libraries.
-AX_CHECK_GL
-AX_CHECK_GLU
 
 # Checks for header files.
-AC_CHECK_HEADERS([fcntl.h netdb.h stdlib.h string.h sys/param.h sys/socket.h sys/time.h unistd.h])
-#AC_CHECK_HEADERS([gl.h glu.h SDL.h])
+AC_CHECK_HEADERS([fcntl.h netdb.h stdlib.h string.h sys/param.h sys/socket.h sys/time.h unistd.h SDL/SDL.h])
+AC_CHECK_HEADERS([GL/gl.h GL/glu.h],[cat "#include <GL/gl.h>
+#include <GL/glu.h>
+" >> sdl.h])
+AC_CHECK_HEADERS([OpenGL/gl.h OpenGL/glu.h],[cat "#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
+" >> sdl.h])
+AC_CHECK_HEADERS([SDL/SDL.h],[cat "#include <SDL/SDL.h>
+#endif" >> sdl.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_SIZE_T
