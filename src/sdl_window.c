@@ -2,7 +2,6 @@
 
 void quit(int ret)
 {
-	fprintf(stderr,"\n");
 	SDL_Quit();
 	exit(ret);
 }
