@@ -10597,7 +10597,7 @@ CC="$lt_save_CC"
 # Checks for libraries.
 
 # Checks for header files.
-for ac_header in fcntl.h netdb.h stdlib.h string.h sys/param.h sys/socket.h sys/time.h unistd.h SDL/SDL.h
+for ac_header in fcntl.h netdb.h stdlib.h string.h sys/param.h sys/socket.h sys/time.h unistd.h
 do :
   as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
 ac_fn_c_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"
@@ -10620,9 +10620,12 @@ eval as_val=\$$as_ac_Header
   cat >>confdefs.h <<_ACEOF
 #define `$as_echo "HAVE_$ac_header" | $as_tr_cpp` 1
 _ACEOF
- cat "#include <GL/gl.h>
+ echo "#ifndef SDL_H
+#define SDL_H
+
+#include <GL/gl.h>
 #include <GL/glu.h>
-" >> sdl.h
+" > sdl.h
 fi
 
 done
@@ -10636,9 +10639,12 @@ eval as_val=\$$as_ac_Header
   cat >>confdefs.h <<_ACEOF
 #define `$as_echo "HAVE_$ac_header" | $as_tr_cpp` 1
 _ACEOF
- cat "#include <OpenGL/gl.h>
+ echo "#ifndef SDL_H
+#define SDL_H
+
+#include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
-" >> sdl.h
+" > sdl.h
 fi
 
 done
@@ -10650,7 +10656,7 @@ if test "x$ac_cv_header_SDL_SDL_h" = x""yes; then :
   cat >>confdefs.h <<_ACEOF
 #define HAVE_SDL_SDL_H 1
 _ACEOF
- cat "#include <SDL/SDL.h>
+ echo "#include <SDL/SDL.h>
 #endif" >> sdl.h
 fi
 
