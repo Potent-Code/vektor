@@ -1,5 +1,8 @@
 lib_LTLIBRARIES = libvektor.la
 libvektor_la_SOURCES = image.h sdl.h sdl_window.h sdl_window.c texture.h texture.c input.h input.c net.h net.c sprite.h sprite.c player.h player.c draw.h draw.c
+if DARWIN
+libvektor_la_SOURCES += SDLMain.m
+endif
 libvektor_la_CFLAGS = $(GL_CFLAGS) $(GLU_CFLAGS)
 libvektor_la_LDFLAGS = $(GL_LIBS) $(GLU_LIBS) -lSDL
 include_HEADERS = vektor.h

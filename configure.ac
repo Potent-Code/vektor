@@ -10,6 +10,7 @@ AC_CONFIG_MACRO_DIR([m4])
 
 # Checks for programs.
 AC_PROG_CC
+AC_PROG_OBJC
 AC_PROG_LIBTOOL
 
 # Checks for libraries.
@@ -28,4 +29,16 @@ AC_FUNC_MALLOC
 AC_FUNC_REALLOC
 AC_CHECK_FUNCS([gethostbyname memmove memset select socket])
 AC_CONFIG_FILES([vektor.pc])
+
+# Check for running OS X
+AC_MSG_CHECKING([if running Darwin])
+UNAME=`uname -s`
+if test "${UNAME}" = "Darwin"; then
+	AC_MSG_RESULT(yes)
+	AM_CONDITIONAL([DARWIN],true)
+else
+	AC_MSG_RESULT(no)
+	AM_CONDITIONAL([DARWIN],false)
+fi
+
 AC_OUTPUT(Makefile src/Makefile)
