@@ -10,7 +10,7 @@
 #include <sys/time.h>
 
 #define TEST_HOST "theturks.sytes.net"
-#define TEST_PORT
+#define TEST_PORT 57157
 
 static int sockfd;
 static fd_set rd;
