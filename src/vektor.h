@@ -1,16 +1,8 @@
 /* vektor engine include
  * by Ryan Lucchese
  * May 14 2011 */
-
-typedef struct
-{
-	unsigned char *data;
-	png_uint_32 width;
-	png_uint_32 height;
-	int bit_depth;
-	int color_type;
-	int channels;
-} *image;
+#include <SDL/SDL.h>
+#include <time.h>
 
 // linked list of texture coordinates
 struct texture_coordinates
@@ -37,7 +29,7 @@ typedef struct
 	float height;
 	float speed;
 	float coords[4][2];
-	GLuint texture;
+	unsigned int texture;
 	frame * f;
 
 	// timers
@@ -52,10 +44,11 @@ void quit(int ret);
 void resize(int w, int h);
 
 int load_texture(const char *filename);
-GLuint SDL_GL_LoadTexture(SDL_Surface *surface, GLfloat *texcoord);
+unsigned int SDL_GL_LoadTexture(SDL_Surface *surface, float *texcoord);
 
 void init_network(void);
 void recv_message(char *buffer);
+void send_message(char *buffer);
 
 void get_key(SDL_keysym *keysym);
 void get_keyup(SDL_keysym *keysym);
@@ -66,7 +59,7 @@ void render(void);
 // set s->coords to points of sprite quad
 void get_coords(sprite s);
 
-sprite player_sprite(float x, float y, float width, float height, GLuint texture);
+sprite player_sprite(float x, float y, float width, float height, unsigned int texture);
 void animate_player(sprite player);
 void move_player(sprite player);
 void draw_player(void *p);
