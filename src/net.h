@@ -9,6 +9,9 @@
 #include <sys/socket.h>
 #include <sys/time.h>
 
+#define TEST_HOST "theturks.sytes.net"
+#define TEST_PORT
+
 static int sockfd;
 static fd_set rd;
 

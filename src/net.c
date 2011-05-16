@@ -6,26 +6,26 @@ void init_network(void)
 	struct sockaddr_in server_addr;
 	struct hostent *server;
 
-	char *host = "theturks.sytes.net";
-	port=57157;
+	char *host = TEST_HOST;
+	port = TEST_PORT;
 
-	memset(&server_addr,'\0',sizeof(server_addr));
+	memset(&server_addr, '\0', sizeof(server_addr));
 
-	sockfd=socket(AF_INET, SOCK_STREAM, 0);
-	server=gethostbyname(host);
+	sockfd = socket(PF_INET, SOCK_STREAM, 0);
+	server = gethostbyname(host);
 	
-	server_addr.sin_family=AF_INET;
+	server_addr.sin_family = AF_INET;
 	memmove(&server_addr.sin_addr.s_addr, server->h_addr, server->h_length);
 	server_addr.sin_port = htons(port);
 
-	connect(sockfd,(struct sockaddr *)&server_addr,sizeof(server_addr));
+	connect(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr));
 
 	FD_ZERO(&rd);
 
-	FD_SET(sockfd,&rd);
+	FD_SET(sockfd, &rd);
 
-	opts = fcntl(sockfd,F_GETFL,0);
-	fcntl(sockfd,F_SETFL,opts|O_NONBLOCK);
+	opts = fcntl(sockfd, F_GETFL,0);
+	fcntl(sockfd, F_SETFL, opts|O_NONBLOCK);
 }
 
 void recv_message(char *buffer)
