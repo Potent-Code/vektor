@@ -19,20 +19,6 @@ AX_CHECK_GLU
 
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h netdb.h stdlib.h string.h sys/param.h sys/socket.h sys/time.h unistd.h])
-#AC_CHECK_HEADERS([GL/gl.h GL/glu.h],[echo "#ifndef SDL_H
-#define SDL_H
-
-#include <GL/gl.h>
-#include <GL/glu.h>
-#" > sdl.h])
-#AC_CHECK_HEADERS([OpenGL/gl.h OpenGL/glu.h],[echo "#ifndef SDL_H
-#define SDL_H
-
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#" > sdl.h])
-#AC_CHECK_HEADERS([SDL/SDL.h],[echo "#include <SDL/SDL.h>
-#endif" >> sdl.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_SIZE_T
