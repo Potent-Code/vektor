@@ -53,4 +53,25 @@ void recv_message(char *buffer)
 	}
 }
 
+void send_message(char *buffer)
+{
+	int n;
+	char tmp_buff[1024];
+	struct timeval tv;
 
+	if(sockfd <= 0)
+	{
+		return;
+	}
+
+	FD_ZERO(&rd);
+	FD_SET(sockfd,&rd);
+
+	memset(tmp_buff,0,sizeof(tmp_buff));
+
+	tv.tv_sec = 0;
+	tv.tv_usec = 1000;
+
+	select(sockfd+1,&rd,NULL,NULL,&tv);
+	n = write(sockfd,tmp_buff,sizeof(tmp_buff));
+}

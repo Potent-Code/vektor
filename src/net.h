@@ -14,5 +14,6 @@ static fd_set rd;
 
 void init_network(void);
 void recv_message(char *buffer);
+void send_message(char *buffer);
 
 #endif
