@@ -3,20 +3,22 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <fcntl.h>
-#include <netdb.h>
 #include <unistd.h>
+#include <netdb.h>
+#include <sys/types.h>
 #include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 #include <sys/time.h>
 
 #define TEST_HOST "theturks.sytes.net"
 #define TEST_PORT 57157
 
-static int sockfd;
-static fd_set rd;
+int sockfd;
+struct sockaddr_in server_addr;
 
 void init_network(void);
-void recv_message(char *buffer);
-void send_message(char *buffer);
+int recv_message(char *buffer);
+int send_message(char *buffer);
 
 #endif

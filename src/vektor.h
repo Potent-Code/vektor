@@ -47,8 +47,8 @@ int load_texture(const char *filename);
 unsigned int SDL_GL_LoadTexture(SDL_Surface *surface, float *texcoord);
 
 void init_network(void);
-void recv_message(char *buffer);
-void send_message(char *buffer);
+int recv_message(char *buffer);
+int send_message(char *buffer);
 
 void get_key(SDL_keysym *keysym);
 void get_keyup(SDL_keysym *keysym);
