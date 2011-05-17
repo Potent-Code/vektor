@@ -1,7 +1,6 @@
 /* vektor engine include
  * by Ryan Lucchese
  * May 14 2011 */
-#include <SDL/SDL.h>
 #include <time.h>
 
 // linked list of texture coordinates
@@ -44,14 +43,13 @@ void quit(int ret);
 void resize(int w, int h);
 
 int load_texture(const char *filename);
-unsigned int SDL_GL_LoadTexture(SDL_Surface *surface, float *texcoord);
 
 void init_network(void);
 int recv_message(char *buffer);
 int send_message(char *buffer);
 
-void get_key(SDL_keysym *keysym);
-void get_keyup(SDL_keysym *keysym);
+/*void get_key(SDL_keysym *keysym);
+void get_keyup(SDL_keysym *keysym);*/
 
 void init_scene(void);
 void render(void);
