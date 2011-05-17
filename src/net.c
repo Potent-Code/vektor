@@ -46,6 +46,6 @@ int send_message(char *buffer)
 		return;
 	}
 
-	n = sendto(sockfd,buffer,strlen(buffer),0,&server_addr,saddr_len);
+	n = sendto(sockfd,buffer,strlen(buffer),0,(struct sockaddr *)&server_addr,(socklen_t)saddr_len);
 	return n;
 }
