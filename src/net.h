@@ -10,13 +10,14 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <sys/time.h>
+#include <poll.h>
 
 #define TEST_HOST "theturks.sytes.net"
 #define TEST_PORT 57157
 
 int sockfd;
-socklen_t saddr_len;
 struct sockaddr_in server_addr;
+struct pollfd sockpoll;
 
 void init_network(void);
 int recv_message(char *buffer);
