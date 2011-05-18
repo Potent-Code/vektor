@@ -17,7 +17,8 @@
 
 int sockfd;
 struct sockaddr_in server_addr;
-struct pollfd sockpoll;
+struct pollfd net_read;
+struct pollfd net_write;
 
 void init_network(void);
 int recv_message(char *buffer);

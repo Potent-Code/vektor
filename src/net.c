@@ -26,9 +26,12 @@ void init_network(void)
 	inet_pton(AF_INET, "174.51.144.21",&server_addr.sin_addr.s_addr);
 	server_addr.sin_family = PF_INET;
 	server_addr.sin_port = htons(port);
-	sockpoll.fd = sockfd;
-	sockpoll.events = POLLIN;
-	sockpoll.revents = 0;
+	net_read.fd = sockfd;
+	net_read.events = POLLIN;
+	net_read.revents = 0;
+	net_write.fd = sockfd;
+	net_write.events = POLLOUT;
+	net_write.revents = 0;
 }
 
 int recv_message(char *buffer)
@@ -41,7 +44,7 @@ int recv_message(char *buffer)
 		return -1;
 	}
 	// check if data is ready to be recieved
-	if(poll(&sockpoll, 1, 250) > 0)
+	if(poll(&net_read, 1, 250) > 0)
 	{
 		n = recvfrom(sockfd,buffer,500,0,(struct sockaddr *)&server_addr,&saddr_len);
 	}
@@ -51,7 +54,6 @@ int recv_message(char *buffer)
 int send_message(char *buffer)
 {
 	int n;
-	
 	int saddr_len = sizeof(server_addr);
 
 	if(sockfd <= 0)
@@ -59,6 +61,9 @@ int send_message(char *buffer)
 		return -1;
 	}
 
-	n = sendto(sockfd,buffer,strlen(buffer),0,(struct sockaddr *)&server_addr,(socklen_t)saddr_len);
+	if(poll(&net_write,1,250) > 0)
+	{
+		n = sendto(sockfd,buffer,strlen(buffer),0,(struct sockaddr *)&server_addr,(socklen_t)saddr_len);
+	}
 	return n;
 }
