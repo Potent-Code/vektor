@@ -39,8 +39,9 @@ typedef struct
 	void (*draw)(void*);
 } *sprite;
 
-void quit(int ret);
+void quit(void);
 void resize(int w, int h);
+void init_window(const char *title);
 
 int load_texture(const char *filename);
 

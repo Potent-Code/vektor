@@ -9,7 +9,7 @@ void get_key(SDL_keysym *keysym)
 	switch(keysym->sym)
 	{
 		case SDLK_ESCAPE:
-			quit(0);
+			quit();
 			break;
 		default:
 			break;
