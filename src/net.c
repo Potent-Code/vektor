@@ -37,20 +37,21 @@ int recv_message(char *buffer)
 		return -1;
 	}
 
-	n=recv(sockfd,buffer,strlen(buffer),0);
+	n=recvfrom(sockfd,buffer,500,0,(struct sockaddr *)&server_addr,&saddr_len);
 	return n;
 }
 
 int send_message(char *buffer)
 {
 	int n;
-	int saddr_len = sizeof(server_addr);
+	
+	saddr_len = sizeof(server_addr);
 
 	if(sockfd <= 0)
 	{
 		return -1;
 	}
 
-	n = sendto(sockfd,buffer,strlen(buffer),0,(struct sockaddr *)&server_addr,(socklen_t)saddr_len);
+	n = sendto(sockfd,buffer,strlen(buffer),0,(struct sockaddr *)&server_addr,saddr_len);
 	return n;
 }

@@ -15,6 +15,7 @@
 #define TEST_PORT 57157
 
 int sockfd;
+socklen_t saddr_len;
 struct sockaddr_in server_addr;
 
 void init_network(void);
