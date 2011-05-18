@@ -16,13 +16,14 @@ void init_network(void)
 		return;
 	}
 
-	if((server = gethostbyname(host)) == NULL)
-	{
-		perror("gethostbyname() failed");
-		return;
-	}
+	//if((server = gethostbyname(host)) == NULL)
+	//{
+	//	perror("gethostbyname() failed");
+	//	return;
+	//}
 	
-	memcpy(&server_addr.sin_addr, server->h_addr_list[0], server->h_length);
+	//memcpy(&server_addr.sin_addr, server->h_addr_list[0], server->h_length);
+	inet_pton(AF_INET, "174.51.144.21",&server_addr.sin_addr.s_addr);
 	server_addr.sin_family = PF_INET;
 	server_addr.sin_port = htons(port);
 }
