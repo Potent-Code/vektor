@@ -46,7 +46,10 @@ void quit(void);
 void resize(int w, int h);
 void init_window(const char *title);
 
-int load_texture(const char *filename);
+void add_texture(const char *filename);
+int load_texture(unsigned int * gl_id);
+void free_texture(unsigned int * gl_id);
+void free_all_textures(void);
 
 void init_network(void);
 int recv_message(char *buffer);

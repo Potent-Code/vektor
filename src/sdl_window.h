@@ -4,6 +4,7 @@
 #include "sdl.h"
 #include "input.h"
 #include "draw.h"
+#include "texture.h"
 
 void quit(void);
 void resize(int w, int h);

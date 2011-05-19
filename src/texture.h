@@ -10,9 +10,18 @@
 
 #define MAX_TEXTURES 25
 
-static GLuint gltextures[MAX_TEXTURES];
-static int texture_number;
+typedef struct
+{
+	char *name;
+	unsigned int gl_id;
+} texture;
 
-int load_texture(const char *filename);
+texture *textures;
+int ntextures;
+
+void add_texture(const char *filename);
+int load_texture(unsigned int * gl_id);
+void free_texture(unsigned int * gl_id);
+void free_all_textures(void);
 
 #endif

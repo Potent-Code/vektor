@@ -2,6 +2,7 @@
 
 void quit(void)
 {
+	free_all_textures();
 	SDL_Quit();
 	exit(0);
 }

@@ -7,6 +7,11 @@
 
 void init_scene(void)
 {
+	int i;
+	for(i=0; i < ntextures; i++)
+	{
+		load_texture(&textures[i].gl_id);
+	}
 	framecount=0;
 	t=clock();
 	at=clock();
@@ -36,12 +41,12 @@ void render(void)
 	// this draws a background. it needs to be moved.
 	glColor3f(1.0,1.0,1.0);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, gltextures[0]);
+	glBindTexture(GL_TEXTURE_2D, textures[0].gl_id);
 	glBegin(GL_QUADS);
-		glTexCoord2f(0,0); glVertex2f(800,600);
-		glTexCoord2f(1,0); glVertex2f(0,600);
-		glTexCoord2f(1,1); glVertex2f(0,0);
-		glTexCoord2f(0,1); glVertex2f(800,0);
+		glTexCoord2f(0,0); glVertex2f(400,300);
+		glTexCoord2f(1,0); glVertex2f(-400,300);
+		glTexCoord2f(1,1); glVertex2f(-400,-300);
+		glTexCoord2f(0,1); glVertex2f(400,-300);
 	glEnd();	
 	glDisable(GL_TEXTURE_2D);
 
