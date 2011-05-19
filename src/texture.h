@@ -8,7 +8,7 @@
 #include "sdl.h"
 #include "image.h"
 
-#ifndef TEXTURE_DATA_H
+#ifndef SDL_WINDOW_H
 #include "texture_data.h"
 #endif
 
