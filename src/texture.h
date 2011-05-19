@@ -7,17 +7,9 @@
 
 #include "sdl.h"
 #include "image.h"
+#include "texture_data.h"
 
 #define MAX_TEXTURES 25
-
-typedef struct
-{
-	char *name;
-	unsigned int gl_id;
-} texture;
-
-texture *textures;
-int ntextures;
 
 void add_texture(const char *filename);
 int load_texture(unsigned int * gl_id);
