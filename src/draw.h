@@ -15,10 +15,6 @@
 #include "sdl.h"
 #include "player.h"
 
-sprite player;
-float dir_frame;
-int flip;
-
 clock_t t,at,mt;
 unsigned int framecount;
 

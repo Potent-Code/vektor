@@ -12,20 +12,25 @@ int load_texture(const char * filename)
 	if((fd = fopen(filename, "rb")) == 0)
 	{
 		perror("Error opening texture file");
-		return 1;
+		return -1;
 	}
 
 	if((t = malloc(sizeof(*t))) == NULL)
 	{
 		perror("Error allocating memory");
-		return 1;
+		return -1;
 	}
 
 	b=sizeof(*t)*fread(t, sizeof(*t), 1, fd);
 
 	bytes = t->width*t->height*t->channels;
 
-	t->data = malloc(sizeof(*t->data)*bytes);
+	if((t->data = malloc(sizeof(*t->data)*bytes)) == NULL)
+	{
+		perror("Error allocating memory");
+		free(t);
+		return -1;
+	}
 
 	for(i = 0; i < bytes; i++)
 	{
@@ -35,6 +40,9 @@ int load_texture(const char * filename)
 	if(b != bytes+sizeof(*t))
 	{
 		perror("Error reading file");
+		free(t->data);
+		free(t);
+		return -1;
 	}
 	
 	if(t->channels == 4)
@@ -54,6 +62,7 @@ int load_texture(const char * filename)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 
-	texture_number++;
-	return 0;
+	free(t->data);
+	free(t);
+	return texture_number++;
 }

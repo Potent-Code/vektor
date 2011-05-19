@@ -1,6 +1,9 @@
 /* vektor engine include
  * by Ryan Lucchese
  * May 14 2011 */
+#ifndef VEKTOR_H
+#define VEKTOR_H
+
 #include <time.h>
 
 // linked list of texture coordinates
@@ -63,3 +66,4 @@ void animate_player(sprite player);
 void move_player(sprite player);
 void draw_player(void *p);
 
+#endif
