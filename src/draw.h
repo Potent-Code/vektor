@@ -20,8 +20,10 @@
 #include "sdl.h"
 #include "player.h"
 
-#ifndef TEXTURE_DATA_H
-	#include "texture_data.h"
+#ifndef SDL_WINDOW_H
+	#ifndef TEXTURE_DATA_H
+		#include "texture_data.h"
+	#endif
 #endif
 
 void init_scene(void);
