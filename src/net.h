@@ -15,10 +15,10 @@
 #define TEST_HOST "theturks.sytes.net"
 #define TEST_PORT 57157
 
-int sockfd;
-struct sockaddr_in server_addr;
-struct pollfd net_read;
-struct pollfd net_write;
+extern int sockfd;
+extern struct sockaddr_in server_addr;
+extern struct pollfd net_read;
+extern struct pollfd net_write;
 
 void init_network(void);
 int recv_message(char *buffer);

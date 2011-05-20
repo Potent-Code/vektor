@@ -10,7 +10,7 @@
 
 #include "sdl_window.h"
 
-static int controls[4];
+extern int controls[4];
 
 void get_key(SDL_keysym *keysym);
 void get_keyup(SDL_keysym *keysym);

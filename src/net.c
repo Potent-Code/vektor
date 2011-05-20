@@ -1,5 +1,10 @@
 #include "net.h"
 
+int sockfd;
+struct sockaddr_in server_addr;
+struct pollfd net_read;
+struct pollfd net_write;
+
 void init_network(void)
 {
 	int port, opts;

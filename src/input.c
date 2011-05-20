@@ -4,6 +4,8 @@
 
 #include "input.h"
 
+int controls[4];
+
 void get_key(SDL_keysym *keysym)
 {
 	switch(keysym->sym)
