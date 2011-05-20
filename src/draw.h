@@ -23,4 +23,15 @@
 void init_scene(void);
 void render(void);
 
+#ifndef TEXTURE_DATA_H
+typedef struct
+{
+	char *name;
+	unsigned int gl_id;
+} texture;
+#endif
+
+extern texture *textures;
+extern int ntextures;
+
 #endif
