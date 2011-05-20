@@ -8,12 +8,6 @@
 #include "sdl.h"
 #include "image.h"
 
-/*#ifndef SDL_WINDOW_H
-	#ifndef DRAW_H
-		#include "texture_data.h"
-	#endif
-#endif*/
-
 #define MAX_TEXTURES 25
 
 typedef struct
