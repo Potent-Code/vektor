@@ -7,6 +7,8 @@
 
 clock_t t,at,mt;
 unsigned int framecount=0;
+int renderobjs2d_count=0;
+render_object *renderlist_2d;
 
 void init_scene(void)
 {
@@ -19,9 +21,18 @@ void init_scene(void)
 	at=clock();
 	mt=clock();
 }
+
+void init_renderlist_2d(void)
+{
+	if(renderlist_2d == NULL)
+	{
+		renderlist_2d = malloc(sizeof(*renderlist_2d)*renderobjs2d_count+20);
+	}
+}
 	
 void render(void)
 {
+	int i;
 	double et;
 	framecount++;
 
@@ -40,7 +51,7 @@ void render(void)
 	glPushMatrix();
 	glLoadIdentity();
 	
-	// this draws a background. it needs to be moved.
+	/*// this draws a background. it needs to be moved.
 	glColor3f(1.0,1.0,1.0);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, textures[0].gl_id);
@@ -50,7 +61,16 @@ void render(void)
 		glTexCoord2f(1,1); glVertex2f(-400,-300);
 		glTexCoord2f(0,1); glVertex2f(400,-300);
 	glEnd();	
-	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_TEXTURE_2D);*/
+
+	// draw 2d render list
+	if(renderlist_2d != NULL)
+	{
+		for(i=0; i < renderobjs2d_count; i++)
+		{
+			renderlist_2d[i].draw(&renderlist_2d[i].object);
+		}
+	}
 
 
 	glMatrixMode(GL_MODELVIEW);

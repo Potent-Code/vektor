@@ -48,11 +48,21 @@ typedef struct
 	void (*draw)(void*);
 } *sprite;
 
+typedef struct
+{
+	int x;
+	int y;
+	int w;
+	int h;
+	unsigned int *gl_id; // pointer to texture
+	void (*draw)(void *);
+} *bitmap;
+
 void quit(void);
 void resize(int w, int h);
 void init_window(const char *title);
 
-void add_texture(const char *filename);
+int add_texture(const char *filename);
 int load_texture(unsigned int * gl_id);
 void free_texture(unsigned int * gl_id);
 void free_all_textures(void);
@@ -74,5 +84,8 @@ sprite player_sprite(float x, float y, float width, float height, unsigned int t
 void animate_player(sprite player);
 void move_player(sprite player);
 void draw_player(void *p);
+
+// bitmap stuff
+void add_bitmap(int x, int y, int w, int h, int texture_id);
 
 #endif

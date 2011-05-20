@@ -19,7 +19,7 @@ typedef struct
 extern texture *textures;
 extern int ntextures;
 
-void add_texture(const char *filename);
+int add_texture(const char *filename);
 int load_texture(unsigned int * gl_id);
 void free_texture(unsigned int * gl_id);
 void free_all_textures(void);

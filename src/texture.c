@@ -3,7 +3,7 @@
 texture *textures;
 int ntextures=0;
 
-void add_texture(const char * filename)
+int add_texture(const char * filename)
 {
 	if(textures == NULL)
 	{
@@ -14,7 +14,7 @@ void add_texture(const char * filename)
 	textures[ntextures].name = malloc(strlen(filename)+1);
 	strncpy(textures[ntextures].name, filename, strlen(filename)+1);
 	textures[ntextures].gl_id = (unsigned int)ntextures;
-	ntextures++;
+	return ntextures++;
 }
 
 int load_texture(unsigned int *gl_id)
