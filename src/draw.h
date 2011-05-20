@@ -11,8 +11,8 @@
 #include <sys/types.h>
 
 #ifndef SDL_WINDOW_H
-clock_t t,at,mt;
-unsigned int framecount;
+	clock_t t,at,mt;
+	unsigned int framecount;
 #endif
 
 #include "texture.h"

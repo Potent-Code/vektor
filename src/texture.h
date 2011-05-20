@@ -9,7 +9,9 @@
 #include "image.h"
 
 #ifndef SDL_WINDOW_H
-#include "texture_data.h"
+	#ifndef DRAW_H
+		#include "texture_data.h"
+	#endif
 #endif
 
 #define MAX_TEXTURES 25
