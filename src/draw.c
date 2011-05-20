@@ -5,6 +5,9 @@
 
 #include "draw.h"
 
+clock_t t,at,mt;
+unsigned int framecount=0;
+
 void init_scene(void)
 {
 	int i;
@@ -12,7 +15,6 @@ void init_scene(void)
 	{
 		load_texture(&textures[i].gl_id);
 	}
-	framecount=0;
 	t=clock();
 	at=clock();
 	mt=clock();

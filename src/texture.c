@@ -1,11 +1,13 @@
 #include "texture.h"
 
+texture *textures;
+int ntextures=0;
+
 void add_texture(const char * filename)
 {
 	if(textures == NULL)
 	{
 		textures = malloc(sizeof(*textures)*MAX_TEXTURES);
-		ntextures = 0;
 	}
 
 	// the +1's here ensure a '\0' is written

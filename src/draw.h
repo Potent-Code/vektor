@@ -10,27 +10,13 @@
 #include <time.h>
 #include <sys/types.h>
 
-#ifndef SDL_WINDOW_H
-	clock_t t,at,mt;
-	unsigned int framecount;
-#endif
-
 #include "texture.h"
 #include "input.h"
 #include "sdl.h"
 #include "player.h"
 
-#ifndef SDL_WINDOW_H
-	#ifndef TEXTURE_DATA_H
-		typedef struct
-		{
-			char *name;
-			unsigned int gl_id;
-		} texture;
-		extern texture *textures;
-		extern int ntextures;
-	#endif
-#endif
+extern clock_t t,at,mt;
+extern unsigned int framecount;
 
 void init_scene(void);
 void render(void);
