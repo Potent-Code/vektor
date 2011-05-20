@@ -6,6 +6,12 @@
 
 #include <time.h>
 
+// hack to remap main function
+// OS X needs this because of stupid SDLMain.m
+#ifdef __APPLE__
+	#define main SDL_main
+#endif
+
 // linked list of texture coordinates
 struct texture_coordinates
 {
