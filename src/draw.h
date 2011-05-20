@@ -10,13 +10,15 @@
 #include <time.h>
 #include <sys/types.h>
 
+#ifndef SDL_WINDOW_H
+clock_t t,at,mt;
+unsigned int framecount;
+#endif
+
 #include "texture.h"
 #include "input.h"
 #include "sdl.h"
 #include "player.h"
-
-clock_t t,at,mt;
-unsigned int framecount;
 
 void init_scene(void);
 void render(void);
