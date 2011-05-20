@@ -8,10 +8,18 @@ AC_CONFIG_SRCDIR([src/draw.h])
 AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_MACRO_DIR([m4])
 
+# save CFLAGS for after AC_PROG_CC
+test ".$CFLAGS" = "." && CFLAGS=" "
+
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_OBJC
 AC_PROG_LIBTOOL
+
+CFLAGS="-O3 -g"
+AC_ARG_ENABLE([debug], [AC_HELP_STRING([--enable-debug],
+	          [build with debugging information (default NO)])],
+		      [test "$enableval" = "yes" && CFLAGS="-O0 -g3"])
 
 # Checks for libraries.
 AC_PROG_CXX
