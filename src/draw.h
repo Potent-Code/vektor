@@ -22,7 +22,13 @@
 
 #ifndef SDL_WINDOW_H
 	#ifndef TEXTURE_DATA_H
-		#include "texture_data.h"
+		typedef struct
+		{
+			char *name;
+			unsigned int gl_id;
+		} texture;
+		extern texture *textures;
+		extern int ntextures;
 	#endif
 #endif
 
