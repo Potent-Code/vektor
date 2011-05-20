@@ -4,7 +4,7 @@ if DARWIN
 libvektor_la_SOURCES += SDLMain.m
 endif
 libvektor_la_CFLAGS = $(GL_CFLAGS) $(GLU_CFLAGS)
-libvektor_la_LDFLAGS = $(GL_LIBS) $(GLU_LIBS) -lSDL
+libvektor_la_LDFLAGS = -lGL -lGLU -lSDL
 include_HEADERS = vektor.h
 bin_PROGRAMS = maketexture
 maketexture_SOURCES = image.h maketexture.h maketexture.c
