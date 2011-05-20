@@ -20,18 +20,11 @@
 #include "sdl.h"
 #include "player.h"
 
-void init_scene(void);
-void render(void);
-
 #ifndef TEXTURE_DATA_H
-typedef struct
-{
-	char *name;
-	unsigned int gl_id;
-} texture;
+	#include "texture_data.h"
 #endif
 
-extern texture *textures;
-extern int ntextures;
+void init_scene(void);
+void render(void);
 
 #endif
