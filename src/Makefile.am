@@ -3,7 +3,7 @@ libvektor_la_SOURCES = image.h sdl.h sdl_window.h sdl_window.c texture.h texture
 libvektor_la_CFLAGS = $(GL_CFLAGS) $(GLU_CFLAGS)
 #libvektor_la_LDFLAGS = $(GL_LIBS) $(GLU_LIBS)
 if DARWIN
-libvektor_la_SOURCES += SDLMain.m
+#libvektor_la_SOURCES += SDLMain.m
 libvektor_la_CFLAGS += -I/Library/Frameworks/SDL.framework/Headers
 libvektor_la_LDFLAGS = -framework SDL -framework Cocoa -framework OpenGL
 else
