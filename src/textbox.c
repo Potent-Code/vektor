@@ -29,13 +29,13 @@ void draw_textbox(void *tbp)
 	int char_position;
 	float x;
 	
+	glColor3f(1.0,1.0,1.0);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, *tb->f->gl_id);
+	glBegin(GL_QUADS);
+	
 	for(i=0; i < strlen(tb->data); i++)
 	{
-		glColor3f(1.0,1.0,1.0);
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, *tb->f->gl_id);
-		glBegin(GL_QUADS);
-	
 		if((int)tb->data[i] >= 33 && (int)tb->data[i] <= 126)
 		{
 			char_position = font_get_glyph(tb->data[i]);
@@ -55,10 +55,10 @@ void draw_textbox(void *tbp)
 		glVertex3f(x, tb->y, 0.01);
 		glTexCoord2f((float)(char_position+1)/94.,1);
 		glVertex3f(x + tb->f->w, tb->y, 0.01);
-		
-		glEnd();
-		glDisable(GL_TEXTURE_2D);
-	}
+	}	
+
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
 }
 
 void free_textbox(void *tbp)
