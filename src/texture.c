@@ -79,21 +79,21 @@ int load_texture(unsigned int *gl_id)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 
+	textures[*gl_id].w = t->width;
+	textures[*gl_id].h = t->height;
+	textures[*gl_id].channels = t->channels;
+
 	free(t->data);
 	free(t);
 }
 
-void free_texture(unsigned int *gl_id)
+void free_texture(int texture_id)
 {
-	// dont dereference null pointers
-	if(gl_id != NULL)
+	if(textures[texture_id].name != NULL)
 	{
-		if(textures[*gl_id].name != NULL)
-		{
-			free(textures[*gl_id].name);
-		}
-		glDeleteTextures(1,gl_id);
+		free(textures[texture_id].name);
 	}
+	glDeleteTextures(1,&textures[texture_id].gl_id);
 }
 
 void free_all_textures(void)

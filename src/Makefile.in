@@ -84,13 +84,14 @@ libvektor_la_LIBADD =
 am__libvektor_la_SOURCES_DIST = image.h sdl.h sdl_window.h \
 	sdl_window.c texture.h texture.c input.h input.c net.h net.c \
 	sprite.h sprite.c player.h player.c draw.h draw.c bitmap.h \
-	bitmap.c SDLMain.m
+	bitmap.c font.h font.c textbox.h textbox.c SDLMain.m
 @DARWIN_TRUE@am__objects_1 = SDLMain.lo
 am_libvektor_la_OBJECTS = libvektor_la-sdl_window.lo \
 	libvektor_la-texture.lo libvektor_la-input.lo \
 	libvektor_la-net.lo libvektor_la-sprite.lo \
 	libvektor_la-player.lo libvektor_la-draw.lo \
-	libvektor_la-bitmap.lo $(am__objects_1)
+	libvektor_la-bitmap.lo libvektor_la-font.lo \
+	libvektor_la-textbox.lo $(am__objects_1)
 libvektor_la_OBJECTS = $(am_libvektor_la_OBJECTS)
 libvektor_la_LINK = $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(OBJCLD) $(AM_OBJCFLAGS) $(OBJCFLAGS) \
@@ -258,7 +259,7 @@ lib_LTLIBRARIES = libvektor.la
 libvektor_la_SOURCES = image.h sdl.h sdl_window.h sdl_window.c \
 	texture.h texture.c input.h input.c net.h net.c sprite.h \
 	sprite.c player.h player.c draw.h draw.c bitmap.h bitmap.c \
-	$(am__append_1)
+	font.h font.c textbox.h textbox.c $(am__append_1)
 libvektor_la_CFLAGS = $(GL_CFLAGS) $(GLU_CFLAGS)
 libvektor_la_LDFLAGS = $(GL_LIBS) $(GLU_LIBS) $(am__append_2) \
 	$(am__append_3)
@@ -406,11 +407,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SDLMain.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvektor_la-bitmap.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvektor_la-draw.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvektor_la-font.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvektor_la-input.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvektor_la-net.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvektor_la-player.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvektor_la-sdl_window.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvektor_la-sprite.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvektor_la-textbox.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvektor_la-texture.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/maketexture.Po@am__quote@
 
@@ -490,6 +493,20 @@ libvektor_la-bitmap.lo: bitmap.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='bitmap.c' object='libvektor_la-bitmap.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -c -o libvektor_la-bitmap.lo `test -f 'bitmap.c' || echo '$(srcdir)/'`bitmap.c
+
+libvektor_la-font.lo: font.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -MT libvektor_la-font.lo -MD -MP -MF $(DEPDIR)/libvektor_la-font.Tpo -c -o libvektor_la-font.lo `test -f 'font.c' || echo '$(srcdir)/'`font.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libvektor_la-font.Tpo $(DEPDIR)/libvektor_la-font.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='font.c' object='libvektor_la-font.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -c -o libvektor_la-font.lo `test -f 'font.c' || echo '$(srcdir)/'`font.c
+
+libvektor_la-textbox.lo: textbox.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -MT libvektor_la-textbox.lo -MD -MP -MF $(DEPDIR)/libvektor_la-textbox.Tpo -c -o libvektor_la-textbox.lo `test -f 'textbox.c' || echo '$(srcdir)/'`textbox.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libvektor_la-textbox.Tpo $(DEPDIR)/libvektor_la-textbox.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='textbox.c' object='libvektor_la-textbox.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -c -o libvektor_la-textbox.lo `test -f 'textbox.c' || echo '$(srcdir)/'`textbox.c
 
 .m.o:
 @am__fastdepOBJC_TRUE@	$(OBJCCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

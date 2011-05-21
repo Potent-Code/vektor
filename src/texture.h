@@ -13,7 +13,10 @@
 typedef struct
 {
 	char *name;
-	unsigned int gl_id;
+	int w; // width of texture
+	int h; // height of texture
+	int channels; // number of channels
+	unsigned int gl_id; // texture id
 } texture;
 
 extern texture *textures;
@@ -21,7 +24,7 @@ extern int ntextures;
 
 int add_texture(const char *filename);
 int load_texture(unsigned int * gl_id);
-void free_texture(unsigned int * gl_id);
+void free_texture(int texture_id);
 void free_all_textures(void);
 
 #endif

@@ -17,18 +17,41 @@ void init_scene(void)
 	{
 		load_texture(&textures[i].gl_id);
 	}
+	for(i=0; i < nfonts; i++)
+	{
+		font_get_size(fonts[i], 1);
+	}
 	t=clock();
 	at=clock();
 	mt=clock();
 }
 
-void init_renderlist_2d(void)
+void add_object_2d(void *obj, void (*draw)(void*), void (*update)(void*), void (*remove)(void*))
 {
 	if(renderlist_2d == NULL)
 	{
 		renderlist_2d = malloc(sizeof(*renderlist_2d)*renderobjs2d_count+20);
 	}
+
+	if(obj != NULL & draw != NULL)
+	{
+		renderlist_2d[renderobjs2d_count].object = obj;
+		renderlist_2d[renderobjs2d_count].draw = draw;
+		renderlist_2d[renderobjs2d_count].update = update;
+		
+		// if we don't need a special clean up function, use regular free
+		if(remove == NULL)
+		{
+			//renderlist_2d[renderobjs2d_count].remove = &free;
+		}
+		else
+		{
+			renderlist_2d[renderobjs2d_count].remove = remove;
+		}
+		renderobjs2d_count++;
+	}
 }
+
 	
 void render(void)
 {
@@ -44,25 +67,12 @@ void render(void)
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-	//gluOrtho2D(player->x-400, player->x+400, player->y-300, player->y+300);
 	gluOrtho2D(-400,400,-300,300);
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
 	
-	/*// this draws a background. it needs to be moved.
-	glColor3f(1.0,1.0,1.0);
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, textures[0].gl_id);
-	glBegin(GL_QUADS);
-		glTexCoord2f(0,0); glVertex2f(400,300);
-		glTexCoord2f(1,0); glVertex2f(-400,300);
-		glTexCoord2f(1,1); glVertex2f(-400,-300);
-		glTexCoord2f(0,1); glVertex2f(400,-300);
-	glEnd();	
-	glDisable(GL_TEXTURE_2D);*/
-
 	// draw 2d render list
 	if(renderlist_2d != NULL)
 	{

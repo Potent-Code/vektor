@@ -16,9 +16,11 @@ typedef struct
 	int w;
 	int h;
 	unsigned int *gl_id; // pointer to texture
+	void (*update)(void *);
 	void (*draw)(void *);
+	void (*remove)(void *);
 } *bitmap;
 
-void add_bitmap(int x, int y, int w, int h, int texture_id);
+bitmap add_bitmap(int x, int y, int w, int h, int texture_id);
 
 #endif

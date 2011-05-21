@@ -5,15 +5,11 @@
 #include "bitmap.h"
 #include <stdio.h>
 
-void draw_bitmap(void *b);
+void draw_bitmap(void *bp);
 
-void add_bitmap(int x, int y, int w, int h, int texture_id)
+bitmap add_bitmap(int x, int y, int w, int h, int texture_id)
 {
 	bitmap b;
-	if(renderlist_2d == NULL)
-	{
-		init_renderlist_2d();
-	}
 
 	// allocate and initialize a new bitmap
 	b = malloc(sizeof(*b));
@@ -23,24 +19,23 @@ void add_bitmap(int x, int y, int w, int h, int texture_id)
 	b->h = h;
 	b->gl_id = &textures[texture_id].gl_id;
 
-	renderlist_2d[renderobjs2d_count].object = b;
-	renderlist_2d[renderobjs2d_count].draw = &draw_bitmap;
-	renderobjs2d_count++;
+	add_object_2d(b, &draw_bitmap, NULL, NULL);
+	return b;
 }
 
-void draw_bitmap(void *b)
+void draw_bitmap(void *bp)
 {
 	// restore bitmap structure
-	bitmap b_obj = b;
+	bitmap b = bp;
 
-        glColor3f(1.0,1.0,1.0);
-        glEnable(GL_TEXTURE_2D);
-        glBindTexture(GL_TEXTURE_2D, *b_obj->gl_id);
-        glBegin(GL_QUADS);
-                glTexCoord2f(0,0); glVertex2f(b_obj->x + b_obj->w, b_obj->y + b_obj->h);
-                glTexCoord2f(1,0); glVertex2f(b_obj->x, b_obj->y + b_obj->h);
-                glTexCoord2f(1,1); glVertex2f(b_obj->x, b_obj->y);
-                glTexCoord2f(0,1); glVertex2f(b_obj->x + b_obj->w, b_obj->y);
-        glEnd();
-        glDisable(GL_TEXTURE_2D);
+	glColor3f(1.0,1.0,1.0);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, *b->gl_id);
+	glBegin(GL_QUADS);
+		glTexCoord2f(0,0); glVertex2f(b->x + b->w, b->y + b->h);
+		glTexCoord2f(1,0); glVertex2f(b->x, b->y + b->h);
+		glTexCoord2f(1,1); glVertex2f(b->x, b->y);
+		glTexCoord2f(0,1); glVertex2f(b->x + b->w, b->y);
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
 }

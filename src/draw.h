@@ -14,11 +14,14 @@
 #include "input.h"
 #include "sdl.h"
 #include "player.h"
+#include "font.h"
 
 typedef struct
 {
 	void *object;
+	void (*update)(void*);
 	void (*draw)(void*);
+	void (*remove)(void*);
 } render_object;
 
 extern clock_t t,at,mt;
@@ -27,7 +30,7 @@ extern int renderobjs2d_count;
 extern render_object *renderlist_2d;
 
 void init_scene(void);
-void init_renderlist_2d(void);
+void add_object_2d(void *obj, void (*draw)(void*), void (*update)(void*), void (*remove)(void*));
 void render(void);
 
 #endif

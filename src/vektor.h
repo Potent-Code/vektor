@@ -58,13 +58,35 @@ typedef struct
 	void (*draw)(void *);
 } *bitmap;
 
+typedef struct
+{
+	float w; // character width (screen coords)
+	float h; // character height (screen coords)
+	float tw; // character width (texture coords)
+	float th; // character height (texture coords)
+	unsigned int *gl_id; // texture
+} *font;
+
+typedef struct
+{
+	float x;
+	float y;
+	int line_width;
+	int lines;
+	font f;
+	char *data;
+	void (*update)(void *);
+	void (*draw)(void *);
+	void (*remove)(void *);
+} *textbox;
+
 void quit(void);
 void resize(int w, int h);
 void init_window(const char *title);
 
 int add_texture(const char *filename);
 int load_texture(unsigned int * gl_id);
-void free_texture(unsigned int * gl_id);
+void free_texture(int texture_id);
 void free_all_textures(void);
 
 void init_network(void);
@@ -86,6 +108,16 @@ void move_player(sprite player);
 void draw_player(void *p);
 
 // bitmap stuff
-void add_bitmap(int x, int y, int w, int h, int texture_id);
+bitmap add_bitmap(int x, int y, int w, int h, int texture_id);
+
+// font stuff
+font add_font(const char *filename);
+void font_get_size(font f, int texture_id);
+int font_get_glyph(char c);
+
+// textbox stuff
+textbox add_textbox(float x, float y, int line_width, int lines, font f);
+void draw_textbox(void *tbp);
+void free_textbox(void *tbp);
 
 #endif
