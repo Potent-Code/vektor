@@ -4,7 +4,7 @@
 
 #include "textbox.h"
 
-textbox add_textbox(float x, float y, int line_width, int lines, font f)
+textbox add_textbox(float x, float y, int line_width, int lines, int data_len, font f)
 {
 	textbox tb;
 
@@ -13,11 +13,13 @@ textbox add_textbox(float x, float y, int line_width, int lines, font f)
 	tb->y = y;
 	tb->line_width = line_width;
 	tb->lines = lines;
+	tb->data_len = data_len;
 	tb->f = f;
-	tb->data = malloc(sizeof(*tb->data)*150);
-	strncpy(tb->data, "test", 5);
+	tb->data = malloc(data_len);
 
 	add_object_2d(tb, &draw_textbox, NULL, NULL);
+
+	return tb;
 }
 
 void draw_textbox(void *tbp)

@@ -73,6 +73,7 @@ typedef struct
 	float y;
 	int line_width;
 	int lines;
+	int data_len;
 	font f;
 	char *data;
 	void (*update)(void *);
@@ -116,7 +117,7 @@ void font_get_size(font f, int texture_id);
 int font_get_glyph(char c);
 
 // textbox stuff
-textbox add_textbox(float x, float y, int line_width, int lines, font f);
+textbox add_textbox(float x, float y, int line_width, int lines, int data_len, font f);
 void draw_textbox(void *tbp);
 void free_textbox(void *tbp);
 
