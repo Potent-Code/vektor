@@ -32,10 +32,10 @@ void draw_bitmap(void *bp)
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, *b->gl_id);
 	glBegin(GL_QUADS);
-		glTexCoord2f(0,0); glVertex2f(b->x + b->w, b->y + b->h);
-		glTexCoord2f(1,0); glVertex2f(b->x, b->y + b->h);
-		glTexCoord2f(1,1); glVertex2f(b->x, b->y);
-		glTexCoord2f(0,1); glVertex2f(b->x + b->w, b->y);
+		glTexCoord2f(1,0); glVertex2f(b->x + b->w, b->y + b->h);
+		glTexCoord2f(0,0); glVertex2f(b->x, b->y + b->h);
+		glTexCoord2f(0,1); glVertex2f(b->x, b->y);
+		glTexCoord2f(1,1); glVertex2f(b->x + b->w, b->y);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 }
