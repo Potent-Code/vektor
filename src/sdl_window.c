@@ -2,7 +2,20 @@
 
 void quit(void)
 {
+	int i;
+	
+	// free textures
 	free_all_textures();
+
+	// free render objects
+	if(renderlist_2d != NULL)
+	{
+		for(i=0; i < renderobjs2d_count; i++)
+		{
+			renderlist_2d[i].remove(renderlist_2d[i].object);
+		}
+	}
+
 	SDL_Quit();
 	exit(0);
 }
