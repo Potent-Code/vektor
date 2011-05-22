@@ -30,7 +30,7 @@ void add_object_2d(void *obj, void (*draw)(void*), void (*update)(void*), void (
 {
 	if(renderlist_2d == NULL)
 	{
-		renderlist_2d = malloc(sizeof(*renderlist_2d)*renderobjs2d_count+20);
+		renderlist_2d = malloc(sizeof(*renderlist_2d)*20);
 	}
 
 	if(obj != NULL & draw != NULL)
@@ -42,7 +42,7 @@ void add_object_2d(void *obj, void (*draw)(void*), void (*update)(void*), void (
 		// if we don't need a special clean up function, use regular free
 		if(remove == NULL)
 		{
-			//renderlist_2d[renderobjs2d_count].remove = &free;
+			renderlist_2d[renderobjs2d_count].remove = &free;
 		}
 		else
 		{

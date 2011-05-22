@@ -26,11 +26,13 @@ void draw_textbox(void *tbp)
 {
 	textbox tb = tbp;
 	int i;
-	int char_position;
+	int char_position=0;
 	float x;
 	
-	glColor3f(1.0,1.0,1.0);
+	glColor4f(1.0,1.0,1.0,1.0);
 	glEnable(GL_TEXTURE_2D);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
 	glBindTexture(GL_TEXTURE_2D, *tb->f->gl_id);
 	glBegin(GL_QUADS);
 	
@@ -59,6 +61,7 @@ void draw_textbox(void *tbp)
 
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_BLEND);
 }
 
 void free_textbox(void *tbp)

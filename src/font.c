@@ -22,10 +22,12 @@ font add_font(const char *filename)
 	if((texture_id = add_texture(filename)) >= 0)
 	{
 		f->gl_id = &textures[texture_id].gl_id;
+		fonts[nfonts]=f;
+		nfonts++;
+		return f;
 	}
-	fonts[nfonts]=f;
-	nfonts++;
-	return f;
+	free(f);
+	return NULL;
 }
 
 void font_get_size(font f, int texture_id)
