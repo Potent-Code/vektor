@@ -17,7 +17,7 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len, f
 	tb->f = f;
 	tb->data = malloc(data_len);
 
-	add_object_2d(tb, &draw_textbox, NULL, NULL);
+	add_object_2d(tb, &draw_textbox, NULL, &free_textbox);
 
 	return tb;
 }
@@ -66,5 +66,7 @@ void draw_textbox(void *tbp)
 
 void free_textbox(void *tbp)
 {
-	free(tbp);
+	textbox tb = tbp;
+	free(tb->data);
+	free(tb);
 }
