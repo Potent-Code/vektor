@@ -22,5 +22,7 @@ extern int nfonts;
 font add_font(const char *filename);
 void font_get_size(font f, int texture_id);
 int font_get_glyph(char c);
+void free_font(void *fp);
+void free_all_fonts(void);
 
 #endif

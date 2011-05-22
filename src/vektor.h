@@ -115,6 +115,8 @@ bitmap add_bitmap(int x, int y, int w, int h, int texture_id);
 font add_font(const char *filename);
 void font_get_size(font f, int texture_id);
 int font_get_glyph(char c);
+void free_font(void *fp);
+void free_all_fonts(void);
 
 // textbox stuff
 textbox add_textbox(float x, float y, int line_width, int lines, int data_len, font f);

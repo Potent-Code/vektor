@@ -7,6 +7,9 @@ void quit(void)
 	// free textures
 	free_all_textures();
 
+	// free fonts
+	free_all_fonts();
+
 	// free render objects
 	if(renderlist_2d != NULL)
 	{

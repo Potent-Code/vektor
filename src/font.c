@@ -45,3 +45,25 @@ int font_get_glyph(char c)
 	}
 	return -1;
 }
+
+void free_font(void *fp)
+{
+	if(fp != NULL)
+	{
+		free(fp);
+	}
+}
+
+void free_all_fonts(void)
+{
+	int i;
+	for(i=0; i < nfonts; i++)
+	{
+		free_font(fonts[i]);
+	}
+	
+	if(fonts != NULL)
+	{
+		free(fonts);
+	}
+}
