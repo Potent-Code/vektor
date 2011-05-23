@@ -89,6 +89,7 @@ void init_window(const char *title)
 	// this is deprecated in SDL 1.3
 	// something better should be done about this too
 	SDL_EnableKeyRepeat(100,100);
+	SDL_EnableUNICODE(1);
 
 	render();
 	resize(1024,768);

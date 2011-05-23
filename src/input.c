@@ -7,7 +7,7 @@
 void (*return_func)(char*);
 
 int controls[4];
-int unicode=0;
+int unicode=1;
 char *input_buffer;
 int ib_len=0;
 int ib_count=0;
