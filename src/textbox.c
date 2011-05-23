@@ -34,6 +34,7 @@ void draw_textbox(void *tbp)
 	int len=strlen(tb->data);
 	int line_breaks=0;
 	int line_breaks2=0;
+	int last_break=0;
 	int start_pos=0;
 	
 	glColor4f(1.0,1.0,1.0,1.0);
@@ -45,15 +46,16 @@ void draw_textbox(void *tbp)
 
 	for(i=0; i < len; i++)
 	{
-		if(tb->data[i] == '\n' || i == tb->line_width)
+		if(tb->data[i] == '\n' || (i-last_break)== tb->line_width)
 		{
 			line_breaks++;
+			last_break=i;
 		}
 	}
 
 	for(i=0; i < len; i++)
 	{
-		if(tb->data[i] == '\n' || i == tb->line_width)
+		if(tb->data[i] == '\n' || (i-last_break) == tb->line_width)
 		{
 			line_breaks2++;
 			if(line_breaks2 == line_breaks-tb->lines)
