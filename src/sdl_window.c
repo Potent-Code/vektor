@@ -91,6 +91,7 @@ void init_window(const char *title)
 	SDL_EnableKeyRepeat(100,100);
 
 	render();
+	resize(1024,768);
 
 	// main window loop
 	while(!done)
@@ -106,7 +107,7 @@ void init_window(const char *title)
 						active = 1;
 					break;
 				case SDL_VIDEORESIZE:
-					surface = SDL_SetVideoMode(event.resize.w, event.resize.h, 24, video_flags);
+					surface = SDL_SetVideoMode(event.resize.w, event.resize.h, 32, video_flags);
 					resize(event.resize.w, event.resize.h);
 					break;
 				case SDL_KEYDOWN:

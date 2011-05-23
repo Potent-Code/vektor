@@ -67,7 +67,7 @@ void render(void)
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-	gluOrtho2D(-400,400,-300,300);
+	gluOrtho2D(-512,512,-384,384);
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
