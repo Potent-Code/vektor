@@ -63,8 +63,6 @@ typedef struct
 {
 	float w; // character width (screen coords)
 	float h; // character height (screen coords)
-	float tw; // character width (texture coords)
-	float th; // character height (texture coords)
 	unsigned int *gl_id; // texture
 } *font;
 
@@ -99,18 +97,15 @@ int recv_message(char *buffer);
 int send_message(char *buffer);
 
 // input stuff
-/*void get_key(SDL_keysym *keysym);
-void get_keyup(SDL_keysym *keysym);*/
 void input_key(uint16_t u);
-void set_input(char *str);
-extern char *input_buffer;
+void set_input(textbox tb);
 
+// draw stuff
 void init_scene(void);
 void render(void);
 
-// set s->coords to points of sprite quad
+// sprite stuff
 void get_coords(sprite s);
-
 sprite player_sprite(float x, float y, float width, float height, unsigned int texture);
 void animate_player(sprite player);
 void move_player(sprite player);

@@ -11,8 +11,6 @@ typedef struct
 {
 	float w; // character width (screen coords)
 	float h; // character height (screen coords)
-	float tw; // character width (texture coords)
-	float th; // character height (texture coords)
 	unsigned int *gl_id; // texture
 } *font;
 

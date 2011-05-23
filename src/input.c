@@ -7,6 +7,7 @@
 int controls[4];
 int unicode=0;
 char *input_buffer;
+int ib_len=0;
 int ib_count=0;
 
 void get_key(SDL_keysym *keysym)
@@ -44,9 +45,21 @@ void get_key(SDL_keysym *keysym)
 	}
 }
 
-void set_input(char *str)
+void set_input(void *tbp)
 {
-	input_buffer = str;
+	textbox tb = tbp;
+	if(tb != NULL)
+	{
+		input_buffer = tb->data;
+		ib_len = tb->data_len;
+	}
+	else
+	{
+		SDL_EnableUNICODE(0);
+		unicode = 0;
+		ib_len = 0;
+		input_buffer = NULL;
+	}
 }
 
 void input_key(uint16_t u)
@@ -56,7 +69,7 @@ void input_key(uint16_t u)
 	if((u & 0xFF80) == 0 )
 	{
 		c = (char)(u & 0x7F);
-		if((int)c >= 32 && (int)c <= 126)
+		if((int)c >= 32 && (int)c <= 126 && ib_count < ib_len)
 		{
 			input_buffer[ib_count] = c;
 			ib_count++;

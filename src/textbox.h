@@ -28,5 +28,4 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len, f
 void draw_textbox(void *tbp);
 void free_textbox(void *tbp);
 
-
 #endif

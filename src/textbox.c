@@ -31,6 +31,7 @@ void draw_textbox(void *tbp)
 	float x;
 	int letter=0;
 	int col=0;
+	int len=strlen(tb->data);
 	
 	glColor4f(1.0,1.0,1.0,1.0);
 	glEnable(GL_TEXTURE_2D);
@@ -41,7 +42,7 @@ void draw_textbox(void *tbp)
 	
 	for(j=0; j < tb->lines; j++)
 	{
-		for(i=letter; i < strlen(tb->data); i++)
+		for(i=letter; i < len; i++)
 		{
 			if((int)tb->data[i] >= 33 && (int)tb->data[i] <= 126)
 			{
@@ -78,6 +79,22 @@ void draw_textbox(void *tbp)
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_BLEND);
+
+	// draw cursor
+	if(tb->lines == 1)
+	{
+		// end of the string
+		x = tb->x + (len-1)*tb->f->w;
+		// small nudge for 0 length strings
+		if(len==0)
+		{
+			x += 1;
+		}
+		glBegin(GL_LINES);
+			glVertex3f(x + tb->f->w, tb->y - tb->f->h, 0.01);
+			glVertex3f(x + tb->f->w, tb->y, 0.01);
+		glEnd();
+	}
 }
 
 void free_textbox(void *tbp)
