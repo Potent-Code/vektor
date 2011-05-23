@@ -25,13 +25,16 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len, f
 void draw_textbox(void *tbp)
 {
 	textbox tb = tbp;
-	int i,j;
+	int i,j,k;
 	int line_count=1;
 	int char_position=0;
 	float x;
 	int letter=0;
 	int col=0;
 	int len=strlen(tb->data);
+	int line_breaks=0;
+	int line_breaks2=0;
+	int start_pos=0;
 	
 	glColor4f(1.0,1.0,1.0,1.0);
 	glEnable(GL_TEXTURE_2D);
@@ -39,10 +42,40 @@ void draw_textbox(void *tbp)
 	glEnable(GL_BLEND);
 	glBindTexture(GL_TEXTURE_2D, *tb->f->gl_id);
 	glBegin(GL_QUADS);
-	
+
+	for(i=0; i < len; i++)
+	{
+		if(tb->data[i] == '\n' || i == tb->line_width)
+		{
+			line_breaks++;
+		}
+	}
+
+	for(i=0; i < len; i++)
+	{
+		if(tb->data[i] == '\n' || i == tb->line_width)
+		{
+			line_breaks2++;
+			if(line_breaks2 == line_breaks-tb->lines)
+			{
+				start_pos=i+1;
+				break;
+			}
+		}
+
+	}
+
 	for(j=0; j < tb->lines; j++)
 	{
-		for(i=letter; i < len; i++)
+		if(j == 0)
+		{
+			k=1;
+		}
+		else
+		{
+			k=0;
+		}
+		for(i=(k*start_pos)+letter; i < len; i++)
 		{
 			// end of the line
 			if(col == tb->line_width && line_count < tb->lines)
