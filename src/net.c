@@ -48,9 +48,13 @@ int recv_message(char *buffer)
 		return -1;
 	}
 	// check if data is ready to be recieved
-	if(poll(&net_read, 1, 250) > 0)
+	if(poll(&net_read, 1, 50) > 0)
 	{
-		n = recvfrom(sockfd,buffer,500,0,(struct sockaddr *)&server_addr,&saddr_len);
+		n = recvfrom(sockfd,buffer,150,0,(struct sockaddr *)&server_addr,&saddr_len);
+	}
+	else
+	{
+		return -1;
 	}
 	return n;
 }
@@ -65,7 +69,7 @@ int send_message(char *buffer)
 		return -1;
 	}
 
-	if(poll(&net_write,1,250) > 0)
+	if(poll(&net_write,1, 50) > 0)
 	{
 		n = sendto(sockfd,buffer,strlen(buffer),0,(struct sockaddr *)&server_addr,(socklen_t)saddr_len);
 	}

@@ -78,6 +78,10 @@ void render(void)
 	{
 		for(i=0; i < renderobjs2d_count; i++)
 		{
+			if(renderlist_2d[i].update != NULL)
+			{
+				renderlist_2d[i].update(renderlist_2d[i].object);
+			}
 			renderlist_2d[i].draw(renderlist_2d[i].object);
 		}
 	}

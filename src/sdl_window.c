@@ -90,6 +90,8 @@ void init_window(const char *title)
 	// something better should be done about this too
 	SDL_EnableKeyRepeat(100,100);
 
+	render();
+
 	// main window loop
 	while(!done)
 	{

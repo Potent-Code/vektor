@@ -13,6 +13,14 @@
 	#define main SDL_main
 #endif
 
+typedef struct
+{
+	void *object;
+	void (*update)(void*);
+	void (*draw)(void*);
+	void (*remove)(void*);
+} render_object;
+
 // linked list of texture coordinates
 struct texture_coordinates
 {
@@ -99,10 +107,13 @@ int send_message(char *buffer);
 // input stuff
 void input_key(uint16_t u);
 void set_input(textbox tb);
+extern void (*return_func)(char*);
 
 // draw stuff
 void init_scene(void);
 void render(void);
+extern int renderobjs2d_count;
+extern render_object *renderlist_2d;
 
 // sprite stuff
 void get_coords(sprite s);

@@ -4,6 +4,8 @@
 
 #include "input.h"
 
+void (*return_func)(char*);
+
 int controls[4];
 int unicode=0;
 char *input_buffer;
@@ -31,6 +33,12 @@ void get_key(SDL_keysym *keysym)
 				ib_count--;
 			}
 			break;
+		case SDLK_RETURN:
+			if(return_func != NULL)
+			{
+				return_func(input_buffer);
+				ib_count=strlen(input_buffer);
+			}
 		default:
 			if(input_buffer != NULL)
 			{

@@ -10,6 +10,8 @@
 #include "sdl_window.h"
 #include "textbox.h"
 
+extern void (*return_func)(char*);
+
 extern int controls[4];
 extern int unicode;
 extern char *input_buffer;
