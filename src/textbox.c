@@ -44,6 +44,14 @@ void draw_textbox(void *tbp)
 	{
 		for(i=letter; i < len; i++)
 		{
+			// end of the line
+			if(col == tb->line_width && line_count < tb->lines)
+			{
+				letter=i;
+				line_count++;
+				break;
+			}
+			// printable character
 			if((int)tb->data[i] >= 33 && (int)tb->data[i] <= 126)
 			{
 				char_position = font_get_glyph(tb->data[i]);
@@ -55,7 +63,7 @@ void draw_textbox(void *tbp)
 				line_count++;
 				break;
 			}
-			// dont draw out of range characters
+			// draw a space for out of range characters
 			else
 			{
 				col++;
