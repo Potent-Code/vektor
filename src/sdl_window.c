@@ -76,11 +76,11 @@ void init_window(const char *title)
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER,1);
 	SDL_WM_SetCaption(title, NULL);
 
-	surface = SDL_SetVideoMode(800,600,32,video_flags);
+	surface = SDL_SetVideoMode(1024,768,32,video_flags);
 
 	
 	init_scene();
-	resize(800,600);
+	resize(1024,768);
 
 	// this is a hack to enable input from the start
 	// something better should be done about this
