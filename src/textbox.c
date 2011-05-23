@@ -15,7 +15,7 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len, f
 	tb->lines = lines;
 	tb->data_len = data_len;
 	tb->f = f;
-	tb->data = malloc(data_len);
+	tb->data = calloc(data_len,1);
 
 	add_object_2d(tb, &draw_textbox, NULL, &free_textbox);
 

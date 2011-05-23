@@ -82,6 +82,14 @@ void init_window(const char *title)
 	init_scene();
 	resize(800,600);
 
+	// this is a hack to enable input from the start
+	// something better should be done about this
+	input_key(0);
+
+	// this is deprecated in SDL 1.3
+	// something better should be done about this too
+	SDL_EnableKeyRepeat(100,100);
+
 	// main window loop
 	while(!done)
 	{

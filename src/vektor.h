@@ -5,6 +5,7 @@
 #define VEKTOR_H
 
 #include <time.h>
+#include <stdint.h>
 
 // hack to remap main function
 // OS X needs this because of stupid SDLMain.m
@@ -81,21 +82,28 @@ typedef struct
 	void (*remove)(void *);
 } *textbox;
 
+// window stuff
 void quit(void);
 void resize(int w, int h);
 void init_window(const char *title);
 
+// texture stuff
 int add_texture(const char *filename);
 int load_texture(unsigned int * gl_id);
 void free_texture(int texture_id);
 void free_all_textures(void);
 
+// net stuff
 void init_network(void);
 int recv_message(char *buffer);
 int send_message(char *buffer);
 
+// input stuff
 /*void get_key(SDL_keysym *keysym);
 void get_keyup(SDL_keysym *keysym);*/
+void input_key(uint16_t u);
+void set_input(char *str);
+extern char *input_buffer;
 
 void init_scene(void);
 void render(void);
