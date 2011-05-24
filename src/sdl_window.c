@@ -42,6 +42,66 @@ void resize(int w, int h)
 	glLoadIdentity();
 }
 
+void intro(unsigned int logo)
+{
+	Uint32 start,current;
+	start=SDL_GetTicks();
+	int et;
+
+	for(current=SDL_GetTicks();(et=(current-start)) <= 2500; current=SDL_GetTicks())
+	{
+		glDisable(GL_DEPTH_TEST);
+		glShadeModel(GL_SMOOTH);
+		glClearColor(1.0,1.0,1.0,1.0);
+		glClear(GL_COLOR_BUFFER_BIT);
+	
+		glMatrixMode(GL_PROJECTION);
+		glPushMatrix();
+		glLoadIdentity();
+		gluOrtho2D(-512,512,-384,384);
+
+		glMatrixMode(GL_MODELVIEW);
+		glPushMatrix();
+		glLoadIdentity();
+	
+		if(et < 1000)
+		{	
+			glColor4f(1.0,1.0,1.0,(float)et/1000.);
+		}
+		else if (et > 2000)
+		{
+			glColor4f(1.0,1.0,1.0,(float)(2500-et)/500.);
+		}
+		else
+		{
+			glColor4f(1.0,1.0,1.0,1.0);
+		}
+		glEnable(GL_TEXTURE_2D);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND);
+		glBindTexture(GL_TEXTURE_2D, textures[logo].gl_id);
+		glBegin(GL_QUADS);
+			glTexCoord2f(1,0); glVertex3f(300, 195, 0);
+			glTexCoord2f(0,0); glVertex3f(-300, 195, 0);
+			glTexCoord2f(0,1); glVertex3f(-300, -195, 0);
+			glTexCoord2f(1,1); glVertex3f(300, -195, 0);
+		glEnd();
+		glDisable(GL_BLEND);
+		glDisable(GL_TEXTURE_2D);
+	
+		glMatrixMode(GL_MODELVIEW);
+		glPopMatrix();
+
+		glMatrixMode(GL_PROJECTION);
+		glPopMatrix();
+
+		SDL_GL_SwapBuffers();
+
+		glEnd();
+		glFlush();
+	}
+}
+
 void init_window(const char *title)
 {
 	int video_flags;
@@ -50,6 +110,7 @@ void init_window(const char *title)
 	SDL_Event event;
 	const SDL_VideoInfo *video_info;
 	SDL_Surface *surface;
+	int logo_texture;
 
 	SDL_Init(SDL_INIT_VIDEO);
 	video_info = SDL_GetVideoInfo();
@@ -79,6 +140,7 @@ void init_window(const char *title)
 	surface = SDL_SetVideoMode(1024,768,32,video_flags);
 
 	
+	logo_texture = add_texture("/usr/local/share/vektor/logo.texture");
 	init_scene();
 	resize(1024,768);
 
@@ -91,8 +153,10 @@ void init_window(const char *title)
 	SDL_EnableKeyRepeat(150,20);
 	SDL_EnableUNICODE(1);
 
-	render();
 	resize(1024,768);
+	
+	// draw intro logo
+	intro(logo_texture);
 
 	// main window loop
 	while(!done)
