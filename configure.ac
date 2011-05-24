@@ -49,4 +49,4 @@ else
 	AM_CONDITIONAL([DARWIN],false)
 fi
 
-AC_OUTPUT(Makefile src/Makefile)
+AC_OUTPUT(Makefile src/Makefile share/Makefile)

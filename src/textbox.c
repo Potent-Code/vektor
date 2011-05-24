@@ -46,7 +46,7 @@ void draw_textbox(void *tbp)
 
 	for(i=0; i < len; i++)
 	{
-		if(tb->data[i] == '\n' || (i-last_break)== tb->line_width)
+		if(tb->data[i] == '\n' || (i-last_break) == tb->line_width)
 		{
 			line_breaks++;
 			last_break=i;
@@ -58,7 +58,7 @@ void draw_textbox(void *tbp)
 		if(tb->data[i] == '\n' || (i-last_break) == tb->line_width)
 		{
 			line_breaks2++;
-			if(line_breaks2 == line_breaks-tb->lines)
+			if(line_breaks2 == (line_breaks - tb->lines))
 			{
 				start_pos=i+1;
 				break;
@@ -80,7 +80,7 @@ void draw_textbox(void *tbp)
 		for(i=(k*start_pos)+letter; i < len; i++)
 		{
 			// end of the line
-			if(col == tb->line_width && line_count < tb->lines)
+			if(col == tb->line_width && line_count < tb->lines+1)
 			{
 				letter=i;
 				line_count++;
