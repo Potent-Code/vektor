@@ -434,13 +434,14 @@ uninstall-am: uninstall-fontsDATA uninstall-vektorDATA
 	uninstall-fontsDATA uninstall-vektorDATA
 
 fonts/default.font: $(MAKETEXTURE)
+	mkdir fonts
 	$(MAKETEXTURE) png/fonts/default.png fonts/default.font
 
 logo.texture: $(MAKETEXTURE)
 	$(MAKETEXTURE) png/logo.png logo.texture
 
 clean-local:
-	rm -rf logo.texture fonts/default.font
+	rm -fR logo.texture fonts
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
