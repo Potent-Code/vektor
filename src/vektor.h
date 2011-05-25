@@ -91,6 +91,7 @@ typedef struct
 // window stuff
 void quit(void);
 void resize(int w, int h);
+void vektor_init(void);
 void init_window(const char *title);
 
 // texture stuff
@@ -133,7 +134,7 @@ void free_font(void *fp);
 void free_all_fonts(void);
 
 // textbox stuff
-textbox add_textbox(float x, float y, int line_width, int lines, int data_len, font f);
+textbox add_textbox(float x, float y, int line_width, int lines, int data_len);
 void draw_textbox(void *tbp);
 void free_textbox(void *tbp);
 

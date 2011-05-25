@@ -9,6 +9,8 @@
 
 void quit(void);
 void resize(int w, int h);
+void vektor_init(void);
 void init_window(const char *title);
+void intro(int logo);
 
 #endif

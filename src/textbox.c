@@ -4,7 +4,7 @@
 
 #include "textbox.h"
 
-textbox add_textbox(float x, float y, int line_width, int lines, int data_len, font f)
+textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 {
 	textbox tb;
 
@@ -14,7 +14,7 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len, f
 	tb->line_width = line_width;
 	tb->lines = lines;
 	tb->data_len = data_len;
-	tb->f = f;
+	tb->f = fonts[0]; // default font
 	tb->data = calloc(data_len,1);
 
 	add_object_2d(tb, &draw_textbox, NULL, &free_textbox);

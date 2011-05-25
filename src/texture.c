@@ -14,7 +14,8 @@ int add_texture(const char * filename)
 	textures[ntextures].name = malloc(strlen(filename)+1);
 	strncpy(textures[ntextures].name, filename, strlen(filename)+1);
 	textures[ntextures].gl_id = (unsigned int)ntextures;
-	return ntextures++;
+	ntextures++;
+	return ntextures-1;
 }
 
 int load_texture(unsigned int *gl_id)
@@ -79,9 +80,9 @@ int load_texture(unsigned int *gl_id)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 
-	textures[*gl_id].w = t->width;
-	textures[*gl_id].h = t->height;
-	textures[*gl_id].channels = t->channels;
+	textures[(*gl_id)-1].w = t->width;
+	textures[(*gl_id)-1].h = t->height;
+	textures[(*gl_id)-1].channels = t->channels;
 
 	free(t->data);
 	free(t);

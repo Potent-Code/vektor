@@ -24,7 +24,7 @@ typedef struct
 	void (*remove)(void *);
 } *textbox;
 
-textbox add_textbox(float x, float y, int line_width, int lines, int data_len, font f);
+textbox add_textbox(float x, float y, int line_width, int lines, int data_len);
 void draw_textbox(void *tbp);
 void free_textbox(void *tbp);
 

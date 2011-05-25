@@ -32,8 +32,11 @@ font add_font(const char *filename)
 
 void font_get_size(font f, int texture_id)
 {
-	f->w = (float)textures[texture_id].w/94.;
-	f->h = (float)textures[texture_id].h;
+	if(texture_id >= 1 && texture_id <= ntextures)
+	{
+		f->w = (float)textures[texture_id-1].w/94.;
+		f->h = (float)textures[texture_id-1].h;
+	}
 }
 
 // return position of a character in the font texture

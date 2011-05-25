@@ -1,5 +1,7 @@
 #include "sdl_window.h"
 
+int logo_texture=-1;
+
 void quit(void)
 {
 	int i;
@@ -42,7 +44,7 @@ void resize(int w, int h)
 	glLoadIdentity();
 }
 
-void intro(unsigned int logo)
+void intro(int logo)
 {
 	Uint32 start,current;
 	start=SDL_GetTicks();
@@ -81,10 +83,14 @@ void intro(unsigned int logo)
 		glEnable(GL_BLEND);
 		glBindTexture(GL_TEXTURE_2D, textures[logo].gl_id);
 		glBegin(GL_QUADS);
-			glTexCoord2f(1,0); glVertex3f(300, 195, 0);
-			glTexCoord2f(0,0); glVertex3f(-300, 195, 0);
-			glTexCoord2f(0,1); glVertex3f(-300, -195, 0);
-			glTexCoord2f(1,1); glVertex3f(300, -195, 0);
+			glTexCoord2f(1,0);
+			glVertex3f(textures[logo].w/2, textures[logo].h/2, 0);
+			glTexCoord2f(0,0);
+			glVertex3f((textures[logo].w/2) - textures[logo].w, textures[logo].h/2, 0);
+			glTexCoord2f(0,1);
+			glVertex3f((textures[logo].w/2) - textures[logo].w, (textures[logo].h/2) - textures[logo].h, 0);
+			glTexCoord2f(1,1);
+			glVertex3f(textures[logo].w/2, (textures[logo].h/2 - textures[logo].h), 0);
 		glEnd();
 		glDisable(GL_BLEND);
 		glDisable(GL_TEXTURE_2D);
@@ -102,6 +108,12 @@ void intro(unsigned int logo)
 	}
 }
 
+void vektor_init(void)
+{
+	add_font("/usr/local/share/vektor/fonts/default.font");
+	logo_texture = add_texture("/usr/local/share/vektor/logo.texture");
+}
+
 void init_window(const char *title)
 {
 	int video_flags;
@@ -110,7 +122,6 @@ void init_window(const char *title)
 	SDL_Event event;
 	const SDL_VideoInfo *video_info;
 	SDL_Surface *surface;
-	int logo_texture;
 
 	SDL_Init(SDL_INIT_VIDEO);
 	video_info = SDL_GetVideoInfo();
@@ -139,24 +150,28 @@ void init_window(const char *title)
 
 	surface = SDL_SetVideoMode(1024,768,32,video_flags);
 
-	
-	logo_texture = add_texture("/usr/local/share/vektor/logo.texture");
+
+	// get ready to draw
 	init_scene();
 	resize(1024,768);
 
-	// this is a hack to enable input from the start
-	// something better should be done about this
-	input_key(0);
-
 	// this is deprecated in SDL 1.3
-	// something better should be done about this too
+	// something better should be done about this
 	SDL_EnableKeyRepeat(150,20);
 	SDL_EnableUNICODE(1);
 
 	resize(1024,768);
 	
 	// draw intro logo
-	intro(logo_texture);
+	if(logo_texture >= 0)
+	{
+		intro(logo_texture);
+	}
+	else
+	{
+		vektor_init();
+		intro(logo_texture);
+	}
 
 	// main window loop
 	while(!done)

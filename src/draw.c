@@ -19,7 +19,10 @@ void init_scene(void)
 	}
 	for(i=0; i < nfonts; i++)
 	{
-		font_get_size(fonts[i], 1);
+		if(fonts[i] != NULL)
+		{
+			font_get_size(fonts[i], *fonts[i]->gl_id);
+		}
 	}
 	t=clock();
 	at=clock();
