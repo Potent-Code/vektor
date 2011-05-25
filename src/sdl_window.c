@@ -54,7 +54,7 @@ void intro(int logo)
 	{
 		glDisable(GL_DEPTH_TEST);
 		glShadeModel(GL_SMOOTH);
-		glClearColor(0.0,0.0,0.0,1.0);
+		glClearColor(0.0,0.0,0.0,0.0);
 		glClear(GL_COLOR_BUFFER_BIT);
 	
 		glMatrixMode(GL_PROJECTION);
