@@ -6,7 +6,7 @@ AC_INIT([vektor], [0.1], [ryan.lucchese@gmail.com])
 AM_INIT_AUTOMAKE([vektor], [0.1])
 AC_CONFIG_SRCDIR([src/draw.h])
 AC_CONFIG_HEADERS([src/config.h])
-AC_CONFIG_MACRO_DIR([m4])
+#AC_CONFIG_MACRO_DIR([m4])
 
 # save CFLAGS for after AC_PROG_CC
 test ".$CFLAGS" = "." && CFLAGS=" "
@@ -23,8 +23,8 @@ AC_ARG_ENABLE([debug], [AC_HELP_STRING([--enable-debug],
 
 # Checks for libraries.
 AC_PROG_CXX
-AX_CHECK_GL
-AX_CHECK_GLU
+#AX_CHECK_GL
+#AX_CHECK_GLU
 
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h netdb.h stdlib.h string.h sys/param.h sys/socket.h sys/time.h unistd.h])

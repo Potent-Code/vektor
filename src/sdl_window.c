@@ -106,6 +106,8 @@ void intro(int logo)
 		glEnd();
 		glFlush();
 	}
+	// draw whatever comes after this screen
+	render();
 }
 
 void vektor_init(void)

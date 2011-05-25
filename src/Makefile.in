@@ -36,20 +36,15 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+#libvektor_la_CFLAGS = $(GL_CFLAGS) $(GLU_CFLAGS)
+#libvektor_la_LDFLAGS = $(GL_LIBS) $(GLU_LIBS)
 @DARWIN_TRUE@am__append_1 = SDLMain.m
-@DARWIN_TRUE@am__append_2 = -framework SDL
-@DARWIN_FALSE@am__append_3 = -lSDL
 bin_PROGRAMS = maketexture$(EXEEXT)
 subdir = src
 DIST_COMMON = $(include_HEADERS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/ax_check_gl.m4 \
-	$(top_srcdir)/m4/ax_check_glu.m4 \
-	$(top_srcdir)/m4/ax_lang_compiler_ms.m4 \
-	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
-	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
-	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -86,12 +81,9 @@ am__libvektor_la_SOURCES_DIST = image.h sdl.h sdl_window.h \
 	sprite.h sprite.c player.h player.c draw.h draw.c bitmap.h \
 	bitmap.c font.h font.c textbox.h textbox.c SDLMain.m
 @DARWIN_TRUE@am__objects_1 = SDLMain.lo
-am_libvektor_la_OBJECTS = libvektor_la-sdl_window.lo \
-	libvektor_la-texture.lo libvektor_la-input.lo \
-	libvektor_la-net.lo libvektor_la-sprite.lo \
-	libvektor_la-player.lo libvektor_la-draw.lo \
-	libvektor_la-bitmap.lo libvektor_la-font.lo \
-	libvektor_la-textbox.lo $(am__objects_1)
+am_libvektor_la_OBJECTS = sdl_window.lo texture.lo input.lo net.lo \
+	sprite.lo player.lo draw.lo bitmap.lo font.lo textbox.lo \
+	$(am__objects_1)
 libvektor_la_OBJECTS = $(am_libvektor_la_OBJECTS)
 libvektor_la_LINK = $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(OBJCLD) $(AM_OBJCFLAGS) $(OBJCFLAGS) \
@@ -158,10 +150,6 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
-GLU_CFLAGS = @GLU_CFLAGS@
-GLU_LIBS = @GLU_LIBS@
-GL_CFLAGS = @GL_CFLAGS@
-GL_LIBS = @GL_LIBS@
 GREP = @GREP@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -201,7 +189,6 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 VERSION = @VERSION@
-XMKMF = @XMKMF@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -260,9 +247,8 @@ libvektor_la_SOURCES = image.h sdl.h sdl_window.h sdl_window.c \
 	texture.h texture.c input.h input.c net.h net.c sprite.h \
 	sprite.c player.h player.c draw.h draw.c bitmap.h bitmap.c \
 	font.h font.c textbox.h textbox.c $(am__append_1)
-libvektor_la_CFLAGS = $(GL_CFLAGS) $(GLU_CFLAGS)
-libvektor_la_LDFLAGS = $(GL_LIBS) $(GLU_LIBS) $(am__append_2) \
-	$(am__append_3)
+@DARWIN_FALSE@libvektor_la_LDFLAGS = -lSDL -lGL -lGLU
+@DARWIN_TRUE@libvektor_la_LDFLAGS = -framework SDL -framework OpenGL
 include_HEADERS = vektor.h
 maketexture_SOURCES = image.h maketexture.h maketexture.c
 maketexture_LDFLAGS = -lpng
@@ -405,17 +391,17 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SDLMain.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvektor_la-bitmap.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvektor_la-draw.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvektor_la-font.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvektor_la-input.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvektor_la-net.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvektor_la-player.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvektor_la-sdl_window.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvektor_la-sprite.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvektor_la-textbox.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvektor_la-texture.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bitmap.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/draw.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/font.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/input.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/maketexture.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/player.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sdl_window.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sprite.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/textbox.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/texture.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -437,76 +423,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
-
-libvektor_la-sdl_window.lo: sdl_window.c
-@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -MT libvektor_la-sdl_window.lo -MD -MP -MF $(DEPDIR)/libvektor_la-sdl_window.Tpo -c -o libvektor_la-sdl_window.lo `test -f 'sdl_window.c' || echo '$(srcdir)/'`sdl_window.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libvektor_la-sdl_window.Tpo $(DEPDIR)/libvektor_la-sdl_window.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='sdl_window.c' object='libvektor_la-sdl_window.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -c -o libvektor_la-sdl_window.lo `test -f 'sdl_window.c' || echo '$(srcdir)/'`sdl_window.c
-
-libvektor_la-texture.lo: texture.c
-@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -MT libvektor_la-texture.lo -MD -MP -MF $(DEPDIR)/libvektor_la-texture.Tpo -c -o libvektor_la-texture.lo `test -f 'texture.c' || echo '$(srcdir)/'`texture.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libvektor_la-texture.Tpo $(DEPDIR)/libvektor_la-texture.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='texture.c' object='libvektor_la-texture.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -c -o libvektor_la-texture.lo `test -f 'texture.c' || echo '$(srcdir)/'`texture.c
-
-libvektor_la-input.lo: input.c
-@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -MT libvektor_la-input.lo -MD -MP -MF $(DEPDIR)/libvektor_la-input.Tpo -c -o libvektor_la-input.lo `test -f 'input.c' || echo '$(srcdir)/'`input.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libvektor_la-input.Tpo $(DEPDIR)/libvektor_la-input.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='input.c' object='libvektor_la-input.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -c -o libvektor_la-input.lo `test -f 'input.c' || echo '$(srcdir)/'`input.c
-
-libvektor_la-net.lo: net.c
-@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -MT libvektor_la-net.lo -MD -MP -MF $(DEPDIR)/libvektor_la-net.Tpo -c -o libvektor_la-net.lo `test -f 'net.c' || echo '$(srcdir)/'`net.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libvektor_la-net.Tpo $(DEPDIR)/libvektor_la-net.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='net.c' object='libvektor_la-net.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -c -o libvektor_la-net.lo `test -f 'net.c' || echo '$(srcdir)/'`net.c
-
-libvektor_la-sprite.lo: sprite.c
-@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -MT libvektor_la-sprite.lo -MD -MP -MF $(DEPDIR)/libvektor_la-sprite.Tpo -c -o libvektor_la-sprite.lo `test -f 'sprite.c' || echo '$(srcdir)/'`sprite.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libvektor_la-sprite.Tpo $(DEPDIR)/libvektor_la-sprite.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='sprite.c' object='libvektor_la-sprite.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -c -o libvektor_la-sprite.lo `test -f 'sprite.c' || echo '$(srcdir)/'`sprite.c
-
-libvektor_la-player.lo: player.c
-@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -MT libvektor_la-player.lo -MD -MP -MF $(DEPDIR)/libvektor_la-player.Tpo -c -o libvektor_la-player.lo `test -f 'player.c' || echo '$(srcdir)/'`player.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libvektor_la-player.Tpo $(DEPDIR)/libvektor_la-player.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='player.c' object='libvektor_la-player.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -c -o libvektor_la-player.lo `test -f 'player.c' || echo '$(srcdir)/'`player.c
-
-libvektor_la-draw.lo: draw.c
-@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -MT libvektor_la-draw.lo -MD -MP -MF $(DEPDIR)/libvektor_la-draw.Tpo -c -o libvektor_la-draw.lo `test -f 'draw.c' || echo '$(srcdir)/'`draw.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libvektor_la-draw.Tpo $(DEPDIR)/libvektor_la-draw.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='draw.c' object='libvektor_la-draw.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -c -o libvektor_la-draw.lo `test -f 'draw.c' || echo '$(srcdir)/'`draw.c
-
-libvektor_la-bitmap.lo: bitmap.c
-@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -MT libvektor_la-bitmap.lo -MD -MP -MF $(DEPDIR)/libvektor_la-bitmap.Tpo -c -o libvektor_la-bitmap.lo `test -f 'bitmap.c' || echo '$(srcdir)/'`bitmap.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libvektor_la-bitmap.Tpo $(DEPDIR)/libvektor_la-bitmap.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='bitmap.c' object='libvektor_la-bitmap.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -c -o libvektor_la-bitmap.lo `test -f 'bitmap.c' || echo '$(srcdir)/'`bitmap.c
-
-libvektor_la-font.lo: font.c
-@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -MT libvektor_la-font.lo -MD -MP -MF $(DEPDIR)/libvektor_la-font.Tpo -c -o libvektor_la-font.lo `test -f 'font.c' || echo '$(srcdir)/'`font.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libvektor_la-font.Tpo $(DEPDIR)/libvektor_la-font.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='font.c' object='libvektor_la-font.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -c -o libvektor_la-font.lo `test -f 'font.c' || echo '$(srcdir)/'`font.c
-
-libvektor_la-textbox.lo: textbox.c
-@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -MT libvektor_la-textbox.lo -MD -MP -MF $(DEPDIR)/libvektor_la-textbox.Tpo -c -o libvektor_la-textbox.lo `test -f 'textbox.c' || echo '$(srcdir)/'`textbox.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libvektor_la-textbox.Tpo $(DEPDIR)/libvektor_la-textbox.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='textbox.c' object='libvektor_la-textbox.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvektor_la_CFLAGS) $(CFLAGS) -c -o libvektor_la-textbox.lo `test -f 'textbox.c' || echo '$(srcdir)/'`textbox.c
 
 .m.o:
 @am__fastdepOBJC_TRUE@	$(OBJCCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
