@@ -52,7 +52,7 @@ void draw_textbox(void *tbp)
 	{
 		if(tb->sb == NULL)
 		{
-			tb->sb = add_scrollbar(tb->x+(tb->f->w*tb->line_width),
+			tb->sb = add_scrollbar(tb->x+(tb->f->w*tb->line_width)+4,
 					tb->y,
 					(unsigned int)(tb->lines*tb->f->h),
 					(unsigned int)tb->lines);
