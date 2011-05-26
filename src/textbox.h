@@ -9,6 +9,7 @@
 #include "sdl.h"
 #include "draw.h"
 #include "font.h"
+#include "scrollbar.h"
 
 typedef struct
 {
@@ -18,6 +19,7 @@ typedef struct
 	int lines;
 	int data_len;
 	font f;
+	scrollbar sb;
 	char *data;
 	void (*update)(void *);
 	void (*draw)(void *);

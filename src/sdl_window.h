@@ -6,6 +6,7 @@
 #include "draw.h"
 #include "texture.h"
 #include "font.h"
+#include "scrollbar.h"
 
 void quit(void);
 void resize(int w, int h);

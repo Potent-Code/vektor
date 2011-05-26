@@ -37,14 +37,6 @@ void draw_textbox(void *tbp)
 	int last_break=0;
 	int start_pos=0;
 	
-	// fonts have a transparent background, enable alpha blending
-	glColor4f(1.0,1.0,1.0,1.0);
-	glEnable(GL_TEXTURE_2D);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_BLEND);
-	glBindTexture(GL_TEXTURE_2D, *tb->f->gl_id);
-	glBegin(GL_QUADS);
-
 	// search for line breaks
 	for(i=0; i < len; i++)
 	{
@@ -53,6 +45,19 @@ void draw_textbox(void *tbp)
 			line_breaks++;
 			last_break=i;
 		}
+	}
+
+	// add a scroll bar
+	if(line_breaks >= tb->lines && tb->lines > 1)
+	{
+		if(tb->sb == NULL)
+		{
+			tb->sb = add_scrollbar(tb->x+(tb->f->w*tb->line_width),
+					tb->y,
+					(unsigned int)(tb->lines*tb->f->h),
+					(unsigned int)tb->lines);
+		}
+		draw_scrollbar(tb->sb);
 	}
 
 	// search for line breaks again now that we know the total number
@@ -74,6 +79,14 @@ void draw_textbox(void *tbp)
 		}
 
 	}
+
+	// fonts have a transparent background, enable alpha blending
+	glColor4f(1.0,1.0,1.0,1.0);
+	glEnable(GL_TEXTURE_2D);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+	glBindTexture(GL_TEXTURE_2D, *tb->f->gl_id);
+	glBegin(GL_QUADS);
 
 	// draw rows of multiline textbox
 	for(j=0; j < tb->lines; j++)
@@ -149,11 +162,18 @@ void draw_textbox(void *tbp)
 			glVertex3f(x + tb->f->w, tb->y, 0.01);
 		glEnd();
 	}
+	
+	// draw a scrollbar
+	if(line_breaks >= tb->lines && tb->lines > 1)
+	{
+		draw_scrollbar(tb->sb);
+	}
 }
 
 void free_textbox(void *tbp)
 {
 	textbox tb = tbp;
+	free(tb->sb);
 	free(tb->data);
 	free(tb);
 }

@@ -67,8 +67,9 @@ am__nobase_list = $(am__nobase_strip_setup); \
 am__base_list = \
   sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
-am__installdirs = "$(DESTDIR)$(fontsdir)" "$(DESTDIR)$(vektordir)"
-DATA = $(fonts_DATA) $(vektor_DATA)
+am__installdirs = "$(DESTDIR)$(fontsdir)" "$(DESTDIR)$(uidir)" \
+	"$(DESTDIR)$(vektordir)"
+DATA = $(fonts_DATA) $(ui_DATA) $(vektor_DATA)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
@@ -193,6 +194,8 @@ vektordir = $(datadir)/@PACKAGE@/
 vektor_DATA = logo.texture
 fontsdir = $(datadir)/@PACKAGE@/fonts/
 fonts_DATA = fonts/default.font
+uidir = $(datadir)/@PACKAGE@/ui/
+ui_DATA = ui/scroll_bar.texture
 MAKETEXTURE = $(abs_top_srcdir)/src/maketexture
 all: all-am
 
@@ -253,6 +256,26 @@ uninstall-fontsDATA:
 	test -n "$$files" || exit 0; \
 	echo " ( cd '$(DESTDIR)$(fontsdir)' && rm -f" $$files ")"; \
 	cd "$(DESTDIR)$(fontsdir)" && rm -f $$files
+install-uiDATA: $(ui_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(uidir)" || $(MKDIR_P) "$(DESTDIR)$(uidir)"
+	@list='$(ui_DATA)'; test -n "$(uidir)" || list=; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(uidir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(uidir)" || exit $$?; \
+	done
+
+uninstall-uiDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(ui_DATA)'; test -n "$(uidir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	test -n "$$files" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(uidir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(uidir)" && rm -f $$files
 install-vektorDATA: $(vektor_DATA)
 	@$(NORMAL_INSTALL)
 	test -z "$(vektordir)" || $(MKDIR_P) "$(DESTDIR)$(vektordir)"
@@ -314,7 +337,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(fontsdir)" "$(DESTDIR)$(vektordir)"; do \
+	for dir in "$(DESTDIR)$(fontsdir)" "$(DESTDIR)$(uidir)" "$(DESTDIR)$(vektordir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -362,7 +385,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-fontsDATA install-vektorDATA
+install-data-am: install-fontsDATA install-uiDATA install-vektorDATA
 
 install-dvi: install-dvi-am
 
@@ -406,7 +429,8 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-fontsDATA uninstall-vektorDATA
+uninstall-am: uninstall-fontsDATA uninstall-uiDATA \
+	uninstall-vektorDATA
 
 .MAKE: install-am install-strip
 
@@ -417,21 +441,25 @@ uninstall-am: uninstall-fontsDATA uninstall-vektorDATA
 	install-dvi-am install-exec install-exec-am install-fontsDATA \
 	install-html install-html-am install-info install-info-am \
 	install-man install-pdf install-pdf-am install-ps \
-	install-ps-am install-strip install-vektorDATA installcheck \
-	installcheck-am installdirs maintainer-clean \
+	install-ps-am install-strip install-uiDATA install-vektorDATA \
+	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-generic \
 	mostlyclean-libtool pdf pdf-am ps ps-am uninstall uninstall-am \
-	uninstall-fontsDATA uninstall-vektorDATA
+	uninstall-fontsDATA uninstall-uiDATA uninstall-vektorDATA
 
 fonts/default.font: $(MAKETEXTURE)
 	mkdir fonts
 	$(MAKETEXTURE) png/fonts/default.png fonts/default.font
 
+ui/scroll_bar.texture: $(MAKETEXTURE)
+	mkdir ui
+	$(MAKETEXTURE) png/ui/scroll_bar.png ui/scroll_bar.texture
+
 logo.texture: $(MAKETEXTURE)
 	$(MAKETEXTURE) png/logo.png logo.texture
 
 clean-local:
-	rm -fR logo.texture fonts
+	rm -fR logo.texture fonts ui
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

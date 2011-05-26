@@ -78,10 +78,24 @@ typedef struct
 {
 	float x;
 	float y;
+	unsigned int scroll_pos;
+	unsigned int lines;
+	unsigned int total_lines;
+	unsigned int data_pos;
+	unsigned int w;
+	unsigned int h;
+	unsigned int *gl_id;
+} *scrollbar;
+
+typedef struct
+{
+	float x;
+	float y;
 	int line_width;
 	int lines;
 	int data_len;
 	font f;
+	scrollbar sb;
 	char *data;
 	void (*update)(void *);
 	void (*draw)(void *);
@@ -137,5 +151,9 @@ void free_all_fonts(void);
 textbox add_textbox(float x, float y, int line_width, int lines, int data_len);
 void draw_textbox(void *tbp);
 void free_textbox(void *tbp);
+
+// scrollbar stuff
+scrollbar add_scrollbar(float x, float y, unsigned int h, unsigned int lines);
+void draw_scrollbar(scrollbar sb);
 
 #endif
