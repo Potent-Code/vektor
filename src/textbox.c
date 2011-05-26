@@ -26,7 +26,7 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 	tb->f = fonts[0]; // default font
 	tb->data = calloc(data_len,1);
 
-	tb->sb = add_scrollbar(tb->x+(tb->f->w*tb->line_width), tb->y, tb->f->h, (unsigned int)tb->lines);
+	tb->sb = add_scrollbar(tb->x+(tb->f->w*tb->line_width)+6., tb->y, tb->f->h, (unsigned int)tb->lines);
 	add_object_2d(tb, &draw_textbox, NULL, &free_textbox);
 
 	return tb;
