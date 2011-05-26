@@ -37,6 +37,7 @@ void draw_textbox(void *tbp)
 	int last_break=0;
 	int start_pos=0;
 	
+	// fonts have a transparent background, enable alpha blending
 	glColor4f(1.0,1.0,1.0,1.0);
 	glEnable(GL_TEXTURE_2D);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -44,20 +45,27 @@ void draw_textbox(void *tbp)
 	glBindTexture(GL_TEXTURE_2D, *tb->f->gl_id);
 	glBegin(GL_QUADS);
 
+	// search for line breaks
 	for(i=0; i < len; i++)
 	{
-		if(tb->data[i] == '\n' || (i-last_break) == tb->line_width)
+		if((i-last_break) == tb->line_width || tb->data[i] == '\n')
 		{
 			line_breaks++;
 			last_break=i;
 		}
 	}
 
+	// search for line breaks again now that we know the total number
+	// of linebreaks, now we can find where the top line should begin
+	last_break=0;
 	for(i=0; i < len; i++)
 	{
-		if(tb->data[i] == '\n' || (i-last_break) == tb->line_width)
+		if(((i-last_break) == tb->line_width) || tb->data[i] == '\n')
 		{
 			line_breaks2++;
+			last_break=i;
+			
+			// find top line
 			if(line_breaks2 == (line_breaks - tb->lines))
 			{
 				start_pos=i+1;
@@ -67,6 +75,7 @@ void draw_textbox(void *tbp)
 
 	}
 
+	// draw rows of multiline textbox
 	for(j=0; j < tb->lines; j++)
 	{
 		if(j == 0)
@@ -77,6 +86,7 @@ void draw_textbox(void *tbp)
 		{
 			k=0;
 		}
+		// draw columns of textbox
 		for(i=(k*start_pos)+letter; i < len; i++)
 		{
 			// end of the line
@@ -104,7 +114,8 @@ void draw_textbox(void *tbp)
 				col++;
 				continue;
 			}
-	
+
+			// draw a small quad in place with a font character texture mapped to it
 			x = tb->x + col*tb->f->w;
 			glTexCoord2f((float)(char_position+1)/94.,0);
 			glVertex3f(x + tb->f->w, tb->y + tb->f->h - (line_count*tb->f->h), 0.01);
