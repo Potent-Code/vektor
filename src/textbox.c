@@ -11,6 +11,7 @@ void textbox_clear_text(textbox tb);
 void textbox_find_lines(textbox tb);
 void draw_textbox(void *tbp);
 void free_textbox(void *tbp);
+Uint32 blink_timer=0;
 
 textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 {
@@ -128,6 +129,7 @@ void draw_textbox(void *tbp)
 	int letter=0;
 	int col=0;
 	int len = strlen(tb->data);
+	Uint32 tb_draw_time;
 	
 	// fonts have a transparent background, enable alpha blending
 	glColor4f(1.0,1.0,1.0,1.0);
@@ -199,19 +201,27 @@ void draw_textbox(void *tbp)
 	// draw cursor
 	if(tb->lines == 1)
 	{
-		// end of the string
-		x = tb->x + (len-1)*tb->f->w;
-		// small nudge for 0 length strings
-		if(len==0)
+		if(((tb_draw_time = SDL_GetTicks()) - blink_timer) > 1500)
 		{
-			x += 1;
+			blink_timer = tb_draw_time;
 		}
-		glBegin(GL_LINES);
-			glVertex3f(x + tb->f->w, tb->y - tb->f->h, 0.01);
-			glVertex3f(x + tb->f->w, tb->y, 0.01);
-		glEnd();
-	}
 
+		if((tb_draw_time - blink_timer) > 500)
+		{
+			// end of the string
+			x = tb->x + (len-1)*tb->f->w;
+			// small nudge for 0 length strings
+			if(len==0)
+			{
+				x += 1;
+			}
+			glBegin(GL_LINES);
+				glVertex3f(x + tb->f->w, tb->y - tb->f->h, 0.01);
+				glVertex3f(x + tb->f->w, tb->y, 0.01);
+			glEnd();
+		}
+	}
+	
 	// draw a scrollbar
 	if(tb->sb->total_lines >= tb->lines && tb->lines > 1)
 	{
