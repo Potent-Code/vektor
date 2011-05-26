@@ -4,6 +4,8 @@
 
 #include "sprite.h"
 
+void get_coords(sprite s);
+
 void get_coords(sprite s)
 {
 	// bottom left

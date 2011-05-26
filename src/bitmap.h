@@ -5,10 +5,11 @@
 #ifndef BITMAP_H
 #define BITMAP_H
 
+#include "sdl.h"
 #include "texture.h"
 #include "draw.h"
-#include "sdl.h"
 
+// types
 typedef struct
 {
 	int x;
@@ -21,6 +22,8 @@ typedef struct
 	void (*remove)(void *);
 } *bitmap;
 
-bitmap add_bitmap(int x, int y, int w, int h, int texture_id);
+// methods
+extern bitmap add_bitmap(int x, int y, int w, int h, int texture_id);
+extern void draw_bitmap(void *bp);
 
 #endif

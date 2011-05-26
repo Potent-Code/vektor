@@ -4,6 +4,12 @@
 
 #include "font.h"
 
+font add_font(const char *filename);
+void font_get_size(font f, int texture_id);
+int font_get_glyph(char c);
+void free_font(void *fp);
+void free_all_fonts(void);
+
 font *fonts;
 int nfonts=0;
 
@@ -21,7 +27,8 @@ font add_font(const char *filename)
 
 	if((texture_id = add_texture(filename)) >= 0)
 	{
-		f->gl_id = &textures[texture_id].gl_id;
+		f->gl_id = textures[texture_id].gl_id;
+		font_get_size(f, texture_id);
 		fonts[nfonts]=f;
 		nfonts++;
 		return f;
@@ -32,10 +39,10 @@ font add_font(const char *filename)
 
 void font_get_size(font f, int texture_id)
 {
-	if(texture_id >= 1 && texture_id <= ntextures)
+	if(texture_id >= 0 && texture_id < ntextures)
 	{
-		f->w = (float)textures[texture_id-1].w/94.;
-		f->h = (float)textures[texture_id-1].h;
+		f->w = (float)textures[texture_id].w/94.;
+		f->h = (float)textures[texture_id].h;
 	}
 }
 

@@ -3,8 +3,8 @@
  * May 20 2011 */
 
 #include "bitmap.h"
-#include <stdio.h>
 
+bitmap add_bitmap(int x, int y, int w, int h, int texture_id);
 void draw_bitmap(void *bp);
 
 bitmap add_bitmap(int x, int y, int w, int h, int texture_id)
@@ -17,7 +17,7 @@ bitmap add_bitmap(int x, int y, int w, int h, int texture_id)
 	b->y = y;
 	b->w = w;
 	b->h = h;
-	b->gl_id = &textures[texture_id].gl_id;
+	b->gl_id = textures[texture_id].gl_id;
 
 	add_object_2d(b, &draw_bitmap, NULL, NULL);
 	return b;

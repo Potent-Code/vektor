@@ -1,3 +1,7 @@
+/* textures for OpenGL
+ * by Ryan Lucchese
+ * December 21 2010 */
+
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
@@ -16,15 +20,17 @@ typedef struct
 	int w; // width of texture
 	int h; // height of texture
 	int channels; // number of channels
-	unsigned int gl_id; // texture id
+	unsigned int tid; // index in textures array
+	unsigned int *gl_id; // texture id
 } texture;
+
+extern int add_texture(const char *filename);
+extern int load_texture(unsigned int tid);
+extern void free_texture(int texture_id);
+extern void free_all_textures(void);
 
 extern texture *textures;
 extern int ntextures;
-
-int add_texture(const char *filename);
-int load_texture(unsigned int * gl_id);
-void free_texture(int texture_id);
-void free_all_textures(void);
+extern unsigned int *texture_ids;
 
 #endif

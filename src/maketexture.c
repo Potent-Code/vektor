@@ -1,3 +1,7 @@
+/* convert a png image to an opengl texture
+ * by Ryan Lucchese
+ * December 21 2010 */
+
 #include "maketexture.h"
 
 int main(int argc, char ** argv)

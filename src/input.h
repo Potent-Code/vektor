@@ -18,9 +18,9 @@ extern char *input_buffer;
 extern int ib_count;
 extern int ib_len;
 
-void get_key(SDL_keysym *keysym);
-void get_keyup(SDL_keysym *keysym);
-void input_key(uint16_t u);
-void set_input(void* tbp);
+extern void get_key(SDL_keysym *keysym);
+extern void get_keyup(SDL_keysym *keysym);
+extern void input_key(uint16_t u);
+extern void set_input(void* tbp);
 
 #endif

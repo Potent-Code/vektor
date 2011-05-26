@@ -1,3 +1,7 @@
+/* network communication
+ * by Ryan Lucchese
+ * December 21 2010 */
+
 #ifndef NET_H
 #define NET_H
 
@@ -15,13 +19,13 @@
 #define TEST_HOST "theturks.sytes.net"
 #define TEST_PORT 57157
 
+extern void init_network(void);
+extern int recv_message(char *buffer);
+extern int send_message(char *buffer);
+
 extern int sockfd;
 extern struct sockaddr_in server_addr;
 extern struct pollfd net_read;
 extern struct pollfd net_write;
-
-void init_network(void);
-int recv_message(char *buffer);
-int send_message(char *buffer);
 
 #endif

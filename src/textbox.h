@@ -11,6 +11,7 @@
 #include "font.h"
 #include "scrollbar.h"
 
+// types
 typedef struct
 {
 	float x;
@@ -26,8 +27,13 @@ typedef struct
 	void (*remove)(void *);
 } *textbox;
 
-textbox add_textbox(float x, float y, int line_width, int lines, int data_len);
-void draw_textbox(void *tbp);
-void free_textbox(void *tbp);
+// methods
+extern textbox add_textbox(float x, float y, int line_width, int lines, int data_len);
+extern void textbox_set_text(textbox tb, const char *str);
+extern void textbox_add_text(textbox tb, const char *str);
+extern void textbox_clear_text(textbox tb);
+extern void textbox_find_lines(textbox tb);
+extern void draw_textbox(void *tbp);
+extern void free_textbox(void *tbp);
 
 #endif

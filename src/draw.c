@@ -5,29 +5,12 @@
 
 #include "draw.h"
 
-clock_t t,at,mt;
+void add_object_2d(void *obj, void (*draw)(void*), void (*update)(void*), void (*remove)(void*));
+void render(void);
+
 unsigned int framecount=0;
 int renderobjs2d_count=0;
 render_object *renderlist_2d;
-
-void init_scene(void)
-{
-	int i;
-	for(i=0; i < ntextures; i++)
-	{
-		load_texture(&textures[i].gl_id);
-	}
-	for(i=0; i < nfonts; i++)
-	{
-		if(fonts[i] != NULL)
-		{
-			font_get_size(fonts[i], *fonts[i]->gl_id);
-		}
-	}
-	t=clock();
-	at=clock();
-	mt=clock();
-}
 
 void add_object_2d(void *obj, void (*draw)(void*), void (*update)(void*), void (*remove)(void*))
 {
@@ -59,7 +42,6 @@ void add_object_2d(void *obj, void (*draw)(void*), void (*update)(void*), void (
 void render(void)
 {
 	int i;
-	double et;
 	framecount++;
 
 	// examine this more carefully.
@@ -100,11 +82,4 @@ void render(void)
 
 	glEnd();
 	glFlush();
-
-	if((et = (double)(clock()-t)/CLOCKS_PER_SEC) >= .25)
-	{
-		//fprintf(stderr,"\r%.f\tfps",framecount/et);
-		framecount=1;
-		t=clock();
-	}
 }

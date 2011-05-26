@@ -1,24 +1,43 @@
+/* textures for OpenGL
+ * by Ryan Lucchese
+ * December 21 2010 */
+
 #include "texture.h"
+
+int add_texture(const char *filename);
+int load_texture(unsigned int tid);
+void free_texture(int texture_id);
+void free_all_textures(void);
 
 texture *textures;
 int ntextures=0;
+unsigned int *texture_ids;
 
 int add_texture(const char * filename)
 {
+	// make space to store texture info
 	if(textures == NULL)
 	{
 		textures = malloc(sizeof(*textures)*MAX_TEXTURES);
+	}
+	// generate a list of texture names
+	if(texture_ids == NULL)
+	{
+		texture_ids = malloc(sizeof(*texture_ids)*MAX_TEXTURES);
+		glGenTextures(MAX_TEXTURES, texture_ids);
 	}
 
 	// the +1's here ensure a '\0' is written
 	textures[ntextures].name = malloc(strlen(filename)+1);
 	strncpy(textures[ntextures].name, filename, strlen(filename)+1);
-	textures[ntextures].gl_id = (unsigned int)ntextures;
+	textures[ntextures].tid = ntextures;
+	textures[ntextures].gl_id = &texture_ids[ntextures];
+	load_texture(textures[ntextures].tid);
 	ntextures++;
-	return ntextures-1;
+	return (ntextures-1);
 }
 
-int load_texture(unsigned int *gl_id)
+int load_texture(unsigned int tid)
 {
 	FILE *fd;
 	int b=0;
@@ -27,19 +46,23 @@ int load_texture(unsigned int *gl_id)
 	GLuint format;
 	int i;
 
-	if((fd = fopen(textures[*gl_id].name, "rb")) == 0)
+	if((fd = fopen(textures[tid].name, "rb")) == 0)
 	{
 		perror("Error opening texture file");
 		return -1;
 	}
 
-	if((t = malloc(sizeof(*t))) == NULL)
+	if((t = calloc(sizeof(*t),1)) == NULL)
 	{
 		perror("Error allocating memory");
 		return -1;
 	}
 
 	b=sizeof(*t)*fread(t, sizeof(*t), 1, fd);
+
+	textures[tid].w = t->width;
+	textures[tid].h = t->height;
+	textures[tid].channels = t->channels;
 
 	bytes = t->width*t->height*t->channels;
 
@@ -74,15 +97,11 @@ int load_texture(unsigned int *gl_id)
 
 	fclose(fd);
 	
-	glGenTextures(1, gl_id);
-	glBindTexture(GL_TEXTURE_2D, *gl_id);
+	glBindTexture(GL_TEXTURE_2D, *textures[tid].gl_id);
 	glTexImage2D(GL_TEXTURE_2D, 0, t->channels, t->width, t->height, 0, format, GL_UNSIGNED_BYTE, t->data);
+	// enable trilinear filtering
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-
-	textures[(*gl_id)-1].w = t->width;
-	textures[(*gl_id)-1].h = t->height;
-	textures[(*gl_id)-1].channels = t->channels;
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);
 
 	free(t->data);
 	free(t);
@@ -94,7 +113,7 @@ void free_texture(int texture_id)
 	{
 		free(textures[texture_id].name);
 	}
-	glDeleteTextures(1,&textures[texture_id].gl_id);
+	glDeleteTextures(1,textures[texture_id].gl_id);
 }
 
 void free_all_textures(void)
@@ -105,4 +124,5 @@ void free_all_textures(void)
 		free_texture(i);
 	}
 	free(textures);
+	free(texture_ids);
 }

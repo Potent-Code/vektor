@@ -4,6 +4,11 @@
 
 #include "input.h"
 
+void get_key(SDL_keysym *keysym);
+void get_keyup(SDL_keysym *keysym);
+void input_key(uint16_t u);
+void set_input(void* tbp);
+
 void (*return_func)(char*);
 
 int controls[4];

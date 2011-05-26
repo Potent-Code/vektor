@@ -1,4 +1,12 @@
+/* network communication
+ * by Ryan Lucchese
+ * December 21 2010 */
+
 #include "net.h"
+
+void init_network(void);
+int recv_message(char *buffer);
+int send_message(char *buffer);
 
 int sockfd;
 struct sockaddr_in server_addr;

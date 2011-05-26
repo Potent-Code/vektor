@@ -78,12 +78,12 @@ typedef struct
 {
 	float x;
 	float y;
+	float w;
+	float h;
 	unsigned int scroll_pos;
 	unsigned int lines;
 	unsigned int total_lines;
 	unsigned int data_pos;
-	unsigned int w;
-	unsigned int h;
 	unsigned int *gl_id;
 } *scrollbar;
 
@@ -103,57 +103,66 @@ typedef struct
 } *textbox;
 
 // window stuff
-void quit(void);
-void resize(int w, int h);
-void vektor_init(void);
-void init_window(const char *title);
+extern void quit(void);
+extern void resize(int w, int h);
+extern void vektor_init(const char *title);
+extern void vektor_run(void);
 
 // texture stuff
-int add_texture(const char *filename);
-int load_texture(unsigned int * gl_id);
-void free_texture(int texture_id);
-void free_all_textures(void);
+extern int add_texture(const char *filename);
+extern int load_texture(unsigned int tid);
+extern void free_texture(int texture_id);
+extern void free_all_textures(void);
 
 // net stuff
-void init_network(void);
-int recv_message(char *buffer);
-int send_message(char *buffer);
+extern void init_network(void);
+extern int recv_message(char *buffer);
+extern int send_message(char *buffer);
 
-// input stuff
-void input_key(uint16_t u);
-void set_input(textbox tb);
+// input methods
+extern void input_key(uint16_t u);
+extern void set_input(textbox tb);
+// input globals
 extern void (*return_func)(char*);
 
-// draw stuff
-void init_scene(void);
-void render(void);
+// draw methods
+extern void render(void);
+extern void add_object_2d(void *obj, void (*draw)(void*), void (*update)(void*), void (*remove)(void*));
+// draw globals
 extern int renderobjs2d_count;
 extern render_object *renderlist_2d;
 
-// sprite stuff
-void get_coords(sprite s);
-sprite player_sprite(float x, float y, float width, float height, unsigned int texture);
-void animate_player(sprite player);
-void move_player(sprite player);
-void draw_player(void *p);
+// sprite methods
+extern void get_coords(sprite s);
 
-// bitmap stuff
-bitmap add_bitmap(int x, int y, int w, int h, int texture_id);
+//player methods
+extern sprite player_sprite(float x, float y, float width, float height, unsigned int texture);
+extern void animate_player(sprite player);
+extern void move_player(sprite player);
+extern void draw_player(void *p);
 
-// font stuff
-font add_font(const char *filename);
-void font_get_size(font f, int texture_id);
-int font_get_glyph(char c);
-void free_font(void *fp);
-void free_all_fonts(void);
+// bitmap methods
+extern bitmap add_bitmap(int x, int y, int w, int h, int texture_id);
+extern void draw_bitmap(void *bp);
 
-// textbox stuff
-textbox add_textbox(float x, float y, int line_width, int lines, int data_len);
-void draw_textbox(void *tbp);
-void free_textbox(void *tbp);
+// font methods
+extern font add_font(const char *filename);
+extern void font_get_size(font f, int texture_id);
+extern int font_get_glyph(char c);
+extern void free_font(void *fp);
+extern void free_all_fonts(void);
 
-// scrollbar stuff
-scrollbar add_scrollbar(float x, float y, unsigned int h, unsigned int lines);
-void draw_scrollbar(scrollbar sb);
+// textbox methods
+extern textbox add_textbox(float x, float y, int line_width, int lines, int data_len);
+extern void textbox_set_text(textbox tb, const char *str);
+extern void textbox_add_text(textbox tb, const char *str);
+extern void textbox_clear_text(textbox tb);
+extern void textbox_find_lines(textbox tb);
+extern void draw_textbox(void *tbp);
+extern void free_textbox(void *tbp);
+
+// scrollbar methods
+extern scrollbar add_scrollbar(float x, float y, float h, unsigned int lines);
+extern void draw_scrollbar(scrollbar sb);
 
 #endif

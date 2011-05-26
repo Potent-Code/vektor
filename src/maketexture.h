@@ -1,3 +1,7 @@
+/* convert a png image to an opengl texture
+ * by Ryan Lucchese
+ * December 21 2010 */
+
 #ifndef MAKETEXTURE_H
 #define MAKETEXTURE_H
 

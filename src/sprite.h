@@ -46,6 +46,6 @@ typedef struct
 } *sprite;
 
 // set s->coords to points of sprite quad
-void get_coords(sprite s);
+extern void get_coords(sprite s);
 
 #endif

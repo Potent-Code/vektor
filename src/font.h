@@ -7,6 +7,7 @@
 
 #include "texture.h"
 
+// types
 typedef struct
 {
 	float w; // character width (screen coords)
@@ -14,13 +15,15 @@ typedef struct
 	unsigned int *gl_id; // texture
 } *font;
 
+// methods
+extern font add_font(const char *filename);
+extern void font_get_size(font f, int texture_id);
+extern int font_get_glyph(char c);
+extern void free_font(void *fp);
+extern void free_all_fonts(void);
+
+// globals
 extern font *fonts;
 extern int nfonts;
-
-font add_font(const char *filename);
-void font_get_size(font f, int texture_id);
-int font_get_glyph(char c);
-void free_font(void *fp);
-void free_all_fonts(void);
 
 #endif

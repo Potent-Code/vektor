@@ -8,9 +8,10 @@
 #include "sprite.h"
 #include "input.h"
 
-sprite player_sprite(float x, float y, float width, float height, GLuint texture);
-void animate_player(sprite player);
-void move_player(sprite player);
-void draw_player(void *p);
+// methods
+extern sprite player_sprite(float x, float y, float width, float height, GLuint texture);
+extern void animate_player(sprite player);
+extern void move_player(sprite player);
+extern void draw_player(void *p);
 
 #endif

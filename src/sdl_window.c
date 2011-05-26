@@ -1,6 +1,19 @@
+/* initialize a window, intro screen, 
+ * and main engine loop
+ * by Ryan Lucchese
+ * December 21 2010 */
+
 #include "sdl_window.h"
 
+void quit(void);
+void resize(int w, int h);
+void vektor_init(const char *title);
+void vektor_run(void);
+void intro(int logo);
+
 int logo_texture=-1;
+int video_flags;
+SDL_Surface *surface;
 
 void quit(void)
 {
@@ -81,7 +94,7 @@ void intro(int logo)
 		glEnable(GL_TEXTURE_2D);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
-		glBindTexture(GL_TEXTURE_2D, textures[logo].gl_id);
+		glBindTexture(GL_TEXTURE_2D, *(textures[logo].gl_id));
 		glBegin(GL_QUADS);
 			glTexCoord2f(1,0);
 			glVertex3f(textures[logo].w/2, textures[logo].h/2, 0);
@@ -110,21 +123,9 @@ void intro(int logo)
 	render();
 }
 
-void vektor_init(void)
+void vektor_init(const char *title)
 {
-	add_font("/usr/local/share/vektor/fonts/default.font");
-	logo_texture = add_texture("/usr/local/share/vektor/logo.texture");
-	sb_texture = add_texture("/usr/local/share/vektor/ui/scroll_bar.texture");
-}
-
-void init_window(const char *title)
-{
-	int video_flags;
-	int done = 0;
-	int active = 1;
-	SDL_Event event;
 	const SDL_VideoInfo *video_info;
-	SDL_Surface *surface;
 
 	SDL_Init(SDL_INIT_VIDEO);
 	video_info = SDL_GetVideoInfo();
@@ -151,11 +152,8 @@ void init_window(const char *title)
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER,1);
 	SDL_WM_SetCaption(title, NULL);
 
-	surface = SDL_SetVideoMode(1024,768,32,video_flags);
-
-
 	// get ready to draw
-	init_scene();
+	surface = SDL_SetVideoMode(1024,768,32,video_flags);
 	resize(1024,768);
 
 	// this is deprecated in SDL 1.3
@@ -163,8 +161,17 @@ void init_window(const char *title)
 	SDL_EnableKeyRepeat(150,20);
 	SDL_EnableUNICODE(1);
 
-	resize(1024,768);
-	
+	add_font("/usr/local/share/vektor/fonts/default.font");
+	logo_texture = add_texture("/usr/local/share/vektor/logo.texture");
+	sb_texture = add_texture("/usr/local/share/vektor/ui/scroll_bar.texture");
+}
+
+void vektor_run(void)
+{
+	int done = 0;
+	int active = 1;
+	SDL_Event event;
+
 	// draw intro logo
 	if(logo_texture >= 0)
 	{
@@ -172,8 +179,7 @@ void init_window(const char *title)
 	}
 	else
 	{
-		vektor_init();
-		intro(logo_texture);
+		fprintf(stderr,"Please run vektor_init() first!\n");
 	}
 
 	// main window loop

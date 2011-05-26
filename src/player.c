@@ -4,6 +4,11 @@
 
 #include "player.h"
 
+sprite player_sprite(float x, float y, float width, float height, GLuint texture);
+void animate_player(sprite player);
+void move_player(sprite player);
+void draw_player(void *p);
+
 //todo: pass the texture as a struct that includes its dimensions
 sprite player_sprite(float x, float y, float width, float height, GLuint texture)
 {
