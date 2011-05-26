@@ -31,12 +31,6 @@ scrollbar add_scrollbar(float x, float y, float line_height, unsigned int lines)
 
 void draw_scrollbar(scrollbar sb)
 {
-	if(sb->total_lines >= sb->lines)
-	{
-		sb->h = ((float)sb->lines)*sb->line_height*((float)sb->lines/(float)sb->total_lines);
-		sb->w = (float)textures[sb_texture].w;
-	}
-	//fprintf(stderr,"%.1f tall scrollbar\n",sb->h);
         glColor3f(1.0,1.0,1.0);
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, *sb->gl_id);

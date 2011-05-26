@@ -112,6 +112,10 @@ void textbox_find_lines(textbox tb)
 		}
 
 	}
+
+	// set new scrollbar height and position
+	tb->sb->h = ((float)tb->sb->lines)*tb->sb->line_height*((float)tb->sb->lines/(float)tb->sb->total_lines);
+	tb->sb->y = tb->y - ((float)(tb->sb->lines*tb->sb->line_height)) + tb->sb->h;
 }
 
 void draw_textbox(void *tbp)
