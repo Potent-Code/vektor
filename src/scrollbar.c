@@ -16,7 +16,8 @@ scrollbar add_scrollbar(float x, float y, float line_height, unsigned int lines)
 	sb = malloc(sizeof(*sb));
 	sb->x = x;
 	sb->y = y;
-	sb->w = (float)textures[sb_texture].w;
+	//sb->w = (float)textures[sb_texture].w;
+	sb->w = 10.;
 	sb->h = (float)line_height*lines;
 	sb->line_height = line_height;
 	
