@@ -195,6 +195,24 @@ void vektor_run(void)
 					else
 						active = 1;
 					break;
+				case SDL_MOUSEBUTTONUP:
+					if(mouse_state > 0)
+					{
+						mouse_state = 0;
+					}
+					SDL_GetMouseState(&mouse_x, &mouse_y);
+					mouse_x -= 512;
+					mouse_y = (768-mouse_y)-384;
+					break;
+				case SDL_MOUSEBUTTONDOWN:
+					if(mouse_state == 0)
+					{
+						mouse_state = 1;
+					}
+					SDL_GetMouseState(&mouse_x, &mouse_y);
+					mouse_x -= 512;
+					mouse_y = (768-mouse_y)-384;
+					break;
 				case SDL_VIDEORESIZE:
 					surface = SDL_SetVideoMode(event.resize.w, event.resize.h, 32, video_flags);
 					resize(event.resize.w, event.resize.h);
@@ -204,6 +222,11 @@ void vektor_run(void)
 					break;
 				case SDL_KEYUP:
 					get_keyup(&event.key.keysym);
+					break;
+				case SDL_MOUSEMOTION:
+					SDL_GetMouseState(&mouse_x, &mouse_y);
+					mouse_x -= 512;
+					mouse_y = (768-mouse_y)-384;
 					break;
 				case SDL_QUIT:
 					done = 1;

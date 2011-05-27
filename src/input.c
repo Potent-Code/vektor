@@ -16,8 +16,9 @@ int unicode=1;
 char *input_buffer;
 int ib_len=0;
 int ib_count=0;
-int mouse_x;
-int mouse_y;
+int mouse_state=0;
+int mouse_x=0;
+int mouse_y=0;
 
 void get_key(SDL_keysym *keysym)
 {

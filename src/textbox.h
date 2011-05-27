@@ -10,6 +10,7 @@
 #include "draw.h"
 #include "font.h"
 #include "scrollbar.h"
+#include "input.h"
 
 // types
 typedef struct

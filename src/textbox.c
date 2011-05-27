@@ -12,6 +12,7 @@ void textbox_find_lines(textbox tb);
 void draw_textbox(void *tbp);
 void free_textbox(void *tbp);
 Uint32 blink_timer=0;
+int drag=-1;
 
 textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 {
@@ -139,6 +140,34 @@ void draw_textbox(void *tbp)
 	glBindTexture(GL_TEXTURE_2D, *tb->f->gl_id);
 	glBegin(GL_QUADS);
 
+	if(mouse_state==1 && (mouse_x >= tb->sb->x && mouse_x <= tb->sb->x+tb->sb->w && mouse_y <= tb->sb->y && mouse_y >= tb->sb->y-tb->sb->h))
+	{
+		//fprintf(stderr,"clicked on scrollbar\n");
+		if(drag <= 0)
+		{
+			drag=tb->sb->y - mouse_y;
+		}
+	}
+	else if(mouse_state == 0)
+	{
+		drag=0;
+	}
+
+	if(drag > 0)
+	{
+		if(((mouse_y+drag)-tb->sb->h) >= (tb->y - ((float)(tb->sb->lines*tb->sb->line_height))) && (mouse_y+drag) <= tb->y)
+		{
+			tb->sb->y = mouse_y+drag;
+		}
+		else if(mouse_y >= tb->y - drag)
+		{
+			tb->sb->y = tb->y;
+		}
+		else if(mouse_y <= (tb->y - ((float)(tb->sb->lines*tb->sb->line_height))+tb->sb->h)-drag)
+		{
+			tb->sb->y = tb->y - ((float)(tb->sb->lines*tb->sb->line_height))+tb->sb->h;
+		}
+	}
 	// draw rows of multiline textbox
 	for(j=0; j < tb->lines; j++)
 	{
