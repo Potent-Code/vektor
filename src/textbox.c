@@ -86,6 +86,7 @@ void textbox_find_lines(textbox tb)
 		{
 			line_breaks++;
 			last_break=i;
+			tb->sb->line_offsets[line_breaks]=i+1;
 		}
 	}
 
@@ -115,6 +116,8 @@ void textbox_find_lines(textbox tb)
 
 	}
 
+	tb->sb->line_offsets[0]=0;
+
 	// set new scrollbar height and position
 	tb->sb->h = ((float)tb->sb->lines)*tb->sb->line_height*((float)tb->sb->lines/(float)tb->sb->total_lines);
 	tb->sb->y = tb->y - ((float)(tb->sb->lines*tb->sb->line_height)) + tb->sb->h;
@@ -130,6 +133,7 @@ void draw_textbox(void *tbp)
 	int letter=0;
 	int col=0;
 	int len = strlen(tb->data);
+	unsigned int start_line=0;
 	Uint32 tb_draw_time;
 	
 	// fonts have a transparent background, enable alpha blending
@@ -142,7 +146,6 @@ void draw_textbox(void *tbp)
 
 	if(mouse_state==1 && (mouse_x >= tb->sb->x && mouse_x <= tb->sb->x+tb->sb->w && mouse_y <= tb->sb->y && mouse_y >= tb->sb->y-tb->sb->h))
 	{
-		//fprintf(stderr,"clicked on scrollbar\n");
 		if(drag <= 0)
 		{
 			drag=tb->sb->y - mouse_y;
@@ -168,6 +171,15 @@ void draw_textbox(void *tbp)
 			tb->sb->y = tb->y - ((float)(tb->sb->lines*tb->sb->line_height))+tb->sb->h;
 		}
 	}
+
+	if(tb->sb->total_lines > tb->lines && tb->lines > 1)
+	{
+		start_line = (unsigned int)(-(float)(tb->sb->total_lines-tb->lines)*(tb->y-tb->sb->y)/(tb->sb->h - (float)(tb->sb->lines*tb->sb->line_height)));
+	}
+	else
+	{
+		start_line = 0;
+	}
 	// draw rows of multiline textbox
 	for(j=0; j < tb->lines; j++)
 	{
@@ -180,13 +192,17 @@ void draw_textbox(void *tbp)
 			k=0;
 		}
 		// draw columns of textbox
-		for(i=(k*tb->sb->data_pos)+letter; i < len; i++)
+		for(i=(k*tb->sb->line_offsets[start_line])+letter; i < len; i++)
 		{
 			// end of the line
-			if(col == tb->line_width && line_count < tb->lines+1)
+			if(col == tb->line_width)
 			{
 				letter=i;
 				line_count++;
+				if(line_count > tb->lines > 1)
+				{
+					len=i;
+				}
 				break;
 			}
 			// printable character
@@ -195,10 +211,14 @@ void draw_textbox(void *tbp)
 				char_position = font_get_glyph(tb->data[i]);
 			}
 			// newline
-			else if(tb->data[i] == '\n' && line_count < tb->lines)
+			else if(tb->data[i] == '\n')
 			{
 				letter=i+1;
 				line_count++;
+				if(line_count > tb->lines > 1)
+				{
+					len=i;
+				}
 				break;
 			}
 			// draw a space for out of range characters

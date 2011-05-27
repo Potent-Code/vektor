@@ -20,6 +20,7 @@ typedef struct
 	unsigned int lines;
 	unsigned int total_lines;
 	unsigned int data_pos;
+	unsigned int line_offsets[5000];
 	unsigned int *gl_id;
 } *scrollbar;
 
