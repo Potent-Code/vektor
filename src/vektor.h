@@ -103,6 +103,27 @@ typedef struct
 	void (*remove)(void *);
 } *textbox;
 
+typedef struct
+{
+	float x1,y1; // start coordinates
+	float x2,y2; // end coordinates
+	float angle; // angle of current branch
+} *branch;
+
+typedef struct
+{
+	float x;
+	float y;
+	float l; // length of a branch
+	float angle; // angle increment
+	unsigned int iterations;
+	unsigned int nbranches;
+	branch branches;
+	void (*update)(void *);
+	void (*draw)(void *);
+	void (*remove)(void *);
+} *plant;
+
 // window stuff
 extern void quit(void);
 extern void resize(int w, int h);
@@ -165,5 +186,11 @@ extern void free_textbox(void *tbp);
 // scrollbar methods
 extern scrollbar add_scrollbar(float x, float y, float h, unsigned int lines);
 extern void draw_scrollbar(scrollbar sb);
+
+// plant methods
+extern plant add_plant(float x, float y, float l, float angle, unsigned int iterations);
+extern void draw_plant(void *pp);
+extern void free_plant(void *pp);
+extern unsigned int grow(plant p, unsigned int n);
 
 #endif

@@ -11,6 +11,8 @@ void render(void);
 unsigned int framecount=0;
 int renderobjs2d_count=0;
 render_object *renderlist_2d;
+Uint32 last_update=0;
+Uint32 l;
 
 void add_object_2d(void *obj, void (*draw)(void*), void (*update)(void*), void (*remove)(void*))
 {
@@ -65,7 +67,11 @@ void render(void)
 		{
 			if(renderlist_2d[i].update != NULL)
 			{
-				renderlist_2d[i].update(renderlist_2d[i].object);
+				if((l=(SDL_GetTicks() - last_update)) > 1000)
+				{
+					renderlist_2d[i].update(renderlist_2d[i].object);
+					last_update = l;
+				}
 			}
 			renderlist_2d[i].draw(renderlist_2d[i].object);
 		}
