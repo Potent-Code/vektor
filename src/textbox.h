@@ -17,6 +17,7 @@ typedef struct
 {
 	float x;
 	float y;
+	float z;
 	int line_width;
 	int lines;
 	int data_len;
@@ -27,6 +28,8 @@ typedef struct
 	void (*draw)(void *);
 	void (*remove)(void *);
 } *textbox;
+
+extern textbox fps_disp;
 
 // methods
 extern textbox add_textbox(float x, float y, int line_width, int lines, int data_len);

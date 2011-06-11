@@ -4,6 +4,10 @@
 #ifndef VEKTOR_H
 #define VEKTOR_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <time.h>
 #include <stdint.h>
 
@@ -28,7 +32,7 @@ struct texture_coordinates
 	int row; // row index in frame matrix
 	float blx, bly;
 	float brx, bry;
-	float trx, try;
+	float trx, trny;
 	float tlx, tly;
 	struct texture_coordinates *next;
 };
@@ -92,6 +96,7 @@ typedef struct
 {
 	float x;
 	float y;
+	float z;
 	int line_width;
 	int lines;
 	int data_len;
@@ -123,6 +128,19 @@ typedef struct
 	void (*draw)(void *);
 	void (*remove)(void *);
 } *plant;
+
+typedef struct
+{
+	float x;
+	float y;
+	float z;
+	float w;
+	float h;
+	unsigned int *gl_id; // pointer to texture
+	void (*update)(void *);
+	void (*draw)(void *);
+	void (*remove)(void *);
+} *ground;
 
 // window stuff
 extern void quit(void);
@@ -192,5 +210,13 @@ extern plant add_plant(float x, float y, float l, float angle, unsigned int iter
 extern void draw_plant(void *pp);
 extern void free_plant(void *pp);
 extern unsigned int grow(plant p, unsigned int n);
+
+// ground methods
+extern ground add_ground(float x, float z, float w, float h, int texture_id);
+extern void draw_ground(void *bp);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

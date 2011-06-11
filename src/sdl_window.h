@@ -8,10 +8,10 @@
 
 #include "sdl.h"
 #include "input.h"
-#include "draw.h"
 #include "texture.h"
 #include "font.h"
 #include "scrollbar.h"
+#include "textbox.h"
 
 extern void quit(void);
 extern void resize(int w, int h);

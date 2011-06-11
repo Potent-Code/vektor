@@ -47,7 +47,7 @@ sprite player_sprite(float x, float y, float width, float height, GLuint texture
 		player->f->bry = (float)1./(float)hslices;
 
 		player->f->trx = (float)(i+1)/(float)wslices;
-		player->f->try = (float)2./(float)hslices;
+		player->f->trny = (float)2./(float)hslices;
 		
 		player->f->tlx = (float)i/(float)wslices;
 		player->f->tly = (float)2./(float)hslices;
@@ -137,7 +137,7 @@ void draw_player(void *p)
 		glTexCoord2f(player->f->tlx,player->f->tly);
 		glVertex2f(player->coords[0][0], player->coords[0][1]);
 
-		glTexCoord2f(player->f->trx,player->f->try);
+		glTexCoord2f(player->f->trx,player->f->trny);
 		glVertex2f(player->coords[1][0], player->coords[1][1]);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
