@@ -23,7 +23,7 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 	tb = malloc(sizeof(*tb));
 	tb->x = x;
 	tb->y = y;
-	tb->z = 0.01;
+	tb->z = 0.11;
 	tb->line_width = line_width;
 	tb->lines = lines;
 	tb->data_len = data_len;
@@ -140,6 +140,7 @@ void draw_textbox(void *tbp)
 	Uint32 tb_draw_time;
 	
 	// fonts have a transparent background, enable alpha blending
+	glDisable(GL_DEPTH_TEST);
 	glColor4f(1.0,1.0,1.0,1.0);
 	glEnable(GL_TEXTURE_2D);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -279,6 +280,7 @@ void draw_textbox(void *tbp)
 	{
 		draw_scrollbar(tb->sb);
 	}
+	glEnable(GL_DEPTH_TEST);
 }
 
 void free_textbox(void *tbp)

@@ -124,6 +124,11 @@ void intro(int logo)
 		glEnd();
 		glFlush();
 	}
+	
+	// add framerate counter
+	fps_disp = add_textbox(((float)window_w/2.)-80.,((float)window_h/2.)-4.,20,1,21);
+	fps_disp->z = 0.5;
+	
 	// draw whatever comes after this screen
 	render();
 }
@@ -169,8 +174,9 @@ void vektor_init(const char *title)
 	default_font = add_font("/usr/local/share/vektor/fonts/default.font");
 	logo_texture = add_texture("/usr/local/share/vektor/logo.texture");
 	sb_texture = add_texture("/usr/local/share/vektor/ui/scroll_bar.texture");
-	fps_disp = add_textbox(((float)window_w/2.)-80.,((float)window_h/2.)-4.,20,1,21);
-	fps_disp->z = 0.5;
+	//fps_disp = add_textbox(((float)window_w/2.)-80.,((float)window_h/2.)-4.,20,1,21);
+	//fps_disp = add_textbox(0,0,20,1,21);
+	//fps_disp->z = 0.5;
 }
 
 void vektor_run(void)
