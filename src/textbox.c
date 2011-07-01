@@ -4,6 +4,8 @@
 
 #include "textbox.h"
 
+textbox fps_disp;
+
 textbox add_textbox(float x, float y, int line_width, int lines, int data_len);
 void textbox_set_text(textbox tb, const char *str);
 void textbox_add_text(textbox tb, const char *str);
@@ -21,6 +23,7 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 	tb = malloc(sizeof(*tb));
 	tb->x = x;
 	tb->y = y;
+	tb->z = 0.11;
 	tb->line_width = line_width;
 	tb->lines = lines;
 	tb->data_len = data_len;
@@ -137,6 +140,7 @@ void draw_textbox(void *tbp)
 	Uint32 tb_draw_time;
 	
 	// fonts have a transparent background, enable alpha blending
+	glDisable(GL_DEPTH_TEST);
 	glColor4f(1.0,1.0,1.0,1.0);
 	glEnable(GL_TEXTURE_2D);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -231,13 +235,13 @@ void draw_textbox(void *tbp)
 			// draw a small quad in place with a font character texture mapped to it
 			x = tb->x + col*tb->f->w;
 			glTexCoord2f((float)(char_position+1)/94.,0);
-			glVertex3f(x + tb->f->w, tb->y + tb->f->h - (line_count*tb->f->h), 0.01);
+			glVertex3f(x + tb->f->w, tb->y + tb->f->h - (line_count*tb->f->h), tb->z);
 			glTexCoord2f((float)char_position/94.,0);
-			glVertex3f(x, tb->y + tb->f->h - (line_count*tb->f->h), 0.01);
+			glVertex3f(x, tb->y + tb->f->h - (line_count*tb->f->h), tb->z);
 			glTexCoord2f((float)char_position/94.,1);
-			glVertex3f(x, tb->y - (line_count*tb->f->h), 0.01);
+			glVertex3f(x, tb->y - (line_count*tb->f->h), tb->z);
 			glTexCoord2f((float)(char_position+1)/94.,1);
-			glVertex3f(x + tb->f->w, tb->y - (line_count*tb->f->h), 0.01);
+			glVertex3f(x + tb->f->w, tb->y - (line_count*tb->f->h), tb->z);
 			col++;
 		}
 		col=0;
@@ -276,6 +280,7 @@ void draw_textbox(void *tbp)
 	{
 		draw_scrollbar(tb->sb);
 	}
+	glEnable(GL_DEPTH_TEST);
 }
 
 void free_textbox(void *tbp)

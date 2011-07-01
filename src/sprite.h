@@ -16,7 +16,7 @@ struct texture_coordinates
 	int row; // row index in frame matrix
 	float blx, bly;
 	float brx, bry;
-	float trx, try;
+	float trx, trny;
 	float tlx, tly;
 	struct texture_coordinates *next;
 };

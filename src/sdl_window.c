@@ -13,7 +13,10 @@ void intro(int logo);
 
 int logo_texture=-1;
 int video_flags;
+int window_w;
+int window_h;
 SDL_Surface *surface;
+font default_font;
 
 void quit(void)
 {
@@ -55,6 +58,8 @@ void resize(int w, int h)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+	window_w = w;
+	window_h = h;
 }
 
 void intro(int logo)
@@ -67,7 +72,7 @@ void intro(int logo)
 	{
 		glDisable(GL_DEPTH_TEST);
 		glShadeModel(GL_SMOOTH);
-		glClearColor(0.0,0.0,0.0,0.0);
+		glClearColor(1.0,1.0,1.0,1.0);
 		glClear(GL_COLOR_BUFFER_BIT);
 	
 		glMatrixMode(GL_PROJECTION);
@@ -119,6 +124,11 @@ void intro(int logo)
 		glEnd();
 		glFlush();
 	}
+	
+	// add framerate counter
+	fps_disp = add_textbox(((float)window_w/2.)-80.,((float)window_h/2.)-4.,20,1,21);
+	fps_disp->z = 0.5;
+	
 	// draw whatever comes after this screen
 	render();
 }
@@ -161,9 +171,12 @@ void vektor_init(const char *title)
 	SDL_EnableKeyRepeat(150,20);
 	SDL_EnableUNICODE(1);
 
-	add_font("/usr/local/share/vektor/fonts/default.font");
+	default_font = add_font("/usr/local/share/vektor/fonts/default.font");
 	logo_texture = add_texture("/usr/local/share/vektor/logo.texture");
 	sb_texture = add_texture("/usr/local/share/vektor/ui/scroll_bar.texture");
+	//fps_disp = add_textbox(((float)window_w/2.)-80.,((float)window_h/2.)-4.,20,1,21);
+	//fps_disp = add_textbox(0,0,20,1,21);
+	//fps_disp->z = 0.5;
 }
 
 void vektor_run(void)

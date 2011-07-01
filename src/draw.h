@@ -7,6 +7,7 @@
 #define DRAW_H
 
 #include "sdl.h"
+#include "textbox.h"
 
 typedef struct
 {

@@ -44,11 +44,12 @@ void add_object_2d(void *obj, void (*draw)(void*), void (*update)(void*), void (
 void render(void)
 {
 	int i;
-	framecount++;
 
 	// examine this more carefully.
-	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_GEQUAL);
 	glShadeModel(GL_SMOOTH);
+	glClearColor(0.0,0.0,0.0,0.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 	
 	glMatrixMode(GL_PROJECTION);
@@ -61,22 +62,25 @@ void render(void)
 	glLoadIdentity();
 	
 	// draw 2d render list
+	// something better needs to be done about these
+	// draw/update functions. Right now the renderlist_2d[i] 
+	// function pointers are independent of the object function 
+	// pointers...
 	if(renderlist_2d != NULL)
 	{
 		for(i=0; i < renderobjs2d_count; i++)
 		{
 			if(renderlist_2d[i].update != NULL)
 			{
-				if((l=(SDL_GetTicks() - last_update)) > 1000)
+				//if((l=(SDL_GetTicks() - last_update)) > 1000)
 				{
 					renderlist_2d[i].update(renderlist_2d[i].object);
-					last_update = l;
+				//	last_update = l;
 				}
 			}
 			renderlist_2d[i].draw(renderlist_2d[i].object);
 		}
 	}
-
 
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
@@ -88,4 +92,14 @@ void render(void)
 
 	glEnd();
 	glFlush();
+
+	// update frames per second counter
+	framecount++;
+	if((l=(SDL_GetTicks() - last_update)) > 1000)
+	{
+		sprintf(fps_disp->data,"%.0f fps",(float)framecount/((float)l/1000.));
+		last_update = SDL_GetTicks();
+		framecount=0;
+	}
+	
 }
