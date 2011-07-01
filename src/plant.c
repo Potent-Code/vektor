@@ -34,18 +34,21 @@ void draw_plant(void *pp)
 
 	int i=0;
 
+	//glEnable(GL_DEPTH_TEST);
+	//glDepthFunc(GL_ALWAYS);
 	glColor3f(0.0,1.0,0.0);
 	glBegin(GL_LINES);
 	for(i=0; i < p->nbranches; i++)
 	{
 		if(i != 2)
 		{
-			glVertex3f(p->branches[i].x1,p->branches[i].y1,0.);
-			glVertex3f(p->branches[i].x2,p->branches[i].y2,0.);
+			glVertex3f(p->branches[i].x1,p->branches[i].y1,0.1);
+			glVertex3f(p->branches[i].x2,p->branches[i].y2,0.1);
 		}
 	}
 	
 	glEnd();
+	//glDepthFunc(GL_GEQUAL);
 }
 
 // add new branches to the plant

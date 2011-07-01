@@ -28,8 +28,6 @@ void draw_bitmap(void *bp)
 	// restore bitmap structure
 	bitmap b = bp;
 
-	glDisable(GL_DEPTH_TEST);
-
 	glColor3f(1.0,1.0,1.0);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, *b->gl_id);
@@ -40,6 +38,4 @@ void draw_bitmap(void *bp)
 		glTexCoord2f(1,1); glVertex3f(b->x + b->w, b->y, 0.1);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
-
-	glEnable(GL_DEPTH_TEST);
 }

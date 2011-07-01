@@ -8,6 +8,7 @@
 
 #include "sdl.h"
 #include "textbox.h"
+#include "camera.h"
 
 typedef struct
 {
@@ -19,9 +20,13 @@ typedef struct
 
 extern unsigned int framecount;
 extern int renderobjs2d_count;
+extern int renderobjs3d_count;
 extern render_object *renderlist_2d;
+extern render_object *renderlist_3d;
+extern camera cam;
 
 extern void add_object_2d(void *obj, void (*draw)(void*), void (*update)(void*), void (*remove)(void*));
+extern void add_object_3d(void *obj, void (*draw)(void*), void (*update)(void*), void (*remove)(void*));
 extern void render(void);
 
 #endif

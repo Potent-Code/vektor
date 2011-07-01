@@ -142,6 +142,18 @@ typedef struct
 	void (*remove)(void *);
 } *ground;
 
+typedef struct
+{
+	int x;
+	int y;
+	int w;
+	int h;
+	unsigned int *gl_id; // pointer to texture
+	void (*update)(void *);
+	void (*draw)(void *);
+	void (*remove)(void *);
+} *pyramid;
+
 // window stuff
 extern void quit(void);
 extern void resize(int w, int h);
@@ -168,9 +180,12 @@ extern void (*return_func)(char*);
 // draw methods
 extern void render(void);
 extern void add_object_2d(void *obj, void (*draw)(void*), void (*update)(void*), void (*remove)(void*));
+extern void add_object_3d(void *obj, void (*draw)(void*), void (*update)(void*), void (*remove)(void*));
 // draw globals
 extern int renderobjs2d_count;
+extern int renderobjs3d_count;
 extern render_object *renderlist_2d;
+extern render_object *renderlist_3d;
 
 // sprite methods
 extern void get_coords(sprite s);
@@ -214,6 +229,10 @@ extern unsigned int grow(plant p, unsigned int n);
 // ground methods
 extern ground add_ground(float x, float z, float w, float h, int texture_id);
 extern void draw_ground(void *bp);
+
+// pyramid methods
+extern pyramid add_pyramid(int x, int y, int w, int h, int texture_id);
+extern void draw_pyramid(void *pp);
 
 #ifdef __cplusplus
 }

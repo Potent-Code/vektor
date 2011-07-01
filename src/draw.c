@@ -10,9 +10,12 @@ void render(void);
 
 unsigned int framecount=0;
 int renderobjs2d_count=0;
+int renderobjs3d_count=0;
 render_object *renderlist_2d;
+render_object *renderlist_3d;
 Uint32 last_update=0;
 Uint32 l;
+camera cam;
 
 void add_object_2d(void *obj, void (*draw)(void*), void (*update)(void*), void (*remove)(void*))
 {
@@ -40,6 +43,30 @@ void add_object_2d(void *obj, void (*draw)(void*), void (*update)(void*), void (
 	}
 }
 
+void add_object_3d(void *obj, void (*draw)(void*), void (*update)(void*), void(*remove)(void*))
+{
+	if(renderlist_3d == NULL)
+	{
+		renderlist_3d = malloc(sizeof(*renderlist_3d)*20);
+	}
+
+	if(obj != NULL & draw != NULL)
+	{
+		renderlist_3d[renderobjs3d_count].object = obj;
+		renderlist_3d[renderobjs3d_count].draw = draw;
+		renderlist_3d[renderobjs3d_count].update = update;
+
+		if(remove == NULL)
+		{
+			renderlist_3d[renderobjs3d_count].remove = &free;
+		}
+		else
+		{
+			renderlist_3d[renderobjs3d_count].remove = remove;
+		}
+		renderobjs3d_count++;
+	}
+}
 	
 void render(void)
 {
@@ -47,25 +74,43 @@ void render(void)
 
 	// examine this more carefully.
 	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_GEQUAL);
+	glDepthFunc(GL_LEQUAL);
+	glClearDepth(1.0f);
 	glShadeModel(GL_SMOOTH);
 	glClearColor(0.0,0.0,0.0,0.0);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-	gluOrtho2D(-512,512,-384,384);
+	gluOrtho2D(-2.,2.,-1.5,1.5);
 
-	glMatrixMode(GL_MODELVIEW);
+	camera_mouselook(cam);
+	camera_matrix(cam);
+	//SDL_WarpMouse(512,384);
+	/*glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
-	glLoadIdentity();
-	
+	glLoadIdentity();*/
+
+	// draw 3d render list
+	if(renderlist_3d != NULL)
+	{
+		for(i = 0; i < renderobjs3d_count; i++)
+		{
+			if(renderlist_3d[i].update != NULL)
+			{
+				renderlist_3d[i].update(renderlist_3d[i].object);
+			}
+			renderlist_3d[i].draw(renderlist_3d[i].object);
+		}
+	}
+
 	// draw 2d render list
 	// something better needs to be done about these
 	// draw/update functions. Right now the renderlist_2d[i] 
 	// function pointers are independent of the object function 
 	// pointers...
+	glDisable(GL_DEPTH_TEST);
 	if(renderlist_2d != NULL)
 	{
 		for(i=0; i < renderobjs2d_count; i++)
@@ -82,8 +127,8 @@ void render(void)
 		}
 	}
 
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
+/*	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();*/
 
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();

@@ -19,6 +19,8 @@ int ib_count=0;
 int mouse_state=0;
 int mouse_x=0;
 int mouse_y=0;
+int last_mouse_x=0;
+int last_mouse_y=0;
 
 void get_key(SDL_keysym *keysym)
 {
@@ -40,6 +42,18 @@ void get_key(SDL_keysym *keysym)
 				input_buffer[ib_count-1]='\0';
 				ib_count--;
 			}
+			break;
+		case SDLK_UP:
+			cam->position[2]+=10;
+			break;
+		case SDLK_DOWN:
+			cam->position[2]-=10;
+			break;
+		case SDLK_LEFT:
+			cam->position[0]-=10;
+			break;
+		case SDLK_RIGHT:
+			cam->position[0]+=10;
 			break;
 		case SDLK_RETURN:
 			if(return_func != NULL)

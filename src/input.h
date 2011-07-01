@@ -9,6 +9,7 @@
 
 #include "sdl_window.h"
 #include "textbox.h"
+#include "draw.h"
 
 // methods
 extern void get_key(SDL_keysym *keysym);
@@ -26,5 +27,7 @@ extern int ib_len;
 extern int mouse_state;
 extern int mouse_x;
 extern int mouse_y;
+extern int last_mouse_x;
+extern int last_mouse_y;
 
 #endif
