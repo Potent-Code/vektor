@@ -236,6 +236,7 @@ void vektor_run(void)
 					break;
 				case SDL_MOUSEMOTION:
 					SDL_GetMouseState(&mouse_x, &mouse_y);
+					camera_mouselook(cam);
 					mouse_x -= 512;
 					mouse_y = (768-mouse_y)-384;
 					break;

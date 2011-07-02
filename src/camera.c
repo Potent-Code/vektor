@@ -93,9 +93,21 @@ void camera_matrix(camera c)
 
 void camera_mouselook(camera c)
 {
-	float yaw = -2*M_PI*mouse_x;
-	//c->forward[0] = (c->forward[0]*cos(yaw)) + (c->forward[2]*sin(yaw));
-	//c->forward[2] = (c->forward[2]*cos(yaw)) - (c->forward[0]*sin(yaw));
-	
-	glRotatef(yaw,0.,1.,0.);
+	float dx = 2*M_PI*(mouse_x - last_mouse_x)/window_w;
+	float dy = M_PI*(mouse_y - last_mouse_y)/window_h;
+
+	// rotate by dy around x axis
+	c->forward[1] = (c->forward[1]*cos(dy)) - (c->forward[2]*sin(dy));
+	c->forward[2] = (c->forward[2]*cos(dy)) + (c->forward[1]*sin(dy));
+	c->up[1] = (c->up[1]*cos(dy)) - (c->up[2]*sin(dy));
+	c->up[2] = (c->up[2]*cos(dy)) - (c->up[1]*sin(dy));
+
+	// rotate by dx around y axis
+	c->forward[0] = (c->forward[0]*cos(dx)) + (c->forward[2]*sin(dx));
+	c->forward[2] = (c->forward[2]*cos(dx)) - (c->forward[0]*sin(dx));
+	c->up[0] = (c->up[0]*cos(dx)) + (c->forward[2]*sin(dx));
+	c->up[2] = (c->up[2]*cos(dx)) - (c->up[0]*sin(dx));
+
+	last_mouse_x = mouse_x;
+	last_mouse_y = mouse_y;
 }

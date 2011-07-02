@@ -85,7 +85,7 @@ void render(void)
 	glLoadIdentity();
 	gluOrtho2D(-2.,2.,-1.5,1.5);
 
-	camera_mouselook(cam);
+	//camera_mouselook(cam);
 	camera_matrix(cam);
 	//SDL_WarpMouse(512,384);
 	/*glMatrixMode(GL_MODELVIEW);
