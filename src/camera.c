@@ -98,8 +98,6 @@ void camera_mouselook(camera c)
 	float dx = 2*M_PI*(mouse_x - last_mouse_x)/window_w;
 	float dy = M_PI*(last_mouse_y - mouse_y)/window_h;
 	float tmp;
-	float mag_for;
-	float mag_up;
 
 	// rotate by dy around x axis
 	tmp = (c->forward[1]*cos(dy)) - (c->forward[2]*sin(dy));
@@ -117,9 +115,6 @@ void camera_mouselook(camera c)
 	c->up[2] = (c->up[2]*cos(dx)) - (c->up[0]*sin(dx));
 	c->up[0] = tmp;
 
-	mag_for = sqrt((c->forward[0]*c->forward[0]) + (c->forward[1]*c->forward[1])+(c->forward[2]*c->forward[2]));
-	mag_up = sqrt((c->up[0]*c->up[0]) + (c->up[1]*c->up[1])+(c->up[2]*c->up[2]));
-	fprintf(stderr,"|f| = %.2f\n|u| = %.2f\n",mag_for,mag_up);
 	last_mouse_x = mouse_x;
 	last_mouse_y = mouse_y;
 }
