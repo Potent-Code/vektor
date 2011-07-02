@@ -128,7 +128,7 @@ void render(void)
 	}
 
 	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
+	//glPopMatrix();
 	glPopMatrix();
 
 	glMatrixMode(GL_PROJECTION);

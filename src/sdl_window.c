@@ -129,7 +129,7 @@ void intro(int logo)
 	fps_disp = add_textbox(((float)window_w/2.)-80.,((float)window_h/2.)-4.,20,1,21);
 	fps_disp->z = 0.5;
 
-	cam = add_camera(0.,0.,-1.);
+	cam = add_camera(0.,0.,0.);
 	// draw whatever comes after this screen
 	render();
 }
@@ -236,9 +236,9 @@ void vektor_run(void)
 					break;
 				case SDL_MOUSEMOTION:
 					SDL_GetMouseState(&mouse_x, &mouse_y);
-					camera_mouselook(cam);
 					mouse_x -= 512;
 					mouse_y = (768-mouse_y)-384;
+					camera_mouselook(cam);
 					break;
 				case SDL_QUIT:
 					done = 1;

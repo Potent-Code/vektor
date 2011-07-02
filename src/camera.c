@@ -96,7 +96,7 @@ void camera_matrix(camera c)
 void camera_mouselook(camera c)
 {
 	float dx = 2*M_PI*(mouse_x - last_mouse_x)/window_w;
-	float dy = M_PI*(mouse_y - last_mouse_y)/window_h;
+	float dy = M_PI*(last_mouse_y - mouse_y)/window_h;
 	float tmp;
 	float mag_for;
 	float mag_up;
@@ -113,7 +113,7 @@ void camera_mouselook(camera c)
 	tmp = (c->forward[0]*cos(dx)) + (c->forward[2]*sin(dx));
 	c->forward[2] = (c->forward[2]*cos(dx)) - (c->forward[0]*sin(dx));
 	c->forward[0] = tmp;
-	tmp = (c->up[0]*cos(dx)) + (c->forward[2]*sin(dx));
+	tmp = (c->up[0]*cos(dx)) + (c->up[2]*sin(dx));
 	c->up[2] = (c->up[2]*cos(dx)) - (c->up[0]*sin(dx));
 	c->up[0] = tmp;
 
