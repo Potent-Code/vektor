@@ -85,12 +85,10 @@ void render(void)
 	glLoadIdentity();
 	gluOrtho2D(-2.,2.,-1.5,1.5);
 
-	//camera_mouselook(cam);
-	camera_matrix(cam);
-	//SDL_WarpMouse(512,384);
-	/*glMatrixMode(GL_MODELVIEW);
+	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
-	glLoadIdentity();*/
+	glLoadIdentity();
+	camera_matrix(cam);
 
 	// draw 3d render list
 	if(renderlist_3d != NULL)
@@ -113,8 +111,6 @@ void render(void)
 	
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
-	glPushMatrix();
-	glLoadIdentity();
 
 	// draw 2d render list
 	// something better needs to be done about these
@@ -128,26 +124,19 @@ void render(void)
 		{
 			if(renderlist_2d[i].update != NULL)
 			{
-				//if((l=(SDL_GetTicks() - last_update)) > 1000)
-				{
-					renderlist_2d[i].update(renderlist_2d[i].object);
-				//	last_update = l;
-				}
+				renderlist_2d[i].update(renderlist_2d[i].object);
 			}
 			renderlist_2d[i].draw(renderlist_2d[i].object);
 		}
 	}
 
 	glMatrixMode(GL_MODELVIEW);
-	//glPopMatrix();
 	glPopMatrix();
 
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 
 	SDL_GL_SwapBuffers();
-
-//	glEnd();
 	glFlush();
 
 	// update frames per second counter

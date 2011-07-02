@@ -87,8 +87,6 @@ void camera_matrix(camera c)
 	m[15] = 1.;
 	
 	glMatrixMode(GL_MODELVIEW);
-	/*glPushMatrix();
-	glLoadIdentity();*/
 	glPushMatrix();
 	glLoadMatrixf(m);
 }
