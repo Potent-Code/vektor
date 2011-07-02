@@ -104,6 +104,17 @@ void render(void)
 			renderlist_3d[i].draw(renderlist_3d[i].object);
 		}
 	}
+	
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glPushMatrix();
+	glLoadIdentity();
+	gluOrtho2D(-512.,512.,-384.,384.);
+	
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+	glPushMatrix();
+	glLoadIdentity();
 
 	// draw 2d render list
 	// something better needs to be done about these
@@ -136,7 +147,7 @@ void render(void)
 
 	SDL_GL_SwapBuffers();
 
-	glEnd();
+//	glEnd();
 	glFlush();
 
 	// update frames per second counter
