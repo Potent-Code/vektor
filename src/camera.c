@@ -87,6 +87,8 @@ void camera_matrix(camera c)
 	m[15] = 1.;
 	
 	glMatrixMode(GL_MODELVIEW);
+	/*glPushMatrix();
+	glLoadIdentity();*/
 	glPushMatrix();
 	glLoadMatrixf(m);
 }
@@ -95,19 +97,29 @@ void camera_mouselook(camera c)
 {
 	float dx = 2*M_PI*(mouse_x - last_mouse_x)/window_w;
 	float dy = M_PI*(mouse_y - last_mouse_y)/window_h;
+	float tmp;
+	float mag_for;
+	float mag_up;
 
 	// rotate by dy around x axis
-	c->forward[1] = (c->forward[1]*cos(dy)) - (c->forward[2]*sin(dy));
+	tmp = (c->forward[1]*cos(dy)) - (c->forward[2]*sin(dy));
 	c->forward[2] = (c->forward[2]*cos(dy)) + (c->forward[1]*sin(dy));
-	c->up[1] = (c->up[1]*cos(dy)) - (c->up[2]*sin(dy));
-	c->up[2] = (c->up[2]*cos(dy)) - (c->up[1]*sin(dy));
+	c->forward[1] = tmp;
+	tmp = (c->up[1]*cos(dy)) - (c->up[2]*sin(dy));
+	c->up[2] = (c->up[2]*cos(dy)) + (c->up[1]*sin(dy));
+	c->up[1] = tmp;
 
 	// rotate by dx around y axis
-	c->forward[0] = (c->forward[0]*cos(dx)) + (c->forward[2]*sin(dx));
+	tmp = (c->forward[0]*cos(dx)) + (c->forward[2]*sin(dx));
 	c->forward[2] = (c->forward[2]*cos(dx)) - (c->forward[0]*sin(dx));
-	c->up[0] = (c->up[0]*cos(dx)) + (c->forward[2]*sin(dx));
+	c->forward[0] = tmp;
+	tmp = (c->up[0]*cos(dx)) + (c->forward[2]*sin(dx));
 	c->up[2] = (c->up[2]*cos(dx)) - (c->up[0]*sin(dx));
+	c->up[0] = tmp;
 
+	mag_for = sqrt((c->forward[0]*c->forward[0]) + (c->forward[1]*c->forward[1])+(c->forward[2]*c->forward[2]));
+	mag_up = sqrt((c->up[0]*c->up[0]) + (c->up[1]*c->up[1])+(c->up[2]*c->up[2]));
+	fprintf(stderr,"|f| = %.2f\n|u| = %.2f\n",mag_for,mag_up);
 	last_mouse_x = mouse_x;
 	last_mouse_y = mouse_y;
 }

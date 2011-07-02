@@ -54,7 +54,7 @@ void resize(int w, int h)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	gluPerspective(45.0f,aspect,0.1f,100.0f);
+	gluPerspective(45.0f,aspect,0.1f,10000.0f);
 
 	//glMatrixMode(GL_MODELVIEW);
 	//glLoadIdentity();
@@ -129,7 +129,7 @@ void intro(int logo)
 	fps_disp = add_textbox(((float)window_w/2.)-80.,((float)window_h/2.)-4.,20,1,21);
 	fps_disp->z = 0.5;
 
-	cam = add_camera(0.,0.,0.);
+	cam = add_camera(0.,0.,-1.);
 	// draw whatever comes after this screen
 	render();
 }
