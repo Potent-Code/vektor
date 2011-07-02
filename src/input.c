@@ -44,16 +44,16 @@ void get_key(SDL_keysym *keysym)
 			}
 			break;
 		case SDLK_UP:
-			cam->position[2]+=10;
+			cam->position[2]+=1;
 			break;
 		case SDLK_DOWN:
-			cam->position[2]-=10;
+			cam->position[2]-=1;
 			break;
 		case SDLK_LEFT:
-			cam->position[0]-=10;
+			cam->position[0]-=1;
 			break;
 		case SDLK_RIGHT:
-			cam->position[0]+=10;
+			cam->position[0]+=1;
 			break;
 		case SDLK_RETURN:
 			if(return_func != NULL)
