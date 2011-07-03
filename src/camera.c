@@ -18,6 +18,10 @@ camera add_camera(float x, float y, float z)
 	c->position[0] = x;
 	c->position[1] = y;
 	c->position[2] = z;
+	// unit x vector
+	c->x[0] = 1.;
+	c->x[1] = 0.;
+	c->x[2] = 0.;
 	// unit y up vector
 	c->up[0] = 0.;
 	c->up[1] = 1.;
@@ -57,15 +61,14 @@ int e_ijk(int i, int j, int k)
 void camera_matrix(camera c)
 {
 	GLfloat m[16];
-	float x[3];
 
 	// find y x z
-	vector_cross(c->up,c->forward,x);
+	vector_cross(c->up,c->forward,c->x);
 
 	// x vector
-	m[0] = x[0];
-	m[1] = x[1];
-	m[2] = x[2];
+	m[0] = c->x[0];
+	m[1] = c->x[1];
+	m[2] = c->x[2];
 	m[3] = 0.;
 
 	// up

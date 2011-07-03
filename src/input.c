@@ -21,6 +21,7 @@ int mouse_x=0;
 int mouse_y=0;
 int last_mouse_x=0;
 int last_mouse_y=0;
+float move=10.;
 
 void get_key(SDL_keysym *keysym)
 {
@@ -43,17 +44,25 @@ void get_key(SDL_keysym *keysym)
 				ib_count--;
 			}
 			break;
-		case SDLK_UP:
-			cam->position[2]+=1;
+		case SDLK_w:
+			cam->position[0] += move*cam->forward[0];
+			cam->position[1] += move*cam->forward[1];
+			cam->position[2] += move*cam->forward[2];
 			break;
-		case SDLK_DOWN:
-			cam->position[2]-=1;
+		case SDLK_s:
+			cam->position[0] -= move*cam->forward[0];
+			cam->position[1] -= move*cam->forward[1];
+			cam->position[2] -= move*cam->forward[2];
 			break;
-		case SDLK_LEFT:
-			cam->position[0]-=1;
+		case SDLK_a:
+			cam->position[0] -= move*cam->x[0];
+			cam->position[1] -= move*cam->x[1];
+			cam->position[2] -= move*cam->x[2];
 			break;
-		case SDLK_RIGHT:
-			cam->position[0]+=1;
+		case SDLK_d:
+			cam->position[0] += move*cam->x[0];
+			cam->position[1] += move*cam->x[1];
+			cam->position[2] += move*cam->x[2];
 			break;
 		case SDLK_RETURN:
 			if(return_func != NULL)

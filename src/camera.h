@@ -12,6 +12,7 @@ typedef struct
 	float position[3];
 	float up[3];
 	float forward[3];
+	float x[3];
 } *camera;
 
 #include "sdl_window.h"

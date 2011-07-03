@@ -51,8 +51,8 @@ void resize(int w, int h)
 
 	glViewport(0, 0, (GLint)w, (GLint)h);
 	
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
+	//glMatrixMode(GL_PROJECTION);
+	//glLoadIdentity();
 
 	gluPerspective(45.0f,aspect,0.1f,10000.0f);
 
