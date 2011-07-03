@@ -55,14 +55,14 @@ void get_key(SDL_keysym *keysym)
 			cam->position[2] -= move*cam->forward[2];
 			break;
 		case SDLK_a:
-			cam->position[0] -= move*cam->x[0];
+			cam->position[0] += move*cam->x[0];
 			//cam->position[1] -= move*cam->x[1];
-			cam->position[2] -= move*cam->x[2];
+			cam->position[2] += move*cam->x[2];
 			break;
 		case SDLK_d:
-			cam->position[0] += move*cam->x[0];
+			cam->position[0] -= move*cam->x[0];
 			//cam->position[1] += move*cam->x[1];
-			cam->position[2] += move*cam->x[2];
+			cam->position[2] -= move*cam->x[2];
 			break;
 		case SDLK_RETURN:
 			if(return_func != NULL)
