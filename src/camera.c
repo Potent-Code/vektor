@@ -9,6 +9,11 @@ void vector_cross(float *a, float *b, float *c);
 int e_ijk(int i, int j, int k);
 void camera_matrix(camera c);
 void camera_mouselook(camera c);
+void camera_move(int direction);
+
+float cam_speed=10.;
+GLfloat rotation[16];
+GLfloat translation[16];
 
 camera add_camera(float x, float y, float z)
 {
@@ -61,8 +66,6 @@ int e_ijk(int i, int j, int k)
 void camera_matrix(camera c)
 {
 	int i;
-	GLfloat rotation[16];
-	GLfloat translation[16];
 
 	// find y x z
 	vector_cross(c->up,c->forward,c->x);
@@ -101,9 +104,9 @@ void camera_matrix(camera c)
 	translation[10]=1.;
 	translation[15]=1.;
 
-	translation[12] = -c->position[0];
-	translation[13] = -c->position[1];
-	translation[14] = -c->position[2];
+	translation[12] = c->position[0];
+	translation[13] = c->position[1];
+	translation[14] = c->position[2];
 
 	
 	glMatrixMode(GL_MODELVIEW);
@@ -138,4 +141,29 @@ void camera_mouselook(camera c)
 
 	last_mouse_x = mouse_x;
 	last_mouse_y = mouse_y;
+}
+
+void camera_move(int direction)
+{
+	switch(direction)
+	{
+		case CAMERA_FORWARD:
+			cam->position[0] -= cam_speed*cam->forward[0];
+			cam->position[2] += cam_speed*cam->forward[2];
+			break;
+		case CAMERA_BACKWARD:
+			cam->position[0] += cam_speed*cam->forward[0];
+			cam->position[2] -= cam_speed*cam->forward[2];
+			break;
+		case CAMERA_LEFT:
+			cam->position[0] += cam_speed*cam->x[0];
+			cam->position[2] -= cam_speed*cam->x[2];
+			break;
+		case CAMERA_RIGHT:
+			cam->position[0] -= cam_speed*cam->x[0];
+			cam->position[2] += cam_speed*cam->x[2];
+			break;
+		default:
+			break;
+	}
 }
