@@ -101,9 +101,9 @@ void camera_matrix(camera c)
 	translation[10]=1.;
 	translation[15]=1.;
 
-	translation[12] = c->position[0];
-	translation[13] = c->position[1];
-	translation[14] = c->position[2];
+	translation[12] = -c->position[0];
+	translation[13] = -c->position[1];
+	translation[14] = -c->position[2];
 
 	
 	glMatrixMode(GL_MODELVIEW);
