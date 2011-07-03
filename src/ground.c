@@ -14,13 +14,13 @@ ground add_ground(float x, float z, float w, float h, int texture_id)
 	// allocate and initialize a new ground
 	g = malloc(sizeof(*g));
 	g->x = x;
-	g->y = -350.;
+	g->y = -100.;
 	g->z = z;
 	g->w = w;
 	g->h = h;
 	g->gl_id = textures[texture_id].gl_id;
 
-	add_object_2d(g, &draw_ground, NULL, NULL);
+	add_object_3d(g, &draw_ground, NULL, NULL);
 	return g;
 }
 
