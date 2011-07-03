@@ -30,7 +30,7 @@ void draw_pyramid(void *pp)
 
 	glColor3f(1.0,1.0,1.0);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, *pp->gl_id);
+	glBindTexture(GL_TEXTURE_2D, *p->gl_id);
 
 	glBegin(GL_TRIANGLES);
 		glVertex3f( 0.0f, 100.0f, 0.0f);			// Top Of Triangle (Front)
