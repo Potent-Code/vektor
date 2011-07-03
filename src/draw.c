@@ -87,7 +87,7 @@ void render(void)
 	//gluOrtho2D(-2.,2.,-1.5,1.5);
 
 	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
+	//glPushMatrix();
 	glLoadIdentity();
 	camera_matrix(cam);
 
@@ -110,8 +110,9 @@ void render(void)
 	glLoadIdentity();
 	gluOrtho2D(-512.,512.,-384.,384.);
 	
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
+	//glMatrixMode(GL_MODELVIEW);
+	//glPopMatrix();
+	//glPopMatrix();
 
 	// draw 2d render list
 	// something better needs to be done about these
@@ -133,7 +134,7 @@ void render(void)
 
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
-
+	glPopMatrix();
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 

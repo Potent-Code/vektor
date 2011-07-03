@@ -60,38 +60,58 @@ int e_ijk(int i, int j, int k)
 
 void camera_matrix(camera c)
 {
-	GLfloat m[16];
+	int i;
+	GLfloat rotation[16];
+	GLfloat translation[16];
 
 	// find y x z
 	vector_cross(c->up,c->forward,c->x);
 
 	// x vector
-	m[0] = c->x[0];
-	m[1] = c->x[1];
-	m[2] = c->x[2];
-	m[3] = 0.;
+	rotation[0] = c->x[0];
+	rotation[1] = c->x[1];
+	rotation[2] = c->x[2];
+	rotation[3] = 0.;
 
 	// up
-	m[4] = c->up[0];
-	m[5] = c->up[1];
-	m[6] = c->up[2];
-	m[7] = 0.;
+	rotation[4] = c->up[0];
+	rotation[5] = c->up[1];
+	rotation[6] = c->up[2];
+	rotation[7] = 0.;
 
 	// forward
-	m[8] = c->forward[0];
-	m[9] = c->forward[1];
-	m[10] = c->forward[2];
-	m[11] = 0.;
+	rotation[8] = c->forward[0];
+	rotation[9] = c->forward[1];
+	rotation[10] = c->forward[2];
+	rotation[11] = 0.;
 
 	// translation
-	m[12] = c->position[0];
-	m[13] = c->position[1];
-	m[14] = c->position[2];
-	m[15] = 1.;
+	rotation[12] = 0.;
+	rotation[13] = 0.;
+	rotation[14] = 0.;
+	rotation[15] = 1.;
+
+	// set up an identity matrix
+	for(i=0;i<16;i++)
+	{
+		translation[i]=0.;
+	}
+	translation[0]=1.;
+	translation[5]=1.;
+	translation[10]=1.;
+	translation[15]=1.;
+
+	translation[12] = c->position[0];
+	translation[13] = c->position[1];
+	translation[14] = c->position[2];
+
 	
 	glMatrixMode(GL_MODELVIEW);
+//	glPushMatrix();
+//	glLoadMatrixf(translation);
 	glPushMatrix();
-	glLoadMatrixf(m);
+	glLoadMatrixf(rotation);
+	glMultMatrixf(translation);
 }
 
 void camera_mouselook(camera c)
