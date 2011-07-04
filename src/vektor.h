@@ -154,6 +154,15 @@ typedef struct
 	void (*remove)(void *);
 } *pyramid;
 
+typedef struct
+{
+	float x;
+	float y;
+	float z;
+	float h;
+	unsigned int *gl_id;
+} *skybox;
+
 // window stuff
 extern void quit(void);
 extern void resize(int w, int h);
@@ -233,6 +242,10 @@ extern void draw_ground(void *bp);
 // pyramid methods
 extern pyramid add_pyramid(int x, int y, int w, int h, int texture_id);
 extern void draw_pyramid(void *pp);
+
+// skybox methods
+extern skybox add_skybox(float x, float y, float z, float h, int texture_id);
+extern void draw_skybox(void *sp);
 
 #ifdef __cplusplus
 }

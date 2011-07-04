@@ -81,11 +81,11 @@ am__libvektor_la_SOURCES_DIST = image.h sdl.h sdl_window.h \
 	sprite.h sprite.c player.h player.c draw.h draw.c bitmap.h \
 	bitmap.c font.h font.c textbox.h textbox.c scrollbar.h \
 	scrollbar.c plant.h plant.c ground.h ground.c camera.h \
-	camera.c pyramid.h pyramid.c SDLMain.m
+	camera.c pyramid.h pyramid.c skybox.h skybox.c SDLMain.m
 @DARWIN_TRUE@am__objects_1 = SDLMain.lo
 am_libvektor_la_OBJECTS = sdl_window.lo texture.lo input.lo net.lo \
 	sprite.lo player.lo draw.lo bitmap.lo font.lo textbox.lo \
-	scrollbar.lo plant.lo ground.lo camera.lo pyramid.lo \
+	scrollbar.lo plant.lo ground.lo camera.lo pyramid.lo skybox.lo \
 	$(am__objects_1)
 libvektor_la_OBJECTS = $(am_libvektor_la_OBJECTS)
 libvektor_la_LINK = $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
@@ -251,7 +251,7 @@ libvektor_la_SOURCES = image.h sdl.h sdl_window.h sdl_window.c \
 	sprite.c player.h player.c draw.h draw.c bitmap.h bitmap.c \
 	font.h font.c textbox.h textbox.c scrollbar.h scrollbar.c \
 	plant.h plant.c ground.h ground.c camera.h camera.c pyramid.h \
-	pyramid.c $(am__append_1)
+	pyramid.c skybox.h skybox.c $(am__append_1)
 @DARWIN_FALSE@libvektor_la_LDFLAGS = -lSDL -lGL -lGLU
 @DARWIN_TRUE@libvektor_la_LDFLAGS = -framework SDL -framework OpenGL
 include_HEADERS = vektor.h
@@ -409,6 +409,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pyramid.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scrollbar.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sdl_window.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/skybox.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sprite.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/textbox.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/texture.Plo@am__quote@

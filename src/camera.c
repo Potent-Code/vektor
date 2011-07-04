@@ -11,7 +11,7 @@ void camera_matrix(camera c);
 void camera_mouselook(camera c);
 void camera_move(int direction);
 
-float cam_speed=10.;
+float cam_speed=15.;
 GLfloat rotation[16];
 GLfloat translation[16];
 

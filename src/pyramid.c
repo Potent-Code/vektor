@@ -1,6 +1,6 @@
 /* A colored 3D pyramid
  * by Ryan Lucchese
- * June 28 20100100 */
+ * June 28 2011 */
 
 #include "pyramid.h"
 

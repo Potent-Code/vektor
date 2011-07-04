@@ -84,13 +84,11 @@ void render(void)
 	glPushMatrix();
 	glLoadIdentity();
 	gluPerspective(45.0f,(float)window_w/(float)window_h,0.1f,10000.0f);
-	//gluOrtho2D(-2.,2.,-1.5,1.5);
 
 	glMatrixMode(GL_MODELVIEW);
-	//glPushMatrix();
 	glLoadIdentity();
 	camera_matrix(cam);
-
+	
 	// draw 3d render list
 	if(renderlist_3d != NULL)
 	{
@@ -110,9 +108,8 @@ void render(void)
 	glLoadIdentity();
 	gluOrtho2D(-512.,512.,-384.,384.);
 	
-	//glMatrixMode(GL_MODELVIEW);
-	//glPopMatrix();
-	//glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
 
 	// draw 2d render list
 	// something better needs to be done about these
