@@ -12,6 +12,7 @@ void camera_mouselook(camera c);
 void camera_move(int direction);
 
 float cam_speed=15.;
+float dx,dy;
 GLfloat rotation[16];
 GLfloat translation[16];
 
@@ -119,8 +120,8 @@ void camera_matrix(camera c)
 
 void camera_mouselook(camera c)
 {
-	float dx = 2*M_PI*(mouse_x - last_mouse_x)/window_w;
-	float dy = M_PI*(last_mouse_y - mouse_y)/window_h;
+	dx += 2*M_PI*(mouse_x - last_mouse_x)/window_w;
+	dy += M_PI*(last_mouse_y - mouse_y)/window_h;
 	float tmp;
 
 	// rotate by dy around x axis
@@ -141,6 +142,7 @@ void camera_mouselook(camera c)
 
 	last_mouse_x = mouse_x;
 	last_mouse_y = mouse_y;
+	SDL_WarpMouse(512,384);
 }
 
 void camera_move(int direction)
