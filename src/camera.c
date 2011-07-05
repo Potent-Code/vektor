@@ -1,7 +1,7 @@
 /* camera
  * by Ryan Lucchese
  * June 7 2011 */
-
+#include <stdio.h>
 #include "camera.h"
 
 camera add_camera(float x, float y, float z);
@@ -12,7 +12,8 @@ void camera_mouselook(camera c);
 void camera_move(int direction);
 
 float cam_speed=15.;
-float dx,dy;
+float dx=0;
+float dy=0;
 GLfloat rotation[16];
 GLfloat translation[16];
 
@@ -123,7 +124,23 @@ void camera_mouselook(camera c)
 	dx += 2*M_PI*(mouse_x - last_mouse_x)/window_w;
 	dy += M_PI*(last_mouse_y - mouse_y)/window_h;
 	float tmp;
+	//fprintf(stderr,"dx=%.7f\tdy=%.7f\n",dx,dy);
+	// rotate by dy around x axis
+	/*tmp = (c->forward[1]*cos(dy)) - (c->forward[2]*sin(dy));
+	c->forward[2] = (c->forward[2]*cos(dy)) + (c->forward[1]*sin(dy));
+	c->forward[1] = tmp;
+	tmp = (c->up[1]*cos(dy)) - (c->up[2]*sin(dy));
+	c->up[2] = (c->up[2]*cos(dy)) + (c->up[1]*sin(dy));
+	c->up[1] = tmp;*/
 
+	// rotate by dx around y axis
+	tmp = (c->forward[0]*cos(dx)) + (c->forward[2]*sin(dx));
+	c->forward[2] = (c->forward[2]*cos(dx)) - (c->forward[0]*sin(dx));
+	c->forward[0] = tmp;
+	//tmp = (c->up[0]*cos(dx)) + (c->up[2]*sin(dx));
+	//c->up[2] = (c->up[2]*cos(dx)) - (c->up[0]*sin(dx));
+	//c->up[0] = tmp;
+	
 	// rotate by dy around x axis
 	tmp = (c->forward[1]*cos(dy)) - (c->forward[2]*sin(dy));
 	c->forward[2] = (c->forward[2]*cos(dy)) + (c->forward[1]*sin(dy));
@@ -131,14 +148,6 @@ void camera_mouselook(camera c)
 	tmp = (c->up[1]*cos(dy)) - (c->up[2]*sin(dy));
 	c->up[2] = (c->up[2]*cos(dy)) + (c->up[1]*sin(dy));
 	c->up[1] = tmp;
-
-	// rotate by dx around y axis
-	tmp = (c->forward[0]*cos(dx)) + (c->forward[2]*sin(dx));
-	c->forward[2] = (c->forward[2]*cos(dx)) - (c->forward[0]*sin(dx));
-	c->forward[0] = tmp;
-	tmp = (c->up[0]*cos(dx)) + (c->up[2]*sin(dx));
-	c->up[2] = (c->up[2]*cos(dx)) - (c->up[0]*sin(dx));
-	c->up[0] = tmp;
 
 	last_mouse_x = mouse_x;
 	last_mouse_y = mouse_y;

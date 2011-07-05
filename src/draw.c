@@ -106,7 +106,7 @@ void render(void)
 	glPopMatrix();
 	glPushMatrix();
 	glLoadIdentity();
-	gluOrtho2D(-512.,512.,-384.,384.);
+	gluOrtho2D(-window_w/2,window_w/2,-window_h/2,window_h/2);
 	
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
