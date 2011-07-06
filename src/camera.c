@@ -14,6 +14,8 @@ void camera_move(int direction);
 float cam_speed=15.;
 float dx=0;
 float dy=0;
+float yaw=0.;
+float pitch=0.;
 GLfloat rotation[16];
 GLfloat translation[16];
 
@@ -112,8 +114,6 @@ void camera_matrix(camera c)
 
 	
 	glMatrixMode(GL_MODELVIEW);
-//	glPushMatrix();
-//	glLoadMatrixf(translation);
 	glPushMatrix();
 	glLoadMatrixf(rotation);
 	glMultMatrixf(translation);
@@ -122,47 +122,52 @@ void camera_matrix(camera c)
 void camera_mouselook(camera c)
 {
 	float tmp;
-	float inv_dx=0.;
 
-	if(!float_cmp(c->forward[2],1.,5))
-	{
-		inv_dx = acosf(c->forward[2]);
-	}
-	// rotate by -inv_dx around y axis
-	tmp = (c->forward[0]*cos(-inv_dx)) + (c->forward[2]*sin(-inv_dx));
-	c->forward[2] = (c->forward[2]*cos(-inv_dx)) - (c->forward[0]*sin(-inv_dx));
-	c->forward[0] = tmp;
-	tmp = (c->up[0]*cos(-inv_dx)) + (c->up[2]*sin(-inv_dx));
-	c->up[2] = (c->up[2]*cos(-inv_dx)) - (c->up[0]*sin(-inv_dx));
-	c->up[0] = tmp;
-//	fprintf(stderr,"forward = (%.1f,%.1f,%.1f)\n",c->forward[0],c->forward[1],c->forward[2]);
-
+	// mouse movement map
 	dx += 2*M_PI*(mouse_x - last_mouse_x)/window_w;
 	dy += M_PI*(last_mouse_y - mouse_y)/window_h;
+
+	// reset orientation of camera
+	c->x[0] = 1.;
+	c->x[1] = 0.;
+	c->x[2] = 0.;
+	c->forward[0] = 0.;
+	c->forward[1] = 0.;
+	c->forward[2] = 1.;
+	c->up[0] = 0.;
+	c->up[1] = 1.;
+	c->up[2] = 0.;
 	
-	// rotate by dy around x axis
-	tmp = (c->forward[1]*cos(dy)) - (c->forward[2]*sin(dy));
-	c->forward[2] = (c->forward[2]*cos(dy)) + (c->forward[1]*sin(dy));
+	// rotate by yaw around y axis
+	tmp = (c->forward[0]*cos(yaw)) + (c->forward[2]*sin(yaw));
+	c->forward[2] = (c->forward[2]*cos(yaw)) - (c->forward[0]*sin(yaw));
+	c->forward[0] = tmp;
+	tmp = (c->up[0]*cos(yaw)) + (c->up[2]*sin(yaw));
+	c->up[2] = (c->up[2]*cos(yaw)) - (c->up[0]*sin(yaw));
+	c->up[0] = tmp;
+
+	// rotate by pitch around x axis
+	tmp = (c->forward[1]*cos(pitch)) - (c->forward[2]*sin(pitch));
+	c->forward[2] = (c->forward[2]*cos(pitch)) + (c->forward[1]*sin(pitch));
 	c->forward[1] = tmp;
-	tmp = (c->up[1]*cos(dy)) - (c->up[2]*sin(dy));
-	c->up[2] = (c->up[2]*cos(dy)) + (c->up[1]*sin(dy));
+	tmp = (c->up[1]*cos(pitch)) - (c->up[2]*sin(pitch));
+	c->up[2] = (c->up[2]*cos(pitch)) + (c->up[1]*sin(pitch));
 	c->up[1] = tmp;
 
-	// rotate by inv_dx around y axis
-/*	tmp = (c->forward[0]*cos(inv_dx)) + (c->forward[2]*sin(inv_dx));
-	c->forward[2] = (c->forward[2]*cos(inv_dx)) - (c->forward[0]*sin(inv_dx));
-	c->forward[0] = tmp;
-	tmp = (c->up[0]*cos(inv_dx)) + (c->up[2]*sin(inv_dx));
-	c->up[2] = (c->up[2]*cos(inv_dx)) - (c->up[0]*sin(inv_dx));
-	c->up[0] = tmp;*/
-
-	// rotate by dx around y axis
-	tmp = (c->forward[0]*cos(dx+inv_dx)) + (c->forward[2]*sin(dx+inv_dx));
-	c->forward[2] = (c->forward[2]*cos(dx+inv_dx)) - (c->forward[0]*sin(dx+inv_dx));
-	c->forward[0] = tmp;
-	tmp = (c->up[0]*cos(dx+inv_dx)) + (c->up[2]*sin(dx+inv_dx));
-	c->up[2] = (c->up[2]*cos(dx+inv_dx)) - (c->up[0]*sin(dx+inv_dx));
-	c->up[0] = tmp;
+	// clamp to proper rotation domains
+	if((pitch+dy) > -M_PI/2. && (pitch+dy) < M_PI/2.)
+	{
+		pitch += dy;
+	}
+	yaw += dx;
+	if(yaw > 2.*M_PI)
+	{
+		yaw -= 2.*M_PI;
+	}
+	if(yaw < 0.)
+	{
+		yaw += 2.*M_PI;
+	}
 
 	last_mouse_x = mouse_x;
 	last_mouse_y = mouse_y;
