@@ -129,7 +129,7 @@ void intro(int logo)
 	fps_disp = add_textbox(((float)window_w/2.)-80.,((float)window_h/2.)-4.,20,1,21);
 	fps_disp->z = 0.5;
 
-	cam = add_camera(0.,0.,0.);
+	cam = add_camera(12000.,-50.,12000.);
 	// draw whatever comes after this screen
 	render();
 }

@@ -14,7 +14,7 @@ ground add_ground(float x, float z, float w, float h, int texture_id)
 	// allocate and initialize a new ground
 	g = malloc(sizeof(*g));
 	g->x = x;
-	g->y = -100.;
+	g->y = 10.;
 	g->z = z;
 	g->w = w;
 	g->h = h;
@@ -33,10 +33,10 @@ void draw_ground(void *gp)
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, *g->gl_id);
 	glBegin(GL_QUADS);
-		glTexCoord2f(10,0); glVertex3f(g->x + g->w, g->y, g->z);
+		glTexCoord2f(1000,0); glVertex3f(g->x + g->w, g->y, g->z);
 		glTexCoord2f(0,0); glVertex3f(g->x, g->y, g->z);
-		glTexCoord2f(0,10); glVertex3f(g->x, g->y, g->z + g->h);
-		glTexCoord2f(10,10); glVertex3f(g->x + g->w, g->y, g->z + g->h);
+		glTexCoord2f(0,1000); glVertex3f(g->x, g->y, g->z + g->h);
+		glTexCoord2f(1000,1000); glVertex3f(g->x + g->w, g->y, g->z + g->h);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 }

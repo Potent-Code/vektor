@@ -34,33 +34,33 @@ void draw_pyramid(void *pp)
 
 	glBegin(GL_TRIANGLES);
 		
-		glTexCoord2f(2.5,5.);
-		glVertex3f( 0.0f, 100.0f, 0.0f);			// Top Of Triangle (Front)
+		glTexCoord2f(25.,50.);
+		glVertex3f( 0.0f, 20000.0f, 0.0f);			// Top Of Triangle (Front)
 		glTexCoord2f(0.,0.);
-		glVertex3f(-100.0f,-100.0f, 100.0f);			// Left Of Triangle (Front)
-		glTexCoord2f(5.,0.);
-		glVertex3f( 100.0f,-100.0f, 100.0f);			// Right Of Triangle (Front)
+		glVertex3f(-10000.0f,0.0f, 10000.0f);			// Left Of Triangle (Front)
+		glTexCoord2f(50.,0.);
+		glVertex3f( 10000.0f,0.0f, 10000.0f);			// Right Of Triangle (Front)
 
-		glTexCoord2f(2.5,5.);
-		glVertex3f( 0.0f, 100.0f, 0.0f);			// Top Of Triangle (Right)
+		glTexCoord2f(25.,50.);
+		glVertex3f( 0.0f, 20000.0f, 0.0f);			// Top Of Triangle (Right)
 		glTexCoord2f(0.,0.);
-		glVertex3f( 100.0f,-100.0f, 100.0f);			// Left Of Triangle (Right)
-		glTexCoord2f(5.,0.);
-		glVertex3f( 100.0f,-100.0f, -100.0f);			// Right Of Triangle (Right)
+		glVertex3f( 10000.0f,0.0f, 10000.0f);			// Left Of Triangle (Right)
+		glTexCoord2f(50.,0.);
+		glVertex3f( 10000.0f,0.0f, -10000.0f);			// Right Of Triangle (Right)
 
-		glTexCoord2f(2.5,5.);
-		glVertex3f( 0.0f, 100.0f, 0.0f);			// Top Of Triangle (Back)
+		glTexCoord2f(25.,50.);
+		glVertex3f( 0.0f, 20000.0f, 0.0f);			// Top Of Triangle (Back)
 		glTexCoord2f(0.,0.);
-		glVertex3f( 100.0f,-100.0f, -100.0f);			// Left Of Triangle (Back)
-		glTexCoord2f(5.,0.);
-		glVertex3f(-100.0f,-100.0f, -100.0f);			// Right Of Triangle (Back)
+		glVertex3f( 10000.0f,0.0f, -10000.0f);			// Left Of Triangle (Back)
+		glTexCoord2f(50.,0.);
+		glVertex3f(-10000.0f,0.0f, -10000.0f);			// Right Of Triangle (Back)
 
-		glTexCoord2f(2.5,5.);
-		glVertex3f( 0.0f, 100.0f, 0.0f);			// Top Of Triangle (Left)
+		glTexCoord2f(25.,50.);
+		glVertex3f( 0.0f, 20000.0f, 0.0f);			// Top Of Triangle (Left)
 		glTexCoord2f(0.,0.);
-		glVertex3f(-100.0f,-100.0f,-100.0f);			// Left Of Triangle (Left)
-		glTexCoord2f(5.,0.);
-		glVertex3f(-100.0f,-100.0f, 100.0f);			// Right Of Triangle (Left)
+		glVertex3f(-10000.0f,0.0f,-10000.0f);			// Left Of Triangle (Left)
+		glTexCoord2f(50.,0.);
+		glVertex3f(-10000.0f,0.0f, 10000.0f);			// Right Of Triangle (Left)
 	glEnd();						// Done Drawing The Pyramid
 
 	glDisable(GL_TEXTURE_2D);
