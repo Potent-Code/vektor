@@ -14,6 +14,7 @@ int renderobjs3d_count=0;
 render_object *renderlist_2d;
 render_object *renderlist_3d;
 Uint32 last_update=0;
+Uint32 motion_timer=0;
 Uint32 l;
 camera cam;
 
@@ -88,7 +89,12 @@ void render(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	camera_matrix(cam);
-	
+	if(SDL_GetTicks() - motion_timer >= 25)
+	{
+		camera_move();
+		motion_timer = SDL_GetTicks();
+	}
+
 	// draw 3d render list
 	if(renderlist_3d != NULL)
 	{

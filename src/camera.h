@@ -27,6 +27,6 @@ typedef struct
 extern camera add_camera(float x, float y, float z);
 extern void camera_matrix(camera c);
 extern void camera_mouselook(camera c);
-extern void camera_move(int direction);
+extern void camera_move(void);
 
 #endif

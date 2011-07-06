@@ -9,7 +9,7 @@ void vector_cross(float *a, float *b, float *c);
 int e_ijk(int i, int j, int k);
 void camera_matrix(camera c);
 void camera_mouselook(camera c);
-void camera_move(int direction);
+void camera_move(void);
 
 float cam_speed=15.;
 float dx=0;
@@ -70,9 +70,6 @@ int e_ijk(int i, int j, int k)
 void camera_matrix(camera c)
 {
 	int i;
-
-	// find y x z
-	vector_cross(c->up,c->forward,c->x);
 
 	// x vector
 	rotation[0] = c->x[0];
@@ -169,32 +166,30 @@ void camera_mouselook(camera c)
 		yaw += 2.*M_PI;
 	}
 
+	// find x vector
+	vector_cross(c->up, c->forward, c->x);
+
 	last_mouse_x = mouse_x;
 	last_mouse_y = mouse_y;
 	SDL_WarpMouse(512,384);
 }
 
-void camera_move(int direction)
+void camera_move(void)
 {
-	switch(direction)
+	float dir_z;
+	float dir_x;
+	dir_z = (float)(controls[0]-controls[2]);
+	dir_x = (float)(controls[3]-controls[1]);
+	
+	// normalize
+	if(!float_cmp(dir_z,0.,1) && !float_cmp(dir_x,0.,1))
 	{
-		case CAMERA_FORWARD:
-			cam->position[0] -= cam_speed*cam->forward[0];
-			cam->position[2] += cam_speed*cam->forward[2];
-			break;
-		case CAMERA_BACKWARD:
-			cam->position[0] += cam_speed*cam->forward[0];
-			cam->position[2] -= cam_speed*cam->forward[2];
-			break;
-		case CAMERA_LEFT:
-			cam->position[0] += cam_speed*cam->x[0];
-			cam->position[2] -= cam_speed*cam->x[2];
-			break;
-		case CAMERA_RIGHT:
-			cam->position[0] -= cam_speed*cam->x[0];
-			cam->position[2] += cam_speed*cam->x[2];
-			break;
-		default:
-			break;
+		dir_z /= sqrt(2.);
+		dir_x /= sqrt(2.);
 	}
+	
+	cam->position[0] -= cam_speed*dir_z*cam->forward[0];
+	cam->position[2] += cam_speed*dir_z*cam->forward[2];
+	cam->position[0] -= cam_speed*dir_x*cam->x[0];
+	cam->position[2] += cam_speed*dir_x*cam->x[2];
 }

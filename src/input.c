@@ -44,16 +44,16 @@ void get_key(SDL_keysym *keysym)
 			}
 			break;
 		case SDLK_w:
-			camera_move(CAMERA_FORWARD);
-			break;
-		case SDLK_s:
-			camera_move(CAMERA_BACKWARD);
+			controls[0]=1;
 			break;
 		case SDLK_a:
-			camera_move(CAMERA_LEFT);
+			controls[1]=1;
+			break;
+		case SDLK_s:
+			controls[2]=1;
 			break;
 		case SDLK_d:
-			camera_move(CAMERA_RIGHT);
+			controls[3]=1;
 			break;
 		case SDLK_RETURN:
 			if(return_func != NULL)
@@ -111,6 +111,18 @@ void get_keyup(SDL_keysym *keysym)
 {
 	switch(keysym->sym)
 	{
+		case SDLK_w:
+			controls[0]=0;
+			break;
+		case SDLK_a:
+			controls[1]=0;
+			break;
+		case SDLK_s:
+			controls[2]=0;
+			break;
+		case SDLK_d:
+			controls[3]=0;
+			break;
 		default:
 			break;
 	}
