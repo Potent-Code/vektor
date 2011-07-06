@@ -121,25 +121,24 @@ void camera_matrix(camera c)
 
 void camera_mouselook(camera c)
 {
+	float tmp;
+	float inv_dx=0.;
+
+	if(!float_cmp(c->forward[2],1.,5))
+	{
+		inv_dx = acosf(c->forward[2]);
+	}
+	// rotate by -inv_dx around y axis
+	tmp = (c->forward[0]*cos(-inv_dx)) + (c->forward[2]*sin(-inv_dx));
+	c->forward[2] = (c->forward[2]*cos(-inv_dx)) - (c->forward[0]*sin(-inv_dx));
+	c->forward[0] = tmp;
+	tmp = (c->up[0]*cos(-inv_dx)) + (c->up[2]*sin(-inv_dx));
+	c->up[2] = (c->up[2]*cos(-inv_dx)) - (c->up[0]*sin(-inv_dx));
+	c->up[0] = tmp;
+//	fprintf(stderr,"forward = (%.1f,%.1f,%.1f)\n",c->forward[0],c->forward[1],c->forward[2]);
+
 	dx += 2*M_PI*(mouse_x - last_mouse_x)/window_w;
 	dy += M_PI*(last_mouse_y - mouse_y)/window_h;
-	float tmp;
-	//fprintf(stderr,"dx=%.7f\tdy=%.7f\n",dx,dy);
-	// rotate by dy around x axis
-	/*tmp = (c->forward[1]*cos(dy)) - (c->forward[2]*sin(dy));
-	c->forward[2] = (c->forward[2]*cos(dy)) + (c->forward[1]*sin(dy));
-	c->forward[1] = tmp;
-	tmp = (c->up[1]*cos(dy)) - (c->up[2]*sin(dy));
-	c->up[2] = (c->up[2]*cos(dy)) + (c->up[1]*sin(dy));
-	c->up[1] = tmp;*/
-
-	// rotate by dx around y axis
-	tmp = (c->forward[0]*cos(dx)) + (c->forward[2]*sin(dx));
-	c->forward[2] = (c->forward[2]*cos(dx)) - (c->forward[0]*sin(dx));
-	c->forward[0] = tmp;
-	//tmp = (c->up[0]*cos(dx)) + (c->up[2]*sin(dx));
-	//c->up[2] = (c->up[2]*cos(dx)) - (c->up[0]*sin(dx));
-	//c->up[0] = tmp;
 	
 	// rotate by dy around x axis
 	tmp = (c->forward[1]*cos(dy)) - (c->forward[2]*sin(dy));
@@ -148,6 +147,22 @@ void camera_mouselook(camera c)
 	tmp = (c->up[1]*cos(dy)) - (c->up[2]*sin(dy));
 	c->up[2] = (c->up[2]*cos(dy)) + (c->up[1]*sin(dy));
 	c->up[1] = tmp;
+
+	// rotate by inv_dx around y axis
+/*	tmp = (c->forward[0]*cos(inv_dx)) + (c->forward[2]*sin(inv_dx));
+	c->forward[2] = (c->forward[2]*cos(inv_dx)) - (c->forward[0]*sin(inv_dx));
+	c->forward[0] = tmp;
+	tmp = (c->up[0]*cos(inv_dx)) + (c->up[2]*sin(inv_dx));
+	c->up[2] = (c->up[2]*cos(inv_dx)) - (c->up[0]*sin(inv_dx));
+	c->up[0] = tmp;*/
+
+	// rotate by dx around y axis
+	tmp = (c->forward[0]*cos(dx+inv_dx)) + (c->forward[2]*sin(dx+inv_dx));
+	c->forward[2] = (c->forward[2]*cos(dx+inv_dx)) - (c->forward[0]*sin(dx+inv_dx));
+	c->forward[0] = tmp;
+	tmp = (c->up[0]*cos(dx+inv_dx)) + (c->up[2]*sin(dx+inv_dx));
+	c->up[2] = (c->up[2]*cos(dx+inv_dx)) - (c->up[0]*sin(dx+inv_dx));
+	c->up[0] = tmp;
 
 	last_mouse_x = mouse_x;
 	last_mouse_y = mouse_y;

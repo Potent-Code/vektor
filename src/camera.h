@@ -6,6 +6,7 @@
 #define CAMERA_H
 
 #include <math.h>
+#include <mathlib.h>
 
 typedef struct
 {

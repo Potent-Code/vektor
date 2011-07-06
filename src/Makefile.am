@@ -8,6 +8,7 @@ libvektor_la_LDFLAGS = -framework SDL -framework OpenGL
 else
 libvektor_la_LDFLAGS = -lSDL -lGL -lGLU
 endif
+libvektor_la_LDFLAGS += -lmathlib
 include_HEADERS = vektor.h
 bin_PROGRAMS = maketexture
 maketexture_SOURCES = image.h maketexture.h maketexture.c
