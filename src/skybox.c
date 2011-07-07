@@ -3,12 +3,24 @@
  * July 3 2011 */
 #include "skybox.h"
 
-skybox add_skybox(float x, float y, float z, float h, int texture_id);
+skybox add_skybox(float x, float y, float z, float h, const char *filename);
 void draw_skybox(void *sp);
 
-skybox add_skybox(float x, float y, float z, float h, int texture_id)
+skybox add_skybox(float x, float y, float z, float h, const char *filename)
 {
 	skybox s;
+
+	// load skybox texture
+	textures[ntextures].name = malloc(strlen(filename)+1);
+	strncpy(textures[ntextures].name, filename, strlen(filename)+1);
+	textures[ntextures].tid = ntextures;
+	textures[ntextures].gl_id = &texture_ids[ntextures];
+	// it's important to disable texture filtering here
+	// or hard edges will appear on the skybox
+	textures[ntextures].min_filter = GL_NEAREST;
+	textures[ntextures].mag_filter = GL_NEAREST;
+	load_texture(textures[ntextures].tid);
+	ntextures++;
 
 	// allocate and initialize a new skybox
 	s = malloc(sizeof(*s));
@@ -16,7 +28,7 @@ skybox add_skybox(float x, float y, float z, float h, int texture_id)
 	s->y = y;
 	s->z = z;
 	s->h = h;
-	s->gl_id = textures[texture_id].gl_id;
+	s->gl_id = textures[ntextures-1].gl_id;
 
 	add_object_3d(s, &draw_skybox, NULL, NULL);
 	return s;

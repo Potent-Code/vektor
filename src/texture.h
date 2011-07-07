@@ -20,6 +20,8 @@ typedef struct
 	int w; // width of texture
 	int h; // height of texture
 	int channels; // number of channels
+	GLint min_filter;
+	GLint mag_filter;
 	unsigned int tid; // index in textures array
 	unsigned int *gl_id; // texture id
 } texture;

@@ -19,7 +19,7 @@ typedef struct
 } *skybox;
 
 // methods
-extern skybox add_skybox(float x, float y, float z, float h, int texture_id);
+extern skybox add_skybox(float x, float y, float z, float h, const char *filename);
 extern void draw_skybox(void *sp);
 
 #endif

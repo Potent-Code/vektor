@@ -32,6 +32,8 @@ int add_texture(const char * filename)
 	strncpy(textures[ntextures].name, filename, strlen(filename)+1);
 	textures[ntextures].tid = ntextures;
 	textures[ntextures].gl_id = &texture_ids[ntextures];
+	textures[ntextures].min_filter = GL_LINEAR;
+	textures[ntextures].mag_filter = GL_LINEAR_MIPMAP_LINEAR;
 	load_texture(textures[ntextures].tid);
 	ntextures++;
 	return (ntextures-1);
@@ -99,9 +101,9 @@ int load_texture(unsigned int tid)
 	
 	glBindTexture(GL_TEXTURE_2D, *textures[tid].gl_id);
 	glTexImage2D(GL_TEXTURE_2D, 0, t->channels, t->width, t->height, 0, format, GL_UNSIGNED_BYTE, t->data);
-	// enable trilinear filtering
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);
+	// texture filtering
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,textures[tid].min_filter);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,textures[tid].mag_filter);
 
 	free(t->data);
 	free(t);

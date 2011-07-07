@@ -244,7 +244,7 @@ extern pyramid add_pyramid(float x, float y, float z, float h, int texture_id);
 extern void draw_pyramid(void *pp);
 
 // skybox methods
-extern skybox add_skybox(float x, float y, float z, float h, int texture_id);
+extern skybox add_skybox(float x, float y, float z, float h, const char *filename);
 extern void draw_skybox(void *sp);
 
 #ifdef __cplusplus
