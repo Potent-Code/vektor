@@ -4,10 +4,10 @@
 
 #include "pyramid.h"
 
-pyramid add_pyramid(int x, int y, int w, int h, int texture_id);
+pyramid add_pyramid(float x, float y, float z, float h, int texture_id);
 void draw_pyramid(void *pp);
 
-pyramid add_pyramid(int x, int y, int w, int h, int texture_id)
+pyramid add_pyramid(float x, float y, float z, float h, int texture_id)
 {
 	pyramid p;
 
@@ -15,7 +15,7 @@ pyramid add_pyramid(int x, int y, int w, int h, int texture_id)
 	p = malloc(sizeof(*p));
 	p->x = x;
 	p->y = y;
-	p->w = w;
+	p->z = z;
 	p->h = h;
 	p->gl_id = textures[texture_id].gl_id;
 
@@ -35,32 +35,32 @@ void draw_pyramid(void *pp)
 	glBegin(GL_TRIANGLES);
 		
 		glTexCoord2f(25.,50.);
-		glVertex3f( 0.0f, 20000.0f, 0.0f);			// Top Of Triangle (Front)
+		glVertex3f(p->x, p->y + (2.*p->h), p->z);			// Top Of Triangle (Front)
 		glTexCoord2f(0.,0.);
-		glVertex3f(-10000.0f,0.0f, 10000.0f);			// Left Of Triangle (Front)
+		glVertex3f(p->x - p->h, p->y , p->z + p->h);			// Left Of Triangle (Front)
 		glTexCoord2f(50.,0.);
-		glVertex3f( 10000.0f,0.0f, 10000.0f);			// Right Of Triangle (Front)
+		glVertex3f(p->x + p->h, p->y, p->z + p->h);			// Right Of Triangle (Front)
 
 		glTexCoord2f(25.,50.);
-		glVertex3f( 0.0f, 20000.0f, 0.0f);			// Top Of Triangle (Right)
+		glVertex3f( p->x, p->y + (2.*p->h), p->z);			// Top Of Triangle (Right)
 		glTexCoord2f(0.,0.);
-		glVertex3f( 10000.0f,0.0f, 10000.0f);			// Left Of Triangle (Right)
+		glVertex3f( p->x + p->h, p->y, p->z + p->h);			// Left Of Triangle (Right)
 		glTexCoord2f(50.,0.);
-		glVertex3f( 10000.0f,0.0f, -10000.0f);			// Right Of Triangle (Right)
+		glVertex3f( p->x + p->h, p->y, p->z - p->h);			// Right Of Triangle (Right)
 
 		glTexCoord2f(25.,50.);
-		glVertex3f( 0.0f, 20000.0f, 0.0f);			// Top Of Triangle (Back)
+		glVertex3f( p->x, p->y + (2.*p->h), p->z);			// Top Of Triangle (Back)
 		glTexCoord2f(0.,0.);
-		glVertex3f( 10000.0f,0.0f, -10000.0f);			// Left Of Triangle (Back)
+		glVertex3f( p->x + p->h, p->y, p->z - p->h);			// Left Of Triangle (Back)
 		glTexCoord2f(50.,0.);
-		glVertex3f(-10000.0f,0.0f, -10000.0f);			// Right Of Triangle (Back)
+		glVertex3f(p->x - p->h, p->y, p->z - p->h);			// Right Of Triangle (Back)
 
 		glTexCoord2f(25.,50.);
-		glVertex3f( 0.0f, 20000.0f, 0.0f);			// Top Of Triangle (Left)
+		glVertex3f( p->x, p->y + (2.*p->h), p->z);			// Top Of Triangle (Left)
 		glTexCoord2f(0.,0.);
-		glVertex3f(-10000.0f,0.0f,-10000.0f);			// Left Of Triangle (Left)
+		glVertex3f(p->x - p->h, p->y, p->z - p->h);			// Left Of Triangle (Left)
 		glTexCoord2f(50.,0.);
-		glVertex3f(-10000.0f,0.0f, 10000.0f);			// Right Of Triangle (Left)
+		glVertex3f(p->x - p->h, p->y, p->z + p->h);			// Right Of Triangle (Left)
 	glEnd();						// Done Drawing The Pyramid
 
 	glDisable(GL_TEXTURE_2D);

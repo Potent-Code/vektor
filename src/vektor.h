@@ -144,10 +144,10 @@ typedef struct
 
 typedef struct
 {
-	int x;
-	int y;
-	int w;
-	int h;
+	float x;
+	float y;
+	float z;
+	float h;
 	unsigned int *gl_id; // pointer to texture
 	void (*update)(void *);
 	void (*draw)(void *);
@@ -240,7 +240,7 @@ extern ground add_ground(float x, float z, float w, float h, int texture_id);
 extern void draw_ground(void *bp);
 
 // pyramid methods
-extern pyramid add_pyramid(int x, int y, int w, int h, int texture_id);
+extern pyramid add_pyramid(float x, float y, float z, float h, int texture_id);
 extern void draw_pyramid(void *pp);
 
 // skybox methods

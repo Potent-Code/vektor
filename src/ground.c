@@ -14,7 +14,7 @@ ground add_ground(float x, float z, float w, float h, int texture_id)
 	// allocate and initialize a new ground
 	g = malloc(sizeof(*g));
 	g->x = x;
-	g->y = 10.;
+	g->y = -7000.;
 	g->z = z;
 	g->w = w;
 	g->h = h;

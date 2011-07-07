@@ -34,13 +34,13 @@ void draw_skybox(void *sp)
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, *s->gl_id);
 	glBegin(GL_QUADS);
-		glTexCoord2f(0.5, 0./3.);
-		glVertex3f( s->h, s->h,-s->h);			// Top Right Of The Quad (Top)
-		glTexCoord2f(0.25, 0./3.);
-		glVertex3f(-s->h, s->h,-s->h);			// Top Left Of The Quad (Top)
-		glTexCoord2f(0.25, 1./3.);
-		glVertex3f(-s->h, s->h, s->h);			// Bottom Left Of The Quad (Top)
 		glTexCoord2f(0.5, 1./3.);
+		glVertex3f( s->h, s->h,-s->h);			// Top Right Of The Quad (Top)
+		glTexCoord2f(0.5, 0./3.);
+		glVertex3f(-s->h, s->h,-s->h);			// Top Left Of The Quad (Top)
+		glTexCoord2f(0.25, 0./3.);
+		glVertex3f(-s->h, s->h, s->h);			// Bottom Left Of The Quad (Top)
+		glTexCoord2f(0.25, 1./3.);
 		glVertex3f( s->h, s->h, s->h);			// Bottom Right Of The Quad (Top)
 
 		glTexCoord2f(0.5, 2./3.);
