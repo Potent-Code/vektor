@@ -26,7 +26,7 @@ scrollbar add_scrollbar(float x, float y, float line_height, unsigned int lines)
 	sb->total_lines = 0;
 	sb->data_pos = 0;
 	sb->gl_id = textures[sb_texture].gl_id;
-
+	sb->line_offsets[0] = 0;
 	return sb;
 }
 
