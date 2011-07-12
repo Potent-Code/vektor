@@ -46,7 +46,7 @@ int load_texture(unsigned int tid)
 	int bytes;
 	image t;
 	GLuint format;
-	int i;
+	int i,j;
 
 	if((fd = fopen(textures[tid].name, "rb")) == 0)
 	{
@@ -68,25 +68,32 @@ int load_texture(unsigned int tid)
 
 	bytes = t->width*t->height*t->channels;
 
-	if((t->data = malloc(sizeof(*t->data)*bytes)) == NULL)
+	if((t->data = malloc(bytes)) == NULL)
 	{
 		perror("Error allocating memory");
 		free(t);
 		return -1;
 	}
+	/*for(i=0; i < t->height; i++)
+	{
+		t->data[i] = malloc(sizeof(*t->data)*t->width*t->channels);
+	}*/
 
 	for(i = 0; i < bytes; i++)
 	{
-		b+= sizeof(*t->data)*fread(&t->data[i], sizeof(*t->data), 1, fd);
+		//for(j = 0; j < t->width; j++)
+		{
+			b+= sizeof(*t->data)*fread(&t->data[i], sizeof(*t->data), 1, fd);
+		}
 	}
 
-	if(b != bytes+sizeof(*t))
+	/*if(b != bytes+sizeof(*t))
 	{
 		perror("Error reading file");
 		free(t->data);
 		free(t);
 		return -1;
-	}
+	}*/
 	
 	if(t->channels == 4)
 	{

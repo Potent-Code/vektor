@@ -233,13 +233,13 @@ void draw_textbox(void *tbp)
 
 			// draw a small quad in place with a font character texture mapped to it
 			x = tb->x + col*tb->f->w;
-			glTexCoord2f((float)(char_position+1)/94.,0);
-			glVertex3f(x + tb->f->w, tb->y + tb->f->h - (line_count*tb->f->h), tb->z);
-			glTexCoord2f((float)char_position/94.,0);
-			glVertex3f(x, tb->y + tb->f->h - (line_count*tb->f->h), tb->z);
-			glTexCoord2f((float)char_position/94.,1);
-			glVertex3f(x, tb->y - (line_count*tb->f->h), tb->z);
 			glTexCoord2f((float)(char_position+1)/94.,1);
+			glVertex3f(x + tb->f->w, tb->y + tb->f->h - (line_count*tb->f->h), tb->z);
+			glTexCoord2f((float)char_position/94.,1);
+			glVertex3f(x, tb->y + tb->f->h - (line_count*tb->f->h), tb->z);
+			glTexCoord2f((float)char_position/94.,0);
+			glVertex3f(x, tb->y - (line_count*tb->f->h), tb->z);
+			glTexCoord2f((float)(char_position+1)/94.,0);
 			glVertex3f(x + tb->f->w, tb->y - (line_count*tb->f->h), tb->z);
 			col++;
 		}
