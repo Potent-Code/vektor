@@ -29,7 +29,7 @@ image load_png(char *filename)
 {
 	FILE *fd;
 	unsigned char signature[8];
-	int i,j,k;
+	int i,j;
 	png_uint_32 bytes_per_row;
 	png_bytepp rows;
 	png_structp status;
@@ -47,11 +47,11 @@ image load_png(char *filename)
 		perror("Couldnt read file");
 		return NULL;
 	}
-	/*if(!png_check_sig(signature, 8))
+	if(!png_check_sig(signature, 8))
 	{
 		fprintf(stderr, "Invalid PNG signature\n");
 		return NULL;
-	}*/
+	}
 
 	status = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	if(status == NULL)
@@ -154,7 +154,7 @@ image load_png(char *filename)
 int save_texture(image img, char * filename)
 {
 	FILE *fd;
-	int i,j;
+	int i;
 	int bytes;
 	int bytes_written;
 
