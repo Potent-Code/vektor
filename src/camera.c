@@ -23,7 +23,11 @@ camera add_camera(float x, float y, float z)
 {
 	camera c;
 	
-	c = malloc(sizeof(*c));
+	if((c = calloc(1,sizeof(*c))) == NULL)
+	{
+		perror("Couldn't allocate space for camera");
+		return NULL;
+	}
 	c->position[0] = x;
 	c->position[1] = y;
 	c->position[2] = z;
@@ -39,6 +43,7 @@ camera add_camera(float x, float y, float z)
 	c->forward[0] = 0.;
 	c->forward[1] = 0.;
 	c->forward[2] = 1.;
+	return c;
 }
 
 // a x b = c
