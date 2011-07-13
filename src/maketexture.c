@@ -68,12 +68,6 @@ image load_png(char *filename)
 		return NULL;
 	}
 
-	/*if(setjmp(status->jmpbuf))
-	{
-		png_destroy_read_struct(&status, &info, NULL);
-		return NULL;
-	}*/
-
 	png_init_io(status, fd);
 	png_set_sig_bytes(status, 8);
 	png_read_info(status, info);
@@ -113,27 +107,27 @@ image load_png(char *filename)
 	png_set_bgr(status);
 	png_read_update_info(status, info);
 
-/*	if((rows = malloc(img->height*sizeof(*rows))) == NULL)
-	{
-		png_destroy_read_struct(&status, &info, NULL);
-		perror("Couldnt allocate row");
-		return NULL;
-	}*/
-
 	bytes_per_row = png_get_rowbytes(status, info);
 	img->channels = (int)png_get_channels(status, info);
 
-	rows = malloc(sizeof(*rows)*img->height);
-	/*if((img->data = malloc(bytes_per_row*img->height+1)) == NULL)
+	if((rows = malloc(sizeof(*rows)*img->height)) == NULL)
 	{
 		png_destroy_read_struct(&status, &info, NULL);
+		free(img);
+		perror("Couldn't allocate space to read png");
+		return NULL;
+	}
+	if((img->data = malloc(bytes_per_row*img->height+1)) == NULL)
+	{
+		png_destroy_read_struct(&status, &info, NULL);
+		free(img);
+		free(rows);
 		perror("Couldnt allocate space for image");
 		return NULL;
-	}*/
+	}
 
 	for(i = 0; i < img->height; ++i)
 	{
-		//rows[i] = img->data + i*bytes_per_row;
 		rows[i] = malloc(bytes_per_row);
 	}
 
@@ -141,27 +135,14 @@ image load_png(char *filename)
 	png_read_end(status, NULL);
 
 	png_destroy_read_struct(&status, &info, NULL);
-	img->data = malloc(bytes_per_row*img->height+1);
+	
 	for(i=0; i < img->height; i++)
 	{
-		k=0;
-		for(j = (img->width*img->channels); j >= 0; j-=img->channels)
+		for(j = 0; j < (img->width*img->channels); j++)
 		{
-			if(img->channels == 4)
-			{
-				img->data[k+(i*bytes_per_row)+2] = (unsigned char)rows[i][j-3];
-				img->data[k+(i*bytes_per_row)+1] = (unsigned char)rows[i][j-2];
-				img->data[k+(i*bytes_per_row)] = (unsigned char)rows[i][j-1];
-				img->data[k+(i*bytes_per_row)+3] = (unsigned char)rows[i][j];
-			}
-			else
-			{
-				img->data[k+(i*bytes_per_row)+2] = (unsigned char)rows[i][j-2];
-				img->data[k+(i*bytes_per_row)+1] = (unsigned char)rows[i][j-1];
-				img->data[k+(i*bytes_per_row)] = (unsigned char)rows[i][j];
-			}
-			k+=img->channels;
+			img->data[j+(((img->height-1)-i)*bytes_per_row)] = (unsigned char)rows[i][j];
 		}
+		free(rows[i]);
 	}
 
 	free(rows);
@@ -169,28 +150,6 @@ image load_png(char *filename)
 
 	return img;
 }
-
-void swap_red_blue(image img)
-{
-	png_bytep r,b;
-	int bytes;
-	int i;
-
-	bytes = img->height*img->width*img->channels;
-
-	for(i = 0; i < bytes; i += img->channels)
-	{
-		// store values for reordering
-		r = img->data[i];
-		b = img->data[i+2];
-
-		// BGRA ordering
-		img->data[i] = b;
-		img->data[i+2] = r;
-		//printf("i=%d\n",i);
-	}
-}
-
 
 int save_texture(image img, char * filename)
 {
@@ -206,17 +165,13 @@ int save_texture(image img, char * filename)
 	}
 
 	bytes = img->height*img->width*img->channels;
-	//swap_red_blue(img);
 	
 	// write image struct
 	bytes_written = sizeof(*img)*fwrite(img, sizeof(*img), 1, fd);
 	// write image data
 	for(i=0; i < bytes; i++)
 	{
-		//for(j=0; j < img->width; j++)
-		{
-			bytes_written += sizeof(*img->data)*fwrite(&img->data[i], sizeof(*img->data), 1, fd);
-		}
+		bytes_written += sizeof(*img->data)*fwrite(&img->data[i], sizeof(*img->data), 1, fd);
 	}
 	// write eof
 	fputc(-1, fd);
