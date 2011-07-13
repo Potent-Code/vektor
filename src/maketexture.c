@@ -47,11 +47,11 @@ image load_png(char *filename)
 		perror("Couldnt read file");
 		return NULL;
 	}
-	if(!png_check_sig(signature, 8))
+	/*if(!png_check_sig(signature, 8))
 	{
 		fprintf(stderr, "Invalid PNG signature\n");
 		return NULL;
-	}
+	}*/
 
 	status = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	if(status == NULL)
