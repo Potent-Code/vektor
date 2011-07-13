@@ -74,26 +74,19 @@ int load_texture(unsigned int tid)
 		free(t);
 		return -1;
 	}
-	/*for(i=0; i < t->height; i++)
-	{
-		t->data[i] = malloc(sizeof(*t->data)*t->width*t->channels);
-	}*/
 
 	for(i = 0; i < bytes; i++)
 	{
-		//for(j = 0; j < t->width; j++)
-		{
-			b+= sizeof(*t->data)*fread(&t->data[i], sizeof(*t->data), 1, fd);
-		}
+		b+= sizeof(*t->data)*fread(&t->data[i], sizeof(*t->data), 1, fd);
 	}
 
-	/*if(b != bytes+sizeof(*t))
+	if(b != bytes+sizeof(*t))
 	{
 		perror("Error reading file");
 		free(t->data);
 		free(t);
 		return -1;
-	}*/
+	}
 	
 	if(t->channels == 4)
 	{
