@@ -12,6 +12,10 @@
 #include "sdl.h"
 #include "image.h"
 
+#ifdef __APPLE__
+#define glGenerateMipmap glGenerateMipmapEXT
+#endif
+
 #define MAX_TEXTURES 25
 
 typedef struct
