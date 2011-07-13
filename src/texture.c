@@ -113,7 +113,7 @@ int load_texture(unsigned int tid)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,textures[tid].mag_filter);
 	
 	glTexImage2D(GL_TEXTURE_2D, 0, t->channels, t->width, t->height, 0, format, GL_UNSIGNED_BYTE, t->data);
-	glGenerateMipmap(GL_TEXTURE_2D);
+	//glGenerateMipmap(GL_TEXTURE_2D);
 
 	free(t->data);
 	free(t);
