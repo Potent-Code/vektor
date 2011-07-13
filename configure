@@ -737,7 +737,7 @@ with_pic
 enable_fast_install
 with_gnu_ld
 enable_libtool_lock
-enable_debug
+enable_nodebug
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1380,7 +1380,7 @@ Optional Features:
   --enable-fast-install[=PKGS]
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
-  --enable-debug          build with debugging information (default NO)
+  --enable-nodebug        build without debugging information (default NO)
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -11161,10 +11161,10 @@ CC="$lt_save_CC"
 
 
 
-CFLAGS="-O3 -g"
-# Check whether --enable-debug was given.
-if test "${enable_debug+set}" = set; then :
-  enableval=$enable_debug; test "$enableval" = "yes" && CFLAGS="-O0 -g3"
+CFLAGS="-O0 -g3"
+# Check whether --enable-nodebug was given.
+if test "${enable_nodebug+set}" = set; then :
+  enableval=$enable_nodebug; test "$enableval" = "yes" && CFLAGS="-O3"
 fi
 
 
