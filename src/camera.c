@@ -10,7 +10,10 @@ int e_ijk(int i, int j, int k);
 void camera_matrix(camera c);
 void camera_mouselook(camera c);
 void camera_move(void);
+void enable_mouselook(void);
+void disable_mouselook(void);
 
+int mouselook_enabled=0;
 float cam_speed=15.;
 float dx=0;
 float dy=0;
@@ -125,6 +128,11 @@ void camera_mouselook(camera c)
 {
 	float tmp;
 
+	if(mouselook_enabled == 0)
+	{
+		return;
+	}
+
 	// mouse movement map
 	dx += 2*M_PI*(mouse_x - last_mouse_x)/window_w;
 	dy += M_PI*(last_mouse_y - mouse_y)/window_h;
@@ -197,4 +205,14 @@ void camera_move(void)
 	cam->position[2] += cam_speed*dir_z*cam->forward[2];
 	cam->position[0] -= cam_speed*dir_x*cam->x[0];
 	cam->position[2] += cam_speed*dir_x*cam->x[2];
+}
+
+void enable_mouselook(void)
+{
+	mouselook_enabled=1;
+}
+
+void disable_mouselook(void)
+{
+	mouselook_enabled=0;
 }
