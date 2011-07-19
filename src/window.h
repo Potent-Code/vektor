@@ -5,9 +5,10 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include "sdl.h"
+#include "sdl_window.h"
 #include "texture.h"
-#include "draw.h"
+//#include "draw.h"
+//#include "camera.c"
 
 // types
 typedef struct
@@ -25,5 +26,8 @@ typedef struct
 // methods
 extern window add_window(int x, int y, int w, int h, int texture_id);
 extern void draw_window(void *wp);
+extern void window_load_textures(void);
+extern void show_window(void);
+extern void hide_window(void);
 
 #endif

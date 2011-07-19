@@ -175,6 +175,7 @@ void vektor_init(const char *title)
 	default_font = add_font("/usr/local/share/vektor/fonts/default.font");
 	logo_texture = add_texture("/usr/local/share/vektor/logo.texture");
 	sb_texture = add_texture("/usr/local/share/vektor/ui/scroll_bar.texture");
+	window_load_textures();
 }
 
 void vektor_run(void)

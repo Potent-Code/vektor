@@ -13,6 +13,7 @@
 #include "scrollbar.h"
 #include "textbox.h"
 #include "camera.h"
+#include "window.h"
 
 extern void quit(void);
 extern void resize(int w, int h);

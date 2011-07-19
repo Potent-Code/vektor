@@ -3,7 +3,7 @@ vektor_DATA = logo.texture
 fontsdir = $(datadir)/@PACKAGE@/fonts/
 fonts_DATA = fonts/default.font
 uidir = $(datadir)/@PACKAGE@/ui/
-ui_DATA = ui/scroll_bar.texture ui/ui_window.texture ui/ui_content.texture ui/ui_menu_bg.texture ui/chat_button_up.texture ui/chat_button_down.texture ui/console_button_up.texture ui/console_button_down.texture ui/log_button_up.texture ui/log_button_down.texture
+ui_DATA = ui/scroll_bar.texture ui/ui_window.texture ui/ui_content.texture ui/ui_menu_bg.texture ui/chat_button.texture ui/console_button.texture ui/log_button.texture ui/ui_input_bar.texture ui/ui_scrollbar.texture
 
 MAKETEXTURE = $(abs_top_srcdir)/src/maketexture
 fonts/default.font: $(MAKETEXTURE)
@@ -21,23 +21,20 @@ ui/ui_content.texture: $(MAKETEXTURE)
 ui/ui_menu_bg.texture: $(MAKETEXTURE)
 	$(MAKETEXTURE) png/ui/ui_menu_bg.png ui/ui_menu_bg.texture
 
-ui/chat_button_up.texture: $(MAKETEXTURE)
-	$(MAKETEXTURE) png/ui/chat_button_up.png ui/chat_button_up.texture
+ui/chat_button.texture: $(MAKETEXTURE)
+	$(MAKETEXTURE) png/ui/chat_button.png ui/chat_button.texture
 
-ui/chat_button_down.texture: $(MAKETEXTURE)
-	$(MAKETEXTURE) png/ui/chat_button_down.png ui/chat_button_down.texture
+ui/console_button.texture: $(MAKETEXTURE)
+	$(MAKETEXTURE) png/ui/console_button.png ui/console_button.texture
 
-ui/console_button_up.texture: $(MAKETEXTURE)
-	$(MAKETEXTURE) png/ui/console_button_up.png ui/console_button_up.texture
+ui/log_button.texture: $(MAKETEXTURE)
+	$(MAKETEXTURE) png/ui/log_button.png ui/log_button.texture
 
-ui/console_button_down.texture: $(MAKETEXTURE)
-	$(MAKETEXTURE) png/ui/console_button_down.png ui/console_button_down.texture
+ui/ui_input_bar.texture: $(MAKETEXTURE)
+	$(MAKETEXTURE) png/ui/ui_input_bar.png ui/ui_input_bar.texture
 
-ui/log_button_up.texture: $(MAKETEXTURE)
-	$(MAKETEXTURE) png/ui/log_button_up.png ui/log_button_up.texture
-
-ui/log_button_down.texture: $(MAKETEXTURE)
-	$(MAKETEXTURE) png/ui/log_button_down.png ui/log_button_down.texture
+ui/ui_scrollbar.texture: $(MAKETEXTURE)
+	$(MAKETEXTURE) png/ui/ui_scrollbar.png ui/ui_scrollbar.texture
 
 logo.texture: $(MAKETEXTURE)
 	$(MAKETEXTURE) png/logo.png logo.texture
