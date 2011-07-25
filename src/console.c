@@ -37,6 +37,8 @@ console init_console(int x, int y, int w, int h)
 	c->chat_btn = add_button(x + 10 + 87, y + 5, 87, 26, NULL);
 	c->log_btn = add_button(x + 15 + 174, y + 5, 87, 26, NULL);
 
+	c->console_btn->active = 1;
+
 	window_load_textures();
 	console_load_textures();
 
@@ -87,10 +89,10 @@ void draw_console(void *cp)
 	c->log_btn->x = c->win->x + 15 + 174;
 	c->log_btn->y = c->win->y - 30;
 
-	c->win->update(c->win);
+	/*c->win->update(c->win);
 	c->console_btn->update(c->console_btn);
 	c->chat_btn->update(c->chat_btn);
-	c->log_btn->update(c->log_btn);
+	c->log_btn->update(c->log_btn);*/
 	
 	c->win->draw(c->win);
 	c->console_btn->draw(c->console_btn);

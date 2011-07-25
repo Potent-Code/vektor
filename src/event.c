@@ -12,71 +12,71 @@ int nl_mouseup=0;
 int nl_mousedown=0;
 int nl_mousemove=0;
 
-listener listeners_mouseup;
-listener listeners_mousedown;
-listener listeners_mousemove;
+listener lmup,lmup_end;
+listener lmdn,lmdn_end;
+listener lmm,lmm_end;
 
-void add_listener(void (*_call)(void*), unsigned int type);
+void add_listener(void (*_call)(void*), void *_obj, unsigned int type);
 
 void event_mouseup(int x, int y);
 void event_mousedown(int x, int y);
 void event_mousemove(int x, int y);
 
-void add_listener(void (*_call)(void*), unsigned int type)
+void add_listener(void (*_call)(void*), void *_obj, unsigned int type)
 {
 	listener tmp;
 	switch(type)
 	{
 		case EVENT_MOUSEUP:
-			if(listeners_mouseup == NULL)
+			if(lmup_end == NULL)
 			{
-				listeners_mouseup = malloc(sizeof(*listeners_mouseup));
-				listeners_mouseup->call = _call;
-				listeners_mouseup->next = NULL;
-				nl_mouseup++;
+				lmup_end = malloc(sizeof(*lmup_end));
+				lmup = lmup_end;
 			}
 			else
 			{
-				listeners_mouseup->next = malloc(sizeof(*listeners_mouseup));
-				listeners_mouseup = listeners_mouseup->next;
-				listeners_mouseup->call = _call;
-				listeners_mouseup->next = NULL;
-				nl_mouseup++;
+				lmup_end->next = malloc(sizeof(*lmup_end));
+				lmup_end = lmup_end->next;
 			}
+			
+			lmup_end->call = _call;
+			lmup_end->obj = _obj;
+			lmup_end->next = NULL;
+			nl_mouseup++;
 			break;
 		case EVENT_MOUSEDOWN:
-			if(listeners_mousedown == NULL)
+			if(lmdn_end == NULL)
 			{
-				listeners_mousedown = malloc(sizeof(*listeners_mousedown));
-				listeners_mousedown->call = _call;
-				listeners_mousedown->next = NULL;
-				nl_mousedown++;
+				lmdn_end = malloc(sizeof(*lmdn_end));
+				lmdn = lmdn_end;
 			}
 			else
 			{
-				listeners_mousedown->next = malloc(sizeof(*listeners_mousedown));
-				listeners_mousedown = listeners_mousedown->next;
-				listeners_mousedown->call = _call;
-				listeners_mousedown->next = NULL;
-				nl_mousedown++;
+				lmdn_end->next = malloc(sizeof(*lmdn_end));
+				lmdn_end = lmdn_end->next;
 			}
+			
+			lmdn_end->call = _call;
+			lmdn_end->obj = _obj;
+			lmdn_end->next = NULL;
+			nl_mousedown++;
 			break;
 		case EVENT_MOUSEMOVE:
-			if(listeners_mousemove == NULL)
+			if(lmm_end == NULL)
 			{
-				listeners_mousemove = malloc(sizeof(*listeners_mousemove));
-				listeners_mousemove->call = _call;
-				listeners_mousemove->next = NULL;
-				nl_mousemove++;
+				lmm_end = malloc(sizeof(*lmm_end));
+				lmm = lmm_end;
 			}
 			else
 			{
-				listeners_mousemove->next = malloc(sizeof(*listeners_mousemove));
-				listeners_mousemove = listeners_mousemove->next;
-				listeners_mousemove->call = _call;
-				listeners_mousemove->next = NULL;
-				nl_mousemove++;
+				lmm_end->next = malloc(sizeof(*lmm_end));
+				lmm_end = lmm_end->next;
 			}
+			
+			lmm_end->call = _call;
+			lmm_end->obj = _obj;
+			lmm_end->next = NULL;
+			nl_mousemove++;
 			break;
 		default:
 			break;
@@ -85,20 +85,53 @@ void add_listener(void (*_call)(void*), unsigned int type)
 
 void event_mouseup(int x, int y)
 {
+	int i;
+	listener tmp;
+
 	mouse_x = x;
 	mouse_y = y;
 	mouse_state = 0;
+
+	tmp = lmup;
+	for(i = 0; i < nl_mouseup; i++)
+	{
+		lmup->call(lmup->obj);
+		lmup = lmup->next;
+	}
+	lmup = tmp;
 }
 
 void event_mousedown(int x, int y)
 {
+	int i;
+	listener tmp;
+
 	mouse_x = x;
 	mouse_y = y;
 	mouse_state = 1;
+
+	tmp = lmdn;
+	for(i = 0; i < nl_mousedown; i++)
+	{
+		lmdn->call(lmdn->obj);
+		lmdn = lmdn->next;
+	}
+	lmdn = tmp;
 }
 
 void event_mousemove(int x, int y)
 {
+	int i;
+	listener tmp;
+
 	mouse_x = x;
 	mouse_y = y;
+
+	tmp = lmm;
+	for(i=0; i < nl_mousemove; i++)
+	{
+		lmm->call(lmm->obj);
+		lmm = lmm->next;
+	}
+	lmm = tmp;
 }

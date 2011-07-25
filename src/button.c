@@ -6,7 +6,7 @@
 
 button add_button(int x, int y, int w, int h, unsigned int* texture_id);
 void draw_button(void *bp);
-void update_button(void *bp);
+void button_mousedown(void *bp);
 
 button add_button(int x, int y, int w, int h, unsigned int* texture_id)
 {
@@ -23,8 +23,9 @@ button add_button(int x, int y, int w, int h, unsigned int* texture_id)
 
 	//add_object_2d(b, &draw_button, NULL, NULL);
 	b->draw = &draw_button;
-	b->update = &update_button;
 	b->remove = &free;
+	add_listener(&button_mousedown, b, EVENT_MOUSEDOWN);
+
 	return b;
 }
 
@@ -61,24 +62,21 @@ void draw_button(void *bp)
 	glDisable(GL_TEXTURE_2D);
 }
 
-void update_button(void *bp)
+void button_mousedown(void *bp)
 {
 	button b = bp;
 
-	if(mouse_state == 1)
+	if((mouse_x >= b->x) && (mouse_x <= (b->x + b->w)))
 	{
-		if((mouse_x >= b->x) && (mouse_x <= (b->x + b->h)))
+		if((mouse_y >= (b->y - b->h)) && (mouse_y <= b->y))
 		{
-			if((mouse_y >= (b->y - b->h)) && (mouse_y <= b->y))
+			if(b->active == 0)
 			{
-				if(b->active == 0)
-				{
-					b->active = 1;
-				}
-				else
-				{
-					b->active = 0;
-				}
+				b->active = 1;
+			}
+			else
+			{
+				b->active = 0;
 			}
 		}
 	}

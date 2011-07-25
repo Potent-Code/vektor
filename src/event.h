@@ -10,6 +10,7 @@
 struct event_chain
 {
 	void (*call)(void*);
+	void *obj;
 	struct event_chain *next;
 };
 
@@ -23,7 +24,7 @@ extern int mouse_x;
 extern int mouse_y;
 extern int mouse_state;
 
-extern void add_listener(void (*_call)(void*), unsigned int type);
+extern void add_listener(void (*_call)(void*), void *_obj, unsigned int type);
 
 extern void event_mouseup(int x, int y);
 extern void event_mousedown(int x, int y);

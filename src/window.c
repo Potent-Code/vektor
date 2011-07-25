@@ -9,7 +9,9 @@ void draw_window(void *wp);
 void window_load_textures(void);
 void show_window(window w);
 void hide_window(window w);
-void update_window(void *wp);
+void window_mousedown(void *wp);
+void window_mouseup(void *wp);
+void window_dragresize(void *wp);
 
 unsigned int* window_texture;
 unsigned int* cpane_texture;
@@ -29,8 +31,11 @@ window add_window(int x, int y, int w, int h)
 
 	//add_object_2d(wi, &draw_window, NULL, NULL);
 	wi->draw = &draw_window;
-	wi->update = &update_window;
 	wi->remove = &free;
+	
+	add_listener(&window_mousedown, wi, EVENT_MOUSEDOWN);
+	add_listener(&window_mouseup, wi, EVENT_MOUSEUP);
+	add_listener(&window_dragresize, wi, EVENT_MOUSEMOVE);
 	return wi;
 }
 
@@ -83,14 +88,49 @@ void draw_window(void *wp)
 	glDisable(GL_TEXTURE_2D);
 }
 
-void update_window(void *wp)
+void window_mousedown(void *wp)
 {
 	window wi = wp;
 
+	// inside windows left and right borders
+	if((mouse_x >= wi->x) && (mouse_x <= (wi->x + wi->w)))
+	{
+		// in the title bar
+		if((mouse_y >= (wi->y - 25)) && (mouse_y <= wi->y))
+		{
+			wi->drag = 1;
+			wi->drag_x = wi->x - mouse_x;
+			wi->drag_y = wi->y - mouse_y;
+		}
+		// in the drag handle
+		if((mouse_y >= (wi->y - wi->h)) && (mouse_y <= (wi->y - wi->h + 25)))
+		{
+			if(mouse_x >= (wi->x + wi->w - 25))
+			{
+				wi->resize = 1;
+			}
+		}
+	}
+}
+
+void window_mouseup(void *wp)
+{
+	window wi = wp;
+
+	wi->drag = 0;
+	wi->resize = 0;
+}
+
+void window_dragresize(void *wp)
+{
+	window wi = wp;
+	
 	if(wi->drag == 1)
 	{
 		wi->x = wi->drag_x + mouse_x;
 		wi->y = wi->drag_y + mouse_y;
+		wi->drag_x = wi->x - mouse_x;
+		wi->drag_y = wi->y - mouse_y;
 	}
 	else if(wi->resize == 1)
 	{
@@ -99,36 +139,5 @@ void update_window(void *wp)
 			wi->w = mouse_x - wi->x;
 			wi->h = wi->y - mouse_y;
 		}
-	}
-
-	// window mouse interaction
-	if(mouse_state == 1)
-	{
-		// inside windows left and right borders
-		if((mouse_x >= wi->x) && (mouse_x <= (wi->x + wi->w)))
-		{
-			// in the title bar
-			if((mouse_y >= (wi->y - 25)) && (mouse_y <= wi->y))
-			{
-				wi->drag = 1;
-				wi->drag_x = wi->x - mouse_x;
-				wi->drag_y = wi->y - mouse_y;
-			}
-			// in the drag handle
-			if((mouse_y >= (wi->y - wi->h)) && (mouse_y <= (wi->y - wi->h + 25)))
-			{
-				if(mouse_x >= (wi->x + wi->w - 25))
-				{
-					wi->resize = 1;
-					wi->drag_x = wi->x - mouse_x;
-					wi->drag_y = wi->y - mouse_y;
-				}
-			}
-		}
-	}
-	else
-	{
-		wi->drag = 0;
-		wi->resize = 0;
 	}
 }

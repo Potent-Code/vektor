@@ -34,6 +34,8 @@ extern void draw_window(void *wp);
 extern void window_load_textures(void);
 extern void show_window(window w);
 extern void hide_window(window w);
-extern void update_window(void *wp);
+extern void window_mousedown(void *wp);
+extern void window_mouseup(void *wp);
+extern void window_dragresize(void *wp);
 
 #endif

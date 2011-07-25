@@ -26,6 +26,6 @@ typedef struct
 // methods
 extern button add_button(int x, int y, int w, int h, unsigned int* texture_id);
 extern void draw_button(void *bp);
-extern void update_button(void *bp);
+extern void button_mousedown(void *bp);
 
 #endif
