@@ -1,6 +1,6 @@
 /* ui window
  * by Ryan Lucchese
- * May 20 2011 */
+ * July 24 2011 */
 
 #include "window.h"
 

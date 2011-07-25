@@ -23,6 +23,7 @@ typedef struct
 
 #include "sdl_window.h"
 #include "input.h"
+#include "event.h"
 
 extern camera add_camera(float x, float y, float z);
 extern void camera_matrix(camera c);

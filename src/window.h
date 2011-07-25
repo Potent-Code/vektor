@@ -1,13 +1,13 @@
 /* ui window
  * by Ryan Lucchese
- * May 20 2011 */
+ * July 24 2011 */
 
 #ifndef WINDOW_H
 #define WINDOW_H
 
 #include "sdl.h"
 #include "texture.h"
-#include "input.h"
+#include "event.h"
 //#include "draw.h"
 //#include "camera.c"
 

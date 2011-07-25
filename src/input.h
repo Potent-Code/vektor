@@ -22,9 +22,9 @@ extern int unicode;
 extern char *input_buffer;
 extern int ib_count;
 extern int ib_len;
-extern int mouse_state;
+/*extern int mouse_state;
 extern int mouse_x;
-extern int mouse_y;
+extern int mouse_y;*/
 extern int last_mouse_x;
 extern int last_mouse_y;
 

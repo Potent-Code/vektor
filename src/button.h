@@ -7,7 +7,7 @@
 
 #include "sdl.h"
 #include "texture.h"
-#include "input.h"
+#include "event.h"
 
 // types
 typedef struct

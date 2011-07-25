@@ -8,6 +8,7 @@
 
 #include "sdl.h"
 #include "input.h"
+#include "event.h"
 #include "texture.h"
 #include "font.h"
 #include "scrollbar.h"

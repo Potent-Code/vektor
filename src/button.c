@@ -67,7 +67,7 @@ void update_button(void *bp)
 
 	if(mouse_state == 1)
 	{
-		if((mouse_x >= b->x) && (mouse_x <= b->x + b->h))
+		if((mouse_x >= b->x) && (mouse_x <= (b->x + b->h)))
 		{
 			if((mouse_y >= (b->y - b->h)) && (mouse_y <= b->y))
 			{

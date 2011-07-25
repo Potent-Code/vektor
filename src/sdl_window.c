@@ -28,7 +28,16 @@ void quit(void)
 	// free fonts
 	free_all_fonts();
 
-	// free render objects
+	// free 3d render objects
+	if(renderlist_3d != NULL)
+	{
+		for(i=0; i < renderobjs3d_count; i++)
+		{
+			renderlist_3d[i].remove(renderlist_3d[i].object);
+		}
+	}
+
+	// free 2d render objects
 	if(renderlist_2d != NULL)
 	{
 		for(i=0; i < renderobjs2d_count; i++)
@@ -182,6 +191,7 @@ void vektor_run(void)
 {
 	int done = 0;
 	int active = 1;
+	int mx,my; // mouse coords
 	SDL_Event event;
 
 	// draw intro logo
@@ -213,18 +223,20 @@ void vektor_run(void)
 					{
 						mouse_state = 0;
 					}
-					SDL_GetMouseState(&mouse_x, &mouse_y);
-					mouse_x -= 512;
-					mouse_y = (768-mouse_y)-384;
+					SDL_GetMouseState(&mx, &my);
+					mx -= 512;
+					my = (768-my)-384;
+					event_mouseup(mx, my);
 					break;
 				case SDL_MOUSEBUTTONDOWN:
 					if(mouse_state == 0)
 					{
 						mouse_state = 1;
 					}
-					SDL_GetMouseState(&mouse_x, &mouse_y);
-					mouse_x -= 512;
-					mouse_y = (768-mouse_y)-384;
+					SDL_GetMouseState(&mx, &my);
+					mx -= 512;
+					my = (768-my)-384;
+					event_mousedown(mx, my);
 					break;
 				case SDL_VIDEORESIZE:
 					surface = SDL_SetVideoMode(event.resize.w, event.resize.h, 32, video_flags);
@@ -237,10 +249,11 @@ void vektor_run(void)
 					get_keyup(&event.key.keysym);
 					break;
 				case SDL_MOUSEMOTION:
-					SDL_GetMouseState(&mouse_x, &mouse_y);
-					mouse_x -= 512;
-					mouse_y = (768-mouse_y)-384;
+					SDL_GetMouseState(&mx, &my);
+					mx -= 512;
+					my = (768-my)-384;
 					camera_mouselook(cam);
+					event_mousemove(mx, my);
 					break;
 				case SDL_QUIT:
 					done = 1;
