@@ -93,7 +93,7 @@ void update_window(void *wp)
 	}
 	else if(wi->resize == 1)
 	{
-		if(wi->w >= 50 && wi->h >= 50)
+		if(wi->w >= 150 && wi->h >= 150)
 		{
 			wi->w = mouse_x - wi->x;
 			wi->h = wi->y - mouse_y;
