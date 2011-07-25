@@ -20,6 +20,7 @@ typedef struct
 	int h;
 	int active;
 	int drag;
+	int resize;
 	int drag_x;
 	int drag_y;
 	void (*update)(void *);
