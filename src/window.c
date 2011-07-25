@@ -4,22 +4,17 @@
 
 #include "window.h"
 
-window add_window(int x, int y, int w, int h, int texture_id);
+window add_window(int x, int y, int w, int h);
 void draw_window(void *wp);
 void window_load_textures(void);
-void show_window(void);
-void hide_window(void);
+void show_window(window w);
+void hide_window(window w);
 
-unsigned int active;
+unsigned int* window_texture;
+unsigned int* cpane_texture;
+unsigned int* menu_bg_texture;
 
-unsigned int window_texture;
-unsigned int cpane_texture;
-unsigned int menu_bg_texture;
-unsigned int console_btn_texture;
-unsigned int chat_btn_texture;
-unsigned int log_btn_texture;
-
-window add_window(int x, int y, int w, int h, int texture_id)
+window add_window(int x, int y, int w, int h)
 {
 	window wi;
 
@@ -29,33 +24,35 @@ window add_window(int x, int y, int w, int h, int texture_id)
 	wi->y = y;
 	wi->w = w;
 	wi->h = h;
-	wi->gl_id = textures[texture_id].gl_id;
+	wi->active = 1;
 
 	add_object_2d(wi, &draw_window, NULL, NULL);
+	wi->draw = &draw_window;
 	return wi;
 }
 
 // load window textures
 void window_load_textures(void)
 {
-	window_texture = add_texture("/usr/local/share/vektor/ui/ui_window.texture");
-	cpane_texture = add_texture("/usr/local/share/vektor/ui/ui_content.texture");
-	menu_bg_texture = add_texture("/usr/local/share/vektor/ui/ui_menu_bg.texture");
-	console_btn_texture = add_texture("/usr/local/share/vektor/ui/console_button.texture");
-	chat_btn_texture = add_texture("/usr/local/share/vektor/ui/chat_button.texture");
-	log_btn_texture = add_texture("/usr/local/share/vektor/ui/log_button.texture");
+	int w,c,m;
+	w = add_texture("/usr/local/share/vektor/ui/ui_window.texture");
+	c = add_texture("/usr/local/share/vektor/ui/ui_content.texture");
+	m = add_texture("/usr/local/share/vektor/ui/ui_menu_bg.texture");
+	window_texture = textures[w].gl_id;
+	cpane_texture = textures[c].gl_id;
+	menu_bg_texture = textures[m].gl_id;
 }
 
-void show_window(void)
+void show_window(window w)
 {
 	disable_mouselook();
-	active = 1;
+	w->active = 1;
 }
 
-void hide_window(void)
+void hide_window(window w)
 {
 	enable_mouselook();
-	active = 0;
+	w->active = 0;
 }
 
 void draw_window(void *wp)
@@ -63,19 +60,22 @@ void draw_window(void *wp)
 	// restore window structure
 	window w = wp;
 
-	if(active == 0)
+	if(w->active == 0)
 	{
 		return;
 	}
 
-	glColor3f(1.0,1.0,1.0);
+	glColor4f(1.0,1.0,1.0,1.0);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, *w->gl_id);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+	glBindTexture(GL_TEXTURE_2D, *window_texture);
 	glBegin(GL_QUADS);
 		glTexCoord2f(1,1); glVertex3f(w->x + w->w, w->y + w->h, 0.1);
 		glTexCoord2f(0,1); glVertex3f(w->x, w->y + w->h, 0.1);
 		glTexCoord2f(0,0); glVertex3f(w->x, w->y, 0.1);
 		glTexCoord2f(1,0); glVertex3f(w->x + w->w, w->y, 0.1);
 	glEnd();
+	glDisable(GL_BLEND);
 	glDisable(GL_TEXTURE_2D);
 }

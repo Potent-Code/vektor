@@ -175,7 +175,7 @@ void vektor_init(const char *title)
 	default_font = add_font("/usr/local/share/vektor/fonts/default.font");
 	logo_texture = add_texture("/usr/local/share/vektor/logo.texture");
 	sb_texture = add_texture("/usr/local/share/vektor/ui/scroll_bar.texture");
-	window_load_textures();
+	init_console(-261,-176,522,352);
 }
 
 void vektor_run(void)
@@ -193,7 +193,8 @@ void vektor_run(void)
 	{
 		fprintf(stderr,"Please run vektor_init() first!\n");
 	}
-
+	
+	enable_mouselook();
 	// main window loop
 	while(!done)
 	{

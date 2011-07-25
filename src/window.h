@@ -5,7 +5,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include "sdl_window.h"
+#include "sdl.h"
 #include "texture.h"
 //#include "draw.h"
 //#include "camera.c"
@@ -17,17 +17,17 @@ typedef struct
 	int y;
 	int w;
 	int h;
-	unsigned int *gl_id; // pointer to texture
+	int active;
 	void (*update)(void *);
 	void (*draw)(void *);
 	void (*remove)(void *);
 } *window;
 
 // methods
-extern window add_window(int x, int y, int w, int h, int texture_id);
+extern window add_window(int x, int y, int w, int h);
 extern void draw_window(void *wp);
 extern void window_load_textures(void);
-extern void show_window(void);
-extern void hide_window(void);
+extern void show_window(window w);
+extern void hide_window(window w);
 
 #endif
