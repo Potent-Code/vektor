@@ -6,6 +6,7 @@
 #define UI_H
 
 #include "window.h"
+#include "button.h"
 #include "console.h"
 #include "textbox.h"
 

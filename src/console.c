@@ -8,6 +8,7 @@ console init_console(int x, int y, int w, int h);
 void console_load_textures(void);
 void draw_console(void *cp);
 void toggle_console(void);
+void free_console(void* cp);
 
 console main_console;
 
@@ -27,14 +28,19 @@ console init_console(int x, int y, int w, int h)
 	c->h = h;
 	c->active = 0;
 
-	window_load_textures();
-	console_load_textures();
+	main_console = c;
 
 	c->win = add_window(x,y,w,h);
 	hide_window(c->win);
 
-	add_object_2d(c, &draw_console, NULL, NULL);
-	main_console = c;
+	c->console_btn = add_button(x + 5, y + 5, 87, 26, NULL);
+	c->chat_btn = add_button(x + 10 + 87, y + 5, 87, 26, NULL);
+	c->log_btn = add_button(x + 15 + 174, y + 5, 87, 26, NULL);
+
+	window_load_textures();
+	console_load_textures();
+
+	add_object_2d(c, &draw_console, NULL, &free_console);
 	
 	return c;
 }
@@ -46,9 +52,9 @@ void console_load_textures(void)
 	c = add_texture("/usr/local/share/vektor/ui/console_button.texture");
 	ch = add_texture("/usr/local/share/vektor/ui/chat_button.texture");
 	l = add_texture("/usr/local/share/vektor/ui/log_button.texture");
-	console_btn_texture = textures[c].gl_id;
-	chat_btn_texture = textures[ch].gl_id;
-	log_btn_texture = textures[l].gl_id;
+	main_console->console_btn->texture_id = textures[c].gl_id;
+	main_console->chat_btn->texture_id = textures[ch].gl_id;
+	main_console->log_btn->texture_id = textures[l].gl_id;
 }
 
 void toggle_console(void)
@@ -74,7 +80,30 @@ void draw_console(void *cp)
 	{
 		return;
 	}
+	c->console_btn->x = c->win->x + 5;
+	c->console_btn->y = c->win->y - 30;
+	c->chat_btn->x = c->win->x + 10 + 87;
+	c->chat_btn->y = c->win->y - 30;
+	c->log_btn->x = c->win->x + 15 + 174;
+	c->log_btn->y = c->win->y - 30;
 
 	c->win->update(c->win);
+	c->console_btn->update(c->console_btn);
+	c->chat_btn->update(c->chat_btn);
+	c->log_btn->update(c->log_btn);
+	
 	c->win->draw(c->win);
+	c->console_btn->draw(c->console_btn);
+	c->chat_btn->draw(c->chat_btn);
+	c->log_btn->draw(c->log_btn);
+}
+
+void free_console(void* cp)
+{
+	console c = cp;
+	c->win->remove(c->win);
+	c->console_btn->remove(c->console_btn);
+	c->chat_btn->remove(c->chat_btn);
+	c->log_btn->remove(c->log_btn);
+	free(main_console);
 }

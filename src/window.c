@@ -27,9 +27,10 @@ window add_window(int x, int y, int w, int h)
 	wi->h = h;
 	wi->active = 1;
 
-	add_object_2d(wi, &draw_window, NULL, NULL);
+	//add_object_2d(wi, &draw_window, NULL, NULL);
 	wi->draw = &draw_window;
 	wi->update = &update_window;
+	wi->remove = &free;
 	return wi;
 }
 
