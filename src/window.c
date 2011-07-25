@@ -9,6 +9,7 @@ void draw_window(void *wp);
 void window_load_textures(void);
 void show_window(window w);
 void hide_window(window w);
+void update_window(void *wp);
 
 unsigned int* window_texture;
 unsigned int* cpane_texture;
@@ -28,6 +29,7 @@ window add_window(int x, int y, int w, int h)
 
 	add_object_2d(wi, &draw_window, NULL, NULL);
 	wi->draw = &draw_window;
+	wi->update = &update_window;
 	return wi;
 }
 
@@ -78,4 +80,35 @@ void draw_window(void *wp)
 	glEnd();
 	glDisable(GL_BLEND);
 	glDisable(GL_TEXTURE_2D);
+}
+
+void update_window(void *wp)
+{
+	window wi = wp;
+
+	if(wi->drag == 1)
+	{
+		wi->x = wi->drag_x + mouse_x;
+		wi->y = wi->drag_y + mouse_y;
+	}
+
+	// window mouse interaction
+	if(mouse_state == 1)
+	{
+		// inside windows left and right borders
+		if((mouse_x >= (wi->x - wi->w)) && (mouse_x <= (wi->x + wi->w)))
+		{
+			// in the title bar
+			if((mouse_y >= (wi->y + wi->h - 25)) && (mouse_y <= (wi->y + wi->h)))
+			{
+				wi->drag = 1;
+				wi->drag_x = wi->x - mouse_x;
+				wi->drag_y = wi->y - mouse_y;
+			}
+		}
+	}
+	else
+	{
+		wi->drag = 0;
+	}
 }

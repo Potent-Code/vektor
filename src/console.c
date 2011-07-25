@@ -75,5 +75,6 @@ void draw_console(void *cp)
 		return;
 	}
 
+	c->win->update(c->win);
 	c->win->draw(c->win);
 }

@@ -7,7 +7,7 @@
 void get_key(SDL_keysym *keysym);
 void get_keyup(SDL_keysym *keysym);
 void input_key(uint16_t u);
-void set_input(void* tbp);
+void set_input(char *data, unsigned int len);
 
 void (*return_func)(char*);
 
@@ -78,13 +78,12 @@ void get_key(SDL_keysym *keysym)
 	}
 }
 
-void set_input(void *tbp)
+void set_input(char *data, unsigned int len)
 {
-	textbox tb = tbp;
-	if(tb != NULL)
+	if(data != NULL)
 	{
-		input_buffer = tb->data;
-		ib_len = tb->data_len;
+		input_buffer = data;
+		ib_len = len;
 	}
 	else
 	{

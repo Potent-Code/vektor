@@ -7,6 +7,7 @@
 
 #include "sdl.h"
 #include "texture.h"
+#include "input.h"
 //#include "draw.h"
 //#include "camera.c"
 
@@ -18,6 +19,9 @@ typedef struct
 	int w;
 	int h;
 	int active;
+	int drag;
+	int drag_x;
+	int drag_y;
 	void (*update)(void *);
 	void (*draw)(void *);
 	void (*remove)(void *);
@@ -29,5 +33,6 @@ extern void draw_window(void *wp);
 extern void window_load_textures(void);
 extern void show_window(window w);
 extern void hide_window(window w);
+extern void update_window(void *wp);
 
 #endif

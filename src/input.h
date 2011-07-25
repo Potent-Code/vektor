@@ -7,15 +7,13 @@
 
 #include <stdint.h>
 
-#include "sdl_window.h"
-#include "textbox.h"
-#include "draw.h"
+#include "sdl.h"
 
 // methods
 extern void get_key(SDL_keysym *keysym);
 extern void get_keyup(SDL_keysym *keysym);
 extern void input_key(uint16_t u);
-extern void set_input(void* tbp);
+extern void set_input(char *data, unsigned int len);
 
 // globals
 extern void (*return_func)(char*);
