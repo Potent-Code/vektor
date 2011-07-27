@@ -96,32 +96,13 @@ void draw_console(void *cp)
 	{
 		return;
 	}
-	/*c->console_btn->x = c->win->x + 5;
-	c->console_btn->y = c->win->y - 30;
-	c->chat_btn->x = c->win->x + 10 + 87;
-	c->chat_btn->y = c->win->y - 30;
-	c->log_btn->x = c->win->x + 15 + 174;
-	c->log_btn->y = c->win->y - 30;*/
-
-	/*c->win->update(c->win);
-	c->console_btn->update(c->console_btn);
-	c->chat_btn->update(c->chat_btn);
-	c->log_btn->update(c->log_btn);*/
 	
 	c->win->draw(c->win);
-/*	c->console_btn->draw(c->console_btn);
-	c->chat_btn->draw(c->chat_btn);
-	c->log_btn->draw(c->log_btn);*/
-	//c->tabs->draw(c->tabs);
 }
 
 void free_console(void* cp)
 {
 	console c = cp;
 	c->win->remove(c->win);
-	/*c->console_btn->remove(c->console_btn);
-	c->chat_btn->remove(c->chat_btn);
-	c->log_btn->remove(c->log_btn);*/
-	c->tabs->remove(c->tabs);
 	free(main_console);
 }

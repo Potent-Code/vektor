@@ -13,6 +13,7 @@ void window_mousedown(void *wp);
 void window_mouseup(void *wp);
 void window_dragresize(void *wp);
 void window_addchild(window w, void *p, void (*draw)(void*), void (*resize)(void*), void(*remove)(void*));
+void free_window(void *wp);
 
 unsigned int* window_texture;
 unsigned int* cpane_texture;
@@ -45,12 +46,12 @@ window add_window(int x, int y, int w, int h)
 		}
 	}
 
-	*wi->x = (float)x;
+	*wi->x = (float)(-1*x);
 	*wi->y = (float)y;
 
 	//add_object_2d(wi, &draw_window, NULL, NULL);
 	wi->draw = &draw_window;
-	wi->remove = &free;
+	wi->remove = &free_window;
 	
 	add_listener(&window_mousedown, wi, EVENT_MOUSEDOWN);
 	add_listener(&window_mouseup, wi, EVENT_MOUSEUP);
@@ -116,9 +117,15 @@ void draw_window(void *wp)
 	{
 		for(child = w->children; child->next != NULL; child = child->next)
 		{
+			if(child->draw != NULL)
+			{
+				child->draw(child->obj);
+			}
+		}
+		if(child->draw != NULL)
+		{
 			child->draw(child->obj);
 		}
-		child->draw(child->obj);
 	}
 
 	glMatrixMode(GL_MODELVIEW);
@@ -128,8 +135,8 @@ void draw_window(void *wp)
 void window_mousedown(void *wp)
 {
 	window wi = wp;
-	int x = (int)(*wi->x);
-	int y = (int)(*wi->y);
+	int x = (int)(*(wi->x));
+	int y = (int)(*(wi->y));
 
 	// inside windows left and right borders
 	if((mouse_x >= x) && (mouse_x <= (x + wi->w)))
@@ -166,8 +173,8 @@ void window_dragresize(void *wp)
 	
 	if(wi->drag == 1)
 	{
-		*wi->x = (float)(wi->drag_x + mouse_x);
-		*wi->y = (float)(wi->drag_y + mouse_y);
+		*wi->x = (float)(-1)*(wi->drag_x + mouse_x);
+		*wi->y = (float)(-1)*(wi->drag_y + mouse_y);
 		wi->drag_x = (int)(*wi->x) - mouse_x;
 		wi->drag_y = (int)(*wi->y) - mouse_y;
 	}
@@ -208,4 +215,28 @@ void window_addchild(window w, void *p, void (*draw)(void*), void (*resize)(void
 	c->resize = resize;
 	c->remove = remove;
 	c->next = NULL;
+}
+
+void free_window(void *wp)
+{
+	window w = wp;
+	struct ui_obj* tmp;
+	struct ui_obj* prev;
+
+	prev = NULL;
+
+	// remove window children
+	for(tmp = w->children; tmp->next != NULL; tmp = tmp->next)
+	{
+		tmp->remove(tmp->obj);
+		if(prev != NULL)
+		{
+			free(prev);
+		}
+		prev = tmp;
+	}
+	free(prev);
+	tmp->remove(tmp->obj);
+	free(tmp);
+	free(w);
 }
