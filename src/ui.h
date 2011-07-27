@@ -7,7 +7,7 @@
 
 #include "window.h"
 #include "button.h"
-#include "console.h"
+#include "tabbar.h"
 #include "textbox.h"
 
 #endif

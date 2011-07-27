@@ -8,14 +8,25 @@
 #include "sdl.h"
 #include "texture.h"
 #include "event.h"
+#include "ui.h"
 //#include "draw.h"
 //#include "camera.c"
 
 // types
+
+struct ui_obj
+{
+	void *obj;
+	void (*draw)(void*);
+	void (*resize)(void*);
+	void (*remove)(void*);
+	struct ui_obj* next;
+};
+
 typedef struct
 {
-	int x;
-	int y;
+	float* x;
+	float* y;
 	int w;
 	int h;
 	int active;
@@ -23,6 +34,9 @@ typedef struct
 	int resize;
 	int drag_x;
 	int drag_y;
+	int n_children;
+	struct ui_obj* children;
+	GLfloat transform[16];
 	void (*update)(void *);
 	void (*draw)(void *);
 	void (*remove)(void *);
@@ -37,5 +51,6 @@ extern void hide_window(window w);
 extern void window_mousedown(void *wp);
 extern void window_mouseup(void *wp);
 extern void window_dragresize(void *wp);
+extern void window_addchild(window w, void *p, void (*draw)(void*), void (*resize)(void*), void (*remove)(void*));
 
 #endif

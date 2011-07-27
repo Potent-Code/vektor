@@ -16,9 +16,7 @@ typedef struct
 	int h;
 	int active;
 	window win;
-	button console_btn;
-	button chat_btn;
-	button log_btn;
+	tabbar tabs;
 	void (*update)(void *);
 	void (*draw)(void *);
 	void (*remove)(void *);
