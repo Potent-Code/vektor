@@ -38,7 +38,7 @@ console init_console(int x, int y, int w, int h)
 	hide_window(c->win);
 
 	// add tab bar and buttons
-	c->tabs = add_tabbar(x+10, y-26, 502, 36);
+	c->tabs = add_tabbar(x, y, 502, 36);
 	console_btn = add_button(x + 5, y + 5, 87, 26, NULL);
 	chat_btn = add_button(x + 10 + 87, y + 5, 87, 26, NULL);
 	log_btn = add_button(x + 15 + 174, y + 5, 87, 26, NULL);

@@ -184,7 +184,7 @@ void vektor_init(const char *title)
 	default_font = add_font("/usr/local/share/vektor/fonts/default.font");
 	logo_texture = add_texture("/usr/local/share/vektor/logo.texture");
 	sb_texture = add_texture("/usr/local/share/vektor/ui/scroll_bar.texture");
-	init_console(-261,176,522,352);
+	init_console(-276,174,522,352);
 }
 
 void vektor_run(void)

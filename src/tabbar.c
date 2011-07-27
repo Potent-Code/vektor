@@ -3,7 +3,7 @@
  * July 24 2011 */
 
 #include "tabbar.h"
-
+#include <stdio.h>
 tabbar add_tabbar(int x, int y, int w, int h);
 void draw_tabbar(void *bp);
 void tabbar_load_textures(void);
@@ -27,6 +27,8 @@ tabbar add_tabbar(int x, int y, int w, int h)
 	t->active = 0;
 	t->texture_id = tabbar_texture;
 	t->buttons = NULL;
+
+	fprintf(stderr,"tabbar at (%d,%d)\n",x,y);
 
 	//add_object_2d(t, &draw_tabbar, NULL, NULL);
 	t->draw = &draw_tabbar;
@@ -56,10 +58,10 @@ void draw_tabbar(void *tp)
 	glEnable(GL_BLEND);
 	glBindTexture(GL_TEXTURE_2D, *t->texture_id);
 	glBegin(GL_QUADS);
-		glTexCoord2f(1,1); glVertex3f(t->x + t->w, t->y, 0.1);
-		glTexCoord2f(0,1); glVertex3f(t->x, t->y, 0.1);
-		glTexCoord2f(0,0); glVertex3f(t->x, t->y - t->h, 0.1);
-		glTexCoord2f(1,0); glVertex3f(t->x + t->w, t->y - t->h, 0.1);
+		glTexCoord2f(1,1); glVertex3f((float)(t->x + t->w), (float)t->y, 0.1);
+		glTexCoord2f(0,1); glVertex3f((float)t->x, (float)t->y, 0.1);
+		glTexCoord2f(0,0); glVertex3f((float)t->x, (float)(t->y - t->h), 0.1);
+		glTexCoord2f(1,0); glVertex3f((float)(t->x + t->w), (float)(t->y - t->h), 0.1);
 	glEnd();
 	glDisable(GL_BLEND);
 	glDisable(GL_TEXTURE_2D);
@@ -74,7 +76,7 @@ void draw_tabbar(void *tp)
 
 void tabbar_add_tab(tabbar t, button b)
 {
-	int n_btns;
+	int n_btns=0;
 	button_list btn_tmp = t->buttons;
 
 	if(t->buttons == NULL)
@@ -105,6 +107,8 @@ void tabbar_add_tab(tabbar t, button b)
 	{
 		b->active = 1;
 	}
+
+	fprintf(stderr,"added button. %d buttons.\n",n_btns);
 
 	btn_tmp->btn = b;
 	btn_tmp->next = NULL;

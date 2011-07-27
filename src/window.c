@@ -48,7 +48,7 @@ window add_window(int x, int y, int w, int h)
 		}
 	}
 
-	*wi->x = (float)(-1*x);
+	*wi->x = (float)x;
 	*wi->y = (float)y;
 
 	//add_object_2d(wi, &draw_window, NULL, NULL);
@@ -106,10 +106,10 @@ void draw_window(void *wp)
 	glEnable(GL_BLEND);
 	glBindTexture(GL_TEXTURE_2D, *window_texture);
 	glBegin(GL_QUADS);
-		glTexCoord2f(1,1); glVertex3f(*w->x + w->w, *w->y, 0.1);
-		glTexCoord2f(0,1); glVertex3f(*w->x, *w->y, 0.1);
-		glTexCoord2f(0,0); glVertex3f(*w->x, *w->y - w->h, 0.1);
-		glTexCoord2f(1,0); glVertex3f(*w->x + w->w, *w->y - w->h, 0.1);
+		glTexCoord2f(1,1); glVertex3f((float)w->w, 0., 0.1);
+		glTexCoord2f(0,1); glVertex3f(0., 0., 0.1);
+		glTexCoord2f(0,0); glVertex3f(0., -(float)w->h, 0.1);
+		glTexCoord2f(1,0); glVertex3f((float)w->w, -(float)w->h, 0.1);
 	glEnd();
 	glDisable(GL_BLEND);
 	glDisable(GL_TEXTURE_2D);
@@ -175,8 +175,8 @@ void window_dragresize(void *wp)
 	
 	if(wi->drag == 1)
 	{
-		*wi->x = (float)(-1)*(wi->drag_x + mouse_x);
-		*wi->y = (float)(-1)*(wi->drag_y + mouse_y);
+		*wi->x = (float)(wi->drag_x + mouse_x);
+		*wi->y = (float)(wi->drag_y + mouse_y);
 		wi->drag_x = (int)(*wi->x) - mouse_x;
 		wi->drag_y = (int)(*wi->y) - mouse_y;
 	}
