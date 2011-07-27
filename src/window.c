@@ -33,6 +33,8 @@ window add_window(int x, int y, int w, int h)
 	wi->h = h;
 	wi->active = 1;
 
+	w->children = NULL;
+
 	// initialize transformaton matrix
 	for(i=0; i < 16; i++)
 	{
