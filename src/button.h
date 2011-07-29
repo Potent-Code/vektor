@@ -14,11 +14,14 @@ typedef struct
 {
 	int x;
 	int y;
+	int screen_x;
+	int screen_y;
 	int w;
 	int h;
 	int active;
 	unsigned int *texture_id;
 	void (*action)(void *);
+	void (*move)(void *, int, int);
 	void (*update)(void *);
 	void (*draw)(void *);
 	void (*remove)(void *);

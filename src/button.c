@@ -5,6 +5,7 @@
 #include "button.h"
 
 button add_button(int x, int y, int w, int h, unsigned int* texture_id);
+void move_button(void *bp, float x, float y);
 void draw_button(void *bp);
 void button_mousedown(void *bp);
 
@@ -23,11 +24,19 @@ button add_button(int x, int y, int w, int h, unsigned int* texture_id)
 
 	//add_object_2d(b, &draw_button, NULL, NULL);
 	b->action = NULL;
+	b->move = &move_button;
 	b->draw = &draw_button;
 	b->remove = &free;
 	add_listener(&button_mousedown, b, EVENT_MOUSEDOWN);
 
 	return b;
+}
+
+void move_button(void *bp, float x, float y)
+{
+	button b = bp;
+	b->screen_x = (int)x;
+	b->screen_y = (int)y;
 }
 
 void draw_button(void *bp)
@@ -67,9 +76,9 @@ void button_mousedown(void *bp)
 {
 	button b = bp;
 
-	if((mouse_x >= b->x) && (mouse_x <= (b->x + b->w)))
+	if((mouse_x >= (b->x+b->screen_x)) && (mouse_x <= (b->x + b->w + b->screen_x)))
 	{
-		if((mouse_y >= (b->y - b->h)) && (mouse_y <= b->y))
+		if((mouse_y >= (b->y - b->h + b->screen_y)) && (mouse_y <= (b->y + b->screen_y)))
 		{
 			if(b->active == 0)
 			{

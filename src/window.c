@@ -12,7 +12,7 @@ void hide_window(window w);
 void window_mousedown(void *wp);
 void window_mouseup(void *wp);
 void window_dragresize(void *wp);
-void window_addchild(window w, void *p, void (*draw)(void*), void (*resize)(void*), void(*remove)(void*));
+void window_addchild(window w, void *p, void (*draw)(void*), void (*move)(void*,float,float), void (*resize)(void*,float,float), void(*remove)(void*));
 void free_window(void *wp);
 
 unsigned int* window_texture;
@@ -29,8 +29,8 @@ window add_window(int x, int y, int w, int h)
 	// link to transformation matrix
 	wi->x = &wi->transform[12];
 	wi->y = &wi->transform[13];
-	wi->w = w;
-	wi->h = h;
+	wi->w = wi->w_orig = w;
+	wi->h = wi->h_orig = h;
 	wi->active = 1;
 
 	wi->children = NULL;
@@ -172,6 +172,11 @@ void window_mouseup(void *wp)
 void window_dragresize(void *wp)
 {
 	window wi = wp;
+
+	struct ui_obj* child;
+
+	float w_scale = 1.0;
+	float h_scale = 1.0;
 	
 	if(wi->drag == 1)
 	{
@@ -184,13 +189,67 @@ void window_dragresize(void *wp)
 	{
 		if(wi->w >= 150 && wi->h >= 150)
 		{
-			wi->w = mouse_x - (int)(*wi->x);
-			wi->h = (int)(*wi->y) - mouse_y;
+			w_scale = ((float)(mouse_x - (int)(*wi->x)))/((float)wi->w_orig);
+			h_scale = ((float)((int)(*wi->y) - mouse_y))/((float)wi->h_orig);
+			//wi->w = mouse_x - (int)(*wi->x);
+			//wi->h = (int)(*wi->y) - mouse_y;
+			wi->w = w_scale*wi->w_orig;
+			wi->h = h_scale*wi->h_orig;
+			//if(w_scale < h_scale) w_scale = h_scale;
+			//*wi->scale = w_scale;
+			//w_scale = 1.0;
+			//h_scale = 1.0;
+		}
+		else
+		{
+			if(wi->w < 150)
+			{
+				wi->w = 151;
+				w_scale = 151./(float)wi->w_orig;
+			}
+			if(wi->h < 150)
+			{
+				wi->h = 151;
+				h_scale = 151./(float)wi->h_orig;
+			}
+		}
+	}
+
+
+	for(child = wi->children; child->next != NULL; child = child->next)
+	{
+		if(wi->drag == 1)
+		{
+			if(child->move != NULL)
+			{
+				child->move(child->obj, *wi->x, *wi->y);
+			}
+		}
+		else if(wi->resize == 1)
+		{
+			if(child->resize != NULL)
+			{
+				child->resize(child->obj, w_scale, h_scale);
+			}
+		}
+	}
+	if(wi->drag == 1)
+	{
+		if(child->move != NULL)
+		{
+			child->move(child->obj, *wi->x, *wi->y);
+		}
+	}
+	else if(wi->resize == 1)
+	{
+		if(child->resize != NULL)
+		{
+			child->resize(child->obj, w_scale, h_scale);
 		}
 	}
 }
 
-void window_addchild(window w, void *p, void (*draw)(void*), void (*resize)(void*), void(*remove)(void*))
+void window_addchild(window w, void *p, void (*draw)(void*), void (*move)(void*,float,float), void (*resize)(void*,float,float), void(*remove)(void*))
 {
 	int i=0;
 	struct ui_obj* c;
@@ -214,9 +273,15 @@ void window_addchild(window w, void *p, void (*draw)(void*), void (*resize)(void
 	w->n_children = i;
 	c->obj = p;
 	c->draw = draw;
+	c->move = move;
 	c->resize = resize;
 	c->remove = remove;
 	c->next = NULL;
+
+	if(c->move != NULL)
+	{
+		c->move(c->obj, *w->x, *w->y);
+	}
 }
 
 void free_window(void *wp)

@@ -5,6 +5,8 @@
 #include "tabbar.h"
 
 tabbar add_tabbar(int x, int y, int w, int h);
+void resize_tabbar(void *tp, float w_scale, float h_scale);
+void move_tabbar(void *tp, float x, float y);
 void draw_tabbar(void *bp);
 void tabbar_load_textures(void);
 void tabbar_add_tab(tabbar t, button b);
@@ -23,7 +25,7 @@ tabbar add_tabbar(int x, int y, int w, int h)
 	t = malloc(sizeof(*t));
 	t->x = x;
 	t->y = y;
-	t->w = w;
+	t->w = t->w_orig = w;
 	t->h = h;
 	t->active = 0;
 	t->texture_id = tabbar_texture;
@@ -31,8 +33,10 @@ tabbar add_tabbar(int x, int y, int w, int h)
 
 	//add_object_2d(t, &draw_tabbar, NULL, NULL);
 	t->draw = &draw_tabbar;
+	t->move = &move_tabbar;
 	t->remove = &free_tabbar;
 	t->update = NULL;
+	t->resize = &resize_tabbar;
 
 	return t;
 }
@@ -42,6 +46,31 @@ void tabbar_load_textures(void)
 	int tt;
 	tt = add_texture("/usr/local/share/vektor/ui/ui_menu_bg.texture");
 	tabbar_texture = textures[tt].gl_id;
+}
+
+void resize_tabbar(void *tp, float w_scale, float h_scale)
+{
+	tabbar t = tp;
+	t->w = w_scale*t->w_orig;
+	//t->h *= h_scale;
+}
+
+void move_tabbar(void *tp, float x, float y)
+{
+	tabbar t = tp;
+	button_list b;
+
+	for(b = t->buttons; b->next != NULL; b = b->next)
+	{
+		if(b->btn->move != NULL)
+		{
+			b->btn->move(b->btn, x, y);
+		}
+	}
+	if(b->btn->move != NULL)
+	{
+		b->btn->move(b->btn, x, y);
+	}
 }
 
 void draw_tabbar(void *tp)
@@ -107,8 +136,6 @@ void tabbar_add_tab(tabbar t, button b)
 		b->active = 1;
 	}
 
-	fprintf(stderr,"added button. %d buttons.\n",n_btns);
-
 	btn_tmp->btn = b;
 	btn_tmp->next = NULL;
 }
@@ -119,7 +146,14 @@ void tabbar_set_active(tabbar t, button b)
 
 	for(btn_tmp = t->buttons; btn_tmp->next != NULL; btn_tmp = btn_tmp->next)
 	{
-		if(btn_tmp->btn->active != 1);
+		if(btn_tmp->btn != b)
+		{
+			btn_tmp->btn->active = 0;
+		}
+	}
+	if(btn_tmp->btn != b)
+	{
+		btn_tmp->btn->active = 0;
 	}
 }
 

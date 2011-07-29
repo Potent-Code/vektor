@@ -26,9 +26,12 @@ typedef struct
 	int y;
 	int w;
 	int h;
+	int w_orig;
 	int active;
 	button_list buttons;
 	unsigned int *texture_id;
+	void (*resize)(void *, float, float);
+	void (*move)(void *, float, float);
 	void (*update)(void *);
 	void (*draw)(void *);
 	void (*remove)(void *);
@@ -36,6 +39,8 @@ typedef struct
 
 // methods
 extern tabbar add_tabbar(int x, int y, int w, int h);
+extern void resize_tabbar(void *tp, float w_scale, float h_scale);
+extern void move_tabbar(void *tp, float x, float y);
 extern void draw_tabbar(void *tp);
 extern void tabbar_load_textures(void);
 extern void tabbar_add_tab(tabbar t, button b);

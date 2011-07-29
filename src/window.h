@@ -18,7 +18,8 @@ struct ui_obj
 {
 	void *obj;
 	void (*draw)(void*);
-	void (*resize)(void*);
+	void (*move)(void*, float, float);
+	void (*resize)(void*, float, float);
 	void (*remove)(void*);
 	struct ui_obj* next;
 };
@@ -29,6 +30,8 @@ typedef struct
 	float* y;
 	int w;
 	int h;
+	int w_orig;
+	int h_orig;
 	int active;
 	int drag;
 	int resize;
@@ -51,6 +54,6 @@ extern void hide_window(window w);
 extern void window_mousedown(void *wp);
 extern void window_mouseup(void *wp);
 extern void window_dragresize(void *wp);
-extern void window_addchild(window w, void *p, void (*draw)(void*), void (*resize)(void*), void (*remove)(void*));
+extern void window_addchild(window w, void *p, void (*draw)(void*), void (*move)(void*,float,float), void (*resize)(void*,float,float), void (*remove)(void*));
 
 #endif
