@@ -44,7 +44,7 @@ extern void move_tabbar(void *tp, float x, float y);
 extern void draw_tabbar(void *tp);
 extern void tabbar_load_textures(void);
 extern void tabbar_add_tab(tabbar t, button b);
-extern void tabbar_set_active(tabbar t, button b);
+extern void tabbar_set_active(void *tp);
 extern void free_tabbar(void *tp);
 
 #endif

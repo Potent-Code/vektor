@@ -10,7 +10,7 @@ void move_tabbar(void *tp, float x, float y);
 void draw_tabbar(void *bp);
 void tabbar_load_textures(void);
 void tabbar_add_tab(tabbar t, button b);
-void tabbar_set_active(tabbar t, button b);
+void tabbar_set_active(void *tp);
 void free_tabbar(void *tp);
 
 unsigned int* tabbar_texture;
@@ -30,6 +30,9 @@ tabbar add_tabbar(int x, int y, int w, int h)
 	t->active = 0;
 	t->texture_id = tabbar_texture;
 	t->buttons = NULL;
+
+	// button hit tests
+	add_listener(&tabbar_set_active, t, EVENT_MOUSEDOWN);
 
 	//add_object_2d(t, &draw_tabbar, NULL, NULL);
 	t->draw = &draw_tabbar;
@@ -140,20 +143,49 @@ void tabbar_add_tab(tabbar t, button b)
 	btn_tmp->next = NULL;
 }
 
-void tabbar_set_active(tabbar t, button b)
+void tabbar_set_active(void *tp)
 {
+	tabbar t = tp;
 	button_list btn_tmp;
+	button active_btn=NULL;
 
 	for(btn_tmp = t->buttons; btn_tmp->next != NULL; btn_tmp = btn_tmp->next)
 	{
-		if(btn_tmp->btn != b)
+		if((mouse_x >= (btn_tmp->btn->x + btn_tmp->btn->screen_x)) 
+				&& (mouse_x <= (btn_tmp->btn->x + btn_tmp->btn->screen_x + btn_tmp->btn->w)))
+		{
+			if((mouse_y >= (btn_tmp->btn->y + btn_tmp->btn->screen_y - btn_tmp->btn->h))
+					&& (mouse_y <= (btn_tmp->btn->y + btn_tmp->btn->screen_y)))
+			{
+				btn_tmp->btn->active = 1;
+				active_btn = btn_tmp->btn;
+			}
+		}
+	}
+	if((mouse_x >= (btn_tmp->btn->x + btn_tmp->btn->screen_x)) 
+			&& (mouse_x <= (btn_tmp->btn->x + btn_tmp->btn->screen_x + btn_tmp->btn->w)))
+	{
+		if((mouse_y >= (btn_tmp->btn->y + btn_tmp->btn->screen_y - btn_tmp->btn->h))
+				&& (mouse_y <= (btn_tmp->btn->y + btn_tmp->btn->screen_y)))
+		{
+			btn_tmp->btn->active = 1;
+			active_btn = btn_tmp->btn;
+		}
+	}
+
+	if(active_btn != NULL)
+	{
+		for(btn_tmp = t->buttons; btn_tmp->next != NULL; btn_tmp = btn_tmp->next)
+		{
+			if(active_btn != btn_tmp->btn)
+			{
+				btn_tmp->btn->active = 0;
+			}
+		}
+		if(active_btn != btn_tmp->btn)
 		{
 			btn_tmp->btn->active = 0;
 		}
-	}
-	if(btn_tmp->btn != b)
-	{
-		btn_tmp->btn->active = 0;
 	}
 }
 

@@ -27,7 +27,7 @@ button add_button(int x, int y, int w, int h, unsigned int* texture_id)
 	b->move = &move_button;
 	b->draw = &draw_button;
 	b->remove = &free;
-	add_listener(&button_mousedown, b, EVENT_MOUSEDOWN);
+	//add_listener(&button_mousedown, b, EVENT_MOUSEDOWN);
 
 	return b;
 }
