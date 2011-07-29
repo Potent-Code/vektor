@@ -149,6 +149,7 @@ void tabbar_set_active(void *tp)
 	button_list btn_tmp;
 	button active_btn=NULL;
 
+	fprintf(stderr,"mouse coords (%d,%d)\n",mouse_x,mouse_y);
 	for(btn_tmp = t->buttons; btn_tmp->next != NULL; btn_tmp = btn_tmp->next)
 	{
 		if((mouse_x >= (btn_tmp->btn->x + btn_tmp->btn->screen_x)) 
@@ -167,6 +168,7 @@ void tabbar_set_active(void *tp)
 				}
 			}
 		}
+		fprintf(stderr,"button coords (%d,%d)\n",btn_tmp->btn->x + btn_tmp->btn->screen_x, btn_tmp->btn->y + btn_tmp->btn->screen_y);
 	}
 	if((mouse_x >= (btn_tmp->btn->x + btn_tmp->btn->screen_x)) 
 			&& (mouse_x <= (btn_tmp->btn->x + btn_tmp->btn->screen_x + btn_tmp->btn->w)))
@@ -184,6 +186,7 @@ void tabbar_set_active(void *tp)
 			}
 		}
 	}
+	fprintf(stderr,"button coords (%d,%d)\n",btn_tmp->btn->x + btn_tmp->btn->screen_x, btn_tmp->btn->y + btn_tmp->btn->screen_y);
 
 	if(active_btn != NULL)
 	{
