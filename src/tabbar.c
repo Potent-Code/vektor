@@ -159,6 +159,10 @@ void tabbar_set_active(void *tp)
 			{
 				btn_tmp->btn->active = 1;
 				active_btn = btn_tmp->btn;
+				if(active_btn->action != NULL)
+				{
+					active_btn->action(active_btn);
+				}
 			}
 		}
 	}
@@ -170,6 +174,10 @@ void tabbar_set_active(void *tp)
 		{
 			btn_tmp->btn->active = 1;
 			active_btn = btn_tmp->btn;
+			if(active_btn->action != NULL)
+			{
+				active_btn->action(active_btn);
+			}
 		}
 	}
 

@@ -8,6 +8,9 @@ console init_console(int x, int y, int w, int h);
 void console_load_textures(void);
 void draw_console(void *cp);
 void toggle_console(void);
+void set_console(void *bp);
+void set_chat(void *bp);
+void set_log(void *bp);
 void free_console(void* cp);
 
 console main_console;
@@ -48,6 +51,11 @@ console init_console(int x, int y, int w, int h)
 	console_btn->texture_id = console_btn_texture;
 	chat_btn->texture_id = chat_btn_texture;
 	log_btn->texture_id = log_btn_texture;
+
+	// set button actions
+	console_btn->action = &set_console;
+	chat_btn->action = &set_chat;
+	log_btn->action = &set_log;
 
 	// attach buttons to tab bar
 	tabbar_add_tab(c->tabs, console_btn);
@@ -99,6 +107,24 @@ void draw_console(void *cp)
 	}
 	
 	c->win->draw(c->win);
+}
+
+void set_console(void *bp)
+{
+	button b = bp;
+	fprintf(stderr,"Pressed console button\n");
+}
+
+void set_chat(void *bp)
+{
+	button b = bp;
+	fprintf(stderr,"Pressed chat button\n");
+}
+
+void set_log(void *bp)
+{
+	button b = bp;
+	fprintf(stderr,"Pressed log button\n");
 }
 
 void free_console(void* cp)
