@@ -55,9 +55,6 @@ void get_key(SDL_keysym *keysym)
 		case SDLK_d:
 			controls[3]=1;
 			break;
-		case SDLK_F1:
-			toggle_console();
-			break;
 		case SDLK_RETURN:
 			if(return_func != NULL)
 			{
@@ -124,6 +121,9 @@ void get_keyup(SDL_keysym *keysym)
 			break;
 		case SDLK_d:
 			controls[3]=0;
+			break;
+		case SDLK_F1:
+			toggle_console();
 			break;
 		default:
 			break;
