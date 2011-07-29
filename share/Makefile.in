@@ -193,9 +193,9 @@ top_srcdir = @top_srcdir@
 vektordir = $(datadir)/@PACKAGE@/
 vektor_DATA = logo.texture
 fontsdir = $(datadir)/@PACKAGE@/fonts/
-fonts_DATA = fonts/default.font
+fonts_DATA = fonts/default.font fonts
 uidir = $(datadir)/@PACKAGE@/ui/
-ui_DATA = ui/scroll_bar.texture ui/ui_window.texture ui/ui_content.texture ui/ui_menu_bg.texture ui/chat_button.texture ui/console_button.texture ui/log_button.texture ui/ui_input_bar.texture ui/ui_scrollbar.texture
+ui_DATA = ui ui/scroll_bar.texture ui/ui_window.texture ui/ui_content.texture ui/ui_menu_bg.texture ui/chat_button.texture ui/console_button.texture ui/log_button.texture ui/ui_input_bar.texture ui/ui_scrollbar.texture
 MAKETEXTURE = $(abs_top_srcdir)/src/maketexture
 all: all-am
 
@@ -447,6 +447,12 @@ uninstall-am: uninstall-fontsDATA uninstall-uiDATA \
 	mostlyclean-libtool pdf pdf-am ps ps-am uninstall uninstall-am \
 	uninstall-fontsDATA uninstall-uiDATA uninstall-vektorDATA
 
+
+fonts:
+	mkdir fonts
+
+ui:
+	mkdir ui
 fonts/default.font: $(MAKETEXTURE)
 	$(MAKETEXTURE) png/fonts/default.png fonts/default.font
 

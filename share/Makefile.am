@@ -1,9 +1,15 @@
 vektordir = $(datadir)/@PACKAGE@/
 vektor_DATA = logo.texture
 fontsdir = $(datadir)/@PACKAGE@/fonts/
-fonts_DATA = fonts/default.font
+fonts_DATA = fonts/default.font fonts
 uidir = $(datadir)/@PACKAGE@/ui/
-ui_DATA = ui/scroll_bar.texture ui/ui_window.texture ui/ui_content.texture ui/ui_menu_bg.texture ui/chat_button.texture ui/console_button.texture ui/log_button.texture ui/ui_input_bar.texture ui/ui_scrollbar.texture
+ui_DATA = ui ui/scroll_bar.texture ui/ui_window.texture ui/ui_content.texture ui/ui_menu_bg.texture ui/chat_button.texture ui/console_button.texture ui/log_button.texture ui/ui_input_bar.texture ui/ui_scrollbar.texture
+
+fonts:
+	mkdir fonts
+
+ui:
+	mkdir ui
 
 MAKETEXTURE = $(abs_top_srcdir)/src/maketexture
 fonts/default.font: $(MAKETEXTURE)
