@@ -168,7 +168,7 @@ void tabbar_set_active(void *tp)
 				}
 			}
 		}
-		fprintf(stderr,"button coords (%d,%d)\n",btn_tmp->btn->x + btn_tmp->btn->screen_x, btn_tmp->btn->y + btn_tmp->btn->screen_y);
+		//fprintf(stderr,"button coords (%d,%d)\n",btn_tmp->btn->x + btn_tmp->btn->screen_x, btn_tmp->btn->y + btn_tmp->btn->screen_y);
 	}
 	if((mouse_x >= (btn_tmp->btn->x + btn_tmp->btn->screen_x)) 
 			&& (mouse_x <= (btn_tmp->btn->x + btn_tmp->btn->screen_x + btn_tmp->btn->w)))
@@ -186,7 +186,7 @@ void tabbar_set_active(void *tp)
 			}
 		}
 	}
-	fprintf(stderr,"button coords (%d,%d)\n",btn_tmp->btn->x + btn_tmp->btn->screen_x, btn_tmp->btn->y + btn_tmp->btn->screen_y);
+	//fprintf(stderr,"button coords (%d,%d)\n",btn_tmp->btn->x + btn_tmp->btn->screen_x, btn_tmp->btn->y + btn_tmp->btn->screen_y);
 
 	if(active_btn != NULL)
 	{
