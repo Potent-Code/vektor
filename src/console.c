@@ -112,19 +112,16 @@ void draw_console(void *cp)
 void set_console(void *bp)
 {
 	button b = bp;
-	fprintf(stderr,"Pressed console button\n");
 }
 
 void set_chat(void *bp)
 {
 	button b = bp;
-	fprintf(stderr,"Pressed chat button\n");
 }
 
 void set_log(void *bp)
 {
 	button b = bp;
-	fprintf(stderr,"Pressed log button\n");
 }
 
 void free_console(void* cp)
