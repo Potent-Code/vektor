@@ -149,15 +149,16 @@ void tabbar_set_active(void *tp)
 	button_list btn_tmp;
 	button active_btn=NULL;
 
-	fprintf(stderr,"tabbar_set_active() called\n");
 	for(btn_tmp = t->buttons; btn_tmp->next != NULL; btn_tmp = btn_tmp->next)
 	{
 		if((mouse_x >= (btn_tmp->btn->x + btn_tmp->btn->screen_x)) 
 				&& (mouse_x <= (btn_tmp->btn->x + btn_tmp->btn->screen_x + btn_tmp->btn->w)))
 		{
+			fprintf(stderr,"in a buttons x\n");
 			if((mouse_y >= (btn_tmp->btn->y + btn_tmp->btn->screen_y - btn_tmp->btn->h))
 					&& (mouse_y <= (btn_tmp->btn->y + btn_tmp->btn->screen_y)))
 			{
+				fprintf(stderr,"in a buttons y\n");
 				btn_tmp->btn->active = 1;
 				active_btn = btn_tmp->btn;
 				if(active_btn->action != NULL)
@@ -170,9 +171,11 @@ void tabbar_set_active(void *tp)
 	if((mouse_x >= (btn_tmp->btn->x + btn_tmp->btn->screen_x)) 
 			&& (mouse_x <= (btn_tmp->btn->x + btn_tmp->btn->screen_x + btn_tmp->btn->w)))
 	{
+		fprintf(stderr,"in a buttons x\n");
 		if((mouse_y >= (btn_tmp->btn->y + btn_tmp->btn->screen_y - btn_tmp->btn->h))
 				&& (mouse_y <= (btn_tmp->btn->y + btn_tmp->btn->screen_y)))
 		{
+			fprintf(stderr,"in a buttons y\n");
 			btn_tmp->btn->active = 1;
 			active_btn = btn_tmp->btn;
 			if(active_btn->action != NULL)
