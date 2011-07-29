@@ -32,6 +32,8 @@ window add_window(int x, int y, int w, int h)
 	wi->w = wi->w_orig = w;
 	wi->h = wi->h_orig = h;
 	wi->active = 1;
+	wi->drag = 0;
+	wi->resize = 0;
 
 	wi->children = NULL;
 

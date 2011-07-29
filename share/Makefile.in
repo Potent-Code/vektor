@@ -449,10 +449,10 @@ uninstall-am: uninstall-fontsDATA uninstall-uiDATA \
 
 
 fonts:
-	mkdir fonts
+	mkdir -p fonts
 
 ui:
-	mkdir ui
+	mkdir -p ui
 fonts/default.font: $(MAKETEXTURE)
 	$(MAKETEXTURE) png/fonts/default.png fonts/default.font
 

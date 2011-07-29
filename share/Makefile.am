@@ -6,10 +6,10 @@ uidir = $(datadir)/@PACKAGE@/ui/
 ui_DATA = ui ui/scroll_bar.texture ui/ui_window.texture ui/ui_content.texture ui/ui_menu_bg.texture ui/chat_button.texture ui/console_button.texture ui/log_button.texture ui/ui_input_bar.texture ui/ui_scrollbar.texture
 
 fonts:
-	mkdir fonts
+	mkdir -p fonts
 
 ui:
-	mkdir ui
+	mkdir -p ui
 
 MAKETEXTURE = $(abs_top_srcdir)/src/maketexture
 fonts/default.font: $(MAKETEXTURE)
