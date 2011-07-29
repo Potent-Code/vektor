@@ -22,6 +22,7 @@ button add_button(int x, int y, int w, int h, unsigned int* texture_id)
 	b->texture_id = texture_id;
 
 	//add_object_2d(b, &draw_button, NULL, NULL);
+	b->action = NULL;
 	b->draw = &draw_button;
 	b->remove = &free;
 	add_listener(&button_mousedown, b, EVENT_MOUSEDOWN);
@@ -77,6 +78,10 @@ void button_mousedown(void *bp)
 			else
 			{
 				b->active = 0;
+			}
+			if(b->action != NULL)
+			{
+				b->action(b);
 			}
 		}
 	}

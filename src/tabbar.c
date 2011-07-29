@@ -3,11 +3,12 @@
  * July 24 2011 */
 
 #include "tabbar.h"
-#include <stdio.h>
+
 tabbar add_tabbar(int x, int y, int w, int h);
 void draw_tabbar(void *bp);
 void tabbar_load_textures(void);
 void tabbar_add_tab(tabbar t, button b);
+void tabbar_set_active(tabbar t, button b);
 void free_tabbar(void *tp);
 
 unsigned int* tabbar_texture;
@@ -27,8 +28,6 @@ tabbar add_tabbar(int x, int y, int w, int h)
 	t->active = 0;
 	t->texture_id = tabbar_texture;
 	t->buttons = NULL;
-
-	fprintf(stderr,"tabbar at (%d,%d)\n",x,y);
 
 	//add_object_2d(t, &draw_tabbar, NULL, NULL);
 	t->draw = &draw_tabbar;
@@ -112,6 +111,16 @@ void tabbar_add_tab(tabbar t, button b)
 
 	btn_tmp->btn = b;
 	btn_tmp->next = NULL;
+}
+
+void tabbar_set_active(tabbar t, button b)
+{
+	button_list btn_tmp;
+
+	for(btn_tmp = t->buttons; btn_tmp->next != NULL; btn_tmp = btn_tmp->next)
+	{
+		if(btn_tmp->btn->active != 1);
+	}
 }
 
 void free_tabbar(void *tp)

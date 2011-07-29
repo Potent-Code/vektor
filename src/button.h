@@ -18,6 +18,7 @@ typedef struct
 	int h;
 	int active;
 	unsigned int *texture_id;
+	void (*action)(void *);
 	void (*update)(void *);
 	void (*draw)(void *);
 	void (*remove)(void *);

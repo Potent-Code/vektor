@@ -34,11 +34,14 @@ console init_console(int x, int y, int w, int h)
 
 	main_console = c;
 
-	c->win = add_window(x,y,w,h);
+	c->win = add_window((float)x,(float)y,w,h);
 	hide_window(c->win);
+	fprintf(stderr,"added window at (%.1f,%.1f)\n",*c->win->x,*c->win->y);
 
 	// add tab bar and buttons
-	c->tabs = add_tabbar(x, y, 502, 36);
+	c->tabs = add_tabbar(10, -26, 502, 36);
+
+	fprintf(stderr,"added tab bar at (%d,%d)\n",c->tabs->x,c->tabs->y);
 	console_btn = add_button(x + 5, y + 5, 87, 26, NULL);
 	chat_btn = add_button(x + 10 + 87, y + 5, 87, 26, NULL);
 	log_btn = add_button(x + 15 + 174, y + 5, 87, 26, NULL);
