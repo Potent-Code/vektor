@@ -149,6 +149,7 @@ void tabbar_set_active(void *tp)
 	button_list btn_tmp;
 	button active_btn=NULL;
 
+	fprintf(stderr,"tabbar_set_active() called\n");
 	for(btn_tmp = t->buttons; btn_tmp->next != NULL; btn_tmp = btn_tmp->next)
 	{
 		if((mouse_x >= (btn_tmp->btn->x + btn_tmp->btn->screen_x)) 
