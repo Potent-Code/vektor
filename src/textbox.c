@@ -30,8 +30,14 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 	tb->f = fonts[0]; // default font
 	tb->data = calloc(data_len,1);
 
+	tb->draw = &draw_textbox;
+	tb->update = NULL;
+	tb->remove = &free_textbox;
+	tb->resize = NULL;
+	tb->move = NULL;
+
 	tb->sb = add_scrollbar(tb->x+(tb->f->w*tb->line_width)+8., tb->y, tb->f->h, (unsigned int)tb->lines);
-	add_object_2d(tb, &draw_textbox, NULL, &free_textbox);
+	//add_object_2d(tb, &draw_textbox, NULL, &free_textbox);
 
 	return tb;
 }
@@ -48,6 +54,7 @@ void textbox_set_text(textbox tb, const char *str)
 		}
 	}
 	textbox_find_lines(tb);
+	input_set_pos(len);
 }
 
 // add on to a textbox's data field
@@ -62,6 +69,7 @@ void textbox_add_text(textbox tb, const char *str)
 		}
 	}
 	textbox_find_lines(tb);
+	input_add_pos(len);
 }
 
 // empty a textbox's data field
@@ -69,6 +77,7 @@ void textbox_clear_text(textbox tb)
 {
 	memset(tb->data,0,strlen(tb->data));
 	textbox_find_lines(tb);
+	input_set_pos(0);
 }
 
 void textbox_find_lines(textbox tb)

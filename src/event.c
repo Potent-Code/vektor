@@ -11,16 +11,27 @@ int mouse_state=0;
 int nl_mouseup=0;
 int nl_mousedown=0;
 int nl_mousemove=0;
+int nl_return=0;
 
-listener lmup,lmup_end;
-listener lmdn,lmdn_end;
-listener lmm,lmm_end;
+// listener lists
+listener lmup=NULL;
+listener lmup_end=NULL;
+
+listener lmdn=NULL;
+listener lmdn_end=NULL;
+
+listener lmm=NULL;
+listener lmm_end=NULL;
+
+listener ret=NULL;
+listener ret_end=NULL;
 
 void add_listener(void (*_call)(void*), void *_obj, unsigned int type);
 
 void event_mouseup(int x, int y);
 void event_mousedown(int x, int y);
 void event_mousemove(int x, int y);
+void event_return(void);
 
 void add_listener(void (*_call)(void*), void *_obj, unsigned int type)
 {
@@ -78,6 +89,22 @@ void add_listener(void (*_call)(void*), void *_obj, unsigned int type)
 			lmm_end->next = NULL;
 			nl_mousemove++;
 			break;
+		case EVENT_RETURN:
+			if(ret_end == NULL)
+			{
+				ret_end = malloc(sizeof(*ret_end));
+				ret = ret_end;
+			}
+			else
+			{
+				ret_end->next = malloc(sizeof(*ret_end));
+				ret_end = ret_end->next;
+			}
+			ret_end->call = _call;
+			ret_end->obj = _obj;
+			ret_end->next = NULL;
+			nl_return++;
+			break;
 		default:
 			break;
 	}
@@ -134,4 +161,16 @@ void event_mousemove(int x, int y)
 		lmm = lmm->next;
 	}
 	lmm = tmp;
+}
+
+void event_return(void)
+{
+	int i;
+	listener tmp;
+	
+	for(tmp = ret; tmp->next != NULL; tmp = tmp->next)
+	{
+		tmp->call(tmp->obj);
+	}
+	tmp->call(tmp->obj);
 }

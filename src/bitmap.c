@@ -19,7 +19,13 @@ bitmap add_bitmap(int x, int y, int w, int h, int texture_id)
 	b->h = h;
 	b->gl_id = textures[texture_id].gl_id;
 
-	add_object_2d(b, &draw_bitmap, NULL, NULL);
+	b->draw = &draw_bitmap;
+	b->update = NULL;
+	b->remove = &free;
+	b->resize = NULL;
+	b->move = NULL;
+
+//	add_object_2d(b, &draw_bitmap, NULL, NULL);
 	return b;
 }
 
@@ -32,10 +38,10 @@ void draw_bitmap(void *bp)
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, *b->gl_id);
 	glBegin(GL_QUADS);
-		glTexCoord2f(1,1); glVertex3f(b->x + b->w, b->y + b->h, 0.1);
-		glTexCoord2f(0,1); glVertex3f(b->x, b->y + b->h, 0.1);
-		glTexCoord2f(0,0); glVertex3f(b->x, b->y, 0.1);
-		glTexCoord2f(1,0); glVertex3f(b->x + b->w, b->y, 0.1);
+		glTexCoord2f(1,1); glVertex3f(b->x + b->w, b->y, 0.1);
+		glTexCoord2f(0,1); glVertex3f(b->x, b->y, 0.1);
+		glTexCoord2f(0,0); glVertex3f(b->x, b->y - b->h, 0.1);
+		glTexCoord2f(1,0); glVertex3f(b->x + b->w, b->y - b->h, 0.1);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 }

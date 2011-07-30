@@ -8,8 +8,11 @@
 #include <stdint.h>
 
 #include "sdl.h"
+#include "event.h"
 
 // methods
+extern void input_set_pos(int pos);
+extern void input_add_pos(int pos);
 extern void get_key(SDL_keysym *keysym);
 extern void get_keyup(SDL_keysym *keysym);
 extern void input_key(uint16_t u);

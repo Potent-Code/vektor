@@ -4,6 +4,8 @@
 
 #include "input.h"
 
+void input_set_pos(int pos);
+void input_add_pos(int pos);
 void get_key(SDL_keysym *keysym);
 void get_keyup(SDL_keysym *keysym);
 void input_key(uint16_t u);
@@ -21,6 +23,22 @@ int mouse_x=0;
 int mouse_y=0;*/
 int last_mouse_x=0;
 int last_mouse_y=0;
+
+void input_set_pos(int pos)
+{
+	if(pos >= 0 && pos < ib_len)
+	{
+		ib_count = pos;
+	}
+}
+
+void input_add_pos(int pos)
+{
+	if(pos >= 0 && (ib_count+pos) < ib_len)
+	{
+		ib_count += pos;
+	}
+}
 
 void get_key(SDL_keysym *keysym)
 {
@@ -45,16 +63,12 @@ void get_key(SDL_keysym *keysym)
 			break;
 		case SDLK_w:
 			controls[0]=1;
-			break;
 		case SDLK_a:
 			controls[1]=1;
-			break;
 		case SDLK_s:
 			controls[2]=1;
-			break;
 		case SDLK_d:
 			controls[3]=1;
-			break;
 		case SDLK_RETURN:
 			if(return_func != NULL)
 			{
@@ -124,6 +138,9 @@ void get_keyup(SDL_keysym *keysym)
 			break;
 		case SDLK_F1:
 			toggle_console();
+			break;
+		case SDLK_RETURN:
+			event_return();
 			break;
 		default:
 			break;

@@ -16,8 +16,6 @@ void window_addchild(window w, void *p, void (*draw)(void*), void (*move)(void*,
 void free_window(void *wp);
 
 unsigned int* window_texture;
-unsigned int* cpane_texture;
-//unsigned int* menu_bg_texture;
 
 window add_window(int x, int y, int w, int h)
 {
@@ -66,13 +64,9 @@ window add_window(int x, int y, int w, int h)
 // load window textures
 void window_load_textures(void)
 {
-	int w,c,m;
+	int w;
 	w = add_texture("/usr/local/share/vektor/ui/ui_window.texture");
-	c = add_texture("/usr/local/share/vektor/ui/ui_content.texture");
-	//m = add_texture("/usr/local/share/vektor/ui/ui_menu_bg.texture");
 	window_texture = textures[w].gl_id;
-	cpane_texture = textures[c].gl_id;
-	//menu_bg_texture = textures[m].gl_id;
 }
 
 void show_window(window w)

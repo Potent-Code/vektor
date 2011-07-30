@@ -6,6 +6,8 @@
 #define CONSOLE_H
 
 #include "ui.h"
+#include "input.h"
+#include "event.h"
 
 // types
 typedef struct
@@ -17,6 +19,8 @@ typedef struct
 	int active;
 	window win;
 	tabbar tabs;
+	textbox tb_out;
+	textbox tb_in;
 	void (*update)(void *);
 	void (*draw)(void *);
 	void (*remove)(void *);
@@ -30,6 +34,7 @@ extern void toggle_console(void);
 extern void set_console(void *bp);
 extern void set_chat(void *bp);
 extern void set_log(void *bp);
+extern void console_return(void *tp);
 extern void free_console(void* cp);
 
 #endif

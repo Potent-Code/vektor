@@ -5,6 +5,7 @@
 #ifndef UI_H
 #define UI_H
 
+#include "bitmap.h"
 #include "window.h"
 #include "button.h"
 #include "tabbar.h"
