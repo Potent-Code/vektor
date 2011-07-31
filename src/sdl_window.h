@@ -7,6 +7,7 @@
 #define SDL_WINDOW_H
 
 #include "sdl.h"
+#include "log.h"
 #include "input.h"
 #include "event.h"
 #include "texture.h"

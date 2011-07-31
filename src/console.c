@@ -20,6 +20,9 @@ unsigned int* console_btn_texture;
 unsigned int* chat_btn_texture;
 unsigned int* log_btn_texture;
 
+char* console_data;
+char* chat_data;
+
 console init_console(int x, int y, int w, int h)
 {
 	console c;
@@ -51,6 +54,9 @@ console init_console(int x, int y, int w, int h)
 	// add textboxes
 	c->tb_out = add_textbox(25, -80, 57, 16, 500000);
 	c->tb_in = add_textbox(25, -300, 59, 1, 1000);
+
+	console_data = c->tb_out->data;
+	chat_data = calloc(500000,1);
 
 	set_input(c->tb_in, 1000);
 	textbox_set_text(c->tb_in, "v$ ");
@@ -138,16 +144,26 @@ void draw_console(void *cp)
 void set_console(void *bp)
 {
 	button b = bp;
+	main_console->tb_out->data = console_data;
+	textbox_clear_text(main_console->tb_in);
+	set_input(main_console->tb_in->data, 1000);
+	textbox_add_text(main_console->tb_in, "v$ ");
 }
 
 void set_chat(void *bp)
 {
 	button b = bp;
+	main_console->tb_out->data = chat_data;
+	textbox_clear_text(main_console->tb_in);
+	set_input(main_console->tb_in->data, 1000);
 }
 
 void set_log(void *bp)
 {
 	button b = bp;
+	main_console->tb_out->data = log_get();
+	textbox_clear_text(main_console->tb_in);
+	set_input(NULL, 0);
 }
 
 void console_return(void *tp)

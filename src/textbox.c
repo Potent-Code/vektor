@@ -69,7 +69,7 @@ void textbox_add_text(textbox tb, const char *str)
 		}
 	}
 	textbox_find_lines(tb);
-	input_add_pos(len);
+	input_set_pos(strlen(tb->data));
 }
 
 // empty a textbox's data field

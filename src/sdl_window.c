@@ -186,6 +186,7 @@ void vektor_init(const char *title)
 	logo_texture = add_texture("/usr/local/share/vektor/logo.texture");
 	sb_texture = add_texture("/usr/local/share/vektor/ui/scroll_bar.texture");
 	init_console(-276,174,522,352);
+	init_log();
 }
 
 void vektor_run(void)

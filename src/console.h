@@ -8,6 +8,7 @@
 #include "ui.h"
 #include "input.h"
 #include "event.h"
+#include "log.h"
 
 // types
 typedef struct
@@ -36,5 +37,8 @@ extern void set_chat(void *bp);
 extern void set_log(void *bp);
 extern void console_return(void *tp);
 extern void free_console(void* cp);
+
+extern char* console_data;
+extern char* chat_data;
 
 #endif
