@@ -184,9 +184,10 @@ void chat_recv(void *tbp)
 
 	if(main_console->tabs->active == 2)
 	{
+		memset(&recv_msg[0], 0, 2500);
 		if((len = recv_message(&recv_msg[0])) > 0)
 		{
-			textbox_add_text(t, &recv_msg[0]);
+			textbox_add_text(main_console->tb_in, &recv_msg[0]);
 		}
 	}
 }
