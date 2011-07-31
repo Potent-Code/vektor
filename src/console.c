@@ -10,6 +10,7 @@ void draw_console(void *cp);
 void toggle_console(void);
 void set_console(void *bp);
 void set_chat(void *bp);
+void chat_recv(void *tbp);
 void set_log(void *bp);
 void free_console(void* cp);
 void console_return(void *tp);
@@ -63,6 +64,7 @@ console init_console(int x, int y, int w, int h)
 
 	// add textbox listener
 	add_listener(&console_return, c->tb_in, EVENT_RETURN);
+	add_listener(&chat_recv, c->tb_out, EVENT_NET_RECV);
 
 	// add content pane
 	cpane = add_bitmap(10, -65, 502, 262, cpane_texture);
@@ -166,6 +168,21 @@ void set_log(void *bp)
 	set_input(NULL, 0);
 }
 
+void chat_recv(void *tbp)
+{
+	int len;
+	char recv_msg[2500];
+	textbox t = tbp;
+
+	if(main_console->tabs->active == 2)
+	{
+		if((len = recv_message(&recv_msg[0])) > 0)
+		{
+			textbox_add_text(t, &recv_msg[0]);
+		}
+	}
+}
+
 void console_return(void *tp)
 {
 	textbox t = tp;
@@ -180,7 +197,9 @@ void console_return(void *tp)
 	}
 	else if(main_console->tabs->active == 2) // input to chat
 	{
-		
+		textbox_add_text(main_console->tb_out, main_console->tb_in->data);
+		send_message(main_console->tb_in->data);
+		textbox_clear_text(main_console->tb_in);
 	}
 
 	// TODO execute console command here

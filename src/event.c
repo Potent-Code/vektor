@@ -14,24 +14,59 @@ int nl_mousemove=0;
 int nl_return=0;
 
 // listener lists
-listener lmup=NULL;
-listener lmup_end=NULL;
+// mouse up
+listener lmup = NULL;
+listener lmup_end = NULL;
 
-listener lmdn=NULL;
-listener lmdn_end=NULL;
+// mouse down
+listener lmdn = NULL;
+listener lmdn_end = NULL;
 
-listener lmm=NULL;
-listener lmm_end=NULL;
+// mouse move
+listener lmm = NULL;
+listener lmm_end = NULL;
 
-listener ret=NULL;
-listener ret_end=NULL;
+// press enter
+listener lret = NULL;
+listener lret_end = NULL;
 
+// recieve network
+listener lnet_recv = NULL;
+listener lnet_recv_end = NULL;
+
+// send network
+listener lnet_send = NULL;
+listener lnet_send_end = NULL;
+
+void link_listener(listener h, listener t, void (*_call)(void*), void *_obj);
 void add_listener(void (*_call)(void*), void *_obj, unsigned int type);
 
 void event_mouseup(int x, int y);
 void event_mousedown(int x, int y);
 void event_mousemove(int x, int y);
 void event_return(void);
+void event_net_recv(void);
+void event_net_send(void);
+
+void link_listener(listener h, listener t, void (*_call)(void*), void *_obj)
+{
+	listener head = h;
+	listener tail = t;
+
+	if(t == NULL)
+	{
+		t = malloc(sizeof(*t));
+		h = t;
+	}
+	else
+	{
+		t->next = malloc(sizeof(*t));
+		t = t->next;
+	}
+	t->call = _call;
+	t->obj = _obj;
+	t->next = NULL;
+}
 
 void add_listener(void (*_call)(void*), void *_obj, unsigned int type)
 {
@@ -39,71 +74,22 @@ void add_listener(void (*_call)(void*), void *_obj, unsigned int type)
 	switch(type)
 	{
 		case EVENT_MOUSEUP:
-			if(lmup_end == NULL)
-			{
-				lmup_end = malloc(sizeof(*lmup_end));
-				lmup = lmup_end;
-			}
-			else
-			{
-				lmup_end->next = malloc(sizeof(*lmup_end));
-				lmup_end = lmup_end->next;
-			}
-			
-			lmup_end->call = _call;
-			lmup_end->obj = _obj;
-			lmup_end->next = NULL;
-			nl_mouseup++;
+			link_listener(lmup, lmup_end, _call, _obj);
 			break;
 		case EVENT_MOUSEDOWN:
-			if(lmdn_end == NULL)
-			{
-				lmdn_end = malloc(sizeof(*lmdn_end));
-				lmdn = lmdn_end;
-			}
-			else
-			{
-				lmdn_end->next = malloc(sizeof(*lmdn_end));
-				lmdn_end = lmdn_end->next;
-			}
-			
-			lmdn_end->call = _call;
-			lmdn_end->obj = _obj;
-			lmdn_end->next = NULL;
-			nl_mousedown++;
+			link_listener(lmdn, lmdn_end, _call,  _obj);
 			break;
 		case EVENT_MOUSEMOVE:
-			if(lmm_end == NULL)
-			{
-				lmm_end = malloc(sizeof(*lmm_end));
-				lmm = lmm_end;
-			}
-			else
-			{
-				lmm_end->next = malloc(sizeof(*lmm_end));
-				lmm_end = lmm_end->next;
-			}
-			
-			lmm_end->call = _call;
-			lmm_end->obj = _obj;
-			lmm_end->next = NULL;
-			nl_mousemove++;
+			link_listener(lmm, lmm_end, _call, _obj);
 			break;
 		case EVENT_RETURN:
-			if(ret_end == NULL)
-			{
-				ret_end = malloc(sizeof(*ret_end));
-				ret = ret_end;
-			}
-			else
-			{
-				ret_end->next = malloc(sizeof(*ret_end));
-				ret_end = ret_end->next;
-			}
-			ret_end->call = _call;
-			ret_end->obj = _obj;
-			ret_end->next = NULL;
-			nl_return++;
+			link_listener(lret, lret_end, _call, _obj);
+			break;
+		case EVENT_NET_RECV:
+			link_listener(lnet_recv, lnet_recv_end, _call, _obj);
+			break;
+		case EVENT_NET_SEND:
+			link_listener(lnet_send, lnet_send_end, _call, _obj);
 			break;
 		default:
 			break;
@@ -112,63 +98,75 @@ void add_listener(void (*_call)(void*), void *_obj, unsigned int type)
 
 void event_mouseup(int x, int y)
 {
-	int i;
 	listener tmp;
 
 	mouse_x = x;
 	mouse_y = y;
 	mouse_state = 0;
 
-	tmp = lmup;
-	for(i = 0; i < nl_mouseup; i++)
+	for(tmp = lmup; tmp->next != NULL; tmp = tmp->next)
 	{
-		lmup->call(lmup->obj);
-		lmup = lmup->next;
+		tmp->call(tmp->obj);
 	}
-	lmup = tmp;
+	tmp->call(tmp->obj);
 }
 
 void event_mousedown(int x, int y)
 {
-	int i;
 	listener tmp;
 
 	mouse_x = x;
 	mouse_y = y;
 	mouse_state = 1;
 
-	tmp = lmdn;
-	for(i = 0; i < nl_mousedown; i++)
+	for(tmp = lmdn; tmp->next != NULL; tmp = tmp->next)
 	{
-		lmdn->call(lmdn->obj);
-		lmdn = lmdn->next;
+		tmp->call(tmp->obj);
 	}
-	lmdn = tmp;
+	tmp->call(tmp->obj);
 }
 
 void event_mousemove(int x, int y)
 {
-	int i;
 	listener tmp;
 
 	mouse_x = x;
 	mouse_y = y;
 
-	tmp = lmm;
-	for(i=0; i < nl_mousemove; i++)
+	for(tmp = lmm; tmp->next != NULL; tmp = tmp->next)
 	{
-		lmm->call(lmm->obj);
-		lmm = lmm->next;
+		tmp->call(tmp->obj);
 	}
-	lmm = tmp;
+	tmp->call(tmp->obj);
 }
 
 void event_return(void)
 {
-	int i;
 	listener tmp;
 	
-	for(tmp = ret; tmp->next != NULL; tmp = tmp->next)
+	for(tmp = lret; tmp->next != NULL; tmp = tmp->next)
+	{
+		tmp->call(tmp->obj);
+	}
+	tmp->call(tmp->obj);
+}
+
+void event_net_recv(void)
+{
+	listener tmp;
+
+	for(tmp = lnet_recv; tmp->next != NULL; tmp = tmp->next)
+	{
+		tmp->call(tmp->obj);
+	}
+	tmp->call(tmp->obj);
+}
+
+void event_net_send(void)
+{
+	listener tmp;
+
+	for(tmp = lnet_send; tmp->next != NULL; tmp = tmp->next)
 	{
 		tmp->call(tmp->obj);
 	}

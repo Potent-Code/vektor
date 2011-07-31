@@ -5,6 +5,8 @@
 #include "net.h"
 
 void init_network(void);
+int recv_ready(void);
+int send_ready(void);
 int recv_message(char *buffer);
 int send_message(char *buffer);
 
@@ -46,17 +48,25 @@ void init_network(void)
 	net_write.revents = 0;
 }
 
+int recv_ready(void)
+{
+	if (sockfd <= 0) return -1;
+	return poll(&net_read, 1, 5);
+}
+
+int send_ready(void)
+{
+	if (sockfd <= 0) return -1;
+	return poll(&net_write, 1, 5);
+}
+
 int recv_message(char *buffer)
 {
 	int n;
 	int saddr_len = sizeof(server_addr);
 
-	if(sockfd <= 0)
-	{
-		return -1;
-	}
 	// check if data is ready to be recieved
-	if(poll(&net_read, 1, 50) > 0)
+	if(recv_ready() > 0)
 	{
 		n = recvfrom(sockfd,buffer,150,0,(struct sockaddr *)&server_addr,&saddr_len);
 	}
@@ -72,14 +82,13 @@ int send_message(char *buffer)
 	int n;
 	int saddr_len = sizeof(server_addr);
 
-	if(sockfd <= 0)
-	{
-		return -1;
-	}
-
-	if(poll(&net_write,1, 50) > 0)
+	if(send_ready() > 0)
 	{
 		n = sendto(sockfd,buffer,strlen(buffer),0,(struct sockaddr *)&server_addr,(socklen_t)saddr_len);
+	}
+	else
+	{
+		return -1;
 	}
 	return n;
 }

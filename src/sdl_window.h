@@ -8,6 +8,7 @@
 
 #include "sdl.h"
 #include "log.h"
+#include "net.h"
 #include "input.h"
 #include "event.h"
 #include "texture.h"

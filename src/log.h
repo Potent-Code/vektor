@@ -5,6 +5,8 @@
 #ifndef LOG_H
 #define LOG_H
 
+#include <stdlib.h>
+
 extern void init_log(void);
 extern void log_add(char *str);
 extern char* log_get(void);

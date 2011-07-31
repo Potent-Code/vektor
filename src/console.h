@@ -34,6 +34,7 @@ extern void console_load_textures(void);
 extern void toggle_console(void);
 extern void set_console(void *bp);
 extern void set_chat(void *bp);
+extern void chat_recv(void *tbp);
 extern void set_log(void *bp);
 extern void console_return(void *tp);
 extern void free_console(void* cp);

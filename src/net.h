@@ -20,6 +20,8 @@
 #define TEST_PORT 57157
 
 extern void init_network(void);
+extern int recv_ready(void);
+extern int send_ready(void);
 extern int recv_message(char *buffer);
 extern int send_message(char *buffer);
 

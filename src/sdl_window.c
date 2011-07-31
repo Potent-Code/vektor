@@ -265,6 +265,16 @@ void vektor_run(void)
 			}
 		}
 
+		if(recv_ready() > 0)
+		{
+			event_net_recv();
+		}
+
+		if(send_ready() > 0)
+		{
+			event_net_send();
+		}
+
 		if(active)
 		{
 			render();
