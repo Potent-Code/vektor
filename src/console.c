@@ -187,7 +187,7 @@ void chat_recv(void *tbp)
 		memset(&recv_msg[0], 0, 2500);
 		if((len = recv_message(&recv_msg[0])) > 0)
 		{
-			textbox_add_text(main_console->tb_in, &recv_msg[0]);
+			textbox_add_text(main_console->tb_out, &recv_msg[0]);
 		}
 	}
 }
