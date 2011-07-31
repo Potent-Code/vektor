@@ -21,6 +21,7 @@ typedef struct
 	int line_width;
 	int lines;
 	int data_len;
+	int active;
 	font f;
 	scrollbar sb;
 	char *data;

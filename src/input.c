@@ -44,11 +44,6 @@ void get_key(SDL_keysym *keysym)
 {
 	if(input_buffer != NULL)
 	{
-		if(unicode == 0)
-		{
-			SDL_EnableUNICODE(1);
-			unicode=1;
-		}
 		input_key(keysym->unicode);
 	}
 
@@ -112,6 +107,9 @@ void set_input(char *data, unsigned int len)
 	{
 		input_buffer = data;
 		ib_len = len;
+		SDL_EnableUNICODE(1);
+		unicode = 1;
+		ib_count = 0;
 	}
 	else
 	{

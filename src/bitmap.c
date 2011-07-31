@@ -17,6 +17,7 @@ bitmap add_bitmap(int x, int y, int w, int h, int texture_id)
 	b->y = y;
 	b->w = w;
 	b->h = h;
+	b->active = 1;
 	b->gl_id = textures[texture_id].gl_id;
 
 	b->draw = &draw_bitmap;
@@ -33,6 +34,8 @@ void draw_bitmap(void *bp)
 {
 	// restore bitmap structure
 	bitmap b = bp;
+
+	if(b->active == 0) return;
 
 	glColor3f(1.0,1.0,1.0);
 	glEnable(GL_TEXTURE_2D);

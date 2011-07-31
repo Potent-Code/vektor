@@ -51,44 +51,25 @@ void init_network(void)
 int recv_ready(void)
 {
 	if (sockfd <= 0) return -1;
-	return poll(&net_read, 1, 5);
+	return poll(&net_read, 1, 1);
 }
 
 int send_ready(void)
 {
 	if (sockfd <= 0) return -1;
-	return poll(&net_write, 1, 5);
+	return poll(&net_write, 1, 1);
 }
 
 int recv_message(char *buffer)
 {
-	int n;
 	int saddr_len = sizeof(server_addr);
 
-	// check if data is ready to be recieved
-	if(recv_ready() > 0)
-	{
-		n = recvfrom(sockfd,buffer,150,0,(struct sockaddr *)&server_addr,&saddr_len);
-	}
-	else
-	{
-		return -1;
-	}
-	return n;
+	return recvfrom(sockfd,buffer,150,0,(struct sockaddr *)&server_addr,&saddr_len);
 }
 
 int send_message(char *buffer)
 {
-	int n;
 	int saddr_len = sizeof(server_addr);
 
-	if(send_ready() > 0)
-	{
-		n = sendto(sockfd,buffer,strlen(buffer),0,(struct sockaddr *)&server_addr,(socklen_t)saddr_len);
-	}
-	else
-	{
-		return -1;
-	}
-	return n;
+	return sendto(sockfd,buffer,strlen(buffer),0,(struct sockaddr *)&server_addr,(socklen_t)saddr_len);
 }

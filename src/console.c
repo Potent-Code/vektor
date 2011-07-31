@@ -29,7 +29,6 @@ console init_console(int x, int y, int w, int h)
 {
 	console c;
 	button console_btn, chat_btn, log_btn;
-	bitmap cpane, in_bar;
 	int cpane_texture,input_bar_texture;
 
 	window_load_textures();
@@ -69,8 +68,8 @@ console init_console(int x, int y, int w, int h)
 	add_listener(&chat_recv, c->tb_out, EVENT_NET_RECV);
 
 	// add content pane
-	cpane = add_bitmap(10, -65, 502, 262, cpane_texture);
-	in_bar = add_bitmap(20, -293, 482, 25, input_bar_texture); 
+	c->cpane = add_bitmap(10, -65, 502, 262, cpane_texture);
+	c->in_bar = add_bitmap(20, -293, 482, 25, input_bar_texture); 
 
 	// add buttons
 	console_btn = add_button(x + 5, y + 5, 87, 26, NULL);
@@ -94,8 +93,8 @@ console init_console(int x, int y, int w, int h)
 
 	// attach objects to window
 	window_addchild(c->win, c->tabs, c->tabs->draw, c->tabs->move, c->tabs->resize, c->tabs->remove);
-	window_addchild(c->win, cpane, cpane->draw, cpane->move, cpane->resize, cpane->remove);
-	window_addchild(c->win, in_bar, in_bar->draw, in_bar->move, in_bar->resize, in_bar->remove);
+	window_addchild(c->win, c->cpane, c->cpane->draw, c->cpane->move, c->cpane->resize, c->cpane->remove);
+	window_addchild(c->win, c->in_bar, c->in_bar->draw, c->in_bar->move, c->in_bar->resize, c->in_bar->remove);
 	window_addchild(c->win, c->tb_out, c->tb_out->draw, c->tb_out->move, c->tb_out->resize, c->tb_out->remove);
 	window_addchild(c->win, c->tb_in, c->tb_in->draw, c->tb_in->move, c->tb_in->resize, c->tb_in->remove);
 
@@ -153,6 +152,8 @@ void set_console(void *bp)
 	textbox_clear_text(main_console->tb_in);
 	set_input(main_console->tb_in->data, 1000);
 	textbox_add_text(main_console->tb_in, "v$ ");
+	main_console->tb_in->active = 1;
+	main_console->in_bar->active = 1;
 }
 
 void set_chat(void *bp)
@@ -161,6 +162,8 @@ void set_chat(void *bp)
 	main_console->tb_out->data = chat_data;
 	textbox_clear_text(main_console->tb_in);
 	set_input(main_console->tb_in->data, 1000);
+	main_console->tb_in->active = 1;
+	main_console->in_bar->active = 1;
 }
 
 void set_log(void *bp)
@@ -169,6 +172,8 @@ void set_log(void *bp)
 	main_console->tb_out->data = log_get();
 	textbox_clear_text(main_console->tb_in);
 	set_input(NULL, 0);
+	main_console->tb_in->active = 0;
+	main_console->in_bar->active = 0;
 }
 
 void chat_recv(void *tbp)

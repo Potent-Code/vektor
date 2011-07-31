@@ -22,6 +22,8 @@ typedef struct
 	int active;
 	window win;
 	tabbar tabs;
+	bitmap cpane;
+	bitmap in_bar;
 	textbox tb_out;
 	textbox tb_in;
 	void (*update)(void *);

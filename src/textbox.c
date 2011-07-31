@@ -29,6 +29,7 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 	tb->data_len = data_len;
 	tb->f = fonts[0]; // default font
 	tb->data = calloc(data_len,1);
+	tb->active = 1;
 
 	tb->draw = &draw_textbox;
 	tb->update = NULL;
@@ -147,7 +148,9 @@ void draw_textbox(void *tbp)
 	int len = strlen(tb->data);
 	unsigned int start_line=0;
 	Uint32 tb_draw_time;
-	
+
+	if(tb->active == 0) return;
+
 	// fonts have a transparent background, enable alpha blending
 	glColor4f(1.0,1.0,1.0,1.0);
 	glEnable(GL_TEXTURE_2D);
