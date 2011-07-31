@@ -169,10 +169,19 @@ void set_log(void *bp)
 void console_return(void *tp)
 {
 	textbox t = tp;
-	textbox_add_text(main_console->tb_out, main_console->tb_in->data);
-	textbox_add_text(main_console->tb_out, "\n");
-	textbox_clear_text(main_console->tb_in);
-	textbox_add_text(main_console->tb_in, "v$ ");
+	
+	// input to console
+	if(main_console->tabs->active == 1)
+	{
+		textbox_add_text(main_console->tb_out, main_console->tb_in->data);
+		textbox_add_text(main_console->tb_out, "\n");
+		textbox_clear_text(main_console->tb_in);
+		textbox_add_text(main_console->tb_in, "v$ ");
+	}
+	else if(main_console->tabs->active == 2) // input to chat
+	{
+		
+	}
 
 	// TODO execute console command here
 }

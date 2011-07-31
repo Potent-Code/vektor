@@ -27,7 +27,7 @@ tabbar add_tabbar(int x, int y, int w, int h)
 	t->y = y;
 	t->w = t->w_orig = w;
 	t->h = h;
-	t->active = 0;
+	t->active = 1;
 	t->texture_id = tabbar_texture;
 	t->buttons = NULL;
 
@@ -148,6 +148,7 @@ void tabbar_set_active(void *tp)
 	tabbar t = tp;
 	button_list btn_tmp;
 	button active_btn=NULL;
+	int i=1;
 
 	for(btn_tmp = t->buttons; btn_tmp->next != NULL; btn_tmp = btn_tmp->next)
 	{
@@ -159,12 +160,14 @@ void tabbar_set_active(void *tp)
 			{
 				btn_tmp->btn->active = 1;
 				active_btn = btn_tmp->btn;
+				t->active = i;
 				if(active_btn->action != NULL)
 				{
 					active_btn->action(active_btn);
 				}
 			}
 		}
+		i++;
 	}
 	if((mouse_x >= (btn_tmp->btn->x + btn_tmp->btn->screen_x)) 
 			&& (mouse_x <= (btn_tmp->btn->x + btn_tmp->btn->screen_x + btn_tmp->btn->w)))
@@ -174,6 +177,7 @@ void tabbar_set_active(void *tp)
 		{
 			btn_tmp->btn->active = 1;
 			active_btn = btn_tmp->btn;
+			t->active = i;
 			if(active_btn->action != NULL)
 			{
 				active_btn->action(active_btn);

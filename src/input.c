@@ -15,7 +15,7 @@ void (*return_func)(char*);
 
 int controls[4];
 int unicode=1;
-char *input_buffer;
+char *input_buffer=NULL;
 int ib_len=0;
 int ib_count=0;
 /*int mouse_state=0;
@@ -62,13 +62,29 @@ void get_key(SDL_keysym *keysym)
 			}
 			break;
 		case SDLK_w:
-			controls[0]=1;
+			if(input_buffer == NULL)
+			{
+				controls[0]=1;
+			}
+			break;
 		case SDLK_a:
-			controls[1]=1;
+			if(input_buffer == NULL)
+			{
+				controls[1]=1;
+			}
+			break;
 		case SDLK_s:
-			controls[2]=1;
+			if(input_buffer == NULL)
+			{
+				controls[2]=1;
+			}
+			break;
 		case SDLK_d:
-			controls[3]=1;
+			if(input_buffer == NULL)
+			{
+				controls[3]=1;
+			}
+			break;
 		case SDLK_RETURN:
 			if(return_func != NULL)
 			{
@@ -114,8 +130,11 @@ void input_key(uint16_t u)
 		c = (char)(u & 0x7F);
 		if((int)c >= 32 && (int)c <= 126 && ib_count < ib_len)
 		{
-			input_buffer[ib_count] = c;
-			ib_count++;
+			if(input_buffer != NULL)
+			{
+				input_buffer[ib_count] = c;
+				ib_count++;
+			}
 		}
 	}
 }
