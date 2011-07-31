@@ -5,6 +5,8 @@
 #ifndef CONSOLE_H
 #define CONSOLE_H
 
+#include <stdlib.h>
+
 #include "ui.h"
 #include "input.h"
 #include "event.h"

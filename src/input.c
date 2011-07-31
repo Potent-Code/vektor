@@ -42,6 +42,16 @@ void input_add_pos(int pos)
 
 void get_key(SDL_keysym *keysym)
 {
+	if(input_buffer != NULL)
+	{
+		if(unicode == 0)
+		{
+			SDL_EnableUNICODE(1);
+			unicode=1;
+		}
+		input_key(keysym->unicode);
+	}
+
 	switch(keysym->sym)
 	{
 		case SDLK_ESCAPE:
@@ -92,15 +102,6 @@ void get_key(SDL_keysym *keysym)
 				ib_count=strlen(input_buffer);
 			}
 		default:
-			if(input_buffer != NULL)
-			{
-				if(unicode == 0)
-				{
-					SDL_EnableUNICODE(1);
-					unicode=1;
-				}
-				input_key(keysym->unicode);
-			}
 			break;
 	}
 }
@@ -143,23 +144,35 @@ void get_keyup(SDL_keysym *keysym)
 {
 	switch(keysym->sym)
 	{
-		case SDLK_w:
-			controls[0]=0;
-			break;
-		case SDLK_a:
-			controls[1]=0;
-			break;
-		case SDLK_s:
-			controls[2]=0;
-			break;
-		case SDLK_d:
-			controls[3]=0;
-			break;
 		case SDLK_F1:
 			toggle_console();
 			break;
 		case SDLK_RETURN:
 			event_return();
+			break;
+		case SDLK_w:
+			if(input_buffer == NULL)
+			{
+				controls[0]=0;
+			}
+			break;
+		case SDLK_a:
+			if(input_buffer == NULL)
+			{
+				controls[1]=0;
+			}
+			break;
+		case SDLK_s:
+			if(input_buffer == NULL)
+			{
+				controls[2]=0;
+			}
+			break;
+		case SDLK_d:
+			if(input_buffer == NULL)
+			{
+				controls[3]=0;
+			}
 			break;
 		default:
 			break;

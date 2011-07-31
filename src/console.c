@@ -23,6 +23,7 @@ unsigned int* log_btn_texture;
 
 char* console_data;
 char* chat_data;
+char* user;
 
 console init_console(int x, int y, int w, int h)
 {
@@ -42,8 +43,9 @@ console init_console(int x, int y, int w, int h)
 	c->y = y;
 	c->w = w;
 	c->h = h;
-	c->active = 0;
+	c->active = 1;
 
+	user = getenv("USER");
 	main_console = c;
 
 	c->win = add_window((float)x,(float)y,w,h);
@@ -59,7 +61,7 @@ console init_console(int x, int y, int w, int h)
 	console_data = c->tb_out->data;
 	chat_data = calloc(500000,1);
 
-	set_input(c->tb_in, 1000);
+	set_input(c->tb_in->data, 1000);
 	textbox_set_text(c->tb_in, "v$ ");
 
 	// add textbox listener
@@ -98,6 +100,7 @@ console init_console(int x, int y, int w, int h)
 	window_addchild(c->win, c->tb_in, c->tb_in->draw, c->tb_in->move, c->tb_in->resize, c->tb_in->remove);
 
 	add_object_2d(c, &draw_console, NULL, &free_console);
+	toggle_console();
 	
 	return c;
 }
@@ -116,7 +119,7 @@ void console_load_textures(void)
 
 void toggle_console(void)
 {
-	if (main_console->active)
+	if (main_console->active == 1)
 	{
 		hide_window(main_console->win);
 		main_console->active = 0;
@@ -186,6 +189,7 @@ void chat_recv(void *tbp)
 void console_return(void *tp)
 {
 	textbox t = tp;
+	char send_msg[2500];
 	
 	// input to console
 	if(main_console->tabs->active == 1)
@@ -194,15 +198,16 @@ void console_return(void *tp)
 		textbox_add_text(main_console->tb_out, "\n");
 		textbox_clear_text(main_console->tb_in);
 		textbox_add_text(main_console->tb_in, "v$ ");
+		// TODO: execute console commands here
 	}
 	else if(main_console->tabs->active == 2) // input to chat
 	{
-		textbox_add_text(main_console->tb_out, main_console->tb_in->data);
-		send_message(main_console->tb_in->data);
+		memset(&send_msg[0], 0, 2500);
+		sprintf(&send_msg[0], "%s: %s\n", user, main_console->tb_in->data);
+		textbox_add_text(main_console->tb_out, &send_msg[0]);
+		send_message(&send_msg[0]);
 		textbox_clear_text(main_console->tb_in);
 	}
-
-	// TODO execute console command here
 }
 
 void free_console(void* cp)

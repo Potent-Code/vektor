@@ -27,7 +27,7 @@ extern int mouse_x;
 extern int mouse_y;
 extern int mouse_state;
 
-extern void link_listener(listener h, listener t, void (*_call)(void*), void *_obj);
+extern listener link_listener(listener h, listener t, void (*_call)(void*), void *_obj);
 extern void add_listener(void (*_call)(void*), void *_obj, unsigned int type);
 
 extern void event_mouseup(int x, int y);
