@@ -51,13 +51,13 @@ void init_network(void)
 int recv_ready(void)
 {
 	if (sockfd <= 0) return -1;
-	return poll(&net_read, 1, 1);
+	return poll(&net_read, 1, 5);
 }
 
 int send_ready(void)
 {
 	if (sockfd <= 0) return -1;
-	return poll(&net_write, 1, 1);
+	return poll(&net_write, 1, 5);
 }
 
 int recv_message(char *buffer)
