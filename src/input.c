@@ -109,7 +109,7 @@ void set_input(char *data, unsigned int len)
 		ib_len = len;
 		SDL_EnableUNICODE(1);
 		unicode = 1;
-		ib_count = 0;
+		//ib_count = 0;
 	}
 	else
 	{
