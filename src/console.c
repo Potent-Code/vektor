@@ -189,6 +189,7 @@ void chat_recv(void *tbp)
 		{
 			textbox_add_text(main_console->tb_out, &recv_msg[0]);
 		}
+		set_input(main_console->tb_in->data, 1000);
 	}
 }
 
