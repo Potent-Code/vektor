@@ -103,9 +103,12 @@ typedef struct
 	float x;
 	float y;
 	float z;
+	float screen_x;
+	float screen_y;
 	int line_width;
 	int lines;
 	int data_len;
+	unsigned int start_line;
 	font f;
 	scrollbar sb;
 	char *data;

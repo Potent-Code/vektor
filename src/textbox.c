@@ -11,6 +11,9 @@ void textbox_set_text(textbox tb, const char *str);
 void textbox_add_text(textbox tb, const char *str);
 void textbox_clear_text(textbox tb);
 void textbox_find_lines(textbox tb);
+void move_textbox(void *tbp, float x, float y);
+void textbox_mousedown(void *tbp);
+void textbox_mouseup(void *tbp);
 void draw_textbox(void *tbp);
 void free_textbox(void *tbp);
 Uint32 blink_timer=0;
@@ -30,16 +33,20 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 	tb->f = fonts[0]; // default font
 	tb->data = calloc(data_len,1);
 	tb->active = 1;
+	tb->start_line = 0;
 
 	tb->draw = &draw_textbox;
 	tb->update = NULL;
 	tb->remove = &free_textbox;
 	tb->resize = NULL;
-	tb->move = NULL;
+	tb->move = &move_textbox;
 
 	tb->sb = add_scrollbar(tb->x+(tb->f->w*tb->line_width)+8., tb->y, tb->f->h, (unsigned int)tb->lines);
 	//add_object_2d(tb, &draw_textbox, NULL, &free_textbox);
-
+	
+	//add_listener(&move_textbox, tb, EVENT_MOUSEMOVE);
+	add_listener(&textbox_mousedown, tb, EVENT_MOUSEDOWN);
+	add_listener(&textbox_mouseup, tb, EVENT_MOUSEUP);
 	return tb;
 }
 
@@ -133,7 +140,59 @@ void textbox_find_lines(textbox tb)
 
 	// set new scrollbar height and position
 	tb->sb->h = ((float)tb->sb->lines)*tb->sb->line_height*((float)tb->sb->lines/(float)tb->sb->total_lines);
-	tb->sb->y = tb->y - ((float)(tb->sb->lines*tb->sb->line_height)) + tb->sb->h;
+	tb->sb->y = tb->y - ((float)(tb->sb->lines*tb->sb->line_height)) + tb->sb->h - tb->screen_y;
+}
+
+void move_textbox(void *tbp, float x, float y)
+{
+	textbox tb = tbp;
+	tb->screen_x = x;
+	tb->screen_y = y;
+	
+	if(mouse_state==1 && (mouse_x >= (tb->sb->x+tb->screen_x) && mouse_x <= (tb->sb->x+tb->screen_x)+tb->sb->w && mouse_y <= (tb->sb->y+tb->screen_y) && mouse_y >= (tb->sb->y+tb->screen_y)-tb->sb->h))
+	{
+		drag=(tb->sb->y+tb->screen_y) - mouse_y;
+	}
+
+	if(drag != 0)
+	{
+		if(((mouse_y+drag)-tb->sb->h) >= (tb->y - ((float)(tb->sb->lines*tb->sb->line_height))) && (mouse_y+drag) <= tb->y)
+		{
+			tb->sb->y = mouse_y + drag - tb->screen_y;
+		}
+		else if(mouse_y >= tb->y - drag)
+		{
+			tb->sb->y = tb->y - tb->screen_y;
+		}
+		else if(mouse_y <= (tb->y - ((float)(tb->sb->lines*tb->sb->line_height))+tb->sb->h)-drag)
+		{
+			tb->sb->y = tb->y - ((float)(tb->sb->lines*tb->sb->line_height))+tb->sb->h - tb->screen_y;
+		}
+	}
+
+	if(tb->sb->total_lines > tb->lines && tb->lines > 1)
+	{
+		tb->start_line = (unsigned int)(-(float)(tb->sb->total_lines-tb->lines)*(tb->y-(tb->sb->y+tb->screen_y))/(tb->sb->h - (float)(tb->sb->lines*tb->sb->line_height)));
+	}
+	else
+	{
+		tb->start_line = 0;
+	}
+}
+
+void textbox_mousedown(void *tbp)
+{
+	textbox tb = tbp;
+
+	if(mouse_state==1 && (mouse_x >= (tb->sb->x+tb->screen_x) && mouse_x <= (tb->sb->x+tb->screen_x)+tb->sb->w && mouse_y <= (tb->sb->y+tb->screen_y) && mouse_y >= (tb->sb->y+tb->screen_y)-tb->sb->h))
+	{
+		drag=(tb->sb->y+tb->screen_y) - mouse_y;
+	}
+}
+
+void textbox_mouseup(void *tbp)
+{
+	drag = 0;
 }
 
 void draw_textbox(void *tbp)
@@ -146,7 +205,6 @@ void draw_textbox(void *tbp)
 	int letter=0;
 	int col=0;
 	int len = strlen(tb->data);
-	unsigned int start_line=0;
 	Uint32 tb_draw_time;
 
 	if(tb->active == 0) return;
@@ -159,42 +217,6 @@ void draw_textbox(void *tbp)
 	glBindTexture(GL_TEXTURE_2D, *tb->f->gl_id);
 	glBegin(GL_QUADS);
 
-	if(mouse_state==1 && (mouse_x >= tb->sb->x && mouse_x <= tb->sb->x+tb->sb->w && mouse_y <= tb->sb->y && mouse_y >= tb->sb->y-tb->sb->h))
-	{
-		if(drag <= 0)
-		{
-			drag=tb->sb->y - mouse_y;
-		}
-	}
-	else if(mouse_state == 0)
-	{
-		drag=0;
-	}
-
-	if(drag > 0)
-	{
-		if(((mouse_y+drag)-tb->sb->h) >= (tb->y - ((float)(tb->sb->lines*tb->sb->line_height))) && (mouse_y+drag) <= tb->y)
-		{
-			tb->sb->y = mouse_y+drag;
-		}
-		else if(mouse_y >= tb->y - drag)
-		{
-			tb->sb->y = tb->y;
-		}
-		else if(mouse_y <= (tb->y - ((float)(tb->sb->lines*tb->sb->line_height))+tb->sb->h)-drag)
-		{
-			tb->sb->y = tb->y - ((float)(tb->sb->lines*tb->sb->line_height))+tb->sb->h;
-		}
-	}
-
-	if(tb->sb->total_lines > tb->lines && tb->lines > 1)
-	{
-		start_line = (unsigned int)(-(float)(tb->sb->total_lines-tb->lines)*(tb->y-tb->sb->y)/(tb->sb->h - (float)(tb->sb->lines*tb->sb->line_height)));
-	}
-	else
-	{
-		start_line = 0;
-	}
 	// draw rows of multiline textbox
 	for(j=0; j < tb->lines; j++)
 	{
@@ -207,7 +229,7 @@ void draw_textbox(void *tbp)
 			k=0;
 		}
 		// draw columns of textbox
-		for(i=(k*tb->sb->line_offsets[start_line])+letter; i < len; i++)
+		for(i=(k*tb->sb->line_offsets[tb->start_line])+letter; i < len; i++)
 		{
 			// end of the line
 			if(col == tb->line_width)
