@@ -6,6 +6,7 @@
 
 bitmap add_bitmap(int x, int y, int w, int h, int texture_id);
 void draw_bitmap(void *bp);
+void resize_bitmap(void *bp, float w_scale, float h_scale);
 
 bitmap add_bitmap(int x, int y, int w, int h, int texture_id)
 {
@@ -15,15 +16,15 @@ bitmap add_bitmap(int x, int y, int w, int h, int texture_id)
 	b = malloc(sizeof(*b));
 	b->x = x;
 	b->y = y;
-	b->w = w;
-	b->h = h;
+	b->w_orig = b->w = w;
+	b->h_orig = b->h = h;
 	b->active = 1;
 	b->gl_id = textures[texture_id].gl_id;
 
 	b->draw = &draw_bitmap;
 	b->update = NULL;
 	b->remove = &free;
-	b->resize = NULL;
+	b->resize = &resize_bitmap;
 	b->move = NULL;
 
 //	add_object_2d(b, &draw_bitmap, NULL, NULL);
@@ -47,4 +48,11 @@ void draw_bitmap(void *bp)
 		glTexCoord2f(1,0); glVertex3f(b->x + b->w, b->y - b->h, 0.1);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
+}
+
+void resize_bitmap(void *bp, float w_scale, float h_scale)
+{
+	bitmap b = bp;
+	b->w = w_scale * b->w_orig;
+	b->h = h_scale * b->h_orig;
 }

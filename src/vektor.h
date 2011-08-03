@@ -67,6 +67,8 @@ typedef struct
 	int y;
 	int w;
 	int h;
+	int w_orig;
+	int h_orig;
 	unsigned int *gl_id; // pointer to texture
 	void (*resize)(void *, float, float);
 	void (*move)(void *, float, float);
