@@ -63,7 +63,7 @@ console init_console(int x, int y, int w, int h)
 	set_input(c->tb_in->data, 1000);
 	textbox_set_text(c->tb_in, "v$ ");
 
-	// add textbox listener
+	// add textbox listeners
 	add_listener(&console_return, c->tb_in, EVENT_RETURN);
 	add_listener(&chat_recv, c->tb_out, EVENT_NET_RECV);
 

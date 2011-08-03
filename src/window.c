@@ -135,7 +135,7 @@ void window_mousedown(void *wp)
 	window wi = wp;
 	int x = (int)(*(wi->x));
 	int y = (int)(*(wi->y));
-
+	
 	// inside windows left and right borders
 	if((mouse_x >= x) && (mouse_x <= (x + wi->w)))
 	{

@@ -50,9 +50,6 @@ void event_net_send(void);
 
 listener link_listener(listener h, listener t, void (*_call)(void*), void *_obj)
 {
-	listener head = h;
-	listener tail = t;
-
 	if(t == NULL)
 	{
 		t = malloc(sizeof(*t));
@@ -66,6 +63,7 @@ listener link_listener(listener h, listener t, void (*_call)(void*), void *_obj)
 	t->call = _call;
 	t->obj = _obj;
 	t->next = NULL;
+	return h;
 }
 
 void add_listener(void (*_call)(void*), void *_obj, unsigned int type)
@@ -75,21 +73,27 @@ void add_listener(void (*_call)(void*), void *_obj, unsigned int type)
 	{
 		case EVENT_MOUSEUP:
 			lmup = link_listener(lmup, lmup_end, _call, _obj);
+			if(lmup_end == NULL) lmup_end = lmup;
 			break;
 		case EVENT_MOUSEDOWN:
 			lmdn = link_listener(lmdn, lmdn_end, _call,  _obj);
+			if(lmdn_end == NULL) lmdn_end = lmdn;
 			break;
 		case EVENT_MOUSEMOVE:
 			lmm = link_listener(lmm, lmm_end, _call, _obj);
+			if(lmm_end == NULL) lmm_end = lmm;
 			break;
 		case EVENT_RETURN:
 			lret = link_listener(lret, lret_end, _call, _obj);
+			if(lret_end == NULL) lret_end = lret;
 			break;
 		case EVENT_NET_RECV:
 			lnet_recv = link_listener(lnet_recv, lnet_recv_end, _call, _obj);
+			if(lnet_recv_end == NULL) lnet_recv_end = lnet_recv;
 			break;
 		case EVENT_NET_SEND:
 			lnet_send = link_listener(lnet_send, lnet_send_end, _call, _obj);
+			if(lnet_send_end == NULL) lnet_send_end = lnet_send;
 			break;
 		default:
 			break;
