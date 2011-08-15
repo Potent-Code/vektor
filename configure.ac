@@ -6,7 +6,7 @@ AC_INIT([vektor], [0.1], [ryan.lucchese@gmail.com])
 AM_INIT_AUTOMAKE([vektor], [0.1])
 AC_CONFIG_SRCDIR([src/draw.h])
 AC_CONFIG_HEADERS([src/config.h])
-#AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_MACRO_DIR([m4])
 
 # save CFLAGS for after AC_PROG_CC
 test ".$CFLAGS" = "." && CFLAGS=" "
@@ -14,7 +14,7 @@ test ".$CFLAGS" = "." && CFLAGS=" "
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_OBJC
-AC_PROG_LIBTOOL
+LT_INIT
 
 CFLAGS="-O0 -g3"
 AC_ARG_ENABLE([nodebug], [AC_HELP_STRING([--enable-nodebug],

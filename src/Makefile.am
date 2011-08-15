@@ -1,5 +1,5 @@
 lib_LTLIBRARIES = libvektor.la
-libvektor_la_SOURCES = image.h sdl.h ui.h log.h log.c sdl_window.h sdl_window.c texture.h texture.c input.h input.c event.h event.c net.h net.c sprite.h sprite.c player.h player.c draw.h draw.c bitmap.h bitmap.c font.h font.c textbox.h textbox.c scrollbar.h scrollbar.c plant.h plant.c ground.h ground.c camera.h camera.c pyramid.h pyramid.c skybox.h skybox.c window.h window.c console.h console.c button.h button.c tabbar.h tabbar.c
+libvektor_la_SOURCES = image.h sdl.h ui.h log.h log.c sdl_window.h sdl_window.c texture.h texture.c input.h input.c event.h event.c net.h net.c sprite.h sprite.c player.h player.c draw.h draw.c bitmap.h bitmap.c font.h font.c textbox.h textbox.c scrollbar.h scrollbar.c plant.h plant.c ground.h ground.c camera.h camera.c pyramid.h pyramid.c skybox.h skybox.c window.h window.c console.h console.c button.h button.c tabbar.h tabbar.c clickable.h clickable.c
 #libvektor_la_CFLAGS = $(GL_CFLAGS) $(GLU_CFLAGS)
 #libvektor_la_LDFLAGS = $(GL_LIBS) $(GLU_LIBS)
 if DARWIN

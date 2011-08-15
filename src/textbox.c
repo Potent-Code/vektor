@@ -151,28 +151,28 @@ void move_textbox(void *tbp, float x, float y)
 	
 	if(mouse_state==1 && (mouse_x >= (tb->sb->x+tb->screen_x) && mouse_x <= (tb->sb->x+tb->screen_x)+tb->sb->w && mouse_y <= (tb->sb->y+tb->screen_y) && mouse_y >= (tb->sb->y+tb->screen_y)-tb->sb->h))
 	{
-		drag=(tb->sb->y+tb->screen_y) - mouse_y;
+		drag=(tb->sb->y) - mouse_y;
 	}
 
 	if(drag != 0)
 	{
-		if(((mouse_y+drag)-tb->sb->h) >= (tb->y - ((float)(tb->sb->lines*tb->sb->line_height))) && (mouse_y+drag) <= tb->y)
+		if(((mouse_y+drag-tb->screen_y)-tb->sb->h) >= (tb->y - ((float)(tb->sb->lines*tb->sb->line_height))) && (mouse_y+drag-tb->screen_y) <= tb->y)
 		{
 			tb->sb->y = mouse_y + drag - tb->screen_y;
 		}
 		else if(mouse_y >= tb->y - drag)
 		{
-			tb->sb->y = tb->y - tb->screen_y;
+			tb->sb->y = tb->y;
 		}
 		else if(mouse_y <= (tb->y - ((float)(tb->sb->lines*tb->sb->line_height))+tb->sb->h)-drag)
 		{
-			tb->sb->y = tb->y - ((float)(tb->sb->lines*tb->sb->line_height))+tb->sb->h - tb->screen_y;
+			tb->sb->y = tb->y - ((float)(tb->sb->lines*tb->sb->line_height))+tb->sb->h;
 		}
 	}
 
 	if(tb->sb->total_lines > tb->lines && tb->lines > 1)
 	{
-		tb->start_line = (unsigned int)(-(float)(tb->sb->total_lines-tb->lines)*(tb->y-(tb->sb->y+tb->screen_y))/(tb->sb->h - (float)(tb->sb->lines*tb->sb->line_height)));
+		tb->start_line = (unsigned int)(-(float)(tb->sb->total_lines-tb->lines)*(tb->y-(tb->sb->y))/(tb->sb->h - (float)(tb->sb->lines*tb->sb->line_height)));
 	}
 	else
 	{
@@ -186,13 +186,13 @@ void textbox_mousedown(void *tbp)
 
 	if(mouse_state==1 && (mouse_x >= (tb->sb->x+tb->screen_x) && mouse_x <= (tb->sb->x+tb->screen_x)+tb->sb->w && mouse_y <= (tb->sb->y+tb->screen_y) && mouse_y >= (tb->sb->y+tb->screen_y)-tb->sb->h))
 	{
-		drag=(tb->sb->y+tb->screen_y) - mouse_y;
+		drag=(tb->sb->y) - mouse_y - tb->screen_y;
 	}
 }
 
 void textbox_mouseup(void *tbp)
 {
-	drag = 0;
+	drag = -1;
 }
 
 void draw_textbox(void *tbp)

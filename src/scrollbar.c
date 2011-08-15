@@ -36,10 +36,10 @@ void draw_scrollbar(scrollbar sb)
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, *sb->gl_id);
         glBegin(GL_QUADS);
-                glTexCoord2f(1,0); glVertex3f(sb->x + sb->w, sb->y, 0.02);
-                glTexCoord2f(0,0); glVertex3f(sb->x, sb->y, 0.02);
-                glTexCoord2f(0,1); glVertex3f(sb->x, sb->y - sb->h, 0.02);
-                glTexCoord2f(1,1); glVertex3f(sb->x + sb->w, sb->y - sb->h, 0.02);
+                glTexCoord2f(1,0); glVertex3f(sb->x + sb->w, sb->y + sb->h, 0.02);
+                glTexCoord2f(0,0); glVertex3f(sb->x, sb->y + sb->h, 0.02);
+                glTexCoord2f(0,1); glVertex3f(sb->x, sb->y, 0.02);
+                glTexCoord2f(1,1); glVertex3f(sb->x + sb->w, sb->y, 0.02);
         glEnd();
         glDisable(GL_TEXTURE_2D);
 }
