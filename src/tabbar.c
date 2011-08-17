@@ -31,10 +31,6 @@ tabbar add_tabbar(int x, int y, int w, int h)
 	t->texture_id = tabbar_texture;
 	t->buttons = NULL;
 
-	// button hit tests
-	add_listener(&tabbar_set_active, t, EVENT_MOUSEDOWN);
-
-	//add_object_2d(t, &draw_tabbar, NULL, NULL);
 	t->draw = &draw_tabbar;
 	t->move = &move_tabbar;
 	t->remove = &free_tabbar;
@@ -55,7 +51,6 @@ void resize_tabbar(void *tp, float w_scale, float h_scale)
 {
 	tabbar t = tp;
 	t->w = w_scale*t->w_orig;
-	//t->h *= h_scale;
 }
 
 void move_tabbar(void *tp, float x, float y)
@@ -129,9 +124,15 @@ void tabbar_add_tab(tabbar t, button b)
 		n_btns++;
 	}
 
+	// set button action
+	b->hb->action = &tabbar_set_active;
+	b->hb->obj = t;
+
 	// set button position
 	b->x = t->x + ((n_btns-1)*(b->w+5)) + 5;
 	b->y = t->y - 5;
+	b->hb->x = b->hb->x_orig = b->x;
+	b->hb->y = b->hb->y_orig = b->y;
 
 	// set first button to active
 	if(n_btns == 1)
@@ -152,28 +153,7 @@ void tabbar_set_active(void *tp)
 
 	for(btn_tmp = t->buttons; btn_tmp->next != NULL; btn_tmp = btn_tmp->next)
 	{
-		if((mouse_x >= (btn_tmp->btn->x + btn_tmp->btn->screen_x)) 
-				&& (mouse_x <= (btn_tmp->btn->x + btn_tmp->btn->screen_x + btn_tmp->btn->w)))
-		{
-			if((mouse_y >= (btn_tmp->btn->y + btn_tmp->btn->screen_y - btn_tmp->btn->h))
-					&& (mouse_y <= (btn_tmp->btn->y + btn_tmp->btn->screen_y)))
-			{
-				btn_tmp->btn->active = 1;
-				active_btn = btn_tmp->btn;
-				t->active = i;
-				if(active_btn->action != NULL)
-				{
-					active_btn->action(active_btn);
-				}
-			}
-		}
-		i++;
-	}
-	if((mouse_x >= (btn_tmp->btn->x + btn_tmp->btn->screen_x)) 
-			&& (mouse_x <= (btn_tmp->btn->x + btn_tmp->btn->screen_x + btn_tmp->btn->w)))
-	{
-		if((mouse_y >= (btn_tmp->btn->y + btn_tmp->btn->screen_y - btn_tmp->btn->h))
-				&& (mouse_y <= (btn_tmp->btn->y + btn_tmp->btn->screen_y)))
+		if(clickable_test(btn_tmp->btn->hb) == 1)
 		{
 			btn_tmp->btn->active = 1;
 			active_btn = btn_tmp->btn;
@@ -182,6 +162,17 @@ void tabbar_set_active(void *tp)
 			{
 				active_btn->action(active_btn);
 			}
+		}
+		i++;
+	}
+	if(clickable_test(btn_tmp->btn->hb) == 1)
+	{
+		btn_tmp->btn->active = 1;
+		active_btn = btn_tmp->btn;
+		t->active = i;
+		if(active_btn->action != NULL)
+		{
+			active_btn->action(active_btn);
 		}
 	}
 

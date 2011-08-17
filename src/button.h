@@ -8,6 +8,7 @@
 #include "sdl.h"
 #include "texture.h"
 #include "event.h"
+#include "clickable.h"
 
 // types
 typedef struct
@@ -20,6 +21,7 @@ typedef struct
 	int h;
 	int active;
 	unsigned int *texture_id;
+	clickable hb;
 	void (*action)(void *);
 	void (*move)(void *, float, float);
 	void (*update)(void *);
@@ -30,6 +32,7 @@ typedef struct
 // methods
 extern button add_button(int x, int y, int w, int h, unsigned int* texture_id);
 extern void draw_button(void *bp);
-extern void button_mousedown(void *bp);
+extern void button_press(void *bp);
+extern void button_free(void *bp);
 
 #endif

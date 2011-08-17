@@ -75,7 +75,7 @@ console init_console(int x, int y, int w, int h)
 	console_btn = add_button(x + 5, y + 5, 87, 26, NULL);
 	chat_btn = add_button(x + 10 + 87, y + 5, 87, 26, NULL);
 	log_btn = add_button(x + 15 + 174, y + 5, 87, 26, NULL);
-	
+
 	// set buttion textures
 	console_btn->texture_id = console_btn_texture;
 	chat_btn->texture_id = chat_btn_texture;

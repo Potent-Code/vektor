@@ -7,7 +7,8 @@
 button add_button(int x, int y, int w, int h, unsigned int* texture_id);
 void move_button(void *bp, float x, float y);
 void draw_button(void *bp);
-void button_mousedown(void *bp);
+void button_press(void *bp);
+void button_free(void *bp);
 
 button add_button(int x, int y, int w, int h, unsigned int* texture_id)
 {
@@ -22,12 +23,12 @@ button add_button(int x, int y, int w, int h, unsigned int* texture_id)
 	b->active = 0;
 	b->texture_id = texture_id;
 
-	//add_object_2d(b, &draw_button, NULL, NULL);
+	b->hb = clickable_add((float)x, (float)y, (float)w, (float)h, b, &button_press);
+
 	b->action = NULL;
 	b->move = &move_button;
 	b->draw = &draw_button;
-	b->remove = &free;
-	//add_listener(&button_mousedown, b, EVENT_MOUSEDOWN);
+	b->remove = &button_free;
 
 	return b;
 }
@@ -37,6 +38,7 @@ void move_button(void *bp, float x, float y)
 	button b = bp;
 	b->screen_x = (int)x;
 	b->screen_y = (int)y;
+	b->hb->move(b->hb, x, y);
 }
 
 void draw_button(void *bp)
@@ -72,26 +74,30 @@ void draw_button(void *bp)
 	glDisable(GL_TEXTURE_2D);
 }
 
-void button_mousedown(void *bp)
+void button_press(void *bp)
 {
 	button b = bp;
 
-	if((mouse_x >= (b->x+b->screen_x)) && (mouse_x <= (b->x + b->w + b->screen_x)))
+	if(clickable_test(b->hb) == 1)
 	{
-		if((mouse_y >= (b->y - b->h + b->screen_y)) && (mouse_y <= (b->y + b->screen_y)))
+		if(b->active == 0)
 		{
-			if(b->active == 0)
-			{
-				b->active = 1;
-			}
-			else
-			{
-				b->active = 0;
-			}
-			if(b->action != NULL)
-			{
-				b->action(b);
-			}
+			b->active = 1;
+		}
+		else
+		{
+			b->active = 0;
+		}
+		if(b->action != NULL)
+		{
+			b->action(b);
 		}
 	}
+}
+
+void button_free(void *bp)
+{
+	button b = bp;
+	free(b->hb);
+	free(b);
 }
