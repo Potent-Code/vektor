@@ -12,12 +12,11 @@ void textbox_add_text(textbox tb, const char *str);
 void textbox_clear_text(textbox tb);
 void textbox_find_lines(textbox tb);
 void move_textbox(void *tbp, float x, float y);
-void textbox_mousedown(void *tbp);
+void textbox_mousemove(void *tbp);
 void textbox_mouseup(void *tbp);
 void draw_textbox(void *tbp);
 void free_textbox(void *tbp);
 Uint32 blink_timer=0;
-int drag=-1;
 
 textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 {
@@ -42,11 +41,12 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 	tb->move = &move_textbox;
 
 	tb->sb = add_scrollbar(tb->x+(tb->f->w*tb->line_width)+8., tb->y, tb->f->h, (unsigned int)tb->lines);
-	//add_object_2d(tb, &draw_textbox, NULL, &free_textbox);
+	tb->sb->hb->action = NULL;
+	tb->sb->hb->obj = tb;
+	tb->sb->hb->x_orig = tb->sb->hb->x;
+	tb->sb->hb->y_orig = tb->sb->hb->y;
 	
-	//add_listener(&move_textbox, tb, EVENT_MOUSEMOVE);
-	add_listener(&textbox_mousedown, tb, EVENT_MOUSEDOWN);
-	add_listener(&textbox_mouseup, tb, EVENT_MOUSEUP);
+	add_listener(&textbox_mousemove, tb, EVENT_MOUSEMOVE);
 	return tb;
 }
 
@@ -95,6 +95,7 @@ void textbox_find_lines(textbox tb)
 	int i;
 	unsigned int line_breaks=0;
 	unsigned int line_breaks2=0;
+	float last_y = tb->sb->y;
 
 	tb->sb->line_height = tb->f->h;
 	tb->sb->lines = (unsigned int)tb->lines;
@@ -140,7 +141,41 @@ void textbox_find_lines(textbox tb)
 
 	// set new scrollbar height and position
 	tb->sb->h = ((float)tb->sb->lines)*tb->sb->line_height*((float)tb->sb->lines/(float)tb->sb->total_lines);
-	tb->sb->y = tb->y - ((float)(tb->sb->lines*tb->sb->line_height)) + tb->sb->h - tb->screen_y;
+	tb->sb->y = ((float)(tb->y - (tb->lines*tb->f->h) + tb->sb->h));
+	tb->sb->hb->y = tb->sb->hb->y_orig + (tb->sb->y - last_y);
+}
+
+void textbox_mousemove(void *tbp)
+{
+	textbox tb = tbp;
+	float max_y;
+	float min_y;
+	float shift_y;
+	float next_y;
+	float last_y;
+
+	if(clickable_test(tb->sb->hb) == 1)
+	{
+		shift_y = (float)(tb->sb->hb->y - tb->sb->hb->y_orig);
+		max_y = (float)(tb->y);
+		min_y = (float)(tb->y - (tb->lines*tb->f->h) + tb->sb->h);
+		next_y = (float)(tb->sb->hb->y_orig + mouse_y);
+		last_y = tb->sb->y;
+
+		if (next_y > min_y && next_y < max_y)
+		{
+			tb->sb->y = next_y;
+		}
+		else if (next_y < min_y)
+		{
+			tb->sb->y = min_y - 1;
+		}
+		else
+		{
+			tb->sb->y = max_y - 1;
+		}
+		tb->sb->hb->y = tb->sb->hb->y_orig + (next_y - last_y);
+	}
 }
 
 void move_textbox(void *tbp, float x, float y)
@@ -148,51 +183,8 @@ void move_textbox(void *tbp, float x, float y)
 	textbox tb = tbp;
 	tb->screen_x = x;
 	tb->screen_y = y;
-	
-	if(mouse_state==1 && (mouse_x >= (tb->sb->x+tb->screen_x) && mouse_x <= (tb->sb->x+tb->screen_x)+tb->sb->w && mouse_y <= (tb->sb->y+tb->screen_y) && mouse_y >= (tb->sb->y+tb->screen_y)-tb->sb->h))
-	{
-		drag=(tb->sb->y) - mouse_y;
-	}
-
-	if(drag != 0)
-	{
-		if(((mouse_y+drag-tb->screen_y)-tb->sb->h) >= (tb->y - ((float)(tb->sb->lines*tb->sb->line_height))) && (mouse_y+drag-tb->screen_y) <= tb->y)
-		{
-			tb->sb->y = mouse_y + drag - tb->screen_y;
-		}
-		else if(mouse_y >= tb->y - drag)
-		{
-			tb->sb->y = tb->y;
-		}
-		else if(mouse_y <= (tb->y - ((float)(tb->sb->lines*tb->sb->line_height))+tb->sb->h)-drag)
-		{
-			tb->sb->y = tb->y - ((float)(tb->sb->lines*tb->sb->line_height))+tb->sb->h;
-		}
-	}
-
-	if(tb->sb->total_lines > tb->lines && tb->lines > 1)
-	{
-		tb->start_line = (unsigned int)(-(float)(tb->sb->total_lines-tb->lines)*(tb->y-(tb->sb->y))/(tb->sb->h - (float)(tb->sb->lines*tb->sb->line_height)));
-	}
-	else
-	{
-		tb->start_line = 0;
-	}
-}
-
-void textbox_mousedown(void *tbp)
-{
-	textbox tb = tbp;
-
-	if(mouse_state==1 && (mouse_x >= (tb->sb->x+tb->screen_x) && mouse_x <= (tb->sb->x+tb->screen_x)+tb->sb->w && mouse_y <= (tb->sb->y+tb->screen_y) && mouse_y >= (tb->sb->y+tb->screen_y)-tb->sb->h))
-	{
-		drag=(tb->sb->y) - mouse_y - tb->screen_y;
-	}
-}
-
-void textbox_mouseup(void *tbp)
-{
-	drag = -1;
+	tb->sb->hb->x = tb->sb->hb->x_orig + x;
+	tb->sb->hb->y = tb->sb->hb->y_orig + y;
 }
 
 void draw_textbox(void *tbp)

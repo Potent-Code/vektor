@@ -7,6 +7,7 @@
 
 #include "texture.h"
 #include "sdl.h"
+#include "clickable.h"
 
 // types
 typedef struct
@@ -22,6 +23,7 @@ typedef struct
 	unsigned int data_pos;
 	// TODO: malloc this
 	unsigned int line_offsets[5000];
+	clickable hb;
 	unsigned int *gl_id;
 } *scrollbar;
 

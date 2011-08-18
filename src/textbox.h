@@ -44,7 +44,7 @@ extern void textbox_add_text(textbox tb, const char *str);
 extern void textbox_clear_text(textbox tb);
 extern void textbox_find_lines(textbox tb);
 extern void move_textbox(void *tbp, float x, float y);
-extern void textbox_mousedown(void *tbp);
+extern void textbox_mousemove(void *tbp);
 extern void textbox_mouseup(void *tbp);
 extern void draw_textbox(void *tbp);
 extern void free_textbox(void *tbp);
