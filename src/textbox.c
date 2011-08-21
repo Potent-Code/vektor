@@ -142,7 +142,8 @@ void textbox_find_lines(textbox tb)
 	// set new scrollbar height and position
 	tb->sb->h = ((float)tb->sb->lines)*tb->sb->line_height*((float)tb->sb->lines/(float)tb->sb->total_lines);
 	tb->sb->y = ((float)(tb->y - (tb->lines*tb->f->h) + tb->sb->h));
-	tb->sb->hb->y = tb->sb->hb->y_orig + (tb->sb->y - last_y);
+	tb->sb->hb->h = tb->sb->h;
+	tb->sb->hb->y = tb->sb->y + tb->screen_y;
 }
 
 void textbox_mousemove(void *tbp)
@@ -158,23 +159,26 @@ void textbox_mousemove(void *tbp)
 	{
 		shift_y = (float)(tb->sb->hb->y - tb->sb->hb->y_orig);
 		max_y = (float)(tb->y);
-		min_y = (float)(tb->y - (tb->lines*tb->f->h) + tb->sb->h);
-		next_y = (float)(tb->sb->hb->y_orig + mouse_y);
+		min_y = (float)(tb->y - (tb->lines * tb->f->h) + tb->sb->h);
+		next_y = (float)((mouse_y - tb->screen_y) + (tb->sb->h));
 		last_y = tb->sb->y;
 
 		if (next_y > min_y && next_y < max_y)
 		{
 			tb->sb->y = next_y;
+			tb->start_line = (unsigned int)(((max_y - next_y)/(max_y - min_y)) * (float)(tb->sb->total_lines - tb->lines));
 		}
 		else if (next_y < min_y)
 		{
-			tb->sb->y = min_y - 1;
+			tb->sb->y = min_y;
+			tb->start_line = tb->sb->total_lines - tb->lines;
 		}
 		else
 		{
-			tb->sb->y = max_y - 1;
+			tb->sb->y = max_y;
+			tb->start_line = 0;
 		}
-		tb->sb->hb->y = tb->sb->hb->y_orig + (next_y - last_y);
+		tb->sb->hb->y += tb->sb->y - last_y;
 	}
 }
 
@@ -183,8 +187,9 @@ void move_textbox(void *tbp, float x, float y)
 	textbox tb = tbp;
 	tb->screen_x = x;
 	tb->screen_y = y;
-	tb->sb->hb->x = tb->sb->hb->x_orig + x;
-	tb->sb->hb->y = tb->sb->hb->y_orig + y;
+	
+	tb->sb->hb->move(tb->sb->hb, x, y);
+	textbox_find_lines(tbp);
 }
 
 void draw_textbox(void *tbp)
@@ -314,3 +319,4 @@ void free_textbox(void *tbp)
 	free(tb->data);
 	free(tb);
 }
+

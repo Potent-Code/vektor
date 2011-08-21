@@ -6,6 +6,8 @@
 #define LOG_H
 
 #include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 
 extern void init_log(void);
 extern void log_add(char *str);

@@ -14,9 +14,16 @@ void free_log(void);
 
 void init_log(void)
 {
+	int i;
+	char str[256];
 	log_data = calloc(500000,1);
 	log_size = 0;
 	log_add("Starting Vektor Engine");
+	for(i = 0; i < 150; i++)
+	{
+		snprintf(&str[0], 4, "%d", i);
+		log_add(&str[0]);
+	}
 }
 
 void log_add(char *str)

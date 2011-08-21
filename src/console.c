@@ -154,6 +154,8 @@ void set_console(void *bp)
 	textbox_add_text(main_console->tb_in, "v$ ");
 	main_console->tb_in->active = 1;
 	main_console->in_bar->active = 1;
+	main_console->tb_out->lines = 16;
+	textbox_find_lines(main_console->tb_out);
 }
 
 void set_chat(void *bp)
@@ -164,6 +166,8 @@ void set_chat(void *bp)
 	set_input(main_console->tb_in->data, 1000);
 	main_console->tb_in->active = 1;
 	main_console->in_bar->active = 1;
+	main_console->tb_out->lines = 16;
+	textbox_find_lines(main_console->tb_out);
 }
 
 void set_log(void *bp)
@@ -174,6 +178,8 @@ void set_log(void *bp)
 	set_input(NULL, 0);
 	main_console->tb_in->active = 0;
 	main_console->in_bar->active = 0;
+	main_console->tb_out->lines = 18;
+	textbox_find_lines(main_console->tb_out);
 }
 
 void chat_recv(void *tbp)
