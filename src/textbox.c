@@ -12,6 +12,7 @@ void textbox_add_text(textbox tb, const char *str);
 void textbox_clear_text(textbox tb);
 void textbox_find_lines(textbox tb);
 void move_textbox(void *tbp, float x, float y);
+void textbox_resize(void *tbp, float x, float y);
 void textbox_mousemove(void *tbp);
 void textbox_mouseup(void *tbp);
 void draw_textbox(void *tbp);
@@ -26,8 +27,8 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 	tb->x = x;
 	tb->y = y;
 	tb->z = 0.11;
-	tb->line_width = line_width;
-	tb->lines = lines;
+	tb->line_width = tb->lwidth_orig = line_width;
+	tb->lines = tb->lines_orig = lines;
 	tb->data_len = data_len;
 	tb->f = fonts[0]; // default font
 	tb->data = calloc(data_len,1);
@@ -37,7 +38,7 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 	tb->draw = &draw_textbox;
 	tb->update = NULL;
 	tb->remove = &free_textbox;
-	tb->resize = NULL;
+	tb->resize = &textbox_resize;
 	tb->move = &move_textbox;
 
 	tb->sb = add_scrollbar(tb->x+(tb->f->w*tb->line_width)+8., tb->y, tb->f->h, (unsigned int)tb->lines);
@@ -141,9 +142,11 @@ void textbox_find_lines(textbox tb)
 
 	// set new scrollbar height and position
 	tb->sb->h = ((float)tb->sb->lines)*tb->sb->line_height*((float)tb->sb->lines/(float)tb->sb->total_lines);
+	tb->sb->x = (float)(tb->x+(tb->f->w*tb->line_width)+8.);
 	tb->sb->y = ((float)(tb->y - (tb->lines*tb->f->h) + tb->sb->h));
 	tb->sb->hb->h = tb->sb->h;
 	tb->sb->hb->y = tb->sb->y + tb->screen_y;
+	tb->sb->hb->x = tb->sb->x + tb->screen_x;
 }
 
 void textbox_mousemove(void *tbp)
@@ -189,6 +192,14 @@ void move_textbox(void *tbp, float x, float y)
 	tb->screen_y = y;
 	
 	tb->sb->hb->move(tb->sb->hb, x, y);
+	textbox_find_lines(tbp);
+}
+
+void textbox_resize(void *tbp, float w_scale, float h_scale)
+{
+	textbox tb = tbp;
+	tb->line_width = tb->lwidth_orig * w_scale;
+	tb->lines = tb->lines_orig * h_scale;
 	textbox_find_lines(tbp);
 }
 

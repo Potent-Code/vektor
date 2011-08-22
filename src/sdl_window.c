@@ -148,6 +148,8 @@ void vektor_init(const char *title)
 {
 	const SDL_VideoInfo *video_info;
 
+	init_log();
+
 	SDL_Init(SDL_INIT_VIDEO);
 	video_info = SDL_GetVideoInfo();
 
@@ -186,7 +188,6 @@ void vektor_init(const char *title)
 	logo_texture = add_texture("/usr/local/share/vektor/logo.texture");
 	sb_texture = add_texture("/usr/local/share/vektor/ui/scroll_bar.texture");
 	init_console(-276,174,522,352);
-	init_log();
 	init_network();
 }
 

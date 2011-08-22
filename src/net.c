@@ -19,6 +19,7 @@ void init_network(void)
 {
 	int port, opts;
 	struct hostent *server;
+	char msg[256];
 
 	char *host = TEST_HOST;
 	port = TEST_PORT;
@@ -46,6 +47,10 @@ void init_network(void)
 	net_write.fd = sockfd;
 	net_write.events = POLLOUT;
 	net_write.revents = 0;
+
+	snprintf(&msg[0], 256, "Connecting to %s:%d", host, port);
+
+	log_add(&msg[0]);
 }
 
 int recv_ready(void)

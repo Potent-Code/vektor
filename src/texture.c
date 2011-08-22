@@ -47,6 +47,7 @@ int load_texture(unsigned int tid)
 	image t;
 	GLuint format;
 	int i,j;
+	char msg[256];
 
 	if((fd = fopen(textures[tid].name, "rb")) == 0)
 	{
@@ -107,6 +108,9 @@ int load_texture(unsigned int tid)
 	
 	glTexImage2D(GL_TEXTURE_2D, 0, t->channels, t->width, t->height, 0, format, GL_UNSIGNED_BYTE, t->data);
 	//glGenerateMipmap(GL_TEXTURE_2D);
+
+	snprintf(&msg[0], 256, "%s: (%d,%d)x%d", textures[tid].name, t->width, t->height, t->channels);
+	log_add(&msg[0]);
 
 	free(t->data);
 	free(t);

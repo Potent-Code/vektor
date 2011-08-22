@@ -17,6 +17,7 @@ font add_font(const char *filename)
 {
 	int texture_id;
 	font f;
+	char msg[256];
 
 	f = malloc(sizeof(*f));
 
@@ -33,6 +34,8 @@ font add_font(const char *filename)
 		nfonts++;
 		return f;
 	}
+	snprintf(&msg[0], 256, "Font %s added",  textures[texture_id].name);
+	log_add(&msg[0]);
 	free(f);
 	return NULL;
 }

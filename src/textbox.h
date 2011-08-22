@@ -21,7 +21,9 @@ typedef struct
 	float screen_x;
 	float screen_y;
 	int line_width;
+	int lwidth_orig;
 	int lines;
+	int lines_orig;
 	int data_len;
 	unsigned int start_line;
 	int active;

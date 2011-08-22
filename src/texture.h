@@ -11,6 +11,7 @@
 
 #include "sdl.h"
 #include "image.h"
+#include "log.h"
 
 #ifdef __APPLE__
 #define glGenerateMipmap glGenerateMipmapEXT
