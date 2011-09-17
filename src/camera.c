@@ -210,9 +210,11 @@ void camera_move(void)
 void enable_mouselook(void)
 {
 	mouselook_enabled=1;
+	SDL_ShowCursor(0);
 }
 
 void disable_mouselook(void)
 {
 	mouselook_enabled=0;
+	SDL_ShowCursor(1);
 }
