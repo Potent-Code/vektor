@@ -34,7 +34,7 @@ model load_model(char* filename)
 		return NULL;
 	}
 	
-	ns = xmlSearchNsByHref(doc, cur, COLLADA_XMLNS);
+	ns = xmlSearchNsByHref(doc, cur, (const xmlChar*)COLLADA_XMLNS);
 
 	if (ns == NULL)
 	{
@@ -213,11 +213,17 @@ void load_mesh(model mdl, xmlNodePtr cur, xmlNsPtr ns)
 	if (source_name != NULL) xmlFree(source_name);
 }
 
-int save_model(model mdl, char* filename)
+void save_model(model mdl, char* filename)
 {
 	if (mdl != NULL) {
 		if (mdl->vertices != NULL && mdl->normals != NULL && mdl->tcoords != NULL) {
 			printf("Saving model %s to %s\n%d vertices\n%d normals\n%d texcoords\n", mdl->name, filename, mdl->vertices->n, mdl->normals->n, mdl->tcoords->n);
+
+			chdir(mdl->name);
+			save_vector(mdl->vertices, "vertices.vector");
+			save_vector(mdl->normals, "normals.vector");
+			save_vector(mdl->tcoords, "tcoords.vector");
+			chdir("..");
 		}
 		else {
 			printf("Didn't load all data in model %s\n", mdl->name);
@@ -256,6 +262,8 @@ void free_model(model mdl)
 int main(int argc, char** argv)
 {
 	model mdl;
+	const mode_t mode_dir = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH; // 0755
+	const mode_t mode_files = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH; // 0644
 
 	if(argc < 3)
 	{
@@ -264,6 +272,31 @@ int main(int argc, char** argv)
 	}
 
 	mdl = load_model(argv[1]);
+
+	if (mdl == NULL)
+	{
+		return 1;
+	}
+
+	if (mkdir(argv[2], mode_dir) != 0)
+	{
+		if (errno != EEXIST)
+		{
+			perror("Couldn't create vmodel");
+			return 1;
+		}
+	}
+
+	chdir(argv[2]);
+
+	if (mkdir(mdl->name, mode_dir) != 0)
+	{
+		if (errno != EEXIST)
+		{
+			perror("Error creating directory");
+			return 1;
+		}
+	}
 
 	save_model(mdl, argv[2]);
 

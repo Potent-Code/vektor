@@ -8,6 +8,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+
+#include <errno.h>
 
 #include <libxml2/libxml/tree.h>
 #include <libxml2/libxml/xmlmemory.h>
@@ -26,7 +29,7 @@ typedef struct {
 } *model;
 
 model load_dae(char *filename);
-int save_model(model mdl, char *filename);
+void save_model(model mdl, char *filename);
 void free_model(model mdl);
 
 #endif // makemodel_h
