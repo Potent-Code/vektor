@@ -16,6 +16,8 @@
 #include <sys/time.h>
 #include <poll.h>
 
+#include "log.h"
+
 #define TEST_HOST "theturks.sytes.net"
 #define TEST_PORT 57157
 

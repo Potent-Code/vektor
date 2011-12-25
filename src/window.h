@@ -9,8 +9,7 @@
 #include "texture.h"
 #include "event.h"
 #include "ui.h"
-//#include "draw.h"
-//#include "camera.c"
+//#include "camera.h"
 
 // types
 

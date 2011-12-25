@@ -12,7 +12,6 @@ unsigned int grow(plant p, unsigned int n);
 plant add_plant(float x, float y, float l, float angle, unsigned int iterations)
 {
 	plant p;
-	int i,j;
 	p = malloc(sizeof(*p));
 
 	p->branches = calloc(10000,sizeof(*p->branches));
@@ -32,15 +31,15 @@ void draw_plant(void *pp)
 {
 	plant p = pp;
 
-	int i=0;
+	unsigned int i=0;
 
 	//glEnable(GL_DEPTH_TEST);
 	//glDepthFunc(GL_ALWAYS);
 	glColor3f(0.0,1.0,0.0);
 	glBegin(GL_LINES);
-	for(i=0; i < p->nbranches; i++)
+	for (i=0; i < p->nbranches; i++)
 	{
-		if(i != 2)
+		if (i != 2)
 		{
 			glVertex3f(p->branches[i].x1,p->branches[i].y1,0.1);
 			glVertex3f(p->branches[i].x2,p->branches[i].y2,0.1);
@@ -55,13 +54,13 @@ void draw_plant(void *pp)
 unsigned int grow(plant p, unsigned int n)
 {
 	// done growing
-	if(n == 5*p->iterations)
+	if (n == 5*p->iterations)
 	{
 		return n;
 	}
 
 	// first branch
-	if(n == 0)
+	if (n == 0)
 	{
 		p->branches[n].x1 = p->x;
 		p->branches[n].y1 = p->y;
@@ -71,13 +70,13 @@ unsigned int grow(plant p, unsigned int n)
 		n++;
 	}
 	
-	if(n == 5)
+	if (n == 5)
 	{
 		p->branches[n].x1 = p->branches[0].x2;
 		p->branches[n].y1 = p->branches[0].y2;
 		p->branches[n].angle = p->branches[0].angle;
 	}
-	else if(n == 1)
+	else if (n == 1)
 	{
 		p->branches[n].x1 = p->branches[0].x2;
 		p->branches[n].y1 = p->branches[0].y2;
@@ -91,7 +90,7 @@ unsigned int grow(plant p, unsigned int n)
 		p->branches[n].angle = p->branches[n-(n/5)-1].angle;
 	}
 
-	if(n != 1)
+	if (n != 1)
 	{
 		p->branches[n].x2 = p->branches[n].x1 + (p->l/sqrt(n))*cos((double)p->branches[n].angle);
 		p->branches[n].y2 = p->branches[n].y1 + (p->l/sqrt(n))*sin((double)p->branches[n].angle);

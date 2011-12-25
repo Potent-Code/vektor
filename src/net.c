@@ -17,7 +17,7 @@ struct pollfd net_write;
 
 void init_network(void)
 {
-	int port, opts;
+	int port;
 	struct hostent *server;
 	char msg[256];
 
@@ -67,14 +67,14 @@ int send_ready(void)
 
 int recv_message(char *buffer)
 {
-	int saddr_len = sizeof(server_addr);
+	unsigned int saddr_len = sizeof(server_addr);
 
-	return recvfrom(sockfd,buffer,150,0,(struct sockaddr *)&server_addr,&saddr_len);
+	return recvfrom(sockfd, buffer, 150, 0, (struct sockaddr *)&server_addr, &saddr_len);
 }
 
 int send_message(char *buffer)
 {
-	int saddr_len = sizeof(server_addr);
+	unsigned int saddr_len = sizeof(server_addr);
 
-	return sendto(sockfd,buffer,strlen(buffer),0,(struct sockaddr *)&server_addr,(socklen_t)saddr_len);
+	return sendto(sockfd, buffer, strlen(buffer), 0, (struct sockaddr *)&server_addr, (socklen_t)saddr_len);
 }

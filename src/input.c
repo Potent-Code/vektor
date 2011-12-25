@@ -50,7 +50,7 @@ void get_key(SDL_keysym *keysym)
 	switch(keysym->sym)
 	{
 		case SDLK_ESCAPE:
-			quit();
+			event_quit();
 			break;
 		case SDLK_BACKSPACE:
 			if(ib_count >= 1)
@@ -143,7 +143,8 @@ void get_keyup(SDL_keysym *keysym)
 	switch(keysym->sym)
 	{
 		case SDLK_F1:
-			toggle_console();
+			//toggle_console(); // disabled for now
+			// to be renabled with real key events
 			break;
 		case SDLK_RETURN:
 			event_return();

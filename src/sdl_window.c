@@ -5,7 +5,7 @@
 
 #include "sdl_window.h"
 
-void quit(void);
+void quit(void* ev);
 void resize(int w, int h);
 void vektor_init(const char *title);
 void vektor_run(void);
@@ -18,10 +18,12 @@ int window_h;
 SDL_Surface *surface;
 font default_font;
 
-void quit(void)
+void quit(void* ev)
 {
 	int i;
 	
+	(void)ev;
+
 	// free textures
 	free_all_textures();
 
@@ -184,6 +186,9 @@ void vektor_init(const char *title)
 	SDL_EnableKeyRepeat(150,20);
 	SDL_EnableUNICODE(1);
 
+	// add quit event listener
+	add_listener(&quit, NULL, EVENT_QUIT);
+
 	default_font = add_font("/usr/local/share/vektor/fonts/default.font");
 	logo_texture = add_texture("/usr/local/share/vektor/logo.texture");
 	sb_texture = add_texture("/usr/local/share/vektor/ui/scroll_bar.texture");
@@ -282,5 +287,5 @@ void vektor_run(void)
 			render();
 		}
 	}
-	quit();
+	event_quit();
 }

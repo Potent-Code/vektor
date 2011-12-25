@@ -54,10 +54,10 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 // set a textbox's data field
 void textbox_set_text(textbox tb, const char *str)
 {
-	int len;
-	if((len = strlen(str)) < tb->data_len)
+	unsigned int len;
+	if ((len = strlen(str)) < tb->data_len)
 	{
-		if(len > 0)
+		if (len > 0)
 		{
 			strncpy(tb->data,str,len);
 		}
@@ -69,10 +69,10 @@ void textbox_set_text(textbox tb, const char *str)
 // add on to a textbox's data field
 void textbox_add_text(textbox tb, const char *str)
 {
-	int len;
-	if(((len = strlen(str)) + strlen(tb->data)) < tb->data_len)
+	unsigned int len;
+	if (((len = strlen(str)) + strlen(tb->data)) < tb->data_len)
 	{
-		if(len > 0)
+		if (len > 0)
 		{
 			strncat(tb->data,str,len);
 		}
@@ -96,7 +96,6 @@ void textbox_find_lines(textbox tb)
 	int i;
 	unsigned int line_breaks=0;
 	unsigned int line_breaks2=0;
-	float last_y = tb->sb->y;
 
 	tb->sb->line_height = tb->f->h;
 	tb->sb->lines = (unsigned int)tb->lines;
@@ -206,14 +205,14 @@ void textbox_resize(void *tbp, float w_scale, float h_scale)
 void draw_textbox(void *tbp)
 {
 	textbox tb = tbp;
-	int i,j,k;
-	int line_count=1;
+	unsigned int i,j,k;
+	unsigned int line_count=1;
 	int char_position=0;
 	float x;
-	int letter=0;
-	int col=0;
-	int len = strlen(tb->data);
-	Uint32 tb_draw_time;
+	unsigned int letter=0;
+	unsigned int col=0;
+	unsigned int len = strlen(tb->data);
+	uint32_t tb_draw_time;
 
 	if(tb->active == 0) return;
 
@@ -226,9 +225,9 @@ void draw_textbox(void *tbp)
 	glBegin(GL_QUADS);
 
 	// draw rows of multiline textbox
-	for(j=0; j < tb->lines; j++)
+	for (j=0; j < tb->lines; j++)
 	{
-		if(j == 0)
+		if (j == 0)
 		{
 			k=1;
 		}
@@ -237,32 +236,32 @@ void draw_textbox(void *tbp)
 			k=0;
 		}
 		// draw columns of textbox
-		for(i=(k*tb->sb->line_offsets[tb->start_line])+letter; i < len; i++)
+		for (i=(k*tb->sb->line_offsets[tb->start_line])+letter; i < len; i++)
 		{
 			// end of the line
-			if(col == tb->line_width)
+			if (col == tb->line_width)
 			{
 				letter=i;
 				line_count++;
-				if(line_count > tb->lines > 1)
+				if (line_count > tb->lines)
 				{
-					len=i;
+					if (tb->lines > 1) len = i;
 				}
 				break;
 			}
 			// printable character
-			if((int)tb->data[i] >= 33 && (int)tb->data[i] <= 126)
+			if ((int)tb->data[i] >= 33 && (int)tb->data[i] <= 126)
 			{
 				char_position = font_get_glyph(tb->data[i]);
 			}
 			// newline
-			else if(tb->data[i] == '\n')
+			else if (tb->data[i] == '\n')
 			{
 				letter=i+1;
 				line_count++;
-				if(line_count > tb->lines > 1)
+				if (line_count > tb->lines)
 				{
-					len=i;
+					if (tb->lines > 1) len = i;
 				}
 				break;
 			}

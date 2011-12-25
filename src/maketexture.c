@@ -29,32 +29,35 @@ image load_png(char *filename)
 {
 	FILE *fd;
 	unsigned char signature[8];
-	int i,j;
+	unsigned int i,j;
 	png_uint_32 bytes_per_row;
 	png_bytepp rows;
 	png_structp status;
 	png_infop info;
 	image img;
 
-	if((fd = fopen(filename,"rb")) == 0)
+	if ((fd = fopen(filename,"rb")) == 0)
 	{
 		perror("Error opening file");
 		return NULL;
 	}
 
-	if(fread(signature, 1, 8, fd) != 8)
+	if (fread(signature, 1, 8, fd) != 8)
 	{
 		perror("Couldnt read file");
 		return NULL;
 	}
-	/*if(!png_check_sig(signature, 8))
+
+	#ifndef __APPLE__
+	if(!png_check_sig(signature, 8))
 	{
 		fprintf(stderr, "Invalid PNG signature\n");
 		return NULL;
-	}*/
+	}
+	#endif // __APPLE__
 
 	status = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-	if(status == NULL)
+	if (status == NULL)
 	{
 		fprintf(stderr, "Unable to allocate png_structp\n");
 		return NULL;
@@ -62,7 +65,7 @@ image load_png(char *filename)
 
 	info = png_create_info_struct(status);
 
-	if(info == NULL)
+	if (info == NULL)
 	{
 		png_destroy_read_struct(&status, NULL, NULL);
 		return NULL;
@@ -72,7 +75,7 @@ image load_png(char *filename)
 	png_set_sig_bytes(status, 8);
 	png_read_info(status, info);
 
-	if((img = malloc(sizeof(*img))) == NULL)
+	if ((img = malloc(sizeof(*img))) == NULL)
 	{
 		png_destroy_read_struct(&status, &info, NULL);
 		perror("Couldnt allocate image struct");
@@ -82,23 +85,23 @@ image load_png(char *filename)
 	png_get_IHDR(status, info, &img->width, &img->height, &img->bit_depth, &img->color_type, NULL, NULL, NULL);
 
 	// set png flags
-	if(img->color_type == PNG_COLOR_TYPE_PALETTE)
+	if (img->color_type == PNG_COLOR_TYPE_PALETTE)
 	{
 		png_set_expand(status);
 	}
-	if(img->color_type == PNG_COLOR_TYPE_GRAY && img->bit_depth < 8)
+	if (img->color_type == PNG_COLOR_TYPE_GRAY && img->bit_depth < 8)
 	{
 		png_set_expand(status);
 	}
-	if(png_get_valid(status, info, PNG_INFO_tRNS))
+	if (png_get_valid(status, info, PNG_INFO_tRNS))
 	{
 		png_set_expand(status);
 	}
-	if(img->bit_depth == 16)
+	if (img->bit_depth == 16)
 	{
 		png_set_strip_16(status);
 	}
-	if(img->color_type == PNG_COLOR_TYPE_GRAY
+	if (img->color_type == PNG_COLOR_TYPE_GRAY
 		|| img->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
 	{
 		png_set_gray_to_rgb(status);
@@ -110,14 +113,14 @@ image load_png(char *filename)
 	bytes_per_row = png_get_rowbytes(status, info);
 	img->channels = (int)png_get_channels(status, info);
 
-	if((rows = malloc(sizeof(*rows)*img->height)) == NULL)
+	if ((rows = malloc(sizeof(*rows)*img->height)) == NULL)
 	{
 		png_destroy_read_struct(&status, &info, NULL);
 		free(img);
 		perror("Couldn't allocate space to read png");
 		return NULL;
 	}
-	if((img->data = malloc(bytes_per_row*img->height+1)) == NULL)
+	if ((img->data = malloc(bytes_per_row*img->height+1)) == NULL)
 	{
 		png_destroy_read_struct(&status, &info, NULL);
 		free(img);
@@ -126,7 +129,7 @@ image load_png(char *filename)
 		return NULL;
 	}
 
-	for(i = 0; i < img->height; ++i)
+	for (i = 0; i < img->height; ++i)
 	{
 		rows[i] = malloc(bytes_per_row);
 	}
@@ -154,11 +157,11 @@ image load_png(char *filename)
 int save_texture(image img, char * filename)
 {
 	FILE *fd;
-	int i;
-	int bytes;
-	int bytes_written;
+	unsigned int i;
+	unsigned int bytes;
+	unsigned int bytes_written;
 
-	if((fd = fopen(filename, "w")) == 0)
+	if ((fd = fopen(filename, "w")) == 0)
 	{
 		perror("Error opening texture file");
 		return 1;
@@ -169,7 +172,7 @@ int save_texture(image img, char * filename)
 	// write image struct
 	bytes_written = sizeof(*img)*fwrite(img, sizeof(*img), 1, fd);
 	// write image data
-	for(i=0; i < bytes; i++)
+	for (i=0; i < bytes; i++)
 	{
 		bytes_written += sizeof(*img->data)*fwrite(&img->data[i], sizeof(*img->data), 1, fd);
 	}
@@ -178,7 +181,7 @@ int save_texture(image img, char * filename)
 
 	fclose(fd);
 
-	if(bytes_written != (sizeof(*img) + sizeof(*img->data)*bytes))
+	if (bytes_written != (sizeof(*img) + sizeof(*img->data)*bytes))
 	{
 		perror("Error writing file");
 		return 1;

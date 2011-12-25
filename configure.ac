@@ -18,7 +18,7 @@ LT_INIT
 
 AM_PROG_CC_C_O
 
-CFLAGS="-O0 -g3 -Wall -Wextra"
+CFLAGS="-O0 -g3 -Wall -Wextra -Werror"
 AC_ARG_ENABLE([nodebug], [AC_HELP_STRING([--enable-nodebug],
 	          [build without debugging information (default NO)])],
 		      [test "$enableval" = "yes" && CFLAGS="-O3 -Wall -Wextra -Werror"])

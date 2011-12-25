@@ -71,13 +71,13 @@ void window_load_textures(void)
 
 void show_window(window w)
 {
-	disable_mouselook();
+	//disable_mouselook();
 	w->active = 1;
 }
 
 void hide_window(window w)
 {
-	enable_mouselook();
+	//enable_mouselook();
 	w->active = 0;
 }
 

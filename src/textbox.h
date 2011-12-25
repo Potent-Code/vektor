@@ -7,7 +7,6 @@
 
 #include <string.h>
 #include "sdl.h"
-#include "draw.h"
 #include "font.h"
 #include "scrollbar.h"
 #include "input.h"
@@ -20,11 +19,11 @@ typedef struct
 	float z;
 	float screen_x;
 	float screen_y;
-	int line_width;
-	int lwidth_orig;
-	int lines;
-	int lines_orig;
-	int data_len;
+	unsigned int line_width;
+	unsigned int lwidth_orig;
+	unsigned int lines;
+	unsigned int lines_orig;
+	unsigned int data_len;
 	unsigned int start_line;
 	int active;
 	font f;

@@ -20,19 +20,19 @@ camera cam;
 
 void add_object_2d(void *obj, void (*draw)(void*), void (*update)(void*), void (*remove)(void*))
 {
-	if(renderlist_2d == NULL)
+	if (renderlist_2d == NULL)
 	{
 		renderlist_2d = malloc(sizeof(*renderlist_2d)*20);
 	}
 
-	if(obj != NULL & draw != NULL)
+	if ((obj != NULL) && (draw != NULL))
 	{
 		renderlist_2d[renderobjs2d_count].object = obj;
 		renderlist_2d[renderobjs2d_count].draw = draw;
 		renderlist_2d[renderobjs2d_count].update = update;
 		
 		// if we don't need a special clean up function, use regular free
-		if(remove == NULL)
+		if (remove == NULL)
 		{
 			renderlist_2d[renderobjs2d_count].remove = &free;
 		}
@@ -46,18 +46,18 @@ void add_object_2d(void *obj, void (*draw)(void*), void (*update)(void*), void (
 
 void add_object_3d(void *obj, void (*draw)(void*), void (*update)(void*), void(*remove)(void*))
 {
-	if(renderlist_3d == NULL)
+	if (renderlist_3d == NULL)
 	{
 		renderlist_3d = malloc(sizeof(*renderlist_3d)*20);
 	}
 
-	if(obj != NULL & draw != NULL)
+	if ((obj != NULL) && (draw != NULL))
 	{
 		renderlist_3d[renderobjs3d_count].object = obj;
 		renderlist_3d[renderobjs3d_count].draw = draw;
 		renderlist_3d[renderobjs3d_count].update = update;
 
-		if(remove == NULL)
+		if (remove == NULL)
 		{
 			renderlist_3d[renderobjs3d_count].remove = &free;
 		}

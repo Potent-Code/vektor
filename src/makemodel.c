@@ -78,18 +78,18 @@ vector load_array(xmlNodePtr cur)
 		return NULL;
 	}
 
-	size = atoi(count);
+	size = atoi((const char*)count);
 
 	v = zero_vector(size);
 
 	data = xmlNodeGetContent(cur);
 
-	point = strtok(data, " ");
+	point = (xmlChar*)strtok((char*)data, " ");
 
 	for(i = 0; i < size; i++)
 	{
-		v->a[i] = atof(point);
-		point = strtok(NULL, " ");
+		v->a[i] = atof((char*)point);
+		point = (xmlChar*)strtok(NULL, " ");
 	}
 
 	if (i != size)
@@ -219,11 +219,20 @@ void save_model(model mdl, char* filename)
 		if (mdl->vertices != NULL && mdl->normals != NULL && mdl->tcoords != NULL) {
 			printf("Saving model %s to %s\n%d vertices\n%d normals\n%d texcoords\n", mdl->name, filename, mdl->vertices->n, mdl->normals->n, mdl->tcoords->n);
 
-			chdir(mdl->name);
+			if (chdir((const char*)mdl->name) != 0)
+			{
+				perror("Couldn't change directory");
+				return;
+			}
+
 			save_vector(mdl->vertices, "vertices.vector");
 			save_vector(mdl->normals, "normals.vector");
 			save_vector(mdl->tcoords, "tcoords.vector");
-			chdir("..");
+			if (chdir("..") != 0)
+			{
+				perror("Couldn't change directory");
+				return;
+			}
 		}
 		else {
 			printf("Didn't load all data in model %s\n", mdl->name);
@@ -263,7 +272,7 @@ int main(int argc, char** argv)
 {
 	model mdl;
 	const mode_t mode_dir = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH; // 0755
-	const mode_t mode_files = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH; // 0644
+	//const mode_t mode_files = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH; // 0644
 
 	if(argc < 3)
 	{
@@ -287,9 +296,13 @@ int main(int argc, char** argv)
 		}
 	}
 
-	chdir(argv[2]);
+	if (chdir(argv[2]) != 0)
+	{
+		perror("Couldn't change directory");
+		return 1;
+	}
 
-	if (mkdir(mdl->name, mode_dir) != 0)
+	if (mkdir((char*)mdl->name, mode_dir) != 0)
 	{
 		if (errno != EEXIST)
 		{

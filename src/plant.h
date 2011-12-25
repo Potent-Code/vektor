@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "sdl.h"
+#include "draw.h"
 
 typedef struct
 {

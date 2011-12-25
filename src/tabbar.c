@@ -50,6 +50,9 @@ void tabbar_load_textures(void)
 void resize_tabbar(void *tp, float w_scale, float h_scale)
 {
 	tabbar t = tp;
+
+	(void)h_scale;
+
 	t->w = w_scale*t->w_orig;
 }
 

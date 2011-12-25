@@ -11,6 +11,7 @@
 #include "input.h"
 #include "event.h"
 #include "log.h"
+#include "draw.h"
 
 // types
 typedef struct

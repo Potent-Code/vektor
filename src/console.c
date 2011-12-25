@@ -148,6 +148,9 @@ void draw_console(void *cp)
 void set_console(void *bp)
 {
 	button b = bp;
+
+	(void)b;
+
 	main_console->tb_out->data = console_data;
 	textbox_clear_text(main_console->tb_in);
 	set_input(main_console->tb_in->data, 1000);
@@ -161,6 +164,9 @@ void set_console(void *bp)
 void set_chat(void *bp)
 {
 	button b = bp;
+
+	(void)b;
+
 	main_console->tb_out->data = chat_data;
 	textbox_clear_text(main_console->tb_in);
 	set_input(main_console->tb_in->data, 1000);
@@ -173,6 +179,9 @@ void set_chat(void *bp)
 void set_log(void *bp)
 {
 	button b = bp;
+
+	(void)b;
+
 	main_console->tb_out->data = log_get();
 	textbox_clear_text(main_console->tb_in);
 	set_input(NULL, 0);
@@ -188,10 +197,12 @@ void chat_recv(void *tbp)
 	char recv_msg[2500];
 	textbox t = tbp;
 
-	if(main_console->tabs->active == 2)
+	(void)t;
+
+	if (main_console->tabs->active == 2)
 	{
 		memset(&recv_msg[0], 0, 2500);
-		if((len = recv_message(&recv_msg[0])) > 0)
+		if ((len = recv_message(&recv_msg[0])) > 0)
 		{
 			textbox_add_text(main_console->tb_out, &recv_msg[0]);
 		}
@@ -203,6 +214,7 @@ void console_return(void *tp)
 {
 	textbox t = tp;
 	char send_msg[2500];
+	(void)t;
 	
 	// input to console
 	if(main_console->tabs->active == 1)

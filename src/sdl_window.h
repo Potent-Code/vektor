@@ -16,8 +16,10 @@
 #include "scrollbar.h"
 #include "ui.h"
 #include "camera.h"
+#include "console.h"
+#include "draw.h"
 
-extern void quit(void);
+extern void quit(void* ev);
 extern void resize(int w, int h);
 extern void vektor_init(const char *title);
 extern void vektor_run(void);

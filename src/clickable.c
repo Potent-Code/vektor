@@ -70,6 +70,10 @@ void clickable_move(void *cp, float x, float y)
 
 void clickable_resize(void *cp, float x, float y)
 {
+	clickable c = cp;
+	(void)c;
+	(void)x;
+	(void)y;
 }
 
 int clickable_test(clickable c)

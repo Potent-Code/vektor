@@ -38,6 +38,10 @@ listener lnet_recv_end = NULL;
 listener lnet_send = NULL;
 listener lnet_send_end = NULL;
 
+// quit
+listener lev_quit = NULL;
+listener lev_quit_end = NULL;
+
 listener link_listener(listener h, listener t, void (*_call)(void*), void *_obj);
 void add_listener(void (*_call)(void*), void *_obj, unsigned int type);
 
@@ -47,6 +51,7 @@ void event_mousemove(int x, int y);
 void event_return(void);
 void event_net_recv(void);
 void event_net_send(void);
+void event_quit(void);
 
 listener link_listener(listener h, listener t, void (*_call)(void*), void *_obj)
 {
@@ -61,39 +66,48 @@ listener link_listener(listener h, listener t, void (*_call)(void*), void *_obj)
 		t = t->next;
 	}
 	t->call = _call;
-	t->obj = _obj;
+
+	if (_obj == NULL)
+	{ // if event listeners don't need an object, they can pass NULL so use the listener instead
+		t->obj = t;
+	} else {
+		t->obj = _obj;
+	}
 	t->next = NULL;
 	return t;
 }
 
 void add_listener(void (*_call)(void*), void *_obj, unsigned int type)
 {
-	listener tmp;
 	switch(type)
 	{
 		case EVENT_MOUSEUP:
 			lmup_end = link_listener(lmup, lmup_end, _call, _obj);
-			if(lmup == NULL) lmup = lmup_end;
+			if (lmup == NULL) lmup = lmup_end;
 			break;
 		case EVENT_MOUSEDOWN:
 			lmdn_end = link_listener(lmdn, lmdn_end, _call,  _obj);
-			if(lmdn == NULL) lmdn = lmdn_end;
+			if (lmdn == NULL) lmdn = lmdn_end;
 			break;
 		case EVENT_MOUSEMOVE:
 			lmm_end = link_listener(lmm, lmm_end, _call, _obj);
-			if(lmm == NULL) lmm = lmm_end;
+			if (lmm == NULL) lmm = lmm_end;
 			break;
 		case EVENT_RETURN:
 			lret_end = link_listener(lret, lret_end, _call, _obj);
-			if(lret == NULL) lret = lret_end;
+			if (lret == NULL) lret = lret_end;
 			break;
 		case EVENT_NET_RECV:
 			lnet_recv_end = link_listener(lnet_recv, lnet_recv_end, _call, _obj);
-			if(lnet_recv == NULL) lnet_recv = lnet_recv_end;
+			if (lnet_recv == NULL) lnet_recv = lnet_recv_end;
 			break;
 		case EVENT_NET_SEND:
 			lnet_send_end = link_listener(lnet_send, lnet_send_end, _call, _obj);
-			if(lnet_send == NULL) lnet_send = lnet_send_end;
+			if (lnet_send == NULL) lnet_send = lnet_send_end;
+			break;
+		case EVENT_QUIT:
+			lev_quit_end = link_listener(lev_quit, lev_quit_end, _call, _obj);
+			if (lev_quit == NULL) lev_quit = lev_quit_end;
 			break;
 		default:
 			break;
@@ -108,9 +122,9 @@ void event_mouseup(int x, int y)
 	mouse_y = y;
 	mouse_state = 0;
 
-	if(lmup == NULL) return;
+	if (lmup == NULL) return;
 
-	for(tmp = lmup; tmp->next != NULL; tmp = tmp->next)
+	for (tmp = lmup; tmp->next != NULL; tmp = tmp->next)
 	{
 		tmp->call(tmp->obj);
 	}
@@ -125,9 +139,9 @@ void event_mousedown(int x, int y)
 	mouse_y = y;
 	mouse_state = 1;
 
-	if(lmdn == NULL) return;
+	if (lmdn == NULL) return;
 
-	for(tmp = lmdn; tmp->next != NULL; tmp = tmp->next)
+	for (tmp = lmdn; tmp->next != NULL; tmp = tmp->next)
 	{
 		tmp->call(tmp->obj);
 	}
@@ -141,9 +155,9 @@ void event_mousemove(int x, int y)
 	mouse_x = x;
 	mouse_y = y;
 
-	if(lmm == NULL) return;
+	if (lmm == NULL) return;
 	
-	for(tmp = lmm; tmp->next != NULL; tmp = tmp->next)
+	for (tmp = lmm; tmp->next != NULL; tmp = tmp->next)
 	{
 		tmp->call(tmp->obj);
 	}
@@ -154,9 +168,9 @@ void event_return(void)
 {
 	listener tmp;
 	
-	if(lret == NULL) return;
+	if (lret == NULL) return;
 
-	for(tmp = lret; tmp->next != NULL; tmp = tmp->next)
+	for (tmp = lret; tmp->next != NULL; tmp = tmp->next)
 	{
 		tmp->call(tmp->obj);
 	}
@@ -167,9 +181,9 @@ void event_net_recv(void)
 {
 	listener tmp;
 
-	if(lnet_recv == NULL) return;
+	if (lnet_recv == NULL) return;
 
-	for(tmp = lnet_recv; tmp->next != NULL; tmp = tmp->next)
+	for (tmp = lnet_recv; tmp->next != NULL; tmp = tmp->next)
 	{
 		tmp->call(tmp->obj);
 	}
@@ -180,9 +194,22 @@ void event_net_send(void)
 {
 	listener tmp;
 
-	if(lnet_send == NULL) return;
+	if (lnet_send == NULL) return;
 
-	for(tmp = lnet_send; tmp->next != NULL; tmp = tmp->next)
+	for (tmp = lnet_send; tmp->next != NULL; tmp = tmp->next)
+	{
+		tmp->call(tmp->obj);
+	}
+	tmp->call(tmp->obj);
+}
+
+void event_quit(void)
+{
+	listener tmp;
+
+	if (lev_quit == NULL) return;
+
+	for (tmp = lev_quit; tmp->next != NULL; tmp = tmp->next)
 	{
 		tmp->call(tmp->obj);
 	}
