@@ -42,11 +42,11 @@ int add_texture(const char * filename)
 int load_texture(unsigned int tid)
 {
 	FILE *fd;
-	int b=0;
+	unsigned int b=0;
 	int bytes;
 	image t;
 	GLuint format;
-	int i,j;
+	int i;
 	char msg[256];
 
 	if((fd = fopen(textures[tid].name, "rb")) == 0)
@@ -114,6 +114,8 @@ int load_texture(unsigned int tid)
 
 	free(t->data);
 	free(t);
+
+	return 0;
 }
 
 void free_texture(int texture_id)

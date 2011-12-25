@@ -16,10 +16,12 @@ AC_PROG_CC
 AC_PROG_OBJC
 LT_INIT
 
-CFLAGS="-O0 -g3"
+AM_PROG_CC_C_O
+
+CFLAGS="-O0 -g3 -Wall -Wextra"
 AC_ARG_ENABLE([nodebug], [AC_HELP_STRING([--enable-nodebug],
 	          [build without debugging information (default NO)])],
-		      [test "$enableval" = "yes" && CFLAGS="-O3"])
+		      [test "$enableval" = "yes" && CFLAGS="-O3 -Wall -Wextra -Werror"])
 
 # Checks for libraries.
 AC_PROG_CXX

@@ -10,6 +10,9 @@ libvektor_la_LDFLAGS = -lSDL -lGL -lGLU
 endif
 libvektor_la_LDFLAGS += -lmathlib
 include_HEADERS = vektor.h
-bin_PROGRAMS = maketexture
+bin_PROGRAMS = maketexture makemodel
 maketexture_SOURCES = image.h maketexture.h maketexture.c
 maketexture_LDFLAGS = -lpng
+makemodel_SOURCES = makemodel.h makemodel.c
+makemodel_CFLAGS = -I/usr/include/libxml2
+makemodel_LDFLAGS = -lxml2 -lmathlib
