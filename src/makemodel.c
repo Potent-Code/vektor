@@ -1,6 +1,6 @@
 /* convert a COLLADA dae to Vektor model
  * by Ryan Lucchese
- * December 21 2010 */
+ * December 24 2011 */
 
 #include "makemodel.h"
 
@@ -8,7 +8,7 @@ void load_geometries(model mdl, xmlNodePtr cur, xmlNsPtr ns);
 void load_mesh(model mdl, xmlNodePtr cur, xmlNsPtr ns);
 vector load_array(xmlNodePtr cur);
 
-model load_model(char* filename)
+model load_dae(char* filename)
 {
 	xmlDocPtr doc;
 	xmlNsPtr ns;
@@ -16,6 +16,10 @@ model load_model(char* filename)
 	model mdl;
 
 	mdl = malloc(sizeof(*mdl));
+
+	mdl->vertices = NULL;
+	mdl->normals = NULL;
+	mdl->tcoords = NULL;
 
 	doc = xmlParseFile(filename);
 
@@ -92,11 +96,6 @@ vector load_array(xmlNodePtr cur)
 		point = (xmlChar*)strtok(NULL, " ");
 	}
 
-	if (i != size)
-	{
-		fprintf(stderr, "array size mismatch: expected %d, got %d\n", size, i);
-	}	
-
 	xmlFree(count);
 	xmlFree(data);
 
@@ -105,11 +104,15 @@ vector load_array(xmlNodePtr cur)
 
 void load_geometries(model mdl, xmlNodePtr cur, xmlNsPtr ns)
 {
+	xmlChar* model_name = NULL;
+
 	while (cur != NULL)
 	{
 		if ((xmlStrcmp(cur->name, (const xmlChar*)"geometry") == 0) && (cur->ns == ns))
 		{
-			mdl->name = xmlGetProp(cur, (const xmlChar*)"name");
+			model_name = xmlGetProp(cur, (const xmlChar*)"name");
+			strncpy(mdl->name, (const char*)model_name, strlen((const char*)model_name) + 1);
+			xmlFree(model_name);
 			cur = cur->xmlChildrenNode;
 			continue;
 		}
@@ -213,61 +216,6 @@ void load_mesh(model mdl, xmlNodePtr cur, xmlNsPtr ns)
 	if (source_name != NULL) xmlFree(source_name);
 }
 
-void save_model(model mdl, char* filename)
-{
-	if (mdl != NULL) {
-		if (mdl->vertices != NULL && mdl->normals != NULL && mdl->tcoords != NULL) {
-			printf("Saving model %s to %s\n%d vertices\n%d normals\n%d texcoords\n", mdl->name, filename, mdl->vertices->n, mdl->normals->n, mdl->tcoords->n);
-
-			if (chdir((const char*)mdl->name) != 0)
-			{
-				perror("Couldn't change directory");
-				return;
-			}
-
-			save_vector(mdl->vertices, "vertices.vector");
-			save_vector(mdl->normals, "normals.vector");
-			save_vector(mdl->tcoords, "tcoords.vector");
-			if (chdir("..") != 0)
-			{
-				perror("Couldn't change directory");
-				return;
-			}
-		}
-		else {
-			printf("Didn't load all data in model %s\n", mdl->name);
-		}
-	}
-}
-
-void free_model(model mdl)
-{
-	if (mdl != NULL)
-	{
-		if (mdl->name != NULL)
-		{
-			xmlFree(mdl->name);
-		}
-		
-		if (mdl->vertices != NULL)
-		{
-			free_vector(mdl->vertices);
-		}
-
-		if (mdl->normals != NULL)
-		{
-			free_vector(mdl->normals);
-		}
-
-		if (mdl->tcoords != NULL)
-		{
-			free_vector(mdl->tcoords);
-		}
-
-		free(mdl);
-	}
-}
-
 int main(int argc, char** argv)
 {
 	model mdl;
@@ -280,7 +228,7 @@ int main(int argc, char** argv)
 		return 0;
 	}
 
-	mdl = load_model(argv[1]);
+	mdl = load_dae(argv[1]);
 
 	if (mdl == NULL)
 	{

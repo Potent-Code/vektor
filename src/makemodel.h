@@ -21,15 +21,8 @@
 #define COLLADA_XMLNS "http://www.collada.org/2005/11/COLLADASchema"
 #define COLLADA_VERSION "1.4.1"
 
-typedef struct {
-	xmlChar* name;
-	vector vertices;
-	vector normals;
-	vector tcoords;
-} *model;
+#include "model.h"
 
-model load_dae(char *filename);
-void save_model(model mdl, char *filename);
-void free_model(model mdl);
+extern model load_dae(char *filename);
 
 #endif // makemodel_h
