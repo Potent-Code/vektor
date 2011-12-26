@@ -16,6 +16,9 @@
 #include <libxml2/libxml/xmlmemory.h>
 #include <libxml2/libxml/parser.h>
 
+#include <sys/types.h>
+#include <sys/wait.h>
+
 #include <mathlib.h>
 
 #define COLLADA_XMLNS "http://www.collada.org/2005/11/COLLADASchema"

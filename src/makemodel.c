@@ -4,9 +4,12 @@
 
 #include "makemodel.h"
 
+void load_model_images(xmlNodePtr cur, xmlNsPtr ns);
 void load_geometries(model mdl, xmlNodePtr cur, xmlNsPtr ns);
 void load_mesh(model mdl, xmlNodePtr cur, xmlNsPtr ns);
 vector load_array(xmlNodePtr cur);
+
+char* model_file;
 
 model load_dae(char* filename)
 {
@@ -58,6 +61,12 @@ model load_dae(char* filename)
 		{
 			load_geometries(mdl, cur->xmlChildrenNode, ns);
 		}
+
+		if ((xmlStrcmp(cur->name, (const xmlChar*)"library_images") == 0) && (cur->ns == ns))
+		{
+			load_model_images(cur->xmlChildrenNode, ns);
+		}
+
 		cur = cur->next;
 	}
 
@@ -100,6 +109,53 @@ vector load_array(xmlNodePtr cur)
 	xmlFree(data);
 
 	return v;
+}
+
+void load_model_images(xmlNodePtr cur, xmlNsPtr ns)
+{
+	xmlChar* filename = NULL;
+	xmlNodePtr tmp;
+	char texture_file[256];
+	char texture_png[256];
+	pid_t pid;
+
+	while (cur != NULL)
+	{
+		if ((xmlStrcmp(cur->name, (const xmlChar*)"image") == 0) && (cur->ns == ns))
+		{
+			tmp = cur;
+			cur = cur->xmlChildrenNode;
+			while (cur != NULL)
+			{
+				if ((xmlStrcmp(cur->name, (const xmlChar*)"init_from") == 0) && (cur->ns == ns))
+				{
+					filename = xmlNodeGetContent(cur);
+					if (filename != NULL)
+					{
+						filename[strlen((char*)filename) - 4] = 0; // remove file extension
+
+						snprintf(texture_file, 255, "%s/%s.texture", model_file, filename);
+						snprintf(texture_png, 255, "%s/../%s.png", model_file, filename);
+						xmlFree(filename);
+
+						pid = fork();
+
+						if (pid == 0)
+						{ // make texture with child process
+							execl("/usr/local/bin/maketexture", "maketexture", texture_png, texture_file, NULL);
+						} else {
+							waitpid(pid, 0, 0);
+						}
+					}
+					break;
+				}
+				cur = cur->next;
+			}
+			cur = tmp->next;
+			continue;
+		}
+		cur = cur->next;
+	}
 }
 
 void load_geometries(model mdl, xmlNodePtr cur, xmlNsPtr ns)
@@ -228,14 +284,9 @@ int main(int argc, char** argv)
 		return 0;
 	}
 
-	mdl = load_dae(argv[1]);
+	model_file = argv[2];
 
-	if (mdl == NULL)
-	{
-		return 1;
-	}
-
-	if (mkdir(argv[2], mode_dir) != 0)
+	if (mkdir(model_file, mode_dir) != 0)
 	{
 		if (errno != EEXIST)
 		{
@@ -244,7 +295,14 @@ int main(int argc, char** argv)
 		}
 	}
 
-	if (chdir(argv[2]) != 0)
+	mdl = load_dae(argv[1]);
+
+	if (mdl == NULL)
+	{
+		return 1;
+	}
+
+	if (chdir(model_file) != 0)
 	{
 		perror("Couldn't change directory");
 		return 1;
@@ -259,7 +317,7 @@ int main(int argc, char** argv)
 		}
 	}
 
-	save_model(mdl, argv[2]);
+	save_model(mdl, model_file);
 
 	free_model(mdl);
 
