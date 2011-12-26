@@ -10,6 +10,10 @@
 #include <string.h>
 #include <unistd.h>
 
+#include <sys/types.h>
+#include <sys/stat.h>
+
+#include <dirent.h>
 #include <errno.h>
 
 #include <mathlib.h>
@@ -21,7 +25,8 @@ typedef struct {
 	vector tcoords;
 } *model;
 
-extern void save_model(model mdl, char *filename);
+extern model load_model(const char* filename);
+extern void save_model(model mdl, const char* filename);
 extern void free_model(model mdl);
 
 #endif // model_h

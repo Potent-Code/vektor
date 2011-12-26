@@ -4,7 +4,55 @@
 
 #include "model.h"
 
-void save_model(model mdl, char* filename)
+model load_model(const char* filename);
+void save_model(model mdl, const char* filename);
+void free_model(model mdl);
+
+model load_model(const char* filename)
+{
+	struct stat st;
+	stat(filename, &st);
+	model mdl;
+	DIR* dh;
+	struct dirent* contents;
+	char data_dir[256];
+	char path[256];
+
+	if ((st.st_mode & S_IFMT) != S_IFDIR)
+	{
+		perror("Couldn't open model file");
+		return NULL;
+	}
+
+	mdl = malloc(sizeof(*mdl));
+	strncpy(mdl->name, filename, strlen(filename) + 1);
+
+	dh = opendir(filename);
+	
+	//while (dh)
+	{
+		if ((contents = readdir(dh)) != NULL)
+		{
+			snprintf(data_dir, 255, "%s/%s/", filename, contents->d_name);
+		}
+	}
+
+	// load vertices
+	snprintf(path, 255, "%s/vertices.vector", data_dir);
+	mdl->vertices = load_vector(path);
+
+	// load normal vectors
+	snprintf(path, 255, "%s/normals.vector", data_dir);
+	mdl->normals = load_vector(path);
+
+	// load texture coordinates
+	snprintf(path, 255, "%s/tcoords.vector", data_dir);
+	mdl->tcoords = load_vector(path);
+
+	return mdl;
+}
+
+void save_model(model mdl, const char* filename)
 {
 	if (mdl != NULL) {
 		if (mdl->vertices != NULL && mdl->normals != NULL && mdl->tcoords != NULL) {

@@ -10,6 +10,7 @@ extern "C" {
 
 #include <time.h>
 #include <stdint.h>
+#include <mathlib.h>
 
 // hack to remap main function
 // OS X needs this because of stupid SDLMain.m
@@ -257,6 +258,18 @@ extern void draw_pyramid(void *pp);
 // skybox methods
 extern skybox add_skybox(float x, float y, float z, float h, const char *filename);
 extern void draw_skybox(void *sp);
+
+// model methods
+typedef struct {
+	char name[256];
+	vector vertices;
+	vector normals;
+	vector tcoords;
+} *model;
+
+extern model load_model(const char* filename);
+extern void save_model(model mdl, const char* filename);
+extern void free_model(model mdl);
 
 #ifdef __cplusplus
 }
