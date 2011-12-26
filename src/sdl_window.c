@@ -141,7 +141,7 @@ void intro(int logo)
 	add_object_2d(fps_disp, fps_disp->draw, NULL, fps_disp->remove);
 	fps_disp->z = 0.5;
 
-	cam = add_camera(12000.,6950.,12000.);
+	cam = add_camera(12.,6.,12.);
 	// draw whatever comes after this screen
 	render();
 }

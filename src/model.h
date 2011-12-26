@@ -23,10 +23,14 @@ typedef struct {
 	vector vertices;
 	vector normals;
 	vector tcoords;
+	unsigned int *gl_id; // pointer to texture
+	void (*update)(void *);
+	void (*draw)(void *);
+	void (*remove)(void *);
 } *model;
 
 extern model load_model(const char* filename);
 extern void save_model(model mdl, const char* filename);
-extern void free_model(model mdl);
+extern void free_model(void* mp);
 
 #endif // model_h

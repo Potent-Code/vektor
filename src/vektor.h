@@ -271,6 +271,10 @@ extern model load_model(const char* filename);
 extern void save_model(model mdl, const char* filename);
 extern void free_model(model mdl);
 
+// draw_model methods
+extern model add_model(const char* filename);
+extern void draw_model(void* mp);
+
 #ifdef __cplusplus
 }
 #endif

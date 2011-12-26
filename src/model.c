@@ -6,7 +6,7 @@
 
 model load_model(const char* filename);
 void save_model(model mdl, const char* filename);
-void free_model(model mdl);
+void free_model(void* mp);
 
 model load_model(const char* filename)
 {
@@ -28,7 +28,8 @@ model load_model(const char* filename)
 	strncpy(mdl->name, filename, strlen(filename) + 1);
 
 	dh = opendir(filename);
-	
+
+	// just support 1 mesh for now
 	//while (dh)
 	{
 		if ((contents = readdir(dh)) != NULL)
@@ -79,8 +80,10 @@ void save_model(model mdl, const char* filename)
 	}
 }
 
-void free_model(model mdl)
+void free_model(void* mp)
 {
+	model mdl = mp;
+
 	if (mdl != NULL)
 	{
 		if (mdl->vertices != NULL)

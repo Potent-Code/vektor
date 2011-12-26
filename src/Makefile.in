@@ -84,13 +84,13 @@ am__libvektor_la_SOURCES_DIST = image.h sdl.h ui.h log.h log.c \
 	ground.h ground.c camera.h camera.c pyramid.h pyramid.c \
 	skybox.h skybox.c window.h window.c console.h console.c \
 	button.h button.c tabbar.h tabbar.c clickable.h clickable.c \
-	model.h model.c SDLMain.m
+	model.h model.c draw_model.h draw_model.c SDLMain.m
 @DARWIN_TRUE@am__objects_1 = SDLMain.lo
 am_libvektor_la_OBJECTS = log.lo sdl_window.lo texture.lo input.lo \
 	event.lo net.lo sprite.lo player.lo draw.lo bitmap.lo font.lo \
 	textbox.lo scrollbar.lo plant.lo ground.lo camera.lo \
 	pyramid.lo skybox.lo window.lo console.lo button.lo tabbar.lo \
-	clickable.lo model.lo $(am__objects_1)
+	clickable.lo model.lo draw_model.lo $(am__objects_1)
 libvektor_la_OBJECTS = $(am_libvektor_la_OBJECTS)
 libvektor_la_LINK = $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(OBJCLD) $(AM_OBJCFLAGS) $(OBJCFLAGS) \
@@ -270,7 +270,7 @@ libvektor_la_SOURCES = image.h sdl.h ui.h log.h log.c sdl_window.h \
 	camera.h camera.c pyramid.h pyramid.c skybox.h skybox.c \
 	window.h window.c console.h console.c button.h button.c \
 	tabbar.h tabbar.c clickable.h clickable.c model.h model.c \
-	$(am__append_1)
+	draw_model.h draw_model.c $(am__append_1)
 @DARWIN_FALSE@libvektor_la_LDFLAGS = -lSDL -lGL -lGLU -lmathlib
 @DARWIN_TRUE@libvektor_la_LDFLAGS = -framework SDL -framework OpenGL \
 @DARWIN_TRUE@	-lmathlib
@@ -428,6 +428,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/clickable.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/console.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/draw.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/draw_model.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/event.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/font.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ground.Plo@am__quote@
