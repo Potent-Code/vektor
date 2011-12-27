@@ -5,6 +5,9 @@
 #ifndef vektor_h
 #define vektor_h
 
+#include <SDL/SDL.h>
+#include <SDL/SDL_opengl.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
