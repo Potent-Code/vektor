@@ -4,13 +4,13 @@
 
 #include "button.h"
 
-button add_button(int x, int y, int w, int h, unsigned int* texture_id);
+button add_button(int x, int y, int w, int h, texture* _tex);
 void move_button(void *bp, float x, float y);
 void draw_button(void *bp);
 void button_press(void *bp);
 void button_free(void *bp);
 
-button add_button(int x, int y, int w, int h, unsigned int* texture_id)
+button add_button(int x, int y, int w, int h, texture* _tex)
 {
 	button b;
 
@@ -21,7 +21,7 @@ button add_button(int x, int y, int w, int h, unsigned int* texture_id)
 	b->w = w;
 	b->h = h;
 	b->active = 0;
-	b->texture_id = texture_id;
+	b->tex = _tex;
 
 	b->hb = clickable_add((float)x, (float)y, (float)w, (float)h, b, &button_press);
 
@@ -48,6 +48,9 @@ void draw_button(void *bp)
 	float y_tc_top;
 	float y_tc_bot;
 
+	// check if a texture was set
+	if (b->tex == NULL) return;
+
 	if(b->active == 1)
 	{
 		y_tc_top = 0.5;
@@ -63,7 +66,7 @@ void draw_button(void *bp)
 	glEnable(GL_TEXTURE_2D);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
-	glBindTexture(GL_TEXTURE_2D, *b->texture_id);
+	glBindTexture(GL_TEXTURE_2D, b->tex->gl_id);
 	glBegin(GL_QUADS);
 		glTexCoord2f(1,y_tc_top); glVertex3f(b->x + b->w, b->y, 0.1);
 		glTexCoord2f(0,y_tc_top); glVertex3f(b->x, b->y, 0.1);

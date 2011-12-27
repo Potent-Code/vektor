@@ -4,10 +4,11 @@
 
 #include "makemodel.h"
 
-void load_model_images(xmlNodePtr cur, xmlNsPtr ns);
+void load_model_images(model mdl, xmlNodePtr cur, xmlNsPtr ns);
 void load_geometries(model mdl, xmlNodePtr cur, xmlNsPtr ns);
 void load_mesh(model mdl, xmlNodePtr cur, xmlNsPtr ns);
 vector load_array(xmlNodePtr cur);
+uvector load_int_array(xmlNodePtr cur, unsigned int size);
 
 char* model_file;
 
@@ -64,7 +65,7 @@ model load_dae(char* filename)
 
 		if ((xmlStrcmp(cur->name, (const xmlChar*)"library_images") == 0) && (cur->ns == ns))
 		{
-			load_model_images(cur->xmlChildrenNode, ns);
+			load_model_images(mdl, cur->xmlChildrenNode, ns);
 		}
 
 		cur = cur->next;
@@ -99,7 +100,7 @@ vector load_array(xmlNodePtr cur)
 
 	point = (xmlChar*)strtok((char*)data, " ");
 
-	for(i = 0; i < size; i++)
+	for (i = 0; i < size; i++)
 	{
 		v->a[i] = atof((char*)point);
 		point = (xmlChar*)strtok(NULL, " ");
@@ -111,7 +112,29 @@ vector load_array(xmlNodePtr cur)
 	return v;
 }
 
-void load_model_images(xmlNodePtr cur, xmlNsPtr ns)
+uvector load_int_array(xmlNodePtr cur, unsigned int size)
+{
+	xmlChar* data = xmlNodeGetContent(cur);
+	xmlChar* point;
+	uvector uv;
+	unsigned int i;
+
+	uv = zero_uvector(size);
+
+	point = (xmlChar*)strtok((char*)data, " ");
+
+	for (i = 0; i < size; i++)
+	{
+		uv->a[i] = atoi((char*)point);
+		point = (xmlChar*)strtok(NULL, " ");
+	}
+
+	xmlFree(data);
+
+	return uv;
+}
+
+void load_model_images(model mdl, xmlNodePtr cur, xmlNsPtr ns)
 {
 	xmlChar* filename = NULL;
 	xmlNodePtr tmp;
@@ -137,6 +160,8 @@ void load_model_images(xmlNodePtr cur, xmlNsPtr ns)
 						snprintf(texture_file, 255, "%s/%s.texture", model_file, filename);
 						snprintf(texture_png, 255, "%s/../%s.png", model_file, filename);
 						xmlFree(filename);
+
+						strncpy(mdl->texture_file, texture_file, 255);
 
 						pid = fork();
 
@@ -186,6 +211,12 @@ void load_mesh(model mdl, xmlNodePtr cur, xmlNsPtr ns)
 {
 	xmlNodePtr tmp;
 	xmlChar* source_name = NULL;
+	xmlChar* count = NULL;
+	xmlChar* semantic = NULL;
+	xmlChar* offset = NULL;
+	unsigned int i = 0;
+	unsigned int polys = 0;
+	unsigned int polylist_size = 0;
 
 	while (cur != NULL)
 	{
@@ -264,6 +295,62 @@ void load_mesh(model mdl, xmlNodePtr cur, xmlNsPtr ns)
 				cur = tmp->next;
 				continue;
 			}
+		}
+
+		// get polygon list
+		if ((xmlStrcmp(cur->name, (const xmlChar*)"polylist") == 0) && (cur->ns == ns))
+		{
+			count = xmlGetProp(cur, (const xmlChar*)"count");
+			polys = atoi((const char*)count);
+			xmlFree(count);
+
+			tmp = cur;
+			cur = cur->xmlChildrenNode;
+
+			while (cur != NULL)
+			{
+				if ((xmlStrcmp(cur->name, (const xmlChar*)"input") == 0) && (cur->ns == ns))
+				{
+					semantic = xmlGetProp(cur, (const xmlChar*)"semantic");
+					if (xmlStrcmp(semantic, (const xmlChar*)"VERTEX") == 0)
+					{
+						offset = xmlGetProp(cur, (const xmlChar*)"offset");
+						mdl->vertices->offset = atoi((const char*)offset);
+						xmlFree(offset);
+					}
+					else if (xmlStrcmp(semantic, (const xmlChar*)"NORMAL") == 0)
+					{
+						offset = xmlGetProp(cur, (const xmlChar*)"offset");
+						mdl->normals->offset = atoi((const char*)offset);
+						xmlFree(offset);
+					}
+					else if(xmlStrcmp(semantic, (const xmlChar*)"TEXCOORD") == 0)
+					{
+						offset = xmlGetProp(cur, (const xmlChar*)"offset");
+						mdl->tcoords->offset = atoi((const char*)offset);
+						xmlFree(offset);
+					}
+					xmlFree(semantic);
+				}
+				else if ((xmlStrcmp(cur->name, (const xmlChar*)"vcount") == 0) && (cur->ns == ns))
+				{
+					mdl->vcount = load_int_array(cur, polys);
+				}
+				else if ((xmlStrcmp(cur->name, (const xmlChar*)"p") == 0) && (cur->ns == ns))
+				{
+					for (i = 0; i < mdl->vcount->n; i++)
+					{
+						polylist_size += mdl->vcount->a[i] * 3;
+					}
+
+					mdl->polylist = load_int_array(cur, polylist_size);
+				}
+
+				cur = cur->next;
+			}
+
+			cur = tmp->next;
+			continue;
 		}
 		
 		cur = cur->next;

@@ -24,7 +24,7 @@ typedef struct
 	// TODO: malloc this
 	unsigned int line_offsets[5000];
 	clickable hb;
-	unsigned int *gl_id;
+	texture tex;
 } *scrollbar;
 
 // methods

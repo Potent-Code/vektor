@@ -221,7 +221,7 @@ void draw_textbox(void *tbp)
 	glEnable(GL_TEXTURE_2D);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
-	glBindTexture(GL_TEXTURE_2D, *tb->f->gl_id);
+	glBindTexture(GL_TEXTURE_2D, tb->f->tex.gl_id);
 	glBegin(GL_QUADS);
 
 	// draw rows of multiline textbox

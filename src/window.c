@@ -15,7 +15,7 @@ void window_dragresize(void *wp);
 void window_addchild(window w, void *p, void (*draw)(void*), void (*move)(void*,float,float), void (*resize)(void*,float,float), void(*remove)(void*));
 void free_window(void *wp);
 
-unsigned int* window_texture;
+texture texture_window;
 
 window add_window(int x, int y, int w, int h)
 {
@@ -64,9 +64,7 @@ window add_window(int x, int y, int w, int h)
 // load window textures
 void window_load_textures(void)
 {
-	int w;
-	w = add_texture("/usr/local/share/vektor/ui/ui_window.texture");
-	window_texture = textures[w].gl_id;
+	add_texture("/usr/local/share/vektor/ui/ui_window.texture", &texture_window);
 }
 
 void show_window(window w)
@@ -100,7 +98,7 @@ void draw_window(void *wp)
 	glEnable(GL_TEXTURE_2D);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
-	glBindTexture(GL_TEXTURE_2D, *window_texture);
+	glBindTexture(GL_TEXTURE_2D, texture_window.gl_id);
 	glBegin(GL_QUADS);
 		glTexCoord2f(1,1); glVertex3f((float)w->w, 0., 0.1);
 		glTexCoord2f(0,1); glVertex3f(0., 0., 0.1);

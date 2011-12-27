@@ -5,7 +5,7 @@
 #include "font.h"
 
 font add_font(const char *filename);
-void font_get_size(font f, int texture_id);
+void font_get_size(font f);
 int font_get_glyph(char c);
 void free_font(void *fp);
 void free_all_fonts(void);
@@ -15,7 +15,6 @@ int nfonts=0;
 
 font add_font(const char *filename)
 {
-	int texture_id;
 	font f;
 	char msg[256];
 
@@ -26,27 +25,21 @@ font add_font(const char *filename)
 		fonts = malloc(sizeof(*fonts)*4);
 	}
 
-	if((texture_id = add_texture(filename)) >= 0)
-	{
-		f->gl_id = textures[texture_id].gl_id;
-		font_get_size(f, texture_id);
-		fonts[nfonts]=f;
-		nfonts++;
-		return f;
-	}
-	snprintf(&msg[0], 256, "Font %s added",  textures[texture_id].name);
+	add_texture(filename, &f->tex);
+	font_get_size(f);
+	fonts[nfonts]=f;
+	nfonts++;
+
+	snprintf(&msg[0], 256, "Font %s added",  f->tex.name);
 	log_add(&msg[0]);
-	free(f);
-	return NULL;
+	
+	return f;
 }
 
-void font_get_size(font f, int texture_id)
+void font_get_size(font f)
 {
-	if(texture_id >= 0 && texture_id < ntextures)
-	{
-		f->w = (float)textures[texture_id].w/94.;
-		f->h = (float)textures[texture_id].h;
-	}
+	f->w = (float)f->tex.w/94.;
+	f->h = (float)f->tex.h;
 }
 
 // return position of a character in the font texture

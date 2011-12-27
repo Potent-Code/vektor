@@ -17,14 +17,14 @@ typedef struct
 	float z;
 	float w;
 	float h;
-	unsigned int *gl_id; // pointer to texture
+	texture tex;
 	void (*update)(void *);
 	void (*draw)(void *);
 	void (*remove)(void *);
 } *ground;
 
 // methods
-extern ground add_ground(float x, float z, float w, float h, int texture_id);
+extern ground add_ground(float x, float z, float w, float h, const char* filename);
 extern void draw_ground(void *bp);
 
 #endif

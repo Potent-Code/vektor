@@ -20,10 +20,13 @@
 
 typedef struct {
 	char name[256];
+	char texture_file[256];
 	vector vertices;
 	vector normals;
 	vector tcoords;
-	unsigned int *gl_id; // pointer to texture
+	uvector vcount;
+	uvector polylist;
+	unsigned int* gl_id;
 	void (*update)(void *);
 	void (*draw)(void *);
 	void (*remove)(void *);

@@ -5,11 +5,13 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
+#include <stdint.h>
+
 typedef struct
 {
 	unsigned char *data;
-	png_uint_32 width;
-	png_uint_32 height;
+	uint32_t width;
+	uint32_t height;
 	int bit_depth;
 	int color_type;
 	int channels;

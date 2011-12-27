@@ -17,24 +17,26 @@ void console_return(void *tp);
 
 console main_console;
 
-unsigned int* console_btn_texture;
-unsigned int* chat_btn_texture;
-unsigned int* log_btn_texture;
-
 char* console_data;
 char* chat_data;
 char* user;
+
+texture texture_btn_console;
+texture texture_btn_chat;
+texture texture_btn_log;
+
+texture texture_cpane;
+texture texture_input_bar;
 
 console init_console(int x, int y, int w, int h)
 {
 	console c;
 	button console_btn, chat_btn, log_btn;
-	int cpane_texture,input_bar_texture;
 
 	window_load_textures();
 	console_load_textures();
-	cpane_texture = add_texture("/usr/local/share/vektor/ui/ui_content.texture");
-	input_bar_texture = add_texture("/usr/local/share/vektor/ui/ui_input_bar.texture");
+	add_texture("/usr/local/share/vektor/ui/ui_content.texture", &texture_cpane);
+	add_texture("/usr/local/share/vektor/ui/ui_input_bar.texture", &texture_input_bar);
 
 	// allocate and initialize a new console
 	c = malloc(sizeof(*c));
@@ -68,18 +70,13 @@ console init_console(int x, int y, int w, int h)
 	add_listener(&chat_recv, c->tb_out, EVENT_NET_RECV);
 
 	// add content pane
-	c->cpane = add_bitmap(10, -65, 502, 262, cpane_texture);
-	c->in_bar = add_bitmap(20, -293, 482, 25, input_bar_texture); 
+	c->cpane = add_bitmap(10, -65, 502, 262, &texture_cpane);
+	c->in_bar = add_bitmap(20, -293, 482, 25, &texture_input_bar); 
 
 	// add buttons
-	console_btn = add_button(x + 5, y + 5, 87, 26, NULL);
-	chat_btn = add_button(x + 10 + 87, y + 5, 87, 26, NULL);
-	log_btn = add_button(x + 15 + 174, y + 5, 87, 26, NULL);
-
-	// set buttion textures
-	console_btn->texture_id = console_btn_texture;
-	chat_btn->texture_id = chat_btn_texture;
-	log_btn->texture_id = log_btn_texture;
+	console_btn = add_button(x + 5, y + 5, 87, 26, &texture_btn_console);
+	chat_btn = add_button(x + 10 + 87, y + 5, 87, 26, &texture_btn_chat);
+	log_btn = add_button(x + 15 + 174, y + 5, 87, 26, &texture_btn_log);
 
 	// set button actions
 	console_btn->action = &set_console;
@@ -107,13 +104,9 @@ console init_console(int x, int y, int w, int h)
 // load console textures
 void console_load_textures(void)
 {
-	int c,ch,l;
-	c = add_texture("/usr/local/share/vektor/ui/console_button.texture");
-	ch = add_texture("/usr/local/share/vektor/ui/chat_button.texture");
-	l = add_texture("/usr/local/share/vektor/ui/log_button.texture");
-	console_btn_texture = textures[c].gl_id;
-	chat_btn_texture = textures[ch].gl_id;
-	log_btn_texture = textures[l].gl_id;
+	add_texture("/usr/local/share/vektor/ui/console_button.texture", &texture_btn_console);
+	add_texture("/usr/local/share/vektor/ui/chat_button.texture", &texture_btn_chat);
+	add_texture("/usr/local/share/vektor/ui/log_button.texture", &texture_btn_log);
 }
 
 void toggle_console(void)

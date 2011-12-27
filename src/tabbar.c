@@ -13,7 +13,7 @@ void tabbar_add_tab(tabbar t, button b);
 void tabbar_set_active(void *tp);
 void free_tabbar(void *tp);
 
-unsigned int* tabbar_texture;
+texture texture_tabbar;
 
 tabbar add_tabbar(int x, int y, int w, int h)
 {
@@ -28,7 +28,6 @@ tabbar add_tabbar(int x, int y, int w, int h)
 	t->w = t->w_orig = w;
 	t->h = h;
 	t->active = 1;
-	t->texture_id = tabbar_texture;
 	t->buttons = NULL;
 
 	t->draw = &draw_tabbar;
@@ -42,9 +41,7 @@ tabbar add_tabbar(int x, int y, int w, int h)
 
 void tabbar_load_textures(void)
 {
-	int tt;
-	tt = add_texture("/usr/local/share/vektor/ui/ui_menu_bg.texture");
-	tabbar_texture = textures[tt].gl_id;
+	add_texture("/usr/local/share/vektor/ui/ui_menu_bg.texture", &texture_tabbar);
 }
 
 void resize_tabbar(void *tp, float w_scale, float h_scale)
@@ -85,7 +82,7 @@ void draw_tabbar(void *tp)
 	glEnable(GL_TEXTURE_2D);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
-	glBindTexture(GL_TEXTURE_2D, *t->texture_id);
+	glBindTexture(GL_TEXTURE_2D, t->tex.gl_id);
 	glBegin(GL_QUADS);
 		glTexCoord2f(1,1); glVertex3f((float)(t->x + t->w), (float)t->y, 0.1);
 		glTexCoord2f(0,1); glVertex3f((float)t->x, (float)t->y, 0.1);

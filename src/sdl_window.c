@@ -9,14 +9,17 @@ void quit(void* ev);
 void resize(int w, int h);
 void vektor_init(const char *title);
 void vektor_run(void);
-void intro(int logo);
+void intro(void);
 
-int logo_texture=-1;
+int ran_init = 0;
 int video_flags;
 int window_w;
 int window_h;
 SDL_Surface *surface;
 font default_font;
+
+texture texture_logo;
+texture texture_scrollbar;
 
 void quit(void* ev)
 {
@@ -25,7 +28,7 @@ void quit(void* ev)
 	(void)ev;
 
 	// free textures
-	free_all_textures();
+	// free_all_textures();
 
 	// free fonts
 	free_all_fonts();
@@ -73,7 +76,7 @@ void resize(int w, int h)
 	window_h = h;
 }
 
-void intro(int logo)
+void intro(void)
 {
 	Uint32 start,current;
 	start=SDL_GetTicks();
@@ -110,16 +113,16 @@ void intro(int logo)
 		glEnable(GL_TEXTURE_2D);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
-		glBindTexture(GL_TEXTURE_2D, *(textures[logo].gl_id));
+		glBindTexture(GL_TEXTURE_2D, texture_logo.gl_id);
 		glBegin(GL_QUADS);
 			glTexCoord2f(1,1);
-			glVertex3f(textures[logo].w/2, textures[logo].h/2, 0);
+			glVertex3f(texture_logo.w/2, texture_logo.h/2, 0);
 			glTexCoord2f(0,1);
-			glVertex3f((textures[logo].w/2) - textures[logo].w, textures[logo].h/2, 0);
+			glVertex3f((texture_logo.w/2) - texture_logo.w, texture_logo.h/2, 0);
 			glTexCoord2f(0,0);
-			glVertex3f((textures[logo].w/2) - textures[logo].w, (textures[logo].h/2) - textures[logo].h, 0);
+			glVertex3f((texture_logo.w/2) - texture_logo.w, (texture_logo.h/2) - texture_logo.h, 0);
 			glTexCoord2f(1,0);
-			glVertex3f(textures[logo].w/2, (textures[logo].h/2 - textures[logo].h), 0);
+			glVertex3f(texture_logo.w/2, (texture_logo.h/2 - texture_logo.h), 0);
 		glEnd();
 		glDisable(GL_BLEND);
 		glDisable(GL_TEXTURE_2D);
@@ -136,12 +139,6 @@ void intro(int logo)
 		glFlush();
 	}
 	
-	// add framerate counter
-	fps_disp = add_textbox(((float)window_w/2.)-80.,((float)window_h/2.)-4.,20,1,21);
-	add_object_2d(fps_disp, fps_disp->draw, NULL, fps_disp->remove);
-	fps_disp->z = 0.5;
-
-	cam = add_camera(12.,6.,12.);
 	// draw whatever comes after this screen
 	render();
 }
@@ -189,11 +186,19 @@ void vektor_init(const char *title)
 	// add quit event listener
 	add_listener(&quit, NULL, EVENT_QUIT);
 
-	default_font = add_font("/usr/local/share/vektor/fonts/default.font");
-	logo_texture = add_texture("/usr/local/share/vektor/logo.texture");
-	sb_texture = add_texture("/usr/local/share/vektor/ui/scroll_bar.texture");
+	add_font("/usr/local/share/vektor/fonts/default.font");
+	add_texture("/usr/local/share/vektor/logo.texture", &texture_logo);
+	add_texture("/usr/local/share/vektor/ui/scroll_bar.texture", &texture_scrollbar);
 	init_console(-276,174,522,352);
+	
+	fps_disp = add_textbox(((float)window_w/2.)-80.,((float)window_h/2.)-4.,20,1,21);
+	add_object_2d(fps_disp, fps_disp->draw, NULL, fps_disp->remove);
+	fps_disp->z = 0.5;
+	cam = add_camera(12.,6.,12.);
+
 	init_network();
+	
+	ran_init = 1;
 }
 
 void vektor_run(void)
@@ -204,9 +209,9 @@ void vektor_run(void)
 	SDL_Event event;
 
 	// draw intro logo
-	if(logo_texture >= 0)
+	if(ran_init != 0)
 	{
-		intro(logo_texture);
+		intro();
 	}
 	else
 	{

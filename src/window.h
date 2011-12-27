@@ -38,7 +38,7 @@ typedef struct
 	int drag_y;
 	int n_children;
 	struct ui_obj* children;
-	GLfloat transform[16];
+	float transform[16];
 	void (*update)(void *);
 	void (*draw)(void *);
 	void (*remove)(void *);

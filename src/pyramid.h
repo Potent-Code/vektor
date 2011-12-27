@@ -16,14 +16,14 @@ typedef struct
 	float y;
 	float z;
 	float h;
-	unsigned int *gl_id; // pointer to texture
+	texture tex;
 	void (*update)(void *);
 	void (*draw)(void *);
 	void (*remove)(void *);
 } *pyramid;
 
 // methods
-extern pyramid add_pyramid(float x, float y, float z, float h, int texture_id);
+extern pyramid add_pyramid(float x, float y, float z, float h, const char* filename);
 extern void draw_pyramid(void *pp);
 
 #endif

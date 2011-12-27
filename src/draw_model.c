@@ -1,6 +1,7 @@
 #include "draw_model.h"
 
 model add_model(const char* filename);
+void model_vertex_draw(model mdl, unsigned int i);
 void draw_model(void* mp);
 
 model add_model(const char* filename)
@@ -16,19 +17,49 @@ model add_model(const char* filename)
 	return mdl;
 }
 
+void model_vertex_draw(model mdl, unsigned int i)
+{
+	float x, y, z;
+
+	x = mdl->vertices->a[mdl->polylist->a[i]];
+	y = mdl->vertices->a[mdl->polylist->a[i] + 1];
+	z = mdl->vertices->a[mdl->polylist->a[i] + 2];
+	glVertex3f(x, y, z);
+}
+
 void draw_model(void* mp)
 {
 	model mdl = mp;
-	unsigned int i;
+	unsigned int i;//, j;
+	unsigned int k = mdl->vertices->offset;
 
 	glBegin(GL_QUADS);
-	for (i = 0; i < mdl->vertices->n; i+=4)
+	for (i = 0; i < (mdl->vertices->n / 3); i++)
 	{
-		glVertex3f(mdl->vertices->a[i], mdl->vertices->a[i + 1], mdl->vertices->a[i + 2]);
-		glVertex3f(mdl->vertices->a[i + 3], mdl->vertices->a[i + 4], mdl->vertices->a[i + 5]);
-		glVertex3f(mdl->vertices->a[i + 6], mdl->vertices->a[i + 7], mdl->vertices->a[i + 8]);
-		glVertex3f(mdl->vertices->a[i + 9], mdl->vertices->a[i + 10], mdl->vertices->a[i + 11]);
+		model_vertex_draw(mdl, k);
+		k += 3;
 	}
 	glEnd();
+	
+/*	for (i = 0; i < mdl->vcount->n; i++)
+	{
+		if (mdl->vcount->a[i] == 4)
+		{
+			glBegin(GL_QUADS);
+		}
+		else if (mdl->vcount->a[i] == 3)
+		{
+			glBegin(GL_TRIANGLES);
+		}
+
+		for (j = mdl->vertices->offset; k < (mdl->vcount->n * mdl->vcount->a[i]); j += 3)
+		{
+			glColor3f(i, k, j);
+			model_vertex_draw(mdl, j);
+			k++;
+		}
+
+		glEnd();
+	}*/
 }
 

@@ -4,10 +4,10 @@
 
 #include "ground.h"
 
-ground add_ground(float x, float z, float w, float h, int texture_id);
+ground add_ground(float x, float z, float w, float h, const char* filename);
 void draw_ground(void *gp);
 
-ground add_ground(float x, float z, float w, float h, int texture_id)
+ground add_ground(float x, float z, float w, float h, const char* filename)
 {
 	ground g;
 
@@ -18,7 +18,7 @@ ground add_ground(float x, float z, float w, float h, int texture_id)
 	g->z = z;
 	g->w = w;
 	g->h = h;
-	g->gl_id = textures[texture_id].gl_id;
+	add_texture(filename, &g->tex);
 
 	add_object_3d(g, &draw_ground, NULL, NULL);
 	return g;
@@ -31,7 +31,7 @@ void draw_ground(void *gp)
 
 	glColor3f(1.0,1.0,1.0);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, *g->gl_id);
+	glBindTexture(GL_TEXTURE_2D, g->tex.gl_id);
 	glBegin(GL_QUADS);
 		glTexCoord2f(1000,0); glVertex3f(g->x + g->w, g->y, g->z);
 		glTexCoord2f(0,0); glVertex3f(g->x, g->y, g->z);

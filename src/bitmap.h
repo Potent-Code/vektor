@@ -19,7 +19,7 @@ typedef struct
 	int w_orig;
 	int h_orig;
 	int active;
-	unsigned int *gl_id; // pointer to texture
+	texture* tex;
 	void (*resize)(void *, float, float);
 	void (*move)(void *, float, float);
 	void (*update)(void *);
@@ -28,7 +28,7 @@ typedef struct
 } *bitmap;
 
 // methods
-extern bitmap add_bitmap(int x, int y, int w, int h, int texture_id);
+extern bitmap add_bitmap(int x, int y, int w, int h, texture* _tex);
 extern void draw_bitmap(void *bp);
 extern void resize_bitmap(void *bp, float w_scale, float h_scale);
 

@@ -4,42 +4,28 @@
 
 #include "texture.h"
 
-int add_texture(const char *filename);
-int load_texture(unsigned int tid);
-void free_texture(int texture_id);
-void free_all_textures(void);
+void add_texture(const char* filename, texture* tex);
+int load_texture(const char* filename, texture* tex);
+void texture_remove(texture* tex);
 
-texture *textures;
-int ntextures=0;
-unsigned int *texture_ids;
+unsigned int texture_count = 1;
 
-int add_texture(const char * filename)
+void add_texture(const char * filename, texture* tex)
 {
-	// make space to store texture info
-	if(textures == NULL)
-	{
-		textures = malloc(sizeof(*textures)*MAX_TEXTURES);
-	}
-	// generate a list of texture names
-	if(texture_ids == NULL)
-	{
-		texture_ids = malloc(sizeof(*texture_ids)*MAX_TEXTURES);
-		glGenTextures(MAX_TEXTURES, texture_ids);
-	}
-
 	// the +1's here ensure a '\0' is written
-	textures[ntextures].name = malloc(strlen(filename)+1);
-	strncpy(textures[ntextures].name, filename, strlen(filename)+1);
-	textures[ntextures].tid = ntextures;
-	textures[ntextures].gl_id = &texture_ids[ntextures];
-	textures[ntextures].min_filter = GL_LINEAR;
-	textures[ntextures].mag_filter = GL_LINEAR_MIPMAP_LINEAR;
-	load_texture(textures[ntextures].tid);
-	ntextures++;
-	return (ntextures-1);
+
+	strncpy(tex->name, filename, strlen(filename)+1);
+	tex->min_filter = GL_LINEAR;
+	tex->mag_filter = GL_LINEAR_MIPMAP_LINEAR;
+	tex->gl_id = texture_count;
+	
+	if (load_texture(filename, tex) == 0)
+	{
+		texture_count++;
+	}
 }
 
-int load_texture(unsigned int tid)
+int load_texture(const char* filename, texture* tex)
 {
 	FILE *fd;
 	unsigned int b=0;
@@ -49,7 +35,7 @@ int load_texture(unsigned int tid)
 	int i;
 	char msg[256];
 
-	if((fd = fopen(textures[tid].name, "rb")) == 0)
+	if((fd = fopen(filename, "rb")) == 0)
 	{
 		perror("Error opening texture file");
 		return -1;
@@ -63,9 +49,9 @@ int load_texture(unsigned int tid)
 
 	b=sizeof(*t)*fread(t, sizeof(*t), 1, fd);
 
-	textures[tid].w = t->width;
-	textures[tid].h = t->height;
-	textures[tid].channels = t->channels;
+	tex->w = t->width;
+	tex->h = t->height;
+	tex->channels = t->channels;
 
 	bytes = t->width*t->height*t->channels;
 
@@ -100,16 +86,16 @@ int load_texture(unsigned int tid)
 
 	fclose(fd);
 	
-	glBindTexture(GL_TEXTURE_2D, *textures[tid].gl_id);
+	glBindTexture(GL_TEXTURE_2D, tex->gl_id);
 	
 	// texture filtering
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,textures[tid].min_filter);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,textures[tid].mag_filter);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,tex->min_filter);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,tex->mag_filter);
 	
 	glTexImage2D(GL_TEXTURE_2D, 0, t->channels, t->width, t->height, 0, format, GL_UNSIGNED_BYTE, t->data);
 	//glGenerateMipmap(GL_TEXTURE_2D);
 
-	snprintf(&msg[0], 256, "%s: (%d,%d)x%d", textures[tid].name, t->width, t->height, t->channels);
+	snprintf(&msg[0], 256, "%s: (%d,%d)x%d", tex->name, t->width, t->height, t->channels);
 	log_add(&msg[0]);
 
 	free(t->data);
@@ -118,13 +104,22 @@ int load_texture(unsigned int tid)
 	return 0;
 }
 
+void texture_remove(texture* tex)
+{
+	if (tex->gl_id > 0)
+	{
+		glDeleteTextures(1, &tex->gl_id);
+		texture_count--;
+	}
+}
+
+/*
 void free_texture(int texture_id)
 {
-	if(textures[texture_id].name != NULL)
+	if (textures[texture_id].gl_id != NULL)
 	{
-		free(textures[texture_id].name);
+		glDeleteTextures(1,textures[texture_id].gl_id);
 	}
-	glDeleteTextures(1,textures[texture_id].gl_id);
 }
 
 void free_all_textures(void)
@@ -136,4 +131,4 @@ void free_all_textures(void)
 	}
 	free(textures);
 	free(texture_ids);
-}
+}*/

@@ -23,7 +23,7 @@ extern void quit(void* ev);
 extern void resize(int w, int h);
 extern void vektor_init(const char *title);
 extern void vektor_run(void);
-extern void intro(int logo);
+extern void intro();
 
 extern int window_w;
 extern int window_h;

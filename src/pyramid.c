@@ -4,10 +4,10 @@
 
 #include "pyramid.h"
 
-pyramid add_pyramid(float x, float y, float z, float h, int texture_id);
+pyramid add_pyramid(float x, float y, float z, float h, const char* filename);
 void draw_pyramid(void *pp);
 
-pyramid add_pyramid(float x, float y, float z, float h, int texture_id)
+pyramid add_pyramid(float x, float y, float z, float h, const char* filename)
 {
 	pyramid p;
 
@@ -17,8 +17,8 @@ pyramid add_pyramid(float x, float y, float z, float h, int texture_id)
 	p->y = y;
 	p->z = z;
 	p->h = h;
-	p->gl_id = textures[texture_id].gl_id;
 
+	add_texture(filename, &p->tex);
 	add_object_3d(p, &draw_pyramid, NULL, NULL);
 	return p;
 }
@@ -30,7 +30,7 @@ void draw_pyramid(void *pp)
 
 	glColor3f(1.0,1.0,1.0);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, *p->gl_id);
+	glBindTexture(GL_TEXTURE_2D, p->tex.gl_id);
 
 	glBegin(GL_TRIANGLES);
 		

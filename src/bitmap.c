@@ -4,11 +4,11 @@
 
 #include "bitmap.h"
 
-bitmap add_bitmap(int x, int y, int w, int h, int texture_id);
+bitmap add_bitmap(int x, int y, int w, int h, texture* _tex);
 void draw_bitmap(void *bp);
 void resize_bitmap(void *bp, float w_scale, float h_scale);
 
-bitmap add_bitmap(int x, int y, int w, int h, int texture_id)
+bitmap add_bitmap(int x, int y, int w, int h, texture* _tex)
 {
 	bitmap b;
 
@@ -19,8 +19,8 @@ bitmap add_bitmap(int x, int y, int w, int h, int texture_id)
 	b->w_orig = b->w = w;
 	b->h_orig = b->h = h;
 	b->active = 1;
-	b->gl_id = textures[texture_id].gl_id;
-
+	
+	b->tex = _tex;
 	b->draw = &draw_bitmap;
 	b->update = NULL;
 	b->remove = &free;
@@ -40,7 +40,7 @@ void draw_bitmap(void *bp)
 
 	glColor3f(1.0,1.0,1.0);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, *b->gl_id);
+	glBindTexture(GL_TEXTURE_2D, b->tex->gl_id);
 	glBegin(GL_QUADS);
 		glTexCoord2f(1,1); glVertex3f(b->x + b->w, b->y, 0.1);
 		glTexCoord2f(0,1); glVertex3f(b->x, b->y, 0.1);

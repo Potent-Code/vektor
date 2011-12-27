@@ -7,8 +7,6 @@
 scrollbar add_scrollbar(float x, float y, float line_height, unsigned int lines);
 void draw_scrollbar(scrollbar sb);
 
-int sb_texture;
-
 scrollbar add_scrollbar(float x, float y, float line_height, unsigned int lines)
 {
 	scrollbar sb;
@@ -25,7 +23,6 @@ scrollbar add_scrollbar(float x, float y, float line_height, unsigned int lines)
 	sb->lines = lines;
 	sb->total_lines = 0;
 	sb->data_pos = 0;
-	sb->gl_id = textures[sb_texture].gl_id;
 	sb->line_offsets[0] = 0;
 
 	sb->hb = clickable_add(x, y, sb->w, sb->h, NULL, NULL);
@@ -37,7 +34,7 @@ void draw_scrollbar(scrollbar sb)
 {
         glColor3f(1.0,1.0,1.0);
         glEnable(GL_TEXTURE_2D);
-        glBindTexture(GL_TEXTURE_2D, *sb->gl_id);
+        glBindTexture(GL_TEXTURE_2D, sb->tex.gl_id);
         glBegin(GL_QUADS);
                 glTexCoord2f(1,0); glVertex3f(sb->x + sb->w, sb->y, 0.02);
                 glTexCoord2f(0,0); glVertex3f(sb->x, sb->y, 0.02);

@@ -20,7 +20,7 @@ typedef struct
 	int w;
 	int h;
 	int active;
-	unsigned int *texture_id;
+	texture* tex; // set this to give your button a texture
 	clickable hb;
 	void (*action)(void *);
 	void (*move)(void *, float, float);
@@ -30,7 +30,7 @@ typedef struct
 } *button;
 
 // methods
-extern button add_button(int x, int y, int w, int h, unsigned int* texture_id);
+extern button add_button(int x, int y, int w, int h, texture* _tex);
 extern void draw_button(void *bp);
 extern void button_press(void *bp);
 extern void button_free(void *bp);

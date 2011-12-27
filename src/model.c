@@ -50,6 +50,14 @@ model load_model(const char* filename)
 	snprintf(path, 255, "%s/tcoords.vector", data_dir);
 	mdl->tcoords = load_vector(path);
 
+	// load vertex counts
+	snprintf(path, 255, "%s/vcount.uvector", data_dir);
+	mdl->vcount = load_uvector(path);
+
+	// load polylist
+	snprintf(path, 255, "%s/polylist.uvector", data_dir);
+	mdl->polylist = load_uvector(path);
+
 	return mdl;
 }
 
@@ -68,6 +76,8 @@ void save_model(model mdl, const char* filename)
 			save_vector(mdl->vertices, "vertices.vector");
 			save_vector(mdl->normals, "normals.vector");
 			save_vector(mdl->tcoords, "tcoords.vector");
+			save_uvector(mdl->vcount, "vcount.uvector");
+			save_uvector(mdl->polylist, "polylist.uvector");
 			if (chdir("..") != 0)
 			{
 				perror("Couldn't change directory");
@@ -99,6 +109,16 @@ void free_model(void* mp)
 		if (mdl->tcoords != NULL)
 		{
 			free_vector(mdl->tcoords);
+		}
+
+		if (mdl->vcount != NULL)
+		{
+			free_uvector(mdl->vcount);
+		}
+
+		if (mdl->polylist != NULL)
+		{
+			free_uvector(mdl->polylist);
 		}
 
 		free(mdl);

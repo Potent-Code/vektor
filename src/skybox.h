@@ -15,7 +15,7 @@ typedef struct
 	float y;
 	float z;
 	float h;
-	unsigned int *gl_id;
+	texture tex;
 } *skybox;
 
 // methods

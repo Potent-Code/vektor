@@ -29,7 +29,7 @@ typedef struct
 	int w_orig;
 	int active;
 	button_list buttons;
-	unsigned int *texture_id;
+	texture tex;
 	void (*resize)(void *, float, float);
 	void (*move)(void *, float, float);
 	void (*update)(void *);

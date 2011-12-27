@@ -14,12 +14,12 @@ typedef struct
 {
 	float w; // character width (screen coords)
 	float h; // character height (screen coords)
-	unsigned int *gl_id; // texture
+	texture tex; // texture
 } *font;
 
 // methods
 extern font add_font(const char *filename);
-extern void font_get_size(font f, int texture_id);
+extern void font_get_size(font f);
 extern int font_get_glyph(char c);
 extern void free_font(void *fp);
 extern void free_all_fonts(void);

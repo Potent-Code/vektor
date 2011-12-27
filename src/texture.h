@@ -2,12 +2,11 @@
  * by Ryan Lucchese
  * December 21 2010 */
 
-#ifndef TEXTURE_H
-#define TEXTURE_H
+#ifndef texture_h
+#define texture_h
 
 #include <stdio.h>
 #include <string.h>
-#include <png.h>
 
 #include "sdl.h"
 #include "image.h"
@@ -17,27 +16,19 @@
 #define glGenerateMipmap glGenerateMipmapEXT
 #endif
 
-#define MAX_TEXTURES 25
-
 typedef struct
 {
-	char *name;
+	char name[255];
 	int w; // width of texture
 	int h; // height of texture
 	int channels; // number of channels
-	GLint min_filter;
-	GLint mag_filter;
-	unsigned int tid; // index in textures array
-	unsigned int *gl_id; // texture id
+	int min_filter;
+	int mag_filter;
+	unsigned int gl_id; // index in textures array
 } texture;
 
-extern int add_texture(const char *filename);
-extern int load_texture(unsigned int tid);
-extern void free_texture(int texture_id);
-extern void free_all_textures(void);
+extern void add_texture(const char *filename, texture* tex);
+extern int load_texture(const char* filename, texture* tex);
+extern void texture_remove(texture* tex);
 
-extern texture *textures;
-extern int ntextures;
-extern unsigned int *texture_ids;
-
-#endif
+#endif // texture_h
