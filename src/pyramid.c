@@ -5,7 +5,8 @@
 #include "pyramid.h"
 
 pyramid add_pyramid(float x, float y, float z, float h, const char* filename);
-void draw_pyramid(void *pp);
+void draw_pyramid(void* pp);
+void pyramid_free(void* pp);
 
 pyramid add_pyramid(float x, float y, float z, float h, const char* filename)
 {
@@ -19,7 +20,7 @@ pyramid add_pyramid(float x, float y, float z, float h, const char* filename)
 	p->h = h;
 
 	add_texture(filename, &p->tex);
-	add_object_3d(p, &draw_pyramid, NULL, NULL);
+	add_object_3d(p, &draw_pyramid, NULL, &pyramid_remove);
 	return p;
 }
 
@@ -64,4 +65,12 @@ void draw_pyramid(void *pp)
 	glEnd();						// Done Drawing The Pyramid
 
 	glDisable(GL_TEXTURE_2D);
+}
+
+void pyramid_remove(void* pp)
+{
+	pyramid p = pp;
+
+	texture_remove(&p->tex);
+	free(p);
 }

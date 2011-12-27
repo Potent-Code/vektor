@@ -42,7 +42,7 @@ void model_draw(void* mp)
 	glBindTexture(GL_TEXTURE_2D, mdl->tex.gl_id);
 
 	glBegin(GL_QUADS);
-	for (i = 0; i < 4; i++)
+	for (i = 0; i < 24; i++)
 	{
 		model_vertex_draw(mdl, k);
 		k += 3;
@@ -78,7 +78,7 @@ void model_remove(void* mp)
 
 	if (m->tex.gl_id > 0)
 	{
-		//texture_remove(&m->tex);
+		texture_remove(&m->tex);
 	}
 
 	model_free(m);
