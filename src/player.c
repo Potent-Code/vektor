@@ -18,7 +18,7 @@ sprite player_sprite(float x, float y, float width, float height, GLuint texture
 	sprite player;
 
 	// set up player sprite
-	player = malloc(sizeof(*player));
+	player = calloc(1, sizeof(*player));
 	player->x = x;
 	player->y = y;
 	player->width = width;
@@ -35,7 +35,7 @@ sprite player_sprite(float x, float y, float width, float height, GLuint texture
 	next_frame = NULL;
 	for(i=0; i < wslices; i++)
 	{
-		player->f = malloc(sizeof(*player->f));
+		player->f = calloc(1, sizeof(*player->f));
 		
 		player->f->col=i;
 		player->f->row=3;

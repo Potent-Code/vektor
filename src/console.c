@@ -39,7 +39,7 @@ console init_console(int x, int y, int w, int h)
 	add_texture("/usr/local/share/vektor/ui/ui_input_bar.texture", &texture_input_bar);
 
 	// allocate and initialize a new console
-	c = malloc(sizeof(*c));
+	c = calloc(1, sizeof(*c));
 	c->x = x;
 	c->y = y;
 	c->w = w;
@@ -231,6 +231,15 @@ void console_return(void *tp)
 void free_console(void* cp)
 {
 	console c = cp;
+
+	texture_remove(&texture_btn_console);
+	texture_remove(&texture_btn_chat);
+	texture_remove(&texture_btn_log);
+
 	c->win->remove(c->win);
+
+	texture_remove(&texture_cpane);
+	texture_remove(&texture_input_bar);
+
 	free(main_console);
 }

@@ -235,8 +235,8 @@ extern void render(void);
 // ***************************************
 // *             draw_model              *
 // ***************************************
-extern model add_model(const char* filename);
-extern void draw_model(void* mp);
+extern model model_add(const char* filename);
+extern void model_draw(void* mp);
 
 
 // ***************************************
@@ -361,9 +361,9 @@ extern void free_log(void);
 // ***************************************
 // *               model                 *
 // ***************************************
-extern model load_model(const char* filename);
-extern void save_model(model mdl, const char* filename);
-extern void free_model(void* mp);
+extern model model_load(const char* filename);
+extern void model_save(model mdl, const char* filename);
+extern void model_remove(void* mp);
 
 
 // ***************************************

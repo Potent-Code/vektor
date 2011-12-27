@@ -7,13 +7,14 @@
 bitmap add_bitmap(int x, int y, int w, int h, texture* _tex);
 void draw_bitmap(void *bp);
 void resize_bitmap(void *bp, float w_scale, float h_scale);
+void bitmap_remove(void *bp);
 
 bitmap add_bitmap(int x, int y, int w, int h, texture* _tex)
 {
 	bitmap b;
 
 	// allocate and initialize a new bitmap
-	b = malloc(sizeof(*b));
+	b = calloc(1, sizeof(*b));
 	b->x = x;
 	b->y = y;
 	b->w_orig = b->w = w;
@@ -23,7 +24,7 @@ bitmap add_bitmap(int x, int y, int w, int h, texture* _tex)
 	b->tex = _tex;
 	b->draw = &draw_bitmap;
 	b->update = NULL;
-	b->remove = &free;
+	b->remove = &bitmap_remove;
 	b->resize = &resize_bitmap;
 	b->move = NULL;
 
@@ -55,4 +56,15 @@ void resize_bitmap(void *bp, float w_scale, float h_scale)
 	bitmap b = bp;
 	b->w = w_scale * b->w_orig;
 	b->h = h_scale * b->h_orig;
+}
+
+void bitmap_remove(void* bp)
+{
+	bitmap b = bp;
+	
+	if (b != NULL)
+	{
+		texture_remove(b->tex);
+		free(b);
+	}
 }

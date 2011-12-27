@@ -23,7 +23,7 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 {
 	textbox tb;
 
-	tb = malloc(sizeof(*tb));
+	tb = calloc(1, sizeof(*tb));
 	tb->x = x;
 	tb->y = y;
 	tb->z = 0.11;

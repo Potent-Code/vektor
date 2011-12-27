@@ -22,7 +22,7 @@ tabbar add_tabbar(int x, int y, int w, int h)
 	tabbar_load_textures();
 
 	// allocate and initialize a new tabbar
-	t = malloc(sizeof(*t));
+	t = calloc(1, sizeof(*t));
 	t->x = x;
 	t->y = y;
 	t->w = t->w_orig = w;
@@ -210,5 +210,8 @@ void free_tabbar(void *tp)
 	free(prev);
 
 	b->btn->remove(b->btn);
+
+	texture_remove(&texture_tabbar);
+
 	free(t);
 }

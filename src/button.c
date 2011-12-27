@@ -15,7 +15,7 @@ button add_button(int x, int y, int w, int h, texture* _tex)
 	button b;
 
 	// allocate and initialize a new button
-	b = malloc(sizeof(*b));
+	b = calloc(1, sizeof(*b));
 	b->x = x;
 	b->y = y;
 	b->w = w;

@@ -19,7 +19,7 @@ model load_dae(char* filename)
 	xmlNodePtr cur;
 	model mdl;
 
-	mdl = malloc(sizeof(*mdl));
+	mdl = calloc(1, sizeof(*mdl));
 
 	mdl->vertices = NULL;
 	mdl->normals = NULL;
@@ -404,9 +404,9 @@ int main(int argc, char** argv)
 		}
 	}
 
-	save_model(mdl, model_file);
+	model_save(mdl, model_file);
 
-	free_model(mdl);
+	model_free(mdl);
 
 	return 0;
 }

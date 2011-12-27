@@ -12,7 +12,7 @@ pyramid add_pyramid(float x, float y, float z, float h, const char* filename)
 	pyramid p;
 
 	// allocate and initialize a new pyramid
-	p = malloc(sizeof(*p));
+	p = calloc(1, sizeof(*p));
 	p->x = x;
 	p->y = y;
 	p->z = z;

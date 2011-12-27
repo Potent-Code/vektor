@@ -29,7 +29,8 @@ typedef struct
 
 // methods
 extern bitmap add_bitmap(int x, int y, int w, int h, texture* _tex);
-extern void draw_bitmap(void *bp);
-extern void resize_bitmap(void *bp, float w_scale, float h_scale);
+extern void draw_bitmap(void* bp);
+extern void resize_bitmap(void* bp, float w_scale, float h_scale);
+extern void bitmap_remove(void* bp);
 
 #endif

@@ -12,7 +12,7 @@ unsigned int grow(plant p, unsigned int n);
 plant add_plant(float x, float y, float l, float angle, unsigned int iterations)
 {
 	plant p;
-	p = malloc(sizeof(*p));
+	p = calloc(1, sizeof(*p));
 
 	p->branches = calloc(10000,sizeof(*p->branches));
 	p->x = x;

@@ -16,7 +16,7 @@ clickable clickable_add(float x, float y, float w, float h, void* obj, void (*ac
 {
 	clickable c;
 
-	c = malloc(sizeof(*c));
+	c = calloc(1, sizeof(*c));
 	c->x = c->x_orig = x;
 	c->y = c->y_orig = y;
 	c->w = w;

@@ -5,11 +5,13 @@
 #ifndef draw_model_h
 #define draw_model_h
 
-#include "model.h"
 #include "sdl.h"
+#include "texture.h"
 #include "draw.h"
+#include "model.h"
 
-extern model add_model(const char* filename);
-extern void draw_model(void* mp);
+extern model model_add(const char* filename);
+extern void model_draw(void* mp);
+extern void model_remove(void* mp);
 
 #endif // draw_model_h

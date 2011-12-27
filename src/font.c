@@ -18,11 +18,11 @@ font add_font(const char *filename)
 	font f;
 	char msg[256];
 
-	f = malloc(sizeof(*f));
+	f = calloc(1, sizeof(*f));
 
 	if(fonts == NULL)
 	{
-		fonts = malloc(sizeof(*fonts)*4);
+		fonts = calloc(4, sizeof(*fonts));
 	}
 
 	add_texture(filename, &f->tex);

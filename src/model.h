@@ -18,6 +18,8 @@
 
 #include <mathlib.h>
 
+#include "image.h"
+
 typedef struct {
 	char name[256];
 	char texture_file[256];
@@ -26,14 +28,14 @@ typedef struct {
 	vector tcoords;
 	uvector vcount;
 	uvector polylist;
-	unsigned int* gl_id;
+	texture tex;
 	void (*update)(void *);
 	void (*draw)(void *);
 	void (*remove)(void *);
 } *model;
 
-extern model load_model(const char* filename);
-extern void save_model(model mdl, const char* filename);
-extern void free_model(void* mp);
+extern model model_load(const char* filename);
+extern void model_save(model mdl, const char* filename);
+extern void model_free(void* mp);
 
 #endif // model_h

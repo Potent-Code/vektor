@@ -23,7 +23,7 @@ window add_window(int x, int y, int w, int h)
 	window wi;
 
 	// allocate and initialize a new window
-	wi = malloc(sizeof(*wi));
+	wi = calloc(1, sizeof(*wi));
 	// link to transformation matrix
 	wi->x = &wi->transform[12];
 	wi->y = &wi->transform[13];
@@ -297,7 +297,11 @@ void free_window(void *wp)
 		prev = tmp;
 	}
 	free(prev);
+	
 	tmp->remove(tmp->obj);
+
+	texture_remove(&texture_window);
+
 	free(tmp);
 	free(w);
 }

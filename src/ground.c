@@ -12,7 +12,7 @@ ground add_ground(float x, float z, float w, float h, const char* filename)
 	ground g;
 
 	// allocate and initialize a new ground
-	g = malloc(sizeof(*g));
+	g = calloc(1, sizeof(*g));
 	g->x = x;
 	g->y = -7000.;
 	g->z = z;

@@ -11,7 +11,7 @@ skybox add_skybox(float x, float y, float z, float h, const char *filename)
 	skybox s;
 
 	// allocate and initialize a new skybox
-	s = malloc(sizeof(*s));
+	s = calloc(1, sizeof(*s));
 	s->x = x;
 	s->y = y;
 	s->z = z;

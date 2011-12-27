@@ -27,9 +27,6 @@ void quit(void* ev)
 	
 	(void)ev;
 
-	// free textures
-	// free_all_textures();
-
 	// free fonts
 	free_all_fonts();
 

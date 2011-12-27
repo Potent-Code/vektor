@@ -17,7 +17,7 @@ void add_texture(const char * filename, texture* tex)
 	strncpy(tex->name, filename, strlen(filename)+1);
 	tex->min_filter = GL_LINEAR;
 	tex->mag_filter = GL_LINEAR_MIPMAP_LINEAR;
-	tex->gl_id = texture_count;
+	tex->gl_id = 0; // we get this from glGenTextures
 	
 	if (load_texture(filename, tex) == 0)
 	{
@@ -86,6 +86,7 @@ int load_texture(const char* filename, texture* tex)
 
 	fclose(fd);
 	
+	glGenTextures(1, &tex->gl_id);
 	glBindTexture(GL_TEXTURE_2D, tex->gl_id);
 	
 	// texture filtering
@@ -108,27 +109,9 @@ void texture_remove(texture* tex)
 {
 	if (tex->gl_id > 0)
 	{
-		glDeleteTextures(1, &tex->gl_id);
+		//glDeleteTextures(1, &tex->gl_id);
+		tex->gl_id = 0;
 		texture_count--;
 	}
 }
 
-/*
-void free_texture(int texture_id)
-{
-	if (textures[texture_id].gl_id != NULL)
-	{
-		glDeleteTextures(1,textures[texture_id].gl_id);
-	}
-}
-
-void free_all_textures(void)
-{
-	int i;
-	for(i = 0; i < ntextures; i++)
-	{
-		free_texture(i);
-	}
-	free(textures);
-	free(texture_ids);
-}*/

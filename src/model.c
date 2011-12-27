@@ -4,19 +4,22 @@
 
 #include "model.h"
 
-model load_model(const char* filename);
-void save_model(model mdl, const char* filename);
-void free_model(void* mp);
+model model_load(const char* filename);
+void model_save(model mdl, const char* filename);
+void model_free(void* mp);
 
-model load_model(const char* filename)
+model model_load(const char* filename)
 {
 	struct stat st;
-	stat(filename, &st);
+	struct stat mdl_st;
 	model mdl;
 	DIR* dh;
 	struct dirent* contents;
 	char data_dir[256];
 	char path[256];
+	char cur_file[256];
+
+	stat(filename, &st);
 
 	if ((st.st_mode & S_IFMT) != S_IFDIR)
 	{
@@ -24,19 +27,30 @@ model load_model(const char* filename)
 		return NULL;
 	}
 
-	mdl = malloc(sizeof(*mdl));
-	strncpy(mdl->name, filename, strlen(filename) + 1);
+	mdl = calloc(1, sizeof(*mdl));
+	strncpy(mdl->name, filename, 255);
 
 	dh = opendir(filename);
 
-	// just support 1 mesh for now
-	//while (dh)
+	while ((contents = readdir(dh)) != NULL)
 	{
-		if ((contents = readdir(dh)) != NULL)
+		// skip hidden files
+		if (contents->d_name[0] == '.') continue;
+
+		snprintf(cur_file, 255, "%s/%s", filename, contents->d_name);
+		stat(cur_file, &mdl_st);
+
+		if ((mdl_st.st_mode & S_IFMT) == S_IFDIR)
 		{
 			snprintf(data_dir, 255, "%s/%s/", filename, contents->d_name);
 		}
+		else if ((mdl_st.st_mode & S_IFMT) == S_IFREG)
+		{
+			strncpy(mdl->texture_file, cur_file, 255);
+		}
 	}
+	free(contents);
+	closedir(dh);
 
 	// load vertices
 	snprintf(path, 255, "%s/vertices.vector", data_dir);
@@ -61,7 +75,7 @@ model load_model(const char* filename)
 	return mdl;
 }
 
-void save_model(model mdl, const char* filename)
+void model_save(model mdl, const char* filename)
 {
 	if (mdl != NULL) {
 		if (mdl->vertices != NULL && mdl->normals != NULL && mdl->tcoords != NULL) {
@@ -90,7 +104,7 @@ void save_model(model mdl, const char* filename)
 	}
 }
 
-void free_model(void* mp)
+void model_free(void* mp)
 {
 	model mdl = mp;
 
