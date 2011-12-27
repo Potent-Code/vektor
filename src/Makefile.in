@@ -272,7 +272,8 @@ libvektor_la_SOURCES = image.h sdl.h ui.h log.h log.c sdl_window.h \
 	tabbar.h tabbar.c clickable.h clickable.c model.h model.c \
 	draw_model.h draw_model.c $(am__append_1)
 @DARWIN_FALSE@libvektor_la_LDFLAGS = -lSDL -lGL -lGLU -lmathlib
-@DARWIN_TRUE@libvektor_la_LDFLAGS = -lSDL -framework OpenGL -lmathlib
+@DARWIN_TRUE@libvektor_la_LDFLAGS = -framework SDL -framework OpenGL \
+@DARWIN_TRUE@	-lmathlib
 include_HEADERS = vektor.h
 maketexture_SOURCES = image.h maketexture.h maketexture.c
 maketexture_LDFLAGS = -lpng
