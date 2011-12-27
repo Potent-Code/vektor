@@ -36,6 +36,9 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+#libvektor_la_CFLAGS = $(GL_CFLAGS) $(GLU_CFLAGS)
+#libvektor_la_LDFLAGS = $(GL_LIBS) $(GLU_LIBS)
+@DARWIN_TRUE@am__append_1 = SDLMain.m
 bin_PROGRAMS = maketexture$(EXEEXT) makemodel$(EXEEXT)
 subdir = src
 DIST_COMMON = $(include_HEADERS) $(srcdir)/Makefile.am \
@@ -73,14 +76,24 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" \
 	"$(DESTDIR)$(includedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libvektor_la_LIBADD =
+am__libvektor_la_SOURCES_DIST = image.h sdl.h ui.h log.h log.c \
+	sdl_window.h sdl_window.c texture.h texture.c input.h input.c \
+	event.h event.c net.h net.c sprite.h sprite.c player.h \
+	player.c draw.h draw.c bitmap.h bitmap.c font.h font.c \
+	textbox.h textbox.c scrollbar.h scrollbar.c plant.h plant.c \
+	ground.h ground.c camera.h camera.c pyramid.h pyramid.c \
+	skybox.h skybox.c window.h window.c console.h console.c \
+	button.h button.c tabbar.h tabbar.c clickable.h clickable.c \
+	model.h model.c draw_model.h draw_model.c SDLMain.m
+@DARWIN_TRUE@am__objects_1 = SDLMain.lo
 am_libvektor_la_OBJECTS = log.lo sdl_window.lo texture.lo input.lo \
 	event.lo net.lo sprite.lo player.lo draw.lo bitmap.lo font.lo \
 	textbox.lo scrollbar.lo plant.lo ground.lo camera.lo \
 	pyramid.lo skybox.lo window.lo console.lo button.lo tabbar.lo \
-	clickable.lo model.lo draw_model.lo
+	clickable.lo model.lo draw_model.lo $(am__objects_1)
 libvektor_la_OBJECTS = $(am_libvektor_la_OBJECTS)
-libvektor_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+libvektor_la_LINK = $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=link $(OBJCLD) $(AM_OBJCFLAGS) $(OBJCFLAGS) \
 	$(libvektor_la_LDFLAGS) $(LDFLAGS) -o $@
 PROGRAMS = $(bin_PROGRAMS)
 am_makemodel_OBJECTS = makemodel-model.$(OBJEXT) \
@@ -109,9 +122,18 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
+OBJCCOMPILE = $(OBJC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_OBJCFLAGS) $(OBJCFLAGS)
+LTOBJCCOMPILE = $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=compile $(OBJC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_OBJCFLAGS) $(OBJCFLAGS)
+OBJCLD = $(OBJC)
+OBJCLINK = $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
+	$(OBJCLD) $(AM_OBJCFLAGS) $(OBJCFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
 SOURCES = $(libvektor_la_SOURCES) $(makemodel_SOURCES) \
 	$(maketexture_SOURCES)
-DIST_SOURCES = $(libvektor_la_SOURCES) $(makemodel_SOURCES) \
+DIST_SOURCES = $(am__libvektor_la_SOURCES_DIST) $(makemodel_SOURCES) \
 	$(maketexture_SOURCES)
 HEADERS = $(include_HEADERS)
 ETAGS = etags
@@ -240,11 +262,16 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 lib_LTLIBRARIES = libvektor.la
-libvektor_la_SOURCES = image.h sdl.h ui.h log.h log.c sdl_window.h sdl_window.c texture.h texture.c input.h input.c event.h event.c net.h net.c sprite.h sprite.c player.h player.c draw.h draw.c bitmap.h bitmap.c font.h font.c textbox.h textbox.c scrollbar.h scrollbar.c plant.h plant.c ground.h ground.c camera.h camera.c pyramid.h pyramid.c skybox.h skybox.c window.h window.c console.h console.c button.h button.c tabbar.h tabbar.c clickable.h clickable.c model.h model.c draw_model.h draw_model.c
+libvektor_la_SOURCES = image.h sdl.h ui.h log.h log.c sdl_window.h \
+	sdl_window.c texture.h texture.c input.h input.c event.h \
+	event.c net.h net.c sprite.h sprite.c player.h player.c draw.h \
+	draw.c bitmap.h bitmap.c font.h font.c textbox.h textbox.c \
+	scrollbar.h scrollbar.c plant.h plant.c ground.h ground.c \
+	camera.h camera.c pyramid.h pyramid.c skybox.h skybox.c \
+	window.h window.c console.h console.c button.h button.c \
+	tabbar.h tabbar.c clickable.h clickable.c model.h model.c \
+	draw_model.h draw_model.c $(am__append_1)
 @DARWIN_FALSE@libvektor_la_LDFLAGS = -lSDL -lGL -lGLU -lmathlib
-#libvektor_la_CFLAGS = $(GL_CFLAGS) $(GLU_CFLAGS)
-#libvektor_la_LDFLAGS = $(GL_LIBS) $(GLU_LIBS)
-#libvektor_la_SOURCES += SDLMain.m
 @DARWIN_TRUE@libvektor_la_LDFLAGS = -lSDL -framework OpenGL -lmathlib
 include_HEADERS = vektor.h
 maketexture_SOURCES = image.h maketexture.h maketexture.c
@@ -256,7 +283,7 @@ all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .lo .o .obj
+.SUFFIXES: .c .lo .m .o .obj
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -393,6 +420,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SDLMain.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bitmap.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/button.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/camera.Plo@am__quote@
@@ -470,6 +498,27 @@ makemodel-makemodel.obj: makemodel.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='makemodel.c' object='makemodel-makemodel.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(makemodel_CFLAGS) $(CFLAGS) -c -o makemodel-makemodel.obj `if test -f 'makemodel.c'; then $(CYGPATH_W) 'makemodel.c'; else $(CYGPATH_W) '$(srcdir)/makemodel.c'; fi`
+
+.m.o:
+@am__fastdepOBJC_TRUE@	$(OBJCCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepOBJC_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	DEPDIR=$(DEPDIR) $(OBJCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepOBJC_FALSE@	$(OBJCCOMPILE) -c -o $@ $<
+
+.m.obj:
+@am__fastdepOBJC_TRUE@	$(OBJCCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
+@am__fastdepOBJC_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	DEPDIR=$(DEPDIR) $(OBJCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepOBJC_FALSE@	$(OBJCCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+.m.lo:
+@am__fastdepOBJC_TRUE@	$(LTOBJCCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepOBJC_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	DEPDIR=$(DEPDIR) $(OBJCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepOBJC_FALSE@	$(LTOBJCCOMPILE) -c -o $@ $<
 
 mostlyclean-libtool:
 	-rm -f *.lo
