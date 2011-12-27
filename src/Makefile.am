@@ -4,7 +4,7 @@ libvektor_la_SOURCES = image.h sdl.h ui.h log.h log.c sdl_window.h sdl_window.c 
 #libvektor_la_LDFLAGS = $(GL_LIBS) $(GLU_LIBS)
 if DARWIN
 #libvektor_la_SOURCES += SDLMain.m
-libvektor_la_LDFLAGS = -framework SDL -framework OpenGL
+libvektor_la_LDFLAGS = -lSDL -framework OpenGL
 else
 libvektor_la_LDFLAGS = -lSDL -lGL -lGLU
 endif
