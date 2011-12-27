@@ -6,7 +6,7 @@
 
 pyramid add_pyramid(float x, float y, float z, float h, const char* filename);
 void draw_pyramid(void* pp);
-void pyramid_free(void* pp);
+void pyramid_remove(void* pp);
 
 pyramid add_pyramid(float x, float y, float z, float h, const char* filename)
 {

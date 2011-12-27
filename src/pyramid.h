@@ -24,6 +24,7 @@ typedef struct
 
 // methods
 extern pyramid add_pyramid(float x, float y, float z, float h, const char* filename);
-extern void draw_pyramid(void *pp);
+extern void draw_pyramid(void* pp);
+extern void pyramid_remove(void* pp);
 
 #endif
