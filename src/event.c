@@ -59,6 +59,7 @@ listener link_listener(listener h, listener t, void (*_call)(void*), void *_obj)
 	{
 		t = malloc(sizeof(*t));
 		h = t;
+		(void)h;
 	}
 	else
 	{
