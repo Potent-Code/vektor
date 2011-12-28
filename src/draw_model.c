@@ -1,7 +1,7 @@
 #include "draw_model.h"
 
 model model_add(const char* filename);
-void model_vertex_draw(model mdl, unsigned int i);
+void model_vertex_draw(model mdl, unsigned int _primitive_id);
 void model_draw(void* mp);
 void model_remove(void* mp);
 
@@ -18,14 +18,24 @@ model model_add(const char* filename)
 	return mdl;
 }
 
-void model_vertex_draw(model mdl, unsigned int i)
+void model_vertex_draw(model mdl, unsigned int _primitive_id)
 {
+	// coordinates
 	float x, y, z;
+	float s, t;
 
-	x = mdl->vertices->a[mdl->polylist->a[i]];
-	y = mdl->vertices->a[mdl->polylist->a[i] + 1];
-	z = mdl->vertices->a[mdl->polylist->a[i] + 2];
-	glTexCoord2f(mdl->tcoords->a[i], mdl->tcoords->a[i + 1]);
+	// indices
+	const unsigned int vertex_id = mdl->polylist->a[_primitive_id];
+	const unsigned int tcoord_id = mdl->polylist->a[_primitive_id + 2];
+
+	x = mdl->vertices->a[(3 * vertex_id)];
+	y = mdl->vertices->a[(3 * vertex_id) + 1];
+	z = mdl->vertices->a[(3 * vertex_id) + 2];
+
+	s = mdl->tcoords->a[(2 * tcoord_id)];
+	t = mdl->tcoords->a[(2 * tcoord_id) + 1];
+
+	glTexCoord2f(s, t);
 	glVertex3f(x, y, z);
 }
 
@@ -35,43 +45,24 @@ void model_draw(void* mp)
 	(void)mdl;
 	
 	unsigned int i, j;
-	unsigned int k = mdl->vertices->offset;
+	unsigned int k = 0;
 
+	(void)i;
 	glColor3f(1.0, 1.0, 1.0);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, mdl->tex.gl_id);
 
-	for(j = 0; j < mdl->vcount->n; j++)
+	for(i = 0; i < mdl->vcount->n; i++)
 	{
 		glBegin(GL_QUADS);
-		for (i = ((12 * j) + k); i < ((12 * j) + k + 4); i++)
+		for (j = 0; j < 4; j++)
 		{
-			model_vertex_draw(mdl, i);
+			model_vertex_draw(mdl, k);
+			k+=3;
 		}
 		glEnd();
 	}
 	glDisable(GL_TEXTURE_2D);
-	
-/*	for (i = 0; i < mdl->vcount->n; i++)
-	{
-		if (mdl->vcount->a[i] == 4)
-		{
-			glBegin(GL_QUADS);
-		}
-		else if (mdl->vcount->a[i] == 3)
-		{
-			glBegin(GL_TRIANGLES);
-		}
-
-		for (j = mdl->vertices->offset; k < (mdl->vcount->n * mdl->vcount->a[i]); j += 3)
-		{
-			glColor3f(i, k, j);
-			model_vertex_draw(mdl, j);
-			k++;
-		}
-
-		glEnd();
-	}*/
 }
 
 void model_remove(void* mp)
