@@ -183,6 +183,7 @@ extern void camera_move(void);
 extern void enable_mouselook(void);
 extern void disable_mouselook(void);
 
+extern float cam_speed;
 
 // ***************************************
 // *             clickable               *

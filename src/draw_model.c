@@ -44,7 +44,7 @@ void model_draw(void* mp)
 	for(j = 0; j < mdl->vcount->n; j++)
 	{
 		glBegin(GL_QUADS);
-		for (i = ((12 * j) + k); i <= mdl->polylist->n; i++)
+		for (i = ((12 * j) + k); i < ((12 * j) + k + 4); i++)
 		{
 			model_vertex_draw(mdl, i);
 		}
