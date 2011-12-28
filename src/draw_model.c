@@ -34,20 +34,22 @@ void model_draw(void* mp)
 	model mdl = mp;
 	(void)mdl;
 	
-	unsigned int i;//, j;
+	unsigned int i, j;
 	unsigned int k = mdl->vertices->offset;
 
 	glColor3f(1.0, 1.0, 1.0);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, mdl->tex.gl_id);
 
-	glBegin(GL_QUADS);
-	for (i = 0; i < 24; i++)
+	for(j = 0; j < mdl->vcount->n; j++)
 	{
-		model_vertex_draw(mdl, k);
-		k += 3;
+		glBegin(GL_QUADS);
+		for (i = ((12 * j) + k); i <= mdl->polylist->n; i++)
+		{
+			model_vertex_draw(mdl, i);
+		}
+		glEnd();
 	}
-	glEnd();
 	glDisable(GL_TEXTURE_2D);
 	
 /*	for (i = 0; i < mdl->vcount->n; i++)

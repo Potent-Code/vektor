@@ -191,7 +191,7 @@ void load_geometries(model mdl, xmlNodePtr cur, xmlNsPtr ns)
 	{
 		if ((xmlStrcmp(cur->name, (const xmlChar*)"geometry") == 0) && (cur->ns == ns))
 		{
-			model_name = xmlGetProp(cur, (const xmlChar*)"name");
+			model_name = xmlGetProp(cur, (const xmlChar*)"id");
 			strncpy(mdl->name, (const char*)model_name, strlen((const char*)model_name) + 1);
 			xmlFree(model_name);
 			cur = cur->xmlChildrenNode;
