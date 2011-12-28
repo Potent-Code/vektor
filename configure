@@ -11951,10 +11951,10 @@ fi
 
 
 
-CFLAGS="-O0 -g3 -Wall -Wextra -Werror"
+CFLAGS="-O0 -g3 -Wall -Wextra"
 # Check whether --enable-nodebug was given.
 if test "${enable_nodebug+set}" = set; then :
-  enableval=$enable_nodebug; test "$enableval" = "yes" && CFLAGS="-O3 -Wall -Wextra -Werror"
+  enableval=$enable_nodebug; test "$enableval" = "yes" && CFLAGS="-O3 -Wall -Wextra"
 fi
 
 
