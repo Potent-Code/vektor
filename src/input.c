@@ -51,7 +51,7 @@ void get_key(SDL_keysym *keysym)
 	{
 		// function keys
 		case SDLK_ESCAPE:
-			keybind_down(key_esc);
+			keybind_down(key_escape);
 			break;
 		case SDLK_F1:
 			keybind_down(key_f1);
@@ -135,34 +135,34 @@ void get_key(SDL_keysym *keysym)
 			break;
 
 		// 	qwertyuiop[] backslash
-		case SDLK_Q:
+		case SDLK_q:
 			keybind_down(key_q);
 			break;
-		case SDLK_W:
+		case SDLK_w:
 			keybind_down(key_w);
 			break;
-		case SDLK_E:
+		case SDLK_e:
 			keybind_down(key_e);
 			break;
-		case SDLK_R:
+		case SDLK_r:
 			keybind_down(key_r);
 			break;
-		case SDLK_T:
+		case SDLK_t:
 			keybind_down(key_t);
 			break;
-		case SDLK_Y:
+		case SDLK_y:
 			keybind_down(key_y);
 			break;
-		case SDLK_U:
+		case SDLK_u:
 			keybind_down(key_u);
 			break;
-		case SDLK_I:
+		case SDLK_i:
 			keybind_down(key_i);
 			break;
-		case SDLK_O:
+		case SDLK_o:
 			keybind_down(key_o);
 			break;
-		case SDLK_P:
+		case SDLK_p:
 			keybind_down(key_p);
 			break;
 		case SDLK_LEFTBRACKET:
@@ -179,31 +179,31 @@ void get_key(SDL_keysym *keysym)
 		case SDLK_CAPSLOCK:
 			keybind_down(key_caps);
 			break;
-		case SDLK_A:
+		case SDLK_a:
 			keybind_down(key_a);
 			break;
-		case SDLK_S:
+		case SDLK_s:
 			keybind_down(key_s);
 			break;
-		case SDLK_D:
+		case SDLK_d:
 			keybind_down(key_d);
 			break;
-		case SDLK_F:
+		case SDLK_f:
 			keybind_down(key_f);
 			break;
-		case SDLK_G:
+		case SDLK_g:
 			keybind_down(key_g);
 			break;
-		case SDLK_H:
+		case SDLK_h:
 			keybind_down(key_h);
 			break;
-		case SDLK_J:
+		case SDLK_j:
 			keybind_down(key_j);
 			break;
-		case SDLK_K:
+		case SDLK_k:
 			keybind_down(key_k);
 			break;
-		case SDLK_L:
+		case SDLK_l:
 			keybind_down(key_l);
 			break;
 		case SDLK_SEMICOLON:
@@ -220,25 +220,25 @@ void get_key(SDL_keysym *keysym)
 		case SDLK_LSHIFT:
 			keybind_down(key_shiftl);
 			break;
-		case SDLK_Z:
+		case SDLK_z:
 			keybind_down(key_z);
 			break;
-		case SDLK_X:
+		case SDLK_x:
 			keybind_down(key_x);
 			break;
-		case SDLK_C:
+		case SDLK_c:
 			keybind_down(key_c);
 			break;
-		case SDLK_V:
+		case SDLK_v:
 			keybind_down(key_v);
 			break;
-		case SDLK_B:
+		case SDLK_b:
 			keybind_down(key_b);
 			break;
-		case SDLK_N:
+		case SDLK_n:
 			keybind_down(key_n);
 			break;
-		case SDLK_M:
+		case SDLK_m:
 			keybind_down(key_m);
 			break;
 		case SDLK_COMMA:
@@ -469,7 +469,7 @@ void get_keyup(SDL_keysym *keysym)
 	{
 		// function keys
 		case SDLK_ESCAPE:
-			keybind_up(key_esc);
+			keybind_up(key_escape);
 			break;
 		case SDLK_F1:
 			keybind_up(key_f1);
@@ -553,34 +553,34 @@ void get_keyup(SDL_keysym *keysym)
 			break;
 
 		// 	qwertyuiop[] backslash
-		case SDLK_Q:
+		case SDLK_q:
 			keybind_up(key_q);
 			break;
-		case SDLK_W:
+		case SDLK_w:
 			keybind_up(key_w);
 			break;
-		case SDLK_E:
+		case SDLK_e:
 			keybind_up(key_e);
 			break;
-		case SDLK_R:
+		case SDLK_r:
 			keybind_up(key_r);
 			break;
-		case SDLK_T:
+		case SDLK_t:
 			keybind_up(key_t);
 			break;
-		case SDLK_Y:
+		case SDLK_y:
 			keybind_up(key_y);
 			break;
-		case SDLK_U:
+		case SDLK_u:
 			keybind_up(key_u);
 			break;
-		case SDLK_I:
+		case SDLK_i:
 			keybind_up(key_i);
 			break;
-		case SDLK_O:
+		case SDLK_o:
 			keybind_up(key_o);
 			break;
-		case SDLK_P:
+		case SDLK_p:
 			keybind_up(key_p);
 			break;
 		case SDLK_LEFTBRACKET:
@@ -597,31 +597,31 @@ void get_keyup(SDL_keysym *keysym)
 		case SDLK_CAPSLOCK:
 			keybind_up(key_caps);
 			break;
-		case SDLK_A:
+		case SDLK_a:
 			keybind_up(key_a);
 			break;
-		case SDLK_S:
+		case SDLK_s:
 			keybind_up(key_s);
 			break;
-		case SDLK_D:
+		case SDLK_d:
 			keybind_up(key_d);
 			break;
-		case SDLK_F:
+		case SDLK_f:
 			keybind_up(key_f);
 			break;
-		case SDLK_G:
+		case SDLK_g:
 			keybind_up(key_g);
 			break;
-		case SDLK_H:
+		case SDLK_h:
 			keybind_up(key_h);
 			break;
-		case SDLK_J:
+		case SDLK_j:
 			keybind_up(key_j);
 			break;
-		case SDLK_K:
+		case SDLK_k:
 			keybind_up(key_k);
 			break;
-		case SDLK_L:
+		case SDLK_l:
 			keybind_up(key_l);
 			break;
 		case SDLK_SEMICOLON:
@@ -639,25 +639,25 @@ void get_keyup(SDL_keysym *keysym)
 		case SDLK_LSHIFT:
 			keybind_up(key_shiftl);
 			break;
-		case SDLK_Z:
+		case SDLK_z:
 			keybind_up(key_z);
 			break;
-		case SDLK_X:
+		case SDLK_x:
 			keybind_up(key_x);
 			break;
-		case SDLK_C:
+		case SDLK_c:
 			keybind_up(key_c);
 			break;
-		case SDLK_V:
+		case SDLK_v:
 			keybind_up(key_v);
 			break;
-		case SDLK_B:
+		case SDLK_b:
 			keybind_up(key_b);
 			break;
-		case SDLK_N:
+		case SDLK_n:
 			keybind_up(key_n);
 			break;
-		case SDLK_M:
+		case SDLK_m:
 			keybind_up(key_m);
 			break;
 		case SDLK_COMMA:

@@ -97,7 +97,7 @@ console init_console(int x, int y, int w, int h)
 
 	add_object_2d(c, &draw_console, NULL, &free_console);
 	
-	keybind_add(c, &toggle_console, key_f1);
+	keybind_add(c, &toggle_console, NULL, key_f1);
 	toggle_console(c);
 	
 	return c;

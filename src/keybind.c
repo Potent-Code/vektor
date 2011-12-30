@@ -79,7 +79,10 @@ void keybind_add(void* _obj, void (*_up)(void*), void (*_down)(void*), int key)
 
 }
 
-void keybind_remove(void* _obj, void (*_call), int key)
+void keybind_remove(void* _obj, void (*_call)(void*), int key)
 {
 	// TODO
+	(void)_obj;
+	(void)_call;
+	(void)key;
 }
