@@ -97,7 +97,7 @@
 // middle column
 #define key_printscrn 	74
 #define key_scrolllock 	75
-#define key_pause 	76
+#define key_break 	76
 
 #define key_insert 	77
 #define key_home 	78

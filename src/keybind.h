@@ -12,15 +12,17 @@
 
 struct key_listener
 {
-	void (*call)(void*);
+	void (*up)(void*);
+	void (*down)(void*);
 	void* obj;
 	struct key_listener* next;
 };
 
 typedef struct key_listener* keybind;
 
-extern void keybind_call(int key);
-extern void keybind_add(void* _obj, void (*_call)(void*), int key);
-extern void keybind_remove(void* _obj, int key);
+extern void keybind_up(int key);
+extern void keybind_down(int key);
+extern void keybind_add(void* _obj, void (*_up)(void*), void (*_down)(void*), int key);
+extern void keybind_remove(void* _obj, void (*_call)(void*), int key);
 
 #endif // keybind_h
