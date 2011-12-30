@@ -145,11 +145,13 @@ void get_keyup(SDL_keysym *keysym)
 		case SDLK_F1:
 			//toggle_console(); // disabled for now
 			// to be renabled with real key events
+			keybind_call(key_f1);
 			break;
 		case SDLK_RETURN:
 			event_return();
+			keybind_call(key_enter);
 			break;
-		case SDLK_w:
+		/*case SDLK_w:
 			if(input_buffer == NULL)
 			{
 				controls[0]=0;
@@ -172,7 +174,7 @@ void get_keyup(SDL_keysym *keysym)
 			{
 				controls[3]=0;
 			}
-			break;
+			break;*/
 		default:
 			break;
 	}

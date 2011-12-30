@@ -10,6 +10,7 @@
 #include "ui.h"
 #include "input.h"
 #include "event.h"
+#include "keybind.h"
 #include "log.h"
 #include "draw.h"
 
@@ -36,7 +37,7 @@ typedef struct
 extern console init_console(int x, int y, int w, int h);
 extern void draw_console(void *cp);
 extern void console_load_textures(void);
-extern void toggle_console(void);
+extern void toggle_console(void *cp);
 extern void set_console(void *bp);
 extern void set_chat(void *bp);
 extern void chat_recv(void *tbp);

@@ -7,7 +7,7 @@
 console init_console(int x, int y, int w, int h);
 void console_load_textures(void);
 void draw_console(void *cp);
-void toggle_console(void);
+void toggle_console(void* cp);
 void set_console(void *bp);
 void set_chat(void *bp);
 void chat_recv(void *tbp);
@@ -96,7 +96,9 @@ console init_console(int x, int y, int w, int h)
 	window_addchild(c->win, c->tb_in, c->tb_in->draw, c->tb_in->move, c->tb_in->resize, c->tb_in->remove);
 
 	add_object_2d(c, &draw_console, NULL, &free_console);
-	toggle_console();
+	
+	keybind_add(c, &toggle_console, key_f1);
+	toggle_console(c);
 	
 	return c;
 }
@@ -109,8 +111,11 @@ void console_load_textures(void)
 	add_texture("/usr/local/share/vektor/ui/log_button.texture", &texture_btn_log);
 }
 
-void toggle_console(void)
+void toggle_console(void* cp)
 {
+	console c = cp;
+	(void)c;
+
 	if (main_console->active == 1)
 	{
 		hide_window(main_console->win);

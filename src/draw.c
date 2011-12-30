@@ -82,6 +82,7 @@ void render(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
 	glPushMatrix();
 	glLoadIdentity();
 	gluPerspective(45.0f,(float)window_w/(float)window_h,0.1f,120000.0f);
@@ -89,6 +90,7 @@ void render(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	camera_matrix(cam);
+
 	if(SDL_GetTicks() - motion_timer >= 25)
 	{
 		camera_move();
@@ -107,6 +109,9 @@ void render(void)
 			renderlist_3d[i].draw(renderlist_3d[i].object);
 		}
 	}
+
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
 	
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();

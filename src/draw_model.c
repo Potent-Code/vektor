@@ -9,6 +9,15 @@ model model_add(const char* filename)
 {
 	model mdl = model_load(filename);
 
+	// set up our matrix
+	mdl->view[0] = 1.0f;
+	mdl->view[5] = 1.0f;
+	mdl->view[10] = 1.0f;
+	mdl->view[15] = 1.0f;
+	mdl->x = &mdl->view[12];
+	mdl->y = &mdl->view[13];
+	mdl->z = &mdl->view[14];
+
 	mdl->draw = &model_draw;
 	mdl->update = NULL;
 	mdl->remove = &model_remove;
@@ -47,7 +56,10 @@ void model_draw(void* mp)
 	unsigned int i, j;
 	unsigned int k = 0;
 
-	(void)i;
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadMatrixf(mdl->view);
+	
 	glColor3f(1.0, 1.0, 1.0);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, mdl->tex.gl_id);
@@ -63,6 +75,12 @@ void model_draw(void* mp)
 		glEnd();
 	}
 	glDisable(GL_TEXTURE_2D);
+
+	//glMatrixMode(GL_MODELVIEW);
+	//glPushMatrix();
+	//glLoadMatrixf(mdl->view);
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
 }
 
 void model_remove(void* mp)

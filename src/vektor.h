@@ -99,7 +99,11 @@ typedef struct {
 	vector tcoords;
 	uvector vcount;
 	uvector polylist;
-	unsigned int* gl_id;
+	texture tex;
+	float view[16];
+	float* x;
+	float* y;
+	float* z;
 	void (*update)(void *);
 	void (*draw)(void *);
 	void (*remove)(void *);

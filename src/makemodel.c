@@ -125,8 +125,11 @@ uvector load_int_array(xmlNodePtr cur, unsigned int size)
 
 	for (i = 0; i < size; i++)
 	{
-		uv->a[i] = atoi((char*)point);
-		point = (xmlChar*)strtok(NULL, " ");
+		if (point != NULL)
+		{
+			uv->a[i] = atoi((char*)point);
+			point = (xmlChar*)strtok(NULL, " ");
+		} else continue;
 	}
 
 	xmlFree(data);
@@ -315,19 +318,28 @@ void load_mesh(model mdl, xmlNodePtr cur, xmlNsPtr ns)
 					if (xmlStrcmp(semantic, (const xmlChar*)"VERTEX") == 0)
 					{
 						offset = xmlGetProp(cur, (const xmlChar*)"offset");
-						mdl->vertices->offset = atoi((const char*)offset);
+						if (mdl->vertices != NULL)
+						{
+							mdl->vertices->offset = atoi((const char*)offset);
+						}
 						xmlFree(offset);
 					}
 					else if (xmlStrcmp(semantic, (const xmlChar*)"NORMAL") == 0)
 					{
 						offset = xmlGetProp(cur, (const xmlChar*)"offset");
-						mdl->normals->offset = atoi((const char*)offset);
+						if (mdl->normals != NULL)
+						{
+							mdl->normals->offset = atoi((const char*)offset);
+						}
 						xmlFree(offset);
 					}
 					else if(xmlStrcmp(semantic, (const xmlChar*)"TEXCOORD") == 0)
 					{
 						offset = xmlGetProp(cur, (const xmlChar*)"offset");
-						mdl->tcoords->offset = atoi((const char*)offset);
+						if (mdl->tcoords != NULL)
+						{
+							mdl->tcoords->offset = atoi((const char*)offset);
+						}
 						xmlFree(offset);
 					}
 					xmlFree(semantic);

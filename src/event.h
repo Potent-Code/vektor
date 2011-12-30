@@ -7,15 +7,6 @@
 
 #include <stdlib.h>
 
-struct event_chain
-{
-	void (*call)(void*);
-	void *obj;
-	struct event_chain *next;
-};
-
-typedef struct event_chain *listener;
-
 #define EVENT_MOUSEUP 1
 #define EVENT_MOUSEDOWN 2
 #define EVENT_MOUSEMOVE 3
@@ -23,6 +14,15 @@ typedef struct event_chain *listener;
 #define EVENT_NET_RECV 5
 #define EVENT_NET_SEND 6
 #define EVENT_QUIT 7
+
+struct event_chain
+{
+	void (*call)(void*);
+	void *obj;
+	struct event_chain *next;
+};
+
+typedef struct event_chain* listener;
 
 extern int mouse_x;
 extern int mouse_y;

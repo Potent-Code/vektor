@@ -191,7 +191,8 @@ void vektor_init(const char *title)
 	fps_disp = add_textbox(((float)window_w/2.)-80.,((float)window_h/2.)-4.,20,1,21);
 	add_object_2d(fps_disp, fps_disp->draw, NULL, fps_disp->remove);
 	fps_disp->z = 0.5;
-	cam = add_camera(12000., 6950., 12000.);
+	//cam = add_camera(12000., 6950., 12000.);
+	cam = add_camera(0.0, 0.0, 0.0);
 
 	init_network();
 	

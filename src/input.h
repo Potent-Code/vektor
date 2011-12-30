@@ -9,6 +9,7 @@
 
 #include "sdl.h"
 #include "event.h"
+#include "keybind.h"
 
 // methods
 extern void input_set_pos(int pos);

@@ -18,6 +18,7 @@
 
 #include <mathlib.h>
 
+#include "sdl.h"
 #include "image.h"
 
 typedef struct {
@@ -29,6 +30,10 @@ typedef struct {
 	uvector vcount;
 	uvector polylist;
 	texture tex;
+	GLfloat view[16];
+	float* x;
+	float* y;
+	float* z;
 	void (*update)(void *);
 	void (*draw)(void *);
 	void (*remove)(void *);
