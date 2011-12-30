@@ -18,6 +18,7 @@
 #include "camera.h"
 #include "console.h"
 #include "draw.h"
+#include "keybind.h"
 
 extern void quit(void* ev);
 extern void resize(int w, int h);

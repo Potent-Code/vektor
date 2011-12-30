@@ -549,7 +549,7 @@ void get_keyup(SDL_keysym *keysym)
 			keybind_up(key_equal);
 			break;
 		case SDLK_BACKSPACE:
-			keybind_Up(key_backspace);
+			keybind_up(key_backspace);
 			break;
 
 		// 	qwertyuiop[] backslash

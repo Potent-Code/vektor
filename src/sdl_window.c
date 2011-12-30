@@ -182,6 +182,7 @@ void vektor_init(const char *title)
 
 	// add quit event listener
 	add_listener(&quit, NULL, EVENT_QUIT);
+	keybind_add(NULL, &event_quit, NULL, key_escape);
 
 	add_font("/usr/local/share/vektor/fonts/default.font");
 	add_texture("/usr/local/share/vektor/logo.texture", &texture_logo);
