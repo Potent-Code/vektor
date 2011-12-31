@@ -27,6 +27,9 @@ void quit(void* ev)
 	
 	(void)ev;
 
+	// free keybinds
+	keybind_remove_all(NULL);
+
 	// free fonts
 	free_all_fonts();
 

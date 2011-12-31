@@ -10,7 +10,8 @@ keybind keymap[n_keys];
 void keybind_up(int key);
 void keybind_down(int key);
 void keybind_add(void* _obj, void (*_up)(void*), void (*_down)(void*), int key);
-void keybind_remove(void* _obj, void (*_call)(void*), int key);
+void keybind_remove(void* _obj, void (*_up)(void*), void (*_down)(void*),  int key);
+void keybind_remove_all(void* kp);
 
 void keybind_up(int key)
 {
@@ -79,10 +80,31 @@ void keybind_add(void* _obj, void (*_up)(void*), void (*_down)(void*), int key)
 
 }
 
-void keybind_remove(void* _obj, void (*_call)(void*), int key)
+void keybind_remove(void* _obj, void (*_up)(void*), void (*_down)(void*), int key)
 {
 	// TODO
 	(void)_obj;
-	(void)_call;
+	(void)_up;
+	(void)_down;
 	(void)key;
+}
+
+void keybind_remove_all(void* kp)
+{
+	keybind cur;
+	keybind tmp;
+	int i;
+
+	(void)kp;
+
+	for (i = 0; i < n_keys; i++)
+	{	
+		for (cur = keymap[i]; cur != NULL;)
+		{
+			tmp = cur->next;
+			free(cur);
+			cur = tmp;
+		}
+	}
+		
 }
