@@ -10,6 +10,8 @@ unsigned int log_size;
 void init_log(void);
 void log_add(const char* str);
 void log_add_no_eol(const char* str);
+void log_err(const char* str);
+void log_err_sys(const char* str, int error);
 char* log_get(void);
 void free_log(void);
 
@@ -50,6 +52,21 @@ void log_add_no_eol(const char* str)
 		}
 	}
 	log_size = strlen(log_data);
+}
+
+void log_err(const char* str)
+{
+	log_add_no_eol("ERROR: ");
+	log_add(str);
+	fprintf(stderr, "ERROR: %s\n", str);
+}
+
+void log_err_sys(const char* str, int error)
+{
+	log_add_no_eol("ERROR: ");
+	log_add_no_eol(str);
+	log_add(strerror(error));
+	fprintf(stderr, "ERROR: %s: %s\n", str, strerror(error));
 }
 
 char* log_get(void)

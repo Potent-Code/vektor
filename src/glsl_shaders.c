@@ -51,7 +51,7 @@ char* shader_load(const char* filename)
 
 	if((fd = fopen(filename, "rb")) == 0)
 	{
-		perror("Error opening shader file");
+		log_err_sys("Could not open shader file", errno);
 		return NULL;
 	}
 
@@ -60,14 +60,14 @@ char* shader_load(const char* filename)
 
 	if((source = calloc(source_len, 1)) == NULL)
 	{
-		perror("Error allocating memory");
+		log_err("calloc failed");
 		return NULL;
 	}
 
 	bytes_read = fread(source, 1, source_len, fd);
 	if (bytes_read != source_len)
 	{
-		perror("File content length does not match read bytes");
+		log_err("There was a problem reading the file");
 		free(source);
 		return NULL;
 	}
@@ -94,9 +94,12 @@ int shader_attach(int id, const char* filename)
 
 	glGetShaderiv(id, GL_COMPILE_STATUS, &status_compile);
 	if (status_compile != GL_TRUE) {
-		perror("Error compiling shader!");
+		log_err("Compile failed for shader!");
 		free(source);
 		return -1;
+	} else {
+		log_add_no_eol(filename);
+		log_add(": Shader compiled successfully");
 	}
 	
 	shader_program = glCreateProgram();
@@ -116,7 +119,7 @@ void shader_init()
 		glGetProgramiv(shader_program, GL_LINK_STATUS, &status_link);
 		if (status_link != GL_TRUE)
 		{
-			perror("Error linking shader!");
+			log_err("Linking failed for shader!");
 		} else {
 			in_pos_attrib = glGetAttribLocation(shader_program, "in_pos");
 			in_color_attrib = glGetAttribLocation(shader_program, "in_color");

@@ -366,6 +366,8 @@ extern int last_mouse_y;
 extern void init_log(void);
 extern void log_add(const char* str);
 extern void log_add_no_eol(const char* str);
+extern void log_err(const char* str);
+extern void log_err_sys(const char* str, int error);
 extern char* log_get(void);
 extern void free_log(void);
 
