@@ -37,7 +37,7 @@ extern void event_mousemove(int x, int y);
 extern void event_return(void);
 extern void event_net_recv(void);
 extern void event_net_send(void);
-extern void event_quit(void);
+extern void event_quit(void* p);
 
 
 #endif

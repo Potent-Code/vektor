@@ -223,6 +223,7 @@ extern char* chat_data;
 typedef struct
 {
 	void *object;
+	void (*init)(void*);
 	void (*update)(void*);
 	void (*draw)(void*);
 	void (*remove)(void*);
@@ -235,9 +236,11 @@ extern render_object *renderlist_2d;
 extern render_object *renderlist_3d;
 extern camera cam;
 
-extern void add_object_2d(void *obj, void (*draw)(void*), void (*update)(void*), void (*remove)(void*));
-extern void add_object_3d(void *obj, void (*draw)(void*), void (*update)(void*), void (*remove)(void*));
-extern void render(void);
+extern void add_object_2d(void *obj, void (*init)(void*), void (*update)(void*), void (*draw)(void*), void (*remove)(void*));
+extern void add_object_3d(void *obj, void (*init)(void*), void (*update)(void*), void (*draw)(void*), void (*remove)(void*));
+extern void render_init(void);
+extern void render_update(void);
+extern void render_draw(void);
 
 
 // ***************************************
@@ -280,7 +283,7 @@ extern void event_mousemove(int x, int y);
 extern void event_return(void);
 extern void event_net_recv(void);
 extern void event_net_send(void);
-extern void event_quit(void);
+extern void event_quit(void* p);
 
 
 // ***************************************
@@ -648,8 +651,29 @@ extern void window_mouseup(void *wp);
 extern void window_dragresize(void *wp);
 extern void window_addchild(window w, void *p, void (*draw)(void*), void (*move)(void*,float,float), void (*resize)(void*,float,float), void (*remove)(void*));
 
+// ** triangle
+// types
+typedef struct
+{
+	float vertices[9];
+	float colors[9];
+	unsigned int vao_id; // vertex array object id list
+	unsigned int vbo_ids[2]; // vertex buffer object id list
+	void (*init)(void*);
+	void (*update)(void*);
+	void (*draw)(void*);
+	void (*remove)(void*);
+} *triangle;
+
+// methods
+extern triangle triangle_add();
+extern void triangle_init(void* tp);
+extern void triangle_draw(void* tp);
+extern void triangle_remove(void* tp);
+
 #ifdef __cplusplus
 }
 #endif // __cplusplus
 
 #endif // vektor_h
+

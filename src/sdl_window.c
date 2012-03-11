@@ -68,7 +68,7 @@ void resize(int w, int h)
 	//glMatrixMode(GL_PROJECTION);
 	//glLoadIdentity();
 
-	gluPerspective(45.0f,aspect,0.1f,10000.0f);
+	//gluPerspective(45.0f,aspect,0.1f,10000.0f);
 
 	//glMatrixMode(GL_MODELVIEW);
 	//glLoadIdentity();
@@ -78,7 +78,7 @@ void resize(int w, int h)
 
 void intro(void)
 {
-	Uint32 start,current;
+	/*Uint32 start,current;
 	start=SDL_GetTicks();
 	int et;
 
@@ -137,10 +137,11 @@ void intro(void)
 
 		glEnd();
 		glFlush();
-	}
+	}*/
 	
 	// draw whatever comes after this screen
-	render();
+	render_update();
+	render_draw();
 }
 
 void vektor_init(const char *title)
@@ -183,11 +184,14 @@ void vektor_init(const char *title)
 	SDL_EnableKeyRepeat(150,20);
 	SDL_EnableUNICODE(1);
 
+	// shader cleanup event listener
+	add_listener(&shader_remove, NULL, EVENT_QUIT);
+
 	// add quit event listener
 	add_listener(&quit, NULL, EVENT_QUIT);
 	keybind_add(NULL, &event_quit, NULL, key_escape);
 
-	add_font("/usr/local/share/vektor/fonts/default.font");
+	/*add_font("/usr/local/share/vektor/fonts/default.font");
 	add_texture("/usr/local/share/vektor/logo.texture", &texture_logo);
 	add_texture("/usr/local/share/vektor/ui/scroll_bar.texture", &texture_scrollbar);
 	init_console(-276,174,522,352);
@@ -198,8 +202,13 @@ void vektor_init(const char *title)
 	//cam = add_camera(12000., 6950., 12000.);
 	cam = add_camera(0.0, 0.0, 0.0);
 
-	init_network();
-	
+	init_network();*/
+
+	vertex_shader_install(VERTEX_SHADER);
+	fragment_shader_install(FRAGMENT_SHADER);
+	shader_init();
+
+	render_init(); // init render objects
 	ran_init = 1;
 }
 
@@ -220,7 +229,7 @@ void vektor_run(void)
 		fprintf(stderr,"Please run vektor_init() first!\n");
 	}
 	
-	enable_mouselook();
+	//enable_mouselook();
 	// main window loop
 	while(!done)
 	{
@@ -268,7 +277,7 @@ void vektor_run(void)
 					SDL_GetMouseState(&mx, &my);
 					mx -= 512;
 					my = (768-my)-384;
-					camera_mouselook(cam);
+					//camera_mouselook(cam);
 					event_mousemove(mx, my);
 					break;
 				case SDL_QUIT:
@@ -291,8 +300,9 @@ void vektor_run(void)
 
 		if(active)
 		{
-			render();
+			render_update();
+			render_draw();
 		}
 	}
-	event_quit();
+	event_quit(NULL);
 }

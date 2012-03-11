@@ -5,8 +5,11 @@
 
 #include "draw.h"
 
-void add_object_2d(void *obj, void (*draw)(void*), void (*update)(void*), void (*remove)(void*));
-void render(void);
+void add_object_2d(void *obj, void (*init)(void*), void (*update)(void*), void (*draw)(void*), void (*remove)(void*));
+void add_object_3d(void *obj, void (*init)(void*), void (*update)(void*), void (*draw)(void*), void (*remove)(void*));
+void render_init(void);
+void render_update(void);
+void render_draw(void);
 
 unsigned int framecount=0;
 int renderobjs2d_count=0;
@@ -18,7 +21,7 @@ Uint32 motion_timer=0;
 Uint32 l;
 camera cam;
 
-void add_object_2d(void *obj, void (*draw)(void*), void (*update)(void*), void (*remove)(void*))
+void add_object_2d(void *obj, void (*init)(void*), void (*update)(void*), void (*draw)(void*), void (*remove)(void*))
 {
 	if (renderlist_2d == NULL)
 	{
@@ -28,6 +31,7 @@ void add_object_2d(void *obj, void (*draw)(void*), void (*update)(void*), void (
 	if ((obj != NULL) && (draw != NULL))
 	{
 		renderlist_2d[renderobjs2d_count].object = obj;
+		renderlist_2d[renderobjs2d_count].init = init;
 		renderlist_2d[renderobjs2d_count].draw = draw;
 		renderlist_2d[renderobjs2d_count].update = update;
 		
@@ -44,7 +48,7 @@ void add_object_2d(void *obj, void (*draw)(void*), void (*update)(void*), void (
 	}
 }
 
-void add_object_3d(void *obj, void (*draw)(void*), void (*update)(void*), void(*remove)(void*))
+void add_object_3d(void *obj, void (*init)(void*), void (*update)(void*), void (*draw)(void*), void(*remove)(void*))
 {
 	if (renderlist_3d == NULL)
 	{
@@ -54,6 +58,7 @@ void add_object_3d(void *obj, void (*draw)(void*), void (*update)(void*), void(*
 	if ((obj != NULL) && (draw != NULL))
 	{
 		renderlist_3d[renderobjs3d_count].object = obj;
+		renderlist_3d[renderobjs3d_count].init = init;
 		renderlist_3d[renderobjs3d_count].draw = draw;
 		renderlist_3d[renderobjs3d_count].update = update;
 
@@ -68,13 +73,107 @@ void add_object_3d(void *obj, void (*draw)(void*), void (*update)(void*), void(*
 		renderobjs3d_count++;
 	}
 }
-	
-void render(void)
+
+void render_init(void)
 {
 	int i;
 
+	// renderlist_2d init
+	if(renderlist_2d != NULL)
+	{
+		for(i=0; i < renderobjs2d_count; i++)
+		{
+			if(renderlist_2d[i].init != NULL)
+			{
+				renderlist_2d[i].init(renderlist_2d[i].object);
+			}
+		}
+	}
+
+	// renderlist_3d init
+	if(renderlist_3d != NULL)
+	{
+		for(i = 0; i < renderobjs3d_count; i++)
+		{
+			if(renderlist_3d[i].init != NULL)
+			{
+				renderlist_3d[i].init(renderlist_3d[i].object);
+			}
+		}
+	}
+}
+
+void render_update(void)
+{
+	int i;
+
+	// renderlist_2d update
+	if(renderlist_2d != NULL)
+	{
+		for(i=0; i < renderobjs2d_count; i++)
+		{
+			if(renderlist_2d[i].update != NULL)
+			{
+				renderlist_2d[i].update(renderlist_2d[i].object);
+			}
+		}
+	}
+
+	// renderlist_3d update
+	if(renderlist_3d != NULL)
+	{
+		for(i = 0; i < renderobjs3d_count; i++)
+		{
+			if(renderlist_3d[i].update != NULL)
+			{
+				renderlist_3d[i].update(renderlist_3d[i].object);
+			}
+		}
+	}
+}
+	
+void render_draw(void)
+{
+	int i;
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glUseProgram(shader_program);
+
+	// renderlist_2d draw
+	if(renderlist_2d != NULL)
+	{
+		for(i=0; i < renderobjs2d_count; i++)
+		{
+			if(renderlist_2d[i].draw != NULL)
+			{
+				renderlist_2d[i].draw(renderlist_2d[i].object);
+			}
+		}
+	}
+
+	// renderlist_3d draw
+	if(renderlist_3d != NULL)
+	{
+		for(i = 0; i < renderobjs3d_count; i++)
+		{
+			if(renderlist_3d[i].draw != NULL)
+			{
+				renderlist_3d[i].draw(renderlist_3d[i].object);
+			}
+		}
+	}
+	
+	SDL_GL_SwapBuffers();
+	//glFlush();
+
+	glBindVertexArray(0);
+	glUseProgram(0);
+
+	//int i;
+
 	// examine this more carefully.
-	glEnable(GL_DEPTH_TEST);
+	/*glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	glClearDepth(1.0f);
 	glShadeModel(GL_SMOOTH);
@@ -156,6 +255,6 @@ void render(void)
 		sprintf(fps_disp->data,"%.0f fps",(float)framecount/((float)l/1000.));
 		last_update = SDL_GetTicks();
 		framecount=0;
-	}
+	}*/
 	
 }

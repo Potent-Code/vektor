@@ -51,4 +51,4 @@ else
 	AM_CONDITIONAL([DARWIN],false)
 fi
 
-AC_OUTPUT(Makefile src/Makefile share/Makefile)
+AC_OUTPUT(Makefile src/Makefile src/shaders/Makefile share/Makefile)

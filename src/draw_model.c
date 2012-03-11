@@ -23,7 +23,7 @@ model model_add(const char* filename)
 	mdl->remove = &model_remove;
 
 	add_texture(&mdl->texture_file[0], &mdl->tex);
-	add_object_3d(mdl, &model_draw, NULL, &model_remove);
+	add_object_3d(mdl, NULL, &model_draw, NULL, &model_remove);
 	return mdl;
 }
 

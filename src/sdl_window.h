@@ -7,6 +7,7 @@
 #define SDL_WINDOW_H
 
 #include "sdl.h"
+#include "glsl_shaders.h"
 #include "log.h"
 #include "net.h"
 #include "input.h"

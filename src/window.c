@@ -51,7 +51,7 @@ window add_window(int x, int y, int w, int h)
 	*wi->x = (float)x;
 	*wi->y = (float)y;
 
-	//add_object_2d(wi, &draw_window, NULL, NULL);
+	//add_object_2d(wi, NULL, &draw_window, NULL, NULL);
 	wi->draw = &draw_window;
 	wi->remove = &free_window;
 	

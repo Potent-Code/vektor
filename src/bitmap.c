@@ -28,7 +28,7 @@ bitmap add_bitmap(int x, int y, int w, int h, texture* _tex)
 	b->resize = &resize_bitmap;
 	b->move = NULL;
 
-//	add_object_2d(b, &draw_bitmap, NULL, NULL);
+//	add_object_2d(b, NULL, &draw_bitmap, NULL, NULL);
 	return b;
 }
 

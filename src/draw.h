@@ -12,6 +12,7 @@
 typedef struct
 {
 	void *object;
+	void (*init)(void*);
 	void (*update)(void*);
 	void (*draw)(void*);
 	void (*remove)(void*);
@@ -24,8 +25,10 @@ extern render_object *renderlist_2d;
 extern render_object *renderlist_3d;
 extern camera cam;
 
-extern void add_object_2d(void *obj, void (*draw)(void*), void (*update)(void*), void (*remove)(void*));
-extern void add_object_3d(void *obj, void (*draw)(void*), void (*update)(void*), void (*remove)(void*));
-extern void render(void);
+extern void add_object_2d(void *obj, void (*init)(void*), void (*update)(void*), void (*draw)(void*), void (*remove)(void*));
+extern void add_object_3d(void *obj, void (*init)(void*), void (*update)(void*), void (*draw)(void*), void (*remove)(void*));
+extern void render_init(void);
+extern void render_update(void);
+extern void render_draw(void);
 
 #endif

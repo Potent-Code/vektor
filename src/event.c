@@ -8,6 +8,7 @@ int mouse_x=0;
 int mouse_y=0;
 int mouse_state=0;
 
+// TODO: get rid of all of the following globals
 int nl_mouseup=0;
 int nl_mousedown=0;
 int nl_mousemove=0;
@@ -51,7 +52,7 @@ void event_mousemove(int x, int y);
 void event_return(void);
 void event_net_recv(void);
 void event_net_send(void);
-void event_quit(void);
+void event_quit(void* p);
 
 listener link_listener(listener h, listener t, void (*_call)(void*), void *_obj)
 {
@@ -204,9 +205,10 @@ void event_net_send(void)
 	tmp->call(tmp->obj);
 }
 
-void event_quit(void)
+void event_quit(void* p)
 {
 	listener tmp;
+	(void)p;
 
 	if (lev_quit == NULL) return;
 

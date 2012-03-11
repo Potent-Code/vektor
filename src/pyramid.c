@@ -20,7 +20,7 @@ pyramid add_pyramid(float x, float y, float z, float h, const char* filename)
 	p->h = h;
 
 	add_texture(filename, &p->tex);
-	add_object_3d(p, &draw_pyramid, NULL, &pyramid_remove);
+	add_object_3d(p, NULL, &draw_pyramid, NULL, &pyramid_remove);
 	return p;
 }
 

@@ -23,7 +23,7 @@ plant add_plant(float x, float y, float l, float angle, unsigned int iterations)
 
 	p->nbranches = grow(p,0);
 
-	add_object_2d(p, &draw_plant, NULL, &free_plant);
+	add_object_2d(p, NULL, &draw_plant, NULL, &free_plant);
 	return p;
 }
 

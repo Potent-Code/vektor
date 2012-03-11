@@ -20,7 +20,7 @@ ground add_ground(float x, float z, float w, float h, const char* filename)
 	g->h = h;
 	add_texture(filename, &g->tex);
 
-	add_object_3d(g, &draw_ground, NULL, NULL);
+	add_object_3d(g, NULL, &draw_ground, NULL, NULL);
 	return g;
 }
 
