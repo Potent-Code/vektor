@@ -61,15 +61,16 @@ void triangle_init(void *tp)
 
 	// set up vertices buffer
 	glBindBuffer(GL_ARRAY_BUFFER, t->vbo_ids[0]);
+
 	glBufferData(GL_ARRAY_BUFFER, 9*sizeof(float), t->vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer((unsigned int)0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(in_pos_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(in_pos_attrib);
 
 	// set up colors buffer
 	glBindBuffer(GL_ARRAY_BUFFER, t->vbo_ids[1]);
 	glBufferData(GL_ARRAY_BUFFER, 9*sizeof(float), t->colors, GL_STATIC_DRAW);
-	glVertexAttribPointer((unsigned int)1, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(in_color_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(in_color_attrib);
 }
 
 void triangle_draw(void* tp)

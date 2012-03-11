@@ -7,6 +7,7 @@
 
 #include "sdl.h"
 #include "draw.h"
+#include "glsl_shaders.h"
 
 // types
 typedef struct

@@ -10,8 +10,8 @@
 #include <stdio.h>
 
 extern void init_log(void);
-extern void log_add(char* str);
-extern void log_add_no_eol(char* str);
+extern void log_add(const char* str);
+extern void log_add_no_eol(const char* str);
 extern char* log_get(void);
 extern void free_log(void);
 

@@ -24,13 +24,21 @@ int in_color_attrib = 0;
 void vertex_shader_install(const char* filename)
 {
 	gl_vertex_shader = glCreateShader(GL_VERTEX_SHADER);
-	shader_attach(gl_vertex_shader, filename);
+	if (shader_attach(gl_vertex_shader, filename) == 0)
+	{
+		log_add_no_eol("Vertex shader loaded: ");
+		log_add(filename);
+	}
 }
 
 void fragment_shader_install(const char* filename)
 {
 	gl_fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-	shader_attach(gl_fragment_shader, filename);
+	if (shader_attach(gl_fragment_shader, filename) == 0)
+	{
+		log_add_no_eol("Fragment shader loaded: ");
+		log_add(filename);
+	}
 }
 
 char* shader_load(const char* filename)

@@ -8,15 +8,13 @@ char *log_data;
 unsigned int log_size;
 
 void init_log(void);
-void log_add(char* str);
-void log_add_no_eol(char* str);
+void log_add(const char* str);
+void log_add_no_eol(const char* str);
 char* log_get(void);
 void free_log(void);
 
 void init_log(void)
 {
-	int i;
-	char str[256];
 	log_data = calloc(500000,1);
 	log_size = 0;
 	log_add("Starting Vektor Engine");
@@ -27,7 +25,7 @@ void init_log(void)
 	}*/
 }
 
-void log_add(char* str)
+void log_add(const char* str)
 {
 	int len;
 	if((len = strlen(str) + log_size) < 500000)
@@ -41,7 +39,7 @@ void log_add(char* str)
 	log_size = strlen(log_data);
 }
 
-void log_add_no_eol(char* str)
+void log_add_no_eol(const char* str)
 {
 	int len;
 	if((len = strlen(str) + log_size) < 500000)

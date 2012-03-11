@@ -12,6 +12,7 @@
 //#define GL3_PROTOTYPES 1
 //#include <GL3/gl3.h>
 #define GL_GLEXT_PROTOTYPES
+#define NO_SDL_GLEXT
 #include <SDL/SDL.h>
 #include <SDL/SDL_opengl.h>
 

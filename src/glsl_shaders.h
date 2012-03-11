@@ -6,6 +6,7 @@
 #define glsl_shaders_h
 
 #include "sdl.h"
+#include "log.h"
 
 #define VERTEX_SHADER "/usr/local/share/vektor/shaders/vs_simple.vs"
 #define FRAGMENT_SHADER "/usr/local/share/vektor/shaders/fs_simple.fs"
