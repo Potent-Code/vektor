@@ -36,8 +36,9 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+#libvektor_la_CFLAGS = $(GL_CFLAGS) $(GLU_CFLAGS)
+#libvektor_la_LDFLAGS = $(GL_LIBS) $(GLU_LIBS)
 @DARWIN_TRUE@am__append_1 = SDLMain.m
-@DARWIN_TRUE@am__append_2 = -lz
 bin_PROGRAMS = maketexture$(EXEEXT) makemodel$(EXEEXT)
 subdir = src
 DIST_COMMON = $(include_HEADERS) $(srcdir)/Makefile.am \
@@ -313,14 +314,12 @@ libvektor_la_SOURCES = image.h sdl.h ui.h log.h log.c sdl_window.h \
 	draw_model.h draw_model.c keys.h keybind.h keybind.c \
 	glsl_shaders.h glsl_shaders.c triangle.h triangle.c \
 	$(am__append_1)
-#libvektor_la_CFLAGS = $(GL_CFLAGS) $(GLU_CFLAGS)
-#libvektor_la_LDFLAGS = $(GL_LIBS) $(GLU_LIBS)
-maketexture_LDFLAGS = -lpng $(am__append_2)
 @DARWIN_FALSE@libvektor_la_LDFLAGS = -lSDL -lGL -lGLU -lmathlib
 @DARWIN_TRUE@libvektor_la_LDFLAGS = -framework SDL -framework OpenGL \
 @DARWIN_TRUE@	-lmathlib
 include_HEADERS = vektor.h
 maketexture_SOURCES = image.h maketexture.h maketexture.c
+maketexture_LDFLAGS = -lz -lpng
 makemodel_SOURCES = model.h model.c makemodel.h makemodel.c
 makemodel_CFLAGS = -I/usr/include/libxml2
 makemodel_LDFLAGS = -lxml2 -lmathlib

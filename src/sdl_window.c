@@ -7,9 +7,12 @@
 
 void quit(void* ev);
 void resize(int w, int h);
-void vektor_init(const char *title);
+void vektor_init(const char* title);
 void vektor_run(void);
 void intro(void);
+
+void get_gl_version(int* major, int* minor);
+void get_glsl_version(int* major, int* minor);
 
 int ran_init = 0;
 int video_flags;
@@ -144,9 +147,39 @@ void intro(void)
 	render_draw();
 }
 
+void get_gl_version(int* major, int* minor)
+{
+	const char* versionstr = (const char*)glGetString(GL_VERSION);
+	log_add_no_eol("OpenGL version: ");
+	log_add(versionstr);
+	if ((versionstr == NULL) || (sscanf(versionstr, "%d.%d", major, minor) != 2))
+	{
+		*major = 0;
+		*minor = 0;
+		fprintf(stderr, "Couldn't get OpenGL version information\n");
+	}
+}
+
+void get_glsl_version(int* major, int* minor)
+{
+	const char* versionstr = (const char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
+	log_add_no_eol("GLSL Version: ");
+	log_add(versionstr);
+	if ((versionstr == NULL) || (sscanf(versionstr, "%d.%d", major, minor) != 2))
+	{
+		*major = 0;
+		*minor = 0;
+		fprintf(stderr, "Couldn't get GLSL version information\n");
+	}
+}
+
 void vektor_init(const char *title)
 {
 	const SDL_VideoInfo *video_info;
+	int gl_vers_major = 0;
+	int gl_vers_minor = 0;
+	int glsl_vers_major = 0;
+	int glsl_vers_minor = 0;
 
 	init_log();
 
@@ -178,6 +211,10 @@ void vektor_init(const char *title)
 	// get ready to draw
 	surface = SDL_SetVideoMode(1024,768,32,video_flags);
 	resize(1024,768);
+
+	// get OpenGL version
+	get_gl_version(&gl_vers_major, &gl_vers_minor);
+	get_glsl_version(&glsl_vers_major, &glsl_vers_minor);
 
 	// this is deprecated in SDL 1.3
 	// something better should be done about this
