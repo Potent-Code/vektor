@@ -75,10 +75,10 @@ char* shader_load(const char* filename)
 
 int shader_attach(int id, const char* filename)
 {
-	char* source;
-	char* compile_log;
-	int source_len;
-	int compile_log_len;
+	char* source = NULL;
+	char* compile_log = NULL;
+	int source_len = 0;
+	int compile_log_len = 0;
 	int status_compile;
 
 	source = shader_load(filename);
@@ -94,7 +94,7 @@ int shader_attach(int id, const char* filename)
 	if (status_compile != GL_TRUE) {
 		log_err("Compiling shader failed");
 		free(source);
-		return -1;
+		source = NULL;
 	}
 
 	// get compile log
@@ -105,6 +105,7 @@ int shader_attach(int id, const char* filename)
 		glGetShaderInfoLog(id, compile_log_len, NULL, compile_log);
 		log_add(compile_log);
 		free(compile_log);
+		if (status_compile != GL_TRUE) return;
 	}
 	
 	if (shader_program == 0)
