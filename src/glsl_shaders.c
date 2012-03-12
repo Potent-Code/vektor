@@ -102,7 +102,12 @@ int shader_attach(int id, const char* filename)
 		log_add(": Shader compiled successfully");
 	}
 	
-	shader_program = glCreateProgram();
+	if (shader_program == 0)
+	{
+		shader_program = glCreateProgram();
+		glBindAttribLocation(shader_program, 0, "in_Position");
+		glBindAttribLocation(shader_program, 1, "in_Color");
+	}
 	glAttachShader(shader_program, id);
 
 	free(source);
@@ -121,8 +126,8 @@ void shader_init()
 		{
 			log_err("Linking failed for shader!");
 		} else {
-			in_pos_attrib = glGetAttribLocation(shader_program, "in_pos");
-			in_color_attrib = glGetAttribLocation(shader_program, "in_color");
+			in_pos_attrib = glGetAttribLocation(shader_program, "in_Position");
+			in_color_attrib = glGetAttribLocation(shader_program, "in_Color");
 		}
 	}
 }
