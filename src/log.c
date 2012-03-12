@@ -7,6 +7,8 @@
 char *log_data;
 unsigned int log_size;
 
+FILE* log_fd;
+
 void init_log(void);
 void log_add(const char* str);
 void log_add_no_eol(const char* str);
@@ -19,6 +21,7 @@ void init_log(void)
 {
 	log_data = calloc(500000,1);
 	log_size = 0;
+	log_fd = fopen("vektor.log", "w");
 	log_add("Starting Vektor Engine");
 }
 
@@ -26,6 +29,7 @@ void log_add(const char* str)
 {
 	log_add_no_eol(str);
 	strncat(log_data, "\n", 1);
+	fprintf(log_fd, "\n");
 	log_size++;
 }
 
@@ -37,6 +41,7 @@ void log_add_no_eol(const char* str)
 		if(len > 0)
 		{
 			strncat(log_data, str, len);
+			fprintf(log_fd, "%s", str);
 		}
 	}
 	log_size += len;
@@ -73,14 +78,9 @@ char* log_get(void)
 void log_remove(void* p)
 {
 	(void)p;
-	FILE* fd;
 
-	// write log file to disk
-	if ((fd = fopen("vektor.log", "w")) != 0)
-	{
-		fprintf(fd, "%s", log_get());
-		fclose(fd);
-	}
+	// close the log file
+	fclose(log_fd);
 
 	free(log_data);
 }
