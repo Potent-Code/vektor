@@ -54,8 +54,13 @@ void triangle_init(void *tp)
 	t->colors[7] = 0.0;
 	t->colors[8] = 1.0;
 
+	#ifdef __APPLE__
+	glGenVertexArraysAPPLE(1, &t->vao_id);
+	glBindVertexArrayAPPLE(t->vao_id);
+	#else
 	glGenVertexArrays(1, &t->vao_id);
 	glBindVertexArray(t->vao_id);
+	#endif
 
 	glGenBuffers(2, t->vbo_ids);
 
@@ -77,9 +82,18 @@ void triangle_draw(void* tp)
 {
 	triangle t = tp;
 
+	#ifdef __APPLE__
+	glBindVertexArrayAPPLE(t->vao_id);
+	#else
 	glBindVertexArray(t->vao_id);
+	#endif
 	glDrawArrays(GL_TRIANGLES, 0, 3);
-	//glBindVertexArray(0);
+
+	#ifdef __APPLE__
+	glBindVertexArrayAPPLE(0);
+	#else
+	glBindVertexArray(0);
+	#endif
 }
 
 void triangle_remove(void* tp)

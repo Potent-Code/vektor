@@ -167,7 +167,11 @@ void render_draw(void)
 	SDL_GL_SwapBuffers();
 	//glFlush();
 
+	#ifdef __APPLE__
+	glBindVertexArrayAPPLE(0);
+	#else
 	glBindVertexArray(0);
+	#endif
 	glUseProgram(0);
 
 	//int i;
