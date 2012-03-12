@@ -23,22 +23,18 @@ int in_color_attrib = 0;
 
 void vertex_shader_install(const char* filename)
 {
+	log_add_no_eol("Vertex shader: loading ");
+	log_add(filename);
 	gl_vertex_shader = glCreateShader(GL_VERTEX_SHADER);
-	if (shader_attach(gl_vertex_shader, filename) == 0)
-	{
-		log_add_no_eol("Vertex shader loaded: ");
-		log_add(filename);
-	}
+	shader_attach(gl_vertex_shader, filename);
 }
 
 void fragment_shader_install(const char* filename)
 {
+	log_add_no_eol("Fragment shader: loading ");
+	log_add(filename);
 	gl_fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-	if (shader_attach(gl_fragment_shader, filename) == 0)
-	{
-		log_add_no_eol("Fragment shader loaded: ");
-		log_add(filename);
-	}
+	shader_attach(gl_fragment_shader, filename);
 }
 
 char* shader_load(const char* filename)
@@ -80,7 +76,9 @@ char* shader_load(const char* filename)
 int shader_attach(int id, const char* filename)
 {
 	char* source;
+	char* compile_log;
 	int source_len;
+	int compile_log_len;
 	int status_compile;
 
 	source = shader_load(filename);
@@ -94,12 +92,19 @@ int shader_attach(int id, const char* filename)
 
 	glGetShaderiv(id, GL_COMPILE_STATUS, &status_compile);
 	if (status_compile != GL_TRUE) {
-		log_err("Compile failed for shader!");
+		log_err("Compiling shader failed");
 		free(source);
 		return -1;
-	} else {
-		log_add_no_eol(filename);
-		log_add(": Shader compiled successfully");
+	}
+
+	// get compile log
+	glGetShaderiv(id, GL_INFO_LOG_LENGTH, &compile_log_len);
+	if (compile_log_len > 0)
+	{
+		compile_log = calloc(compile_log_len, 1);
+		glGetShaderInfoLog(id, compile_log_len, NULL, compile_log);
+		log_add(compile_log);
+		free(compile_log);
 	}
 	
 	if (shader_program == 0)
@@ -116,6 +121,8 @@ int shader_attach(int id, const char* filename)
 
 void shader_init()
 {
+	char* link_log;
+	int link_log_len;
 	int status_link;
 
 	if (shader_program != 0)
@@ -124,10 +131,20 @@ void shader_init()
 		glGetProgramiv(shader_program, GL_LINK_STATUS, &status_link);
 		if (status_link != GL_TRUE)
 		{
-			log_err("Linking failed for shader!");
+			log_err("Linking shader failed");
 		} else {
 			in_pos_attrib = glGetAttribLocation(shader_program, "in_Position");
 			in_color_attrib = glGetAttribLocation(shader_program, "in_Color");
+
+			// get link log
+			glGetProgramiv(shader_program, GL_INFO_LOG_LENGTH, &link_log_len);
+			if (link_log_len > 0)
+			{
+				link_log = calloc(link_log_len, 1);
+				glGetProgramInfoLog(shader_program, link_log_len, NULL, link_log);
+				log_add(link_log);
+				free(link_log);
+			}
 		}
 	}
 }
