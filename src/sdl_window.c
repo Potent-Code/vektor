@@ -53,7 +53,8 @@ void quit(void* ev)
 			renderlist_2d[i].remove(renderlist_2d[i].object);
 		}
 	}
-
+	
+	log_add("Vektor Engine process ending");
 	log_remove(NULL);
 
 	SDL_Quit();
@@ -152,26 +153,30 @@ void intro(void)
 void get_gl_version(int* major, int* minor)
 {
 	const char* versionstr = (const char*)glGetString(GL_VERSION);
-	log_add_no_eol("OpenGL version: ");
-	log_add(versionstr);
+	
 	if ((versionstr == NULL) || (sscanf(versionstr, "%d.%d", major, minor) != 2))
 	{
 		*major = 0;
 		*minor = 0;
-		fprintf(stderr, "Couldn't get OpenGL version information\n");
+		log_err("Couldn't get OpenGL version information");
+	} else {
+		log_add_no_eol("OpenGL version: ");
+		log_add(versionstr);
 	}
 }
 
 void get_glsl_version(int* major, int* minor)
 {
 	const char* versionstr = (const char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
-	log_add_no_eol("GLSL Version: ");
-	log_add(versionstr);
+	
 	if ((versionstr == NULL) || (sscanf(versionstr, "%d.%d", major, minor) != 2))
 	{
 		*major = 0;
 		*minor = 0;
-		fprintf(stderr, "Couldn't get GLSL version information\n");
+		log_err("Couldn't get GLSL version information");
+	} else {
+		log_add_no_eol("GLSL Version: ");
+		log_add(versionstr);
 	}
 }
 
@@ -239,9 +244,9 @@ void vektor_init(const char *title)
 	add_object_2d(fps_disp, fps_disp->draw, NULL, fps_disp->remove);
 	fps_disp->z = 0.5;
 	//cam = add_camera(12000., 6950., 12000.);
-	cam = add_camera(0.0, 0.0, 0.0);
+	cam = add_camera(0.0, 0.0, 0.0);*/
 
-	init_network();*/
+	init_network();
 
 	vertex_shader_install(VERTEX_SHADER);
 	fragment_shader_install(FRAGMENT_SHADER);

@@ -18,7 +18,7 @@
 
 #include "log.h"
 
-#define TEST_HOST "theturks.sytes.net"
+#define TEST_HOST "zeno1337.com"
 #define TEST_PORT 57157
 
 extern void init_network(void);

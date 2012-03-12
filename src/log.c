@@ -12,8 +12,8 @@ FILE* log_fd;
 void init_log(void);
 void log_add(const char* str);
 void log_add_no_eol(const char* str);
-void log_err(const char* str);
-void log_err_sys(const char* str, int error);
+void _log_err(const char* str, const char* func, const char* infile, int linenum);
+void _log_err_sys(const char* str, int error, const char* func, const char* infile, int linenum);
 char* log_get(void);
 void log_remove(void* p);
 
@@ -35,37 +35,39 @@ void log_add(const char* str)
 
 void log_add_no_eol(const char* str)
 {
-	int len;
+	int len = 0;
+
 	if((len = strlen(str) + log_size) < 500000)
 	{
 		if(len > 0)
 		{
 			strncat(log_data, str, len);
 			fprintf(log_fd, "%s", str);
+			log_size += len;
 		}
 	}
-	log_size += len;
 }
 
-void log_err(const char* str)
+void _log_err(const char* str, const char* func, const char* infile, int linenum)
 {
 	char error_loc[256];
-	snprintf(error_loc, 255, " %s:%d - ", __FILE__, __LINE__);
-	log_add_no_eol("ERROR: in ");
-	log_add_no_eol(__func__);
+	snprintf(error_loc, 255, "() %s:%d - ", infile, linenum);
+	log_add_no_eol("** ERROR: in ");
+	log_add_no_eol(func);
 	log_add_no_eol(error_loc);
 	log_add(str);
 	fprintf(stderr, "ERROR: %s\n", str);
 }
 
-void log_err_sys(const char* str, int error)
+void _log_err_sys(const char* str, int error, const char* func, const char* infile, int linenum)
 {
 	char error_loc[256];
-	snprintf(error_loc, 255, " %s:%d - ", __FILE__, __LINE__);
-	log_add_no_eol("ERROR: in ");
-	log_add_no_eol(__func__);
+	snprintf(error_loc, 255, "() %s:%d - ", infile, linenum);
+	log_add_no_eol("** ERROR: in ");
+	log_add_no_eol(func);
 	log_add_no_eol(error_loc);
 	log_add_no_eol(str);
+	log_add_no_eol(": ");
 	log_add(strerror(error));
 	fprintf(stderr, "ERROR: %s: %s\n", str, strerror(error));
 }

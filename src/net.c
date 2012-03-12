@@ -28,13 +28,13 @@ void init_network(void)
 
 	if((sockfd = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP)) <= 0)
 	{
-		perror("socket() failed");
+		log_err("socket() failed");
 		return;
 	}
 
-	if((server = gethostbyname2(host,AF_INET)) == NULL)
+	if((server = gethostbyname2(host, PF_INET)) == NULL)
 	{
-		perror("gethostbyname2() failed");
+		log_err("gethostbyname2() failed");
 		return;
 	}
 	

@@ -47,7 +47,7 @@ char* shader_load(const char* filename)
 
 	if((fd = fopen(filename, "rb")) == 0)
 	{
-		log_err_sys("Could not open shader file", errno);
+		log_err_sys("Could not open shader file");
 		return NULL;
 	}
 
