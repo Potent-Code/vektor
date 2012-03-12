@@ -13,7 +13,7 @@ void log_add_no_eol(const char* str);
 void log_err(const char* str);
 void log_err_sys(const char* str, int error);
 char* log_get(void);
-void free_log(void);
+void log_remove(void* p);
 
 void init_log(void)
 {
@@ -74,7 +74,8 @@ char* log_get(void)
 	return log_data;
 }
 
-void free_log(void)
+void log_remove(void* p)
 {
+	(void)p;
 	free(log_data);
 }

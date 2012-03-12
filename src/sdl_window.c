@@ -54,6 +54,8 @@ void quit(void* ev)
 		}
 	}
 
+	log_remove(NULL);
+
 	SDL_Quit();
 	exit(0);
 }
@@ -221,7 +223,7 @@ void vektor_init(const char *title)
 	SDL_EnableKeyRepeat(150,20);
 	SDL_EnableUNICODE(1);
 
-	// shader cleanup event listener
+	// cleanup event listeners
 	add_listener(&shader_remove, NULL, EVENT_QUIT);
 
 	// add quit event listener
