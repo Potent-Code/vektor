@@ -104,9 +104,12 @@ typedef struct {
 	float* x;
 	float* y;
 	float* z;
-	void (*update)(void *);
-	void (*draw)(void *);
-	void (*remove)(void *);
+	unsigned int vao_id;
+	unsigned int vbo_ids[2];
+	void (*init)(void*);
+	void (*update)(void*);
+	void (*draw)(void*);
+	void (*remove)(void*);
 } *model;
 // ***************************************
 // *              bitmap                 *
@@ -234,7 +237,7 @@ extern int renderobjs2d_count;
 extern int renderobjs3d_count;
 extern render_object *renderlist_2d;
 extern render_object *renderlist_3d;
-extern camera cam;
+extern matrix cam;
 
 extern void add_object_2d(void *obj, void (*init)(void*), void (*update)(void*), void (*draw)(void*), void (*remove)(void*));
 extern void add_object_3d(void *obj, void (*init)(void*), void (*update)(void*), void (*draw)(void*), void (*remove)(void*));
@@ -471,7 +474,8 @@ extern void draw_scrollbar(scrollbar sb);
 extern void quit(void* ev);
 extern void resize(int w, int h);
 extern void vektor_init(const char *title);
-extern void vektor_run(void);
+extern void scene_init();
+extern void vektor_run();
 extern void intro();
 
 extern int window_w;

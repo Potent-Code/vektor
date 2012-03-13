@@ -1,4 +1,4 @@
-#version 120
+#version 330
 
 //precision highp float; // needed only for version 1.30
 

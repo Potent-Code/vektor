@@ -19,6 +19,7 @@
 #include <mathlib.h>
 
 #include "image.h"
+#include "log.h"
 
 typedef struct {
 	char name[256];
@@ -33,9 +34,12 @@ typedef struct {
 	float* x;
 	float* y;
 	float* z;
-	void (*update)(void *);
-	void (*draw)(void *);
-	void (*remove)(void *);
+	unsigned int vao_id;
+	unsigned int vbo_ids[2];
+	void (*init)(void*);
+	void (*update)(void*);
+	void (*draw)(void*);
+	void (*remove)(void*);
 } *model;
 
 extern model model_load(const char* filename);

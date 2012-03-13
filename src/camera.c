@@ -14,7 +14,7 @@ void enable_mouselook(void);
 void disable_mouselook(void);
 
 int mouselook_enabled=0;
-float cam_speed=15.;
+float cam_speed=0.01;
 float dx=0;
 float dy=0;
 float yaw=0.;
@@ -200,11 +200,15 @@ void camera_move(void)
 		dir_z /= sqrt(2.);
 		dir_x /= sqrt(2.);
 	}
-	
+	cam->A[0][3] -= cam_speed*dir_z*cam->A[0][2];
+	cam->A[2][3] += cam_speed*dir_z*cam->A[2][2];
+	cam->A[0][3] -= cam_speed*dir_x*cam->A[0][0];
+	cam->A[2][3] += cam_speed*dir_x*cam->A[2][0];
+	/*
 	cam->position[0] -= cam_speed*dir_z*cam->forward[0];
 	cam->position[2] += cam_speed*dir_z*cam->forward[2];
 	cam->position[0] -= cam_speed*dir_x*cam->x[0];
-	cam->position[2] += cam_speed*dir_x*cam->x[2];
+	cam->position[2] += cam_speed*dir_x*cam->x[2];*/
 }
 
 void enable_mouselook(void)

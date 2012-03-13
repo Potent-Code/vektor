@@ -23,9 +23,12 @@ model model_load(const char* filename)
 
 	if ((st.st_mode & S_IFMT) != S_IFDIR)
 	{
-		perror("Couldn't open model file");
+		log_err_sys("Couldn't open model file");
 		return NULL;
 	}
+
+	log_add_no_eol("Model file loading: ");
+	log_add(filename);
 
 	mdl = calloc(1, sizeof(*mdl));
 	strncpy(mdl->name, filename, 255);
@@ -83,7 +86,7 @@ void model_save(model mdl, const char* filename)
 
 			if (chdir((const char*)mdl->name) != 0)
 			{
-				perror("Couldn't change directory");
+				log_err_sys("Couldn't change directory");
 				return;
 			}
 
@@ -94,12 +97,12 @@ void model_save(model mdl, const char* filename)
 			save_uvector(mdl->polylist, "polylist.uvector");
 			if (chdir("..") != 0)
 			{
-				perror("Couldn't change directory");
+				log_err_sys("Couldn't change directory");
 				return;
 			}
 		}
 		else {
-			printf("Didn't load all data in model %s\n", mdl->name);
+			log_err("Didn't load all data in model");
 		}
 	}
 }

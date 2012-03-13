@@ -12,6 +12,7 @@ void fragment_shader_install(const char* filename);
 char* shader_load(const char* filename);
 int shader_attach(int id, const char* filename);
 void shader_init();
+void shaders_resize(int w, int h);
 void shader_remove(void* p);
 
 int gl_vertex_shader = 0;
@@ -20,6 +21,9 @@ int shader_program = 0;
 
 int in_pos_attrib = 0;
 int in_color_attrib = 0;
+int mvp_loc = 0;
+int ww_loc = 0;
+int wh_loc = 0;
 
 void vertex_shader_install(const char* filename)
 {
@@ -105,7 +109,7 @@ int shader_attach(int id, const char* filename)
 		glGetShaderInfoLog(id, compile_log_len, NULL, compile_log);
 		log_add(compile_log);
 		free(compile_log);
-		if (status_compile != GL_TRUE) return;
+		if (status_compile != GL_TRUE) return -1;
 	}
 	
 	if (shader_program == 0)
@@ -136,6 +140,9 @@ void shader_init()
 		} else {
 			in_pos_attrib = glGetAttribLocation(shader_program, "in_Position");
 			in_color_attrib = glGetAttribLocation(shader_program, "in_Color");
+			mvp_loc = glGetUniformLocation(shader_program, "modelview");
+			ww_loc = glGetUniformLocation(shader_program, "window_w");
+			wh_loc = glGetUniformLocation(shader_program, "window_h");
 
 			// get link log
 			glGetProgramiv(shader_program, GL_INFO_LOG_LENGTH, &link_log_len);
@@ -148,6 +155,12 @@ void shader_init()
 			}
 		}
 	}
+}
+
+void shaders_resize(int w, int h)
+{
+	glUniform1f(ww_loc, (float)w);
+	glUniform1f(wh_loc, (float)h);
 }
 
 void shader_remove(void* p)

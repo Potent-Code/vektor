@@ -4,10 +4,10 @@
 
 #include "log.h"
 
-char *log_data;
-unsigned int log_size;
+char* log_data = NULL;
+unsigned int log_size = 0;
 
-FILE* log_fd;
+FILE* log_fd = NULL;
 
 void init_log(void);
 void log_add(const char* str);
@@ -19,17 +19,31 @@ void log_remove(void* p);
 
 void init_log(void)
 {
-	log_data = calloc(500000,1);
-	log_size = 0;
-	log_fd = fopen("vektor.log", "w");
-	log_add("Starting Vektor Engine");
+	if (log_data == NULL)
+	{
+		log_data = calloc(500000, 1);
+		log_size = 0;
+		#ifndef VEKTOR_NO_LOG
+		log_fd = fopen("vektor.log", "w");
+		#endif
+		log_add("Starting Vektor Engine");
+	} else {
+		fprintf(stderr, "Log already initialized");
+	}
 }
 
 void log_add(const char* str)
 {
+	if (log_data == NULL)
+	{
+		fprintf(stderr, "Log not initialized");
+		return;
+	}
 	log_add_no_eol(str);
 	strncat(log_data, "\n", 1);
+	#ifndef VEKTOR_NO_LOG
 	fprintf(log_fd, "\n");
+	#endif
 	log_size++;
 }
 
@@ -37,12 +51,20 @@ void log_add_no_eol(const char* str)
 {
 	int len = 0;
 
+	if (log_data == NULL)
+	{
+		fprintf(stderr, "Log not initialized");
+		return;
+	}
+
 	if((len = strlen(str) + log_size) < 500000)
 	{
 		if(len > 0)
 		{
 			strncat(log_data, str, len);
+			#ifndef VEKTOR_NO_LOG
 			fprintf(log_fd, "%s", str);
+			#endif
 			log_size += len;
 		}
 	}
@@ -82,7 +104,9 @@ void log_remove(void* p)
 	(void)p;
 
 	// close the log file
+	#ifndef VEKTOR_NO_LOG
 	fclose(log_fd);
+	#endif
 
 	free(log_data);
 }

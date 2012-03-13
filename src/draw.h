@@ -23,7 +23,7 @@ extern int renderobjs2d_count;
 extern int renderobjs3d_count;
 extern render_object *renderlist_2d;
 extern render_object *renderlist_3d;
-extern camera cam;
+extern matrix cam;
 
 extern void add_object_2d(void *obj, void (*init)(void*), void (*update)(void*), void (*draw)(void*), void (*remove)(void*));
 extern void add_object_3d(void *obj, void (*init)(void*), void (*update)(void*), void (*draw)(void*), void (*remove)(void*));

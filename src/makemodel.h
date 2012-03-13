@@ -24,6 +24,8 @@
 #define COLLADA_XMLNS "http://www.collada.org/2005/11/COLLADASchema"
 #define COLLADA_VERSION "1.4.1"
 
+#define VEKTOR_NO_LOG
+
 #include "model.h"
 
 extern model load_dae(char *filename);

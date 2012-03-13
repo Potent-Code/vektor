@@ -7,9 +7,10 @@
 
 void add_object_2d(void *obj, void (*init)(void*), void (*update)(void*), void (*draw)(void*), void (*remove)(void*));
 void add_object_3d(void *obj, void (*init)(void*), void (*update)(void*), void (*draw)(void*), void (*remove)(void*));
-void render_init(void);
-void render_update(void);
-void render_draw(void);
+void render_init();
+void render_update();
+void render_draw();
+void render_done(void* p);
 
 unsigned int framecount=0;
 int renderobjs2d_count=0;
@@ -19,7 +20,7 @@ render_object *renderlist_3d;
 Uint32 last_update=0;
 Uint32 motion_timer=0;
 Uint32 l;
-camera cam;
+matrix cam;
 
 void add_object_2d(void *obj, void (*init)(void*), void (*update)(void*), void (*draw)(void*), void (*remove)(void*))
 {
@@ -78,6 +79,9 @@ void render_init(void)
 {
 	int i;
 
+	cam = identity_matrix(4);
+	add_listener(&render_done, NULL, EVENT_QUIT);
+
 	// renderlist_2d init
 	if(renderlist_2d != NULL)
 	{
@@ -101,6 +105,8 @@ void render_init(void)
 			}
 		}
 	}
+
+	glDepthRangef(0.1, 10000.0);
 }
 
 void render_update(void)
@@ -139,6 +145,8 @@ void render_draw(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glUseProgram(shader_program);
+	camera_move();
+	glUniformMatrix4fv(mvp_loc, 1, GL_TRUE, cam->A[0]);
 
 	// renderlist_2d draw
 	if(renderlist_2d != NULL)
@@ -261,4 +269,10 @@ void render_draw(void)
 		framecount=0;
 	}*/
 	
+}
+
+void render_done(void* p)
+{
+	(void)p;
+	free_matrix(cam);
 }

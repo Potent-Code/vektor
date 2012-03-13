@@ -24,7 +24,8 @@
 extern void quit(void* ev);
 extern void resize(int w, int h);
 extern void vektor_init(const char *title);
-extern void vektor_run(void);
+extern void scene_init();
+extern void vektor_run();
 extern void intro();
 
 extern int window_w;

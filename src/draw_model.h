@@ -9,8 +9,10 @@
 #include "texture.h"
 #include "draw.h"
 #include "model.h"
+#include "glsl_shaders.h"
 
 extern model model_add(const char* filename);
+extern void model_init(void* mp);
 extern void model_draw(void* mp);
 extern void model_remove(void* mp);
 

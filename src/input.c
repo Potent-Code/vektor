@@ -140,6 +140,7 @@ void get_key(SDL_keysym *keysym)
 			break;
 		case SDLK_w:
 			keybind_down(key_w);
+			controls[0] = 1;
 			break;
 		case SDLK_e:
 			keybind_down(key_e);
@@ -181,12 +182,15 @@ void get_key(SDL_keysym *keysym)
 			break;
 		case SDLK_a:
 			keybind_down(key_a);
+			controls[1] = 1;
 			break;
 		case SDLK_s:
 			keybind_down(key_s);
+			controls[2] = 1;
 			break;
 		case SDLK_d:
 			keybind_down(key_d);
+			controls[3] = 1;
 			break;
 		case SDLK_f:
 			keybind_down(key_f);
@@ -558,6 +562,7 @@ void get_keyup(SDL_keysym *keysym)
 			break;
 		case SDLK_w:
 			keybind_up(key_w);
+			controls[0] = 0;
 			break;
 		case SDLK_e:
 			keybind_up(key_e);
@@ -599,12 +604,15 @@ void get_keyup(SDL_keysym *keysym)
 			break;
 		case SDLK_a:
 			keybind_up(key_a);
+			controls[1] = 0;
 			break;
 		case SDLK_s:
 			keybind_up(key_s);
+			controls[2] = 0;
 			break;
 		case SDLK_d:
 			keybind_up(key_d);
+			controls[3] = 0;
 			break;
 		case SDLK_f:
 			keybind_up(key_f);

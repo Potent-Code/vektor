@@ -8,8 +8,9 @@
 void quit(void* ev);
 void resize(int w, int h);
 void vektor_init(const char* title);
-void vektor_run(void);
-void intro(void);
+void scene_init();
+void vektor_run();
+void intro();
 
 void get_gl_version(int* major, int* minor);
 void get_glsl_version(int* major, int* minor);
@@ -80,6 +81,7 @@ void resize(int w, int h)
 	//glLoadIdentity();
 	window_w = w;
 	window_h = h;
+	shaders_resize(w, h);
 }
 
 void intro(void)
@@ -248,15 +250,22 @@ void vektor_init(const char *title)
 
 	init_network();
 
+	ran_init = 1;
+}
+
+void scene_init()
+{
 	vertex_shader_install(VERTEX_SHADER);
 	fragment_shader_install(FRAGMENT_SHADER);
 	shader_init();
 
-	render_init(); // init render objects
-	ran_init = 1;
+	render_init();
+
+	vektor_run();
 }
 
-void vektor_run(void)
+
+void vektor_run()
 {
 	int done = 0;
 	int active = 1;

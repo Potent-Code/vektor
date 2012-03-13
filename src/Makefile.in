@@ -99,8 +99,8 @@ libvektor_la_LINK = $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(OBJCLD) $(AM_OBJCFLAGS) $(OBJCFLAGS) \
 	$(libvektor_la_LDFLAGS) $(LDFLAGS) -o $@
 PROGRAMS = $(bin_PROGRAMS)
-am_makemodel_OBJECTS = makemodel-model.$(OBJEXT) \
-	makemodel-makemodel.$(OBJEXT)
+am_makemodel_OBJECTS = makemodel-log.$(OBJEXT) \
+	makemodel-model.$(OBJEXT) makemodel-makemodel.$(OBJEXT)
 makemodel_OBJECTS = $(am_makemodel_OBJECTS)
 makemodel_LDADD = $(LDADD)
 makemodel_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
@@ -320,7 +320,7 @@ libvektor_la_SOURCES = image.h sdl.h ui.h log.h log.c sdl_window.h \
 include_HEADERS = vektor.h
 maketexture_SOURCES = image.h maketexture.h maketexture.c
 maketexture_LDFLAGS = -lz -lpng
-makemodel_SOURCES = model.h model.c makemodel.h makemodel.c
+makemodel_SOURCES = log.h log.c model.h model.c makemodel.h makemodel.c
 makemodel_CFLAGS = -I/usr/include/libxml2
 makemodel_LDFLAGS = -lxml2 -lmathlib
 SUBDIRS = shaders
@@ -480,6 +480,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/input.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/keybind.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/log.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/makemodel-log.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/makemodel-makemodel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/makemodel-model.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/maketexture.Po@am__quote@
@@ -518,6 +519,20 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
+
+makemodel-log.o: log.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(makemodel_CFLAGS) $(CFLAGS) -MT makemodel-log.o -MD -MP -MF $(DEPDIR)/makemodel-log.Tpo -c -o makemodel-log.o `test -f 'log.c' || echo '$(srcdir)/'`log.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/makemodel-log.Tpo $(DEPDIR)/makemodel-log.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='log.c' object='makemodel-log.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(makemodel_CFLAGS) $(CFLAGS) -c -o makemodel-log.o `test -f 'log.c' || echo '$(srcdir)/'`log.c
+
+makemodel-log.obj: log.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(makemodel_CFLAGS) $(CFLAGS) -MT makemodel-log.obj -MD -MP -MF $(DEPDIR)/makemodel-log.Tpo -c -o makemodel-log.obj `if test -f 'log.c'; then $(CYGPATH_W) 'log.c'; else $(CYGPATH_W) '$(srcdir)/log.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/makemodel-log.Tpo $(DEPDIR)/makemodel-log.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='log.c' object='makemodel-log.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(makemodel_CFLAGS) $(CFLAGS) -c -o makemodel-log.obj `if test -f 'log.c'; then $(CYGPATH_W) 'log.c'; else $(CYGPATH_W) '$(srcdir)/log.c'; fi`
 
 makemodel-model.o: model.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(makemodel_CFLAGS) $(CFLAGS) -MT makemodel-model.o -MD -MP -MF $(DEPDIR)/makemodel-model.Tpo -c -o makemodel-model.o `test -f 'model.c' || echo '$(srcdir)/'`model.c

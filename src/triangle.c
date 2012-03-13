@@ -20,16 +20,7 @@ triangle triangle_add()
 	t->update = NULL;
 	t->draw = &triangle_draw;
 	t->remove = &triangle_remove;
-
-	add_object_2d(t, &triangle_init, NULL, &triangle_draw, &triangle_remove);
-	return t;
-}
-
-void triangle_init(void *tp)
-{
-	// restore triangle structure
-	triangle t = tp;
-
+	
 	t->vertices[0] = -0.3;
 	t->vertices[1] = 0.5;
 	t->vertices[2] = -1.0;
@@ -53,6 +44,15 @@ void triangle_init(void *tp)
 	t->colors[6] = 0.0;
 	t->colors[7] = 0.0;
 	t->colors[8] = 1.0;
+
+	add_object_2d(t, &triangle_init, NULL, &triangle_draw, &triangle_remove);
+	return t;
+}
+
+void triangle_init(void *tp)
+{
+	// restore triangle structure
+	triangle t = tp;
 
 	#ifdef __APPLE__
 	glGenVertexArraysAPPLE(1, &t->vao_id);
