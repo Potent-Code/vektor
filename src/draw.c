@@ -105,8 +105,7 @@ void render_init(void)
 			}
 		}
 	}
-
-	glDepthRangef(0.1, 10000.0);
+	glEnable(GL_DEPTH_TEST);
 }
 
 void render_update(void)
