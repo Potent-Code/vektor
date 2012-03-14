@@ -104,7 +104,7 @@ void model_init(void* mp)
 
         // set up colors buffer
         glBindBuffer(GL_ARRAY_BUFFER, mdl->vbo_ids[1]);
-        glBufferData(GL_ARRAY_BUFFER, (mdl->tcoords->n)*sizeof(float), mdl->tcoords->a, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, (mdl->vertices->n)*sizeof(float), mdl->vertices->a, GL_STATIC_DRAW);
         glVertexAttribPointer(in_color_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
         glEnableVertexAttribArray(in_color_attrib);
 }

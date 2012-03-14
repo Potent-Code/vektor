@@ -8,8 +8,13 @@
 #include "sdl.h"
 #include "log.h"
 
+#ifdef __APPLE__
+#define VERTEX_SHADER "/usr/local/share/vektor/shaders/vs_simple_mac.vs"
+#define FRAGMENT_SHADER "/usr/local/share/vektor/shaders/fs_simple_mac.fs"
+#else
 #define VERTEX_SHADER "/usr/local/share/vektor/shaders/vs_simple.vs"
 #define FRAGMENT_SHADER "/usr/local/share/vektor/shaders/fs_simple.fs"
+#endif
 
 extern int gl_vertex_shader;
 extern int gl_fragment_shader;

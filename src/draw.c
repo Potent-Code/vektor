@@ -143,6 +143,7 @@ void render_draw(void)
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	glClearColor(0.1, 0.8, 0,4);
 	glUseProgram(shader_program);
 	camera_move();
 	glUniformMatrix4fv(mvp_loc, 1, GL_TRUE, cam->A[0]);
