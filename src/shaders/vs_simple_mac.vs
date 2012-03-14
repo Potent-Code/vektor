@@ -3,9 +3,9 @@
 uniform mat4 modelview;
 uniform float window_w;
 uniform float window_h;
-varying  vec3 in_Position;
-varying  vec3 in_Color;
-out vec3 ex_Color;
+attribute  vec3 in_Position;
+attribute  vec3 in_Color;
+varying vec3 ex_Color;
 
 mat4 identity_mat4(void)
 {
