@@ -33,7 +33,7 @@ mat4 perspective_oblique(const in float l, const in float r, const in float t, c
 
 void main(void)
 {
-	mat4 projection = perspective_oblique(-1.0, 1.0, 1.0, -1.0, 0.5, 5.0);
+	mat4 projection = perspective_oblique(-1.0, 1.0, 1.0, -1.0, 0.5, 500.0);
 	gl_Position = projection * (modelview * vec4(in_Position, 1.0));
 	ex_Color = in_Color;
 }

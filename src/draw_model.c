@@ -10,6 +10,8 @@ model model_add(const char* filename)
 {
 	model mdl = model_load(filename);
 
+	model_deindex_vertices(mdl);
+
 	// set up our matrix
 	mdl->view[0] = 1.0f;
 	mdl->view[5] = 1.0f;
@@ -83,8 +85,6 @@ void model_init(void* mp)
 {
 	model mdl = mp;
 
-	model_deindex_vertices(mdl);
-
         #ifdef __APPLE__
         glGenVertexArraysAPPLE(1, &mdl->vao_id);
         glBindVertexArrayAPPLE(mdl->vao_id);
@@ -119,7 +119,7 @@ void model_draw(void* mp)
 	glBindVertexArray(mdl->vao_id);
 	#endif
 
-	glDrawArrays(GL_TRIANGLES, 0, mdl->vertices->n);
+	glDrawArrays(GL_QUADS, 0, mdl->vertices->n / 3);
 
 	#ifdef __APPLE__
 	glBindVertexArrayAPPLE(0);
