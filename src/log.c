@@ -78,7 +78,7 @@ void log_add_no_eol(const char* str)
 		gettimeofday(&tv, NULL);
 		timeinfo = localtime(&rawtime);
 		strftime(timestamp, 255, "[%X", timeinfo);
-		fprintf(log_fd, "%s.%d] ", timestamp, tv.tv_usec / 1000); // [hh:mm:ss.ms]
+		fprintf(log_fd, "%s.%d] ", timestamp, (int)(tv.tv_usec / 1000)); // [hh:mm:ss.ms]
 	} else { // if we're starting a new line, add a timestamp to log file
 		if (log_data[log_size - 1] == '\n')
 		{
@@ -86,7 +86,7 @@ void log_add_no_eol(const char* str)
 			gettimeofday(&tv, NULL);
 			timeinfo = localtime(&rawtime);
 			strftime(timestamp, 255, "[%X", timeinfo);
-			fprintf(log_fd, "%s.%d] ", timestamp, tv.tv_usec / 1000); // [hh:mm:ss.ms]
+			fprintf(log_fd, "%s.%d] ", timestamp, (int)(tv.tv_usec / 1000)); // [hh:mm:ss.ms]
 		}
 	}
 

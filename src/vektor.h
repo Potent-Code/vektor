@@ -172,23 +172,24 @@ extern void button_free(void *bp);
 // ***************************************
 typedef struct
 {
-	float position[3];
-	float up[3];
-	float forward[3];
-	float x[3];
+	float *x;
+	float *y;
+	float *z;
+	matrix transform;
+	matrix modelview;
+	matrix rotate_x;
+	matrix rotate_y;
+	matrix rotate_z;
 } *camera;
 
-#define CAMERA_FORWARD 0
-#define CAMERA_BACKWARD 1
-#define CAMERA_LEFT 2
-#define CAMERA_RIGHT 3
-
-extern camera add_camera(float x, float y, float z);
-extern void camera_matrix(camera c);
+extern camera add_camera(float _x, float _y, float _z);
+extern void camera_transform(void* cp);
+extern void camera_matrix_reset(camera c);
 extern void camera_mouselook(camera c);
-extern void camera_move(void);
-extern void enable_mouselook(void);
-extern void disable_mouselook(void);
+extern void camera_move(void* cp);
+extern void enable_mouselook();
+extern void disable_mouselook();
+extern void camera_remove(void* cp);
 
 extern float cam_speed;
 

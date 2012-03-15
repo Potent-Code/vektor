@@ -20,7 +20,7 @@ render_object *renderlist_3d;
 Uint32 last_update=0;
 Uint32 motion_timer=0;
 Uint32 l;
-matrix cam;
+camera cam;
 
 void add_object_2d(void *obj, void (*init)(void*), void (*update)(void*), void (*draw)(void*), void (*remove)(void*))
 {
@@ -79,7 +79,6 @@ void render_init(void)
 {
 	int i;
 
-	cam = identity_matrix(4);
 	add_listener(&render_done, NULL, EVENT_QUIT);
 
 	// renderlist_2d init
@@ -106,11 +105,14 @@ void render_init(void)
 		}
 	}
 	glEnable(GL_DEPTH_TEST);
+	enable_mouselook();
 }
 
 void render_update(void)
 {
 	int i;
+
+	camera_move(cam);
 
 	// renderlist_2d update
 	if(renderlist_2d != NULL)
@@ -145,10 +147,9 @@ void render_draw(void)
 
 	glClearColor(0.1, 0.8, 0,4);
 	glUseProgram(shader->id);
-	camera_move();
-
+	
 	// set uniforms
-	glUniformMatrix4fv(shader->vs->modelview, 1, GL_TRUE, cam->A[0]);
+	glUniformMatrix4fv(shader->vs->modelview, 1, GL_TRUE, cam->transform->A[0]);
 	glUniform1f(shader->vs->window_w, (float)4.0);
 	glUniform1f(shader->vs->window_h, (float)3.0);
 	glUniform1f(shader->vs->view_angle, 45.0f);
@@ -181,7 +182,7 @@ void render_draw(void)
 	}
 	
 	SDL_GL_SwapBuffers();
-	//glFlush();
+	glFlush();
 
 	#ifdef __APPLE__
 	glBindVertexArrayAPPLE(0);
@@ -282,5 +283,4 @@ void render_draw(void)
 void render_done(void* p)
 {
 	(void)p;
-	free_matrix(cam);
 }

@@ -10,6 +10,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <time.h>
+#include <sys/time.h>
 
 extern void init_log(void);
 extern void log_add(const char* str);

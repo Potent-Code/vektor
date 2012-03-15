@@ -278,6 +278,9 @@ void vektor_init(const char *title)
 
 	shader_init();
 
+	// set up default objects
+	cam = add_camera(0.0, 0.0, 0.0);
+
 	ran_init = 1;
 }
 
@@ -306,7 +309,7 @@ void vektor_run()
 		fprintf(stderr,"Please run vektor_init() first!\n");
 	}
 	
-	//enable_mouselook();
+	enable_mouselook();
 	// main window loop
 	while(!done)
 	{
@@ -354,7 +357,7 @@ void vektor_run()
 					SDL_GetMouseState(&mx, &my);
 					mx -= 512;
 					my = (768-my)-384;
-					//camera_mouselook(cam);
+					camera_mouselook(cam);
 					event_mousemove(mx, my);
 					break;
 				case SDL_QUIT:
