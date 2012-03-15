@@ -7,38 +7,68 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-void vertex_shader_install(const char* filename);
-void fragment_shader_install(const char* filename);
+void shader_init();
+void vertex_shader_init(const char* filename);
+void fragment_shader_init(const char* filename);
 char* shader_load(const char* filename);
 int shader_attach(int id, const char* filename);
-void shader_init();
+void shader_link();
 void shaders_resize(int w, int h);
-void shader_remove(void* p);
+void shader_remove(void* sp);
 
-int gl_vertex_shader = 0;
-int gl_fragment_shader = 0;
-int shader_program = 0;
+shader_program shader = NULL;
 
-int in_pos_attrib = 0;
-int in_color_attrib = 0;
-int mvp_loc = 0;
-int ww_loc = 0;
-int wh_loc = 0;
+void shader_init()
+{
+	if (shader != NULL) return;
 
-void vertex_shader_install(const char* filename)
+	// allocate space for shader_program
+	shader = calloc(1, sizeof(*shader));
+
+	// allocate space for vertex shader and fragment shader
+	shader->vs = calloc(1, sizeof(*shader->vs));
+	shader->fs = calloc(1, sizeof(*shader->fs));
+
+	// bind attributes
+	shader->id = glCreateProgram();
+
+	// initialize shaders
+	vertex_shader_init(VERTEX_SHADER);
+	fragment_shader_init(FRAGMENT_SHADER);
+
+	glBindAttribLocation(shader->id, 0, "in_vertex");
+	glBindAttribLocation(shader->id, 1, "in_color");
+
+	// link shader
+	shader_link();
+
+	// get attribute locations
+	shader->vs->in_vertex = glGetAttribLocation(shader->id, "in_vertex");
+	shader->vs->in_color = glGetAttribLocation(shader->id, "in_color");
+
+	// get uniform locations
+	shader->vs->modelview = glGetUniformLocation(shader->id, "modelview");
+	shader->vs->window_w = glGetUniformLocation(shader->id, "window_w");
+	shader->vs->window_h = glGetUniformLocation(shader->id, "window_h");
+	shader->vs->view_angle = glGetUniformLocation(shader->id, "view_angle");
+	shader->vs->z_near = glGetUniformLocation(shader->id, "z_near");
+	shader->vs->z_far = glGetUniformLocation(shader->id, "z_far");
+}
+
+void vertex_shader_init(const char* filename)
 {
 	log_add_no_eol("Vertex shader: loading ");
 	log_add(filename);
-	gl_vertex_shader = glCreateShader(GL_VERTEX_SHADER);
-	shader_attach(gl_vertex_shader, filename);
+	shader->vs->id = glCreateShader(GL_VERTEX_SHADER);
+	shader_attach(shader->vs->id, filename);
 }
 
-void fragment_shader_install(const char* filename)
+void fragment_shader_init(const char* filename)
 {
 	log_add_no_eol("Fragment shader: loading ");
 	log_add(filename);
-	gl_fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-	shader_attach(gl_fragment_shader, filename);
+	shader->fs->id = glCreateShader(GL_FRAGMENT_SHADER);
+	shader_attach(shader->fs->id, filename);
 }
 
 char* shader_load(const char* filename)
@@ -112,44 +142,32 @@ int shader_attach(int id, const char* filename)
 		if (status_compile != GL_TRUE) return -1;
 	}
 	
-	if (shader_program == 0)
-	{
-		shader_program = glCreateProgram();
-		glBindAttribLocation(shader_program, 0, "in_Position");
-		glBindAttribLocation(shader_program, 1, "in_Color");
-	}
-	glAttachShader(shader_program, id);
+	glAttachShader(shader->id, id);
 
 	free(source);
 	return 0;
 }
 
-void shader_init()
+void shader_link()
 {
 	char* link_log;
 	int link_log_len;
 	int status_link;
 
-	if (shader_program != 0)
+	if (shader->id != 0)
 	{
-		glLinkProgram(shader_program);
-		glGetProgramiv(shader_program, GL_LINK_STATUS, &status_link);
+		glLinkProgram(shader->id);
+		glGetProgramiv(shader->id, GL_LINK_STATUS, &status_link);
 		if (status_link != GL_TRUE)
 		{
 			log_err("Linking shader failed");
 		} else {
-			in_pos_attrib = glGetAttribLocation(shader_program, "in_Position");
-			in_color_attrib = glGetAttribLocation(shader_program, "in_Color");
-			mvp_loc = glGetUniformLocation(shader_program, "modelview");
-			ww_loc = glGetUniformLocation(shader_program, "window_w");
-			wh_loc = glGetUniformLocation(shader_program, "window_h");
-
 			// get link log
-			glGetProgramiv(shader_program, GL_INFO_LOG_LENGTH, &link_log_len);
+			glGetProgramiv(shader->id, GL_INFO_LOG_LENGTH, &link_log_len);
 			if (link_log_len > 0)
 			{
 				link_log = calloc(link_log_len, 1);
-				glGetProgramInfoLog(shader_program, link_log_len, NULL, link_log);
+				glGetProgramInfoLog(shader->id, link_log_len, NULL, link_log);
 				log_add(link_log);
 				free(link_log);
 			}
@@ -159,17 +177,37 @@ void shader_init()
 
 void shaders_resize(int w, int h)
 {
-	glUniform1f(ww_loc, (float)w);
-	glUniform1f(wh_loc, (float)h);
+	if ((shader != NULL) && (shader->vs != NULL))
+	{
+		glUniform1f(shader->vs->window_w, (float)w);
+		glUniform1f(shader->vs->window_h, (float)h);
+	}
 }
 
-void shader_remove(void* p)
+void shader_remove(void* sp)
 {
-	(void)p;
+	(void)sp; // currently we are called from the event loop without an object
 
-	glDeleteShader(gl_vertex_shader);
-	glDeleteShader(gl_fragment_shader);
+	glDeleteShader(shader->vs->id);
+	glDeleteShader(shader->fs->id);
 
-	glDeleteProgram(shader_program);
+	glDeleteProgram(shader->id);
+	
+	// free shaders
+	if(shader->vs != NULL)
+	{
+		free(shader->vs);
+		shader->vs = NULL;
+	}
+	if (shader->fs != NULL)
+	{
+		free(shader->fs);
+		shader->fs = NULL;
+	}
+	if (shader != NULL)
+	{
+		free(shader);
+		shader = NULL;
+	}
 }
 

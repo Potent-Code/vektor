@@ -144,9 +144,17 @@ void render_draw(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glClearColor(0.1, 0.8, 0,4);
-	glUseProgram(shader_program);
+	glUseProgram(shader->id);
 	camera_move();
-	glUniformMatrix4fv(mvp_loc, 1, GL_TRUE, cam->A[0]);
+
+	// set uniforms
+	glUniformMatrix4fv(shader->vs->modelview, 1, GL_TRUE, cam->A[0]);
+	glUniform1f(shader->vs->window_w, (float)4.0);
+	glUniform1f(shader->vs->window_h, (float)3.0);
+	glUniform1f(shader->vs->view_angle, 45.0f);
+	glUniform1f(shader->vs->z_near, 0.5f);
+	glUniform1f(shader->vs->z_far, 500.0f);
+	
 
 	// renderlist_2d draw
 	if(renderlist_2d != NULL)

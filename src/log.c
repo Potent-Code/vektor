@@ -22,11 +22,11 @@ void init_log(void)
 	if (log_data == NULL)
 	{
 		log_data = calloc(500000, 1);
-		log_size = 0;
 		#ifndef VEKTOR_NO_LOG
 		log_fd = fopen("vektor.log", "w");
 		#endif
 		log_add("Starting Vektor Engine");
+		log_size = strlen(log_data);
 	} else {
 		fprintf(stderr, "Log already initialized");
 	}
@@ -49,7 +49,7 @@ void log_add(const char* str)
 
 void log_add_no_eol(const char* str)
 {
-	int len = 0;
+	const unsigned int len = strlen(str);
 
 	if (log_data == NULL)
 	{
@@ -57,7 +57,7 @@ void log_add_no_eol(const char* str)
 		return;
 	}
 
-	if((len = strlen(str) + log_size) < 500000)
+	if ((len + log_size) < 500000)
 	{
 		if(len > 0)
 		{
@@ -105,6 +105,10 @@ void log_remove(void* p)
 
 	// close the log file
 	#ifndef VEKTOR_NO_LOG
+	if (fflush(log_fd) != 0)
+	{
+		perror("Error writing log file");
+	}
 	fclose(log_fd);
 	#endif
 

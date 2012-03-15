@@ -250,15 +250,13 @@ void vektor_init(const char *title)
 
 	init_network();
 
+	shader_init();
+
 	ran_init = 1;
 }
 
 void scene_init()
 {
-	vertex_shader_install(VERTEX_SHADER);
-	fragment_shader_install(FRAGMENT_SHADER);
-	shader_init();
-
 	render_init();
 
 	vektor_run();

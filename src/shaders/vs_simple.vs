@@ -1,24 +1,24 @@
 #version 330
 
-uniform mat4 modelview;
-uniform float window_w;
-uniform float window_h;
-in  vec3 in_Position;
-in  vec3 in_Color;
-out vec3 ex_Color;
+// view port uniforms
+uniform mat4 modelview; // transformation matrix
+uniform float window_w; // window width
+uniform float window_h; // window height
+uniform float view_angle; // field of view in degrees
+uniform float z_near; // near clip plane
+uniform float z_far; // far clip plane
 
-mat4 identity_mat4(void)
-{
-	return mat4(1.0);
-}
+in  vec3 in_vertex;
+in  vec3 in_color;
+out vec3 vertex_color;
 
 // parameters are field of view, aspect ratio, near clip plane, far clip plane
-mat4 perspective_standard(const in float fov, const in float aspect, const in float near, const in float far)
+mat4 perspective_standard(const in float fov, const in float aspect, const in float n, const in float f)
 {
-	return mat4(1.0 / tan(fov), 0.0, 0.0, 0.0,
-		0.0, aspect / tan(fov), 0.0, 0.0,
-		0.0, 0.0, (far+near)/(far-near), -1.0,
-		0.0, 0.0, (-2.0 * (far * near))/(far-near), 0.0);
+	return mat4(	1.0/tan(fov),	0.0,		0.0,		0.0,
+			0.0,	aspect/tan(fov), 	0.0,		0.0,
+			0.0,		0.0, 		(f+n)/(n-f),	-1.0,
+			0.0,		0.0, 	(-2.0*(f*n))/(f-n),	 0.0);
 }
 			
 
@@ -33,7 +33,8 @@ mat4 perspective_oblique(const in float l, const in float r, const in float t, c
 
 void main(void)
 {
-	mat4 projection = perspective_oblique(-1.0, 1.0, 1.0, -1.0, 0.5, 500.0);
-	gl_Position = projection * (modelview * vec4(in_Position, 1.0));
-	ex_Color = in_Color;
+	mat4 projection = perspective_standard(radians(view_angle), (window_w / window_h), z_near, z_far);
+	//mat4 projection = perspective_standard(radians(45.0), 4.0 / 3.0, 0.5, 500.0);
+	gl_Position = projection * (modelview * vec4(in_vertex, 1.0));
+	vertex_color = in_color;
 }

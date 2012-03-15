@@ -16,20 +16,45 @@
 #define FRAGMENT_SHADER "/usr/local/share/vektor/shaders/fs_simple.fs"
 #endif
 
-extern int gl_vertex_shader;
-extern int gl_fragment_shader;
-extern int shader_program;
+// vertex shader
+typedef struct {
+	int id; // glCreateShader(GL_VERTEX_SHADER);
 
-extern int in_pos_attrib;
-extern int in_color_attrib;
-extern int mvp_loc;
-extern int ww_loc;
-extern int wh_loc;
+	// attributes
+	int in_vertex;
+	int in_color;
 
-extern void vertex_shader_install(const char* filename);
-extern void fragment_shader_install(const char* filename);
+	// view port uniforms
+	int modelview; // transformation matrix
+	int window_w;
+	int window_h;
+	int view_angle;
+	int z_near;
+	int z_far;
+} *vertex_shader;
+
+// fragment shader
+typedef struct {
+	int id; // glCreateShader(GL_FRAGMENT_SHADER);
+
+	int vertex_color;
+} *fragment_shader;
+
+// shader program
+typedef struct {
+	int id; // glCreateProgram();
+
+	vertex_shader vs;
+	fragment_shader fs;
+} *shader_program;
+
+extern shader_program shader;
+
 extern void shader_init();
-extern void shader_remove(void* p);
+extern void vertex_shader_init(const char* filename);
+extern void fragment_shader_init(const char* filename);
+extern void shader_link();
+extern void shader_remove(void* sp);
 extern void shaders_resize(int w, int h);
 
 #endif // glsl_shaders_h

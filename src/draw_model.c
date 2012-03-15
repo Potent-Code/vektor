@@ -2,6 +2,7 @@
 
 model model_add(const char* filename);
 void model_vertex_draw(model mdl, unsigned int _primitive_id);
+void model_deindex_vertices(model mdl);
 void model_init(void* mp);
 void model_draw(void* mp);
 void model_remove(void* mp);
@@ -55,8 +56,8 @@ void model_deindex_vertices(model mdl)
 {
 	vector indexed;
 	vector deindexed;
-	int i,j;
-	int k = 0;
+	unsigned int i,j;
+	unsigned int k = 0;
 	unsigned int vertex_id;
 
 	// TODO: get rid of the 4's
@@ -99,14 +100,14 @@ void model_init(void* mp)
         glBindBuffer(GL_ARRAY_BUFFER, mdl->vbo_ids[0]);
 
         glBufferData(GL_ARRAY_BUFFER, (mdl->vertices->n)*sizeof(float), mdl->vertices->a, GL_STATIC_DRAW);
-        glVertexAttribPointer(in_pos_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
-        glEnableVertexAttribArray(in_pos_attrib);
+        glVertexAttribPointer(shader->vs->in_vertex, 3, GL_FLOAT, GL_FALSE, 0, 0);
+        glEnableVertexAttribArray(shader->vs->in_vertex);
 
         // set up colors buffer
         glBindBuffer(GL_ARRAY_BUFFER, mdl->vbo_ids[1]);
         glBufferData(GL_ARRAY_BUFFER, (mdl->vertices->n)*sizeof(float), mdl->vertices->a, GL_STATIC_DRAW);
-        glVertexAttribPointer(in_color_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
-        glEnableVertexAttribArray(in_color_attrib);
+        glVertexAttribPointer(shader->vs->in_color, 3, GL_FLOAT, GL_FALSE, 0, 0);
+        glEnableVertexAttribArray(shader->vs->in_color);
 }
 
 void model_draw(void* mp)

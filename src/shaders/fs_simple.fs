@@ -1,11 +1,9 @@
 #version 330
 
-//precision highp float; // needed only for version 1.30
-
-in  vec3 ex_Color;
-out vec4 out_Color;
+in  vec3 vertex_color; // from vertex shader
+out vec4 frag_color;
 
 void main(void)
 {
-       out_Color = vec4(ex_Color,1.0);
+       frag_color = vec4(vertex_color, 1.0);
 }
