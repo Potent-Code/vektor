@@ -34,7 +34,6 @@ mat4 perspective_oblique(const in float l, const in float r, const in float t, c
 void main(void)
 {
 	mat4 projection = perspective_standard(radians(view_angle), (window_w / window_h), z_near, z_far);
-	//mat4 projection = perspective_standard(radians(45.0), 4.0 / 3.0, 0.5, 500.0);
 	gl_Position = projection * (modelview * vec4(in_vertex, 1.0));
 	vertex_color = in_color;
 }
