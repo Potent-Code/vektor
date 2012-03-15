@@ -137,7 +137,7 @@ int shader_attach(int id, const char* filename)
 	{
 		compile_log = calloc(compile_log_len, 1);
 		glGetShaderInfoLog(id, compile_log_len, NULL, compile_log);
-		log_add(compile_log);
+		log_add_no_eol(compile_log);
 		free(compile_log);
 		if (status_compile != GL_TRUE) return -1;
 	}
@@ -168,7 +168,7 @@ void shader_link()
 			{
 				link_log = calloc(link_log_len, 1);
 				glGetProgramInfoLog(shader->id, link_log_len, NULL, link_log);
-				log_add(link_log);
+				log_add_no_eol(link_log);
 				free(link_log);
 			}
 		}
