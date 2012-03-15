@@ -6,7 +6,7 @@
 #include "sdl_window.h"
 
 void quit(void* ev);
-void resize(int w, int h);
+void resize(unsigned int w, unsigned int h);
 void vektor_init(const char* title);
 void scene_init();
 void vektor_run();
@@ -17,8 +17,9 @@ void get_glsl_version(int* major, int* minor);
 
 int ran_init = 0;
 int video_flags;
-int window_w;
-int window_h;
+unsigned int window_w;
+unsigned int window_h;
+unsigned int color_depth;
 SDL_Surface *surface;
 font default_font;
 
@@ -54,31 +55,21 @@ void quit(void* ev)
 			renderlist_2d[i].remove(renderlist_2d[i].object);
 		}
 	}
-	
-	log_add("Vektor Engine process ending");
+
+	// write and clean up log
 	log_remove(NULL);
 
 	SDL_Quit();
 	exit(0);
 }
 
-void resize(int w, int h)
+void resize(unsigned int w, unsigned int h)
 {
-	GLfloat aspect;
-
+	// we should never have a 0 height window
 	if(h == 0) h = 1;
-
-	aspect = (GLfloat) w / (GLfloat) h;
 
 	glViewport(0, 0, (GLint)w, (GLint)h);
 	
-	//glMatrixMode(GL_PROJECTION);
-	//glLoadIdentity();
-
-	//gluPerspective(45.0f,aspect,0.1f,10000.0f);
-
-	//glMatrixMode(GL_MODELVIEW);
-	//glLoadIdentity();
 	window_w = w;
 	window_h = h;
 	shaders_resize(w, h);
@@ -185,21 +176,33 @@ void get_glsl_version(int* major, int* minor)
 void vektor_init(const char *title)
 {
 	const SDL_VideoInfo *video_info;
+	char err_msg[256]; // stores error messages about version info
+
+	// initial values for SDL window
+	window_w = 1024;
+	window_h = 768;
+	color_depth = 32;
+
+	// OpenGL / GLSL version numbers
 	int gl_vers_major = 0;
 	int gl_vers_minor = 0;
 	int glsl_vers_major = 0;
 	int glsl_vers_minor = 0;
 
+	// start logging
 	init_log();
 
+	// initialize SDL
 	SDL_Init(SDL_INIT_VIDEO);
 	video_info = SDL_GetVideoInfo();
 
+	// set video flags for an OpenGL context
 	video_flags = SDL_OPENGL;
 	video_flags |= SDL_GL_DOUBLEBUFFER;
 	video_flags |= SDL_HWPALETTE;
 	video_flags |= SDL_RESIZABLE;
 
+	// test if OpenGL context is a hardware surface
 	if(video_info->hw_available)
 	{
 		video_flags |= SDL_HWSURFACE;
@@ -209,21 +212,44 @@ void vektor_init(const char *title)
 		video_flags |= SDL_SWSURFACE;
 	}
 
+	// get hardware acceleration for OpenGL context
 	if(video_info->blit_hw)
 	{
 		video_flags |= SDL_HWACCEL;
 	}
 
+	// set up SDL window
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER,1);
 	SDL_WM_SetCaption(title, NULL);
 
 	// get ready to draw
-	surface = SDL_SetVideoMode(1024,768,32,video_flags);
-	resize(1024,768);
+	surface = SDL_SetVideoMode(window_w, window_h, color_depth, video_flags);
+	resize(window_w, window_h);
 
 	// get OpenGL version
 	get_gl_version(&gl_vers_major, &gl_vers_minor);
 	get_glsl_version(&glsl_vers_major, &glsl_vers_minor);
+
+	// check that we have at least OpenGL version 2
+	if (gl_vers_major < 2)
+	{
+		snprintf(err_msg, 255, "OpenGL %d.%d detected: OpenGL 2.0 is the minimum required version to run Vektor Engine\n", gl_vers_major, gl_vers_minor);
+		log_err(err_msg);
+		log_remove(NULL);
+		SDL_Quit();
+		exit(1);
+	}
+	if (glsl_vers_major < 2)
+	{
+		if ((glsl_vers_major == 1) && (glsl_vers_minor < 2))
+		{
+			snprintf(err_msg, 255, "GLSL %d.%d detected: version 1.2 is the minimum required version to run Vektor Engine\n", glsl_vers_major, glsl_vers_minor);
+			log_err(err_msg);
+			log_remove(NULL);
+			SDL_Quit();
+			exit(1);
+		}
+	}
 
 	// this is deprecated in SDL 1.3
 	// something better should be done about this

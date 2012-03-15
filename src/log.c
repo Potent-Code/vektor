@@ -103,6 +103,8 @@ void log_remove(void* p)
 {
 	(void)p;
 
+	log_add("Vektor Engine process ending");
+
 	// close the log file
 	#ifndef VEKTOR_NO_LOG
 	if (fflush(log_fd) != 0)

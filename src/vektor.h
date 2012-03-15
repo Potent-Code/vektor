@@ -472,14 +472,15 @@ extern void draw_scrollbar(scrollbar sb);
 // *             sdl_window              *
 // ***************************************
 extern void quit(void* ev);
-extern void resize(int w, int h);
+extern void resize(unsigned int w, unsigned int h);
 extern void vektor_init(const char *title);
 extern void scene_init();
 extern void vektor_run();
 extern void intro();
 
-extern int window_w;
-extern int window_h;
+extern unsigned int window_w;
+extern unsigned int window_h;
+extern unsigned int color_depth;
 
 
 // ***************************************
