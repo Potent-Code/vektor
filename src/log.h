@@ -2,13 +2,14 @@
  * by Ryan Lucchese
  * July 30 2011 */
 
-#ifndef LOG_H
-#define LOG_H
+#ifndef log_h
+#define log_h
 
+#include <errno.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <errno.h>
+#include <time.h>
 
 extern void init_log(void);
 extern void log_add(const char* str);

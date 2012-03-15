@@ -19,13 +19,23 @@ void log_remove(void* p);
 
 void init_log(void)
 {
+	char datestamp[256];
+	time_t rawtime;
+	struct tm* timeinfo;
+
 	if (log_data == NULL)
 	{
 		log_data = calloc(500000, 1);
 		#ifndef VEKTOR_NO_LOG
 		log_fd = fopen("vektor.log", "w");
 		#endif
-		log_add("Starting Vektor Engine");
+		log_add_no_eol("Starting Vektor Engine ");
+
+		// add the date and time to header line
+		time(&rawtime);
+		timeinfo = localtime(&rawtime);
+		strftime(datestamp, 255, "%c", timeinfo);
+		log_add(datestamp);
 		log_size = strlen(log_data);
 	} else {
 		fprintf(stderr, "Log already initialized");
@@ -50,11 +60,34 @@ void log_add(const char* str)
 void log_add_no_eol(const char* str)
 {
 	const unsigned int len = strlen(str);
+	time_t rawtime;
+	struct timeval tv;
+	struct tm* timeinfo;
+	char timestamp[256];
 
 	if (log_data == NULL)
 	{
 		fprintf(stderr, "Log not initialized");
 		return;
+	}
+
+	// add initial timestamp to log file
+	if (log_size == 0)
+	{
+		time(&rawtime);
+		gettimeofday(&tv, NULL);
+		timeinfo = localtime(&rawtime);
+		strftime(timestamp, 255, "[%X", timeinfo);
+		fprintf(log_fd, "%s.%d] ", timestamp, tv.tv_usec / 1000); // [hh:mm:ss.ms]
+	} else { // if we're starting a new line, add a timestamp to log file
+		if (log_data[log_size - 1] == '\n')
+		{
+			time(&rawtime);
+			gettimeofday(&tv, NULL);
+			timeinfo = localtime(&rawtime);
+			strftime(timestamp, 255, "[%X", timeinfo);
+			fprintf(log_fd, "%s.%d] ", timestamp, tv.tv_usec / 1000); // [hh:mm:ss.ms]
+		}
 	}
 
 	if ((len + log_size) < 500000)
