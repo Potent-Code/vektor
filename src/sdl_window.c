@@ -309,7 +309,7 @@ void vektor_run()
 		fprintf(stderr,"Please run vektor_init() first!\n");
 	}
 	
-	enable_mouselook();
+	enable_mouselook(cam);
 	// main window loop
 	while(!done)
 	{

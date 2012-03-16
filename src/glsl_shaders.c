@@ -33,6 +33,7 @@ void shader_init()
 	shader->id = glCreateProgram();
 
 	// initialize shaders
+	//vertex_shader_init(TRANSFORMS_SHADER);
 	vertex_shader_init(VERTEX_SHADER);
 	fragment_shader_init(FRAGMENT_SHADER);
 
@@ -47,12 +48,16 @@ void shader_init()
 	shader->vs->in_color = glGetAttribLocation(shader->id, "in_color");
 
 	// get uniform locations
-	shader->vs->modelview = glGetUniformLocation(shader->id, "modelview");
 	shader->vs->window_w = glGetUniformLocation(shader->id, "window_w");
 	shader->vs->window_h = glGetUniformLocation(shader->id, "window_h");
 	shader->vs->view_angle = glGetUniformLocation(shader->id, "view_angle");
 	shader->vs->z_near = glGetUniformLocation(shader->id, "z_near");
 	shader->vs->z_far = glGetUniformLocation(shader->id, "z_far");
+
+	// camera uniforms
+	shader->vs->camera_position = glGetUniformLocation(shader->id, "camera_position");
+	shader->vs->camera_pitch = glGetUniformLocation(shader->id, "camera_pitch");
+	shader->vs->camera_yaw = glGetUniformLocation(shader->id, "camera_yaw");
 }
 
 void vertex_shader_init(const char* filename)

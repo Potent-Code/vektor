@@ -175,23 +175,25 @@ typedef struct
 	float *x;
 	float *y;
 	float *z;
-	matrix transform;
-	matrix modelview;
-	matrix rotate_x;
-	matrix rotate_y;
-	matrix rotate_z;
+	float pos[3]; // position vektor (*x, *y, *z)
+	float speed; // movement speed
+	// for mouse calculations
+	float dx;
+	float dy;
+	float pitch;
+	float yaw;
+	// state variables
+	unsigned int type;
+	unsigned int active;
 } *camera;
 
 extern camera add_camera(float _x, float _y, float _z);
-extern void camera_transform(void* cp);
-extern void camera_matrix_reset(camera c);
 extern void camera_mouselook(camera c);
 extern void camera_move(void* cp);
-extern void enable_mouselook();
-extern void disable_mouselook();
+extern void enable_mouselook(camera c);
+extern void disable_mouselook(camera c);
 extern void camera_remove(void* cp);
 
-extern float cam_speed;
 
 // ***************************************
 // *             clickable               *

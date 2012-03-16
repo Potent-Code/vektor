@@ -11,9 +11,11 @@
 #ifdef __APPLE__
 #define VERTEX_SHADER "/usr/local/share/vektor/shaders/vs_simple_mac.vs"
 #define FRAGMENT_SHADER "/usr/local/share/vektor/shaders/fs_simple_mac.fs"
+#define TRANSFORMS_SHADER "/usr/local/share/vektor/shaders/view_transforms_mac.vs"
 #else
 #define VERTEX_SHADER "/usr/local/share/vektor/shaders/vs_simple.vs"
 #define FRAGMENT_SHADER "/usr/local/share/vektor/shaders/fs_simple.fs"
+#define TRANSFORMS_SHADER "/usr/local/share/vektor/shaders/view_transforms.vs"
 #endif
 
 // vertex shader
@@ -25,12 +27,16 @@ typedef struct {
 	int in_color;
 
 	// view port uniforms
-	int modelview; // transformation matrix
 	int window_w;
 	int window_h;
 	int view_angle;
 	int z_near;
 	int z_far;
+
+	// camera uniforms
+	int camera_position; // vec3 location of camera
+	int camera_pitch; // mouse angles
+	int camera_yaw;
 } *vertex_shader;
 
 // fragment shader

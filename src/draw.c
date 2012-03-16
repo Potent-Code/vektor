@@ -105,7 +105,7 @@ void render_init(void)
 		}
 	}
 	glEnable(GL_DEPTH_TEST);
-	enable_mouselook();
+	enable_mouselook(cam);
 }
 
 void render_update(void)
@@ -149,13 +149,16 @@ void render_draw(void)
 	glUseProgram(shader->id);
 	
 	// set uniforms
-	glUniformMatrix4fv(shader->vs->modelview, 1, GL_TRUE, cam->transform->A[0]);
+	//glUniformMatrix4fv(shader->vs->modelview, 1, GL_TRUE, cam->transform->A[0]);
 	glUniform1f(shader->vs->window_w, (float)4.0);
 	glUniform1f(shader->vs->window_h, (float)3.0);
 	glUniform1f(shader->vs->view_angle, 45.0f);
 	glUniform1f(shader->vs->z_near, 0.5f);
 	glUniform1f(shader->vs->z_far, 500.0f);
 	
+	glUniform3fv(shader->vs->camera_position, 1, cam->position);
+	glUniform1f(shader->vs->camera_pitch, cam->pitch);
+	glUniform1f(shader->vs->camera_yaw, cam->yaw);
 
 	// renderlist_2d draw
 	if(renderlist_2d != NULL)

@@ -4,23 +4,16 @@
 #include "camera.h"
 
 camera add_camera(float _x, float _y, float _z);
-void camera_transform(void* cp);
+/*void camera_transform(void* cp);
 void camera_matrix_reset(matrix mat);
 void camera_transform_rotate_x(camera c, float angle);
 void camera_transform_rotate_y(camera c, float angle);
-void camera_transform_rotate_z(camera c, float angle);
+void camera_transform_rotate_z(camera c, float angle);*/
 void camera_mouselook(camera c);
 void camera_move(void* cp);
-void enable_mouselook();
-void disable_mouselook();
+void enable_mouselook(camera c);
+void disable_mouselook(camera c);
 void camera_remove(void* cp);
-
-int mouselook_enabled=0;
-float cam_speed=0.01;
-float dx=0;
-float dy=0;
-float yaw=0.;
-float pitch=0.;
 
 camera add_camera(float _x, float _y, float _z)
 {
@@ -32,7 +25,17 @@ camera add_camera(float _x, float _y, float _z)
 		return NULL;
 	}
 
-	// add transformation matrix
+	// initialize members
+	c->speed = 0.01;
+	c->dx = 0.0;
+	c->dy = 0.0;
+	c->yaw = 0.0;
+	c->pitch = 0.0;
+
+	c->type = CAMERA_TYPE_MOUSELOOK;
+	c->active = 1;
+
+	/*/ add transformation matrix
 	c->transform = identity_matrix(4);
 	if (c->transform == NULL)
 	{
@@ -85,12 +88,12 @@ camera add_camera(float _x, float _y, float _z)
 		free_matrix(c->rotate_y);
 		free(c);
 		return NULL;
-	}
+	}*/
 
-	// link coordinate names to modelview matrix
-	c->x = &c->modelview->A[0][3];
-	c->y = &c->modelview->A[1][3];
-	c->z = &c->modelview->A[2][3];
+	// link coordinate names to position vektor
+	c->x = &c->position[0];
+	c->y = &c->position[1];
+	c->z = &c->position[2];
 
 	// set initial camera position
 	*c->x = _x;
@@ -102,17 +105,17 @@ camera add_camera(float _x, float _y, float _z)
 
 	return c;
 }
-
+/*
 void camera_transform(void* cp)
 {
 	camera c = cp;
 
 	// set transformation matrix c->transform = c->transform * c->modelview
 	matrix_product(c->transform, c->modelview);
-}
+}*/
 
 // reset the transform matrix to the identity
-void camera_matrix_reset(matrix mat)
+/*void camera_matrix_reset(matrix mat)
 {
 	unsigned int i,j;
 
@@ -125,81 +128,48 @@ void camera_matrix_reset(matrix mat)
 			else mat->A[i][j] = 0.0;
 		}
 	}
-}
+}*/
 
 void camera_mouselook(camera c)
 {
-	if(mouselook_enabled == 0)
+	if (c->active == 0)
 	{
 		return;
 	}
 
 	// mouse movement map
-	dx += 2*M_PI*(mouse_x - last_mouse_x)/window_w;
-	dy += M_PI*(last_mouse_y - mouse_y)/window_h;
+	//c->dx += 2*M_PI*(mouse_x - last_mouse_x)/window_w;
+	//c->dy += M_PI*(last_mouse_y - mouse_y)/window_h;
+	c->dx += (2*M_PI)*(last_mouse_x - mouse_x)/window_h;
+	c->dy += M_PI*(mouse_y - last_mouse_y)/window_h;
 
-	// reset orientation of camera
+	/* reset orientation of camera
 	camera_matrix_reset(c->transform);
 	
 	// rotate by yaw around y axis
 	camera_transform_rotate_y(c, yaw);
 
 	// rotate by pitch around x axis
-	camera_transform_rotate_x(c, pitch);
+	camera_transform_rotate_x(c, pitch);*/
 
 	// clamp to proper rotation domains
-	if((pitch+dy) > -M_PI/2. && (pitch+dy) < M_PI/2.)
+	if((c->pitch+c->dy) > -M_PI/2. && (c->pitch+c->dy) < M_PI/2.)
 	{
-		pitch += dy;
+		c->pitch += c->dy;
 	}
-	yaw += dx;
-	if(yaw > 2.*M_PI)
+	c->yaw += c->dx;
+	if (c->yaw > 2.0*M_PI)
 	{
-		yaw -= 2.*M_PI;
+		c->yaw -= 2.0*M_PI;
 	}
-	if(yaw < 0.)
+	if (c->yaw < 0.0)
 	{
-		yaw += 2.*M_PI;
+		c->yaw += 2.*M_PI;
 	}
 
 	last_mouse_x = mouse_x;
 	last_mouse_y = mouse_y;
-	camera_transform(c);
 	SDL_WarpMouse(512, 384);
-}
-
-// rotate around x axis
-void camera_transform_rotate_x(camera c, float angle)
-{
-	// set up rotation x matrix
-	camera_matrix_reset(c->rotate_x);
-	c->rotate_x->A[1][1] = cos(angle);
-	c->rotate_x->A[2][1] = sin(angle);
-	c->rotate_x->A[1][2] = -sin(angle);
-	c->rotate_x->A[2][2] = cos(angle);
-	matrix_product_rev(c->rotate_x, c->transform);
-}
-
-// rotate around y axis
-void camera_transform_rotate_y(camera c, float angle)
-{
-	camera_matrix_reset(c->rotate_y);
-	c->rotate_y->A[0][0] = cos(angle);
-	c->rotate_y->A[2][0] = -sin(angle);
-	c->rotate_y->A[0][2] = sin(angle);
-	c->rotate_y->A[2][2] = cos(angle);
-	matrix_product_rev(c->rotate_y, c->transform);
-}
-
-// rotate around z axis
-void camera_transform_rotate_z(camera c, float angle)
-{
-	camera_matrix_reset(c->rotate_z);
-	c->rotate_z->A[0][0] = cos(angle);
-	c->rotate_z->A[1][0] = sin(angle);
-	c->rotate_z->A[0][1] = -sin(angle);
-	c->rotate_z->A[1][1] = cos(angle);
-	matrix_product_rev(c->rotate_z, c->transform);
 }
 
 void camera_move(void* cp)
@@ -218,22 +188,21 @@ void camera_move(void* cp)
 	}
 
 	// update camera position
-	*c->x -= cam_speed*dir_z*c->transform->A[0][2];
-	*c->z += cam_speed*dir_z*c->transform->A[2][2];
-	*c->x -= cam_speed*dir_x*c->transform->A[0][0];
-	*c->z += cam_speed*dir_x*c->transform->A[2][0];
-	if ((float_cmp(dir_z, 0.0, 1) == 0) || (float_cmp(dir_x, 0.0, 1) == 0)) camera_transform(c);
+	*c->x -= c->speed*dir_z;//*c->transform->A[0][2];
+	*c->z += c->speed*dir_z;//*c->transform->A[2][2];
+	*c->x -= c->speed*dir_x;//*c->transform->A[0][0];
+	*c->z += c->speed*dir_x;//*c->transform->A[2][0];
 }
 
-void enable_mouselook(void)
+void enable_mouselook(camera c)
 {
-	mouselook_enabled=1;
+	c->active = 1;
 	SDL_ShowCursor(0);
 }
 
-void disable_mouselook(void)
+void disable_mouselook(camera c)
 {
-	mouselook_enabled=0;
+	c->active = 0;
 	SDL_ShowCursor(1);
 }
 
@@ -242,31 +211,6 @@ void camera_remove(void* cp)
 	camera c = cp;
 	if (c != NULL)
 	{
-		if (c->transform != NULL)
-		{
-			free_matrix(c->transform);
-			c->transform = NULL;
-		}
-		if (c->modelview != NULL)
-		{
-			free_matrix(c->modelview);
-			c->modelview = NULL;
-		}
-		if (c->rotate_x != NULL)
-		{
-			free_matrix(c->rotate_x);
-			c->rotate_x = NULL;
-		}
-		if (c->rotate_y != NULL)
-		{
-			free_matrix(c->rotate_y);
-			c->rotate_y = NULL;
-		}
-		if (c->rotate_z != NULL)
-		{
-			free_matrix(c->rotate_z);
-			c->rotate_z = NULL;
-		}
 		free(c);
 	}
 }
