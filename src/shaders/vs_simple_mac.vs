@@ -1,12 +1,16 @@
 #version 120
 
 // uniforms
-uniform mat4 modelview;
 uniform float window_w;
 uniform float window_h;
 uniform float view_angle;
 uniform float z_near;
 uniform float z_far;
+
+// transformation uniforms
+uniform vec3 camera_position; // position vector of camera
+uniform float camera_pitch; // mouse angles
+uniform float camera_yaw;
 
 // attributes
 attribute  vec3 in_vertex;
