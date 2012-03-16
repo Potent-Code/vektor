@@ -383,7 +383,7 @@ void vektor_run()
 		if (active == 0)
 		{
 			render_update();
-			draw();
+			render_draw();
 		}
 		#else
 		if (active == 1)
