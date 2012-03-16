@@ -378,11 +378,20 @@ void vektor_run()
 			event_net_send();
 		}
 
-		if(active)
+		// TODO: this is stupid and needs to be looked into
+		#ifdef __APPLE__
+		if (active == 0)
+		{
+			render_update();
+			draw();
+		}
+		#else
+		if (active == 1)
 		{
 			render_update();
 			render_draw();
 		}
+		#endif
 	}
 	event_quit(NULL);
 }
