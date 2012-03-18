@@ -97,10 +97,10 @@ void camera_move(void* cp)
 	}
 
 	// get camera look direction
-	camera_zx = sin(c->yaw);
-	camera_zz = cos(c->pitch) * cos(c->yaw);
-	camera_xx = cos(c->yaw);
-	camera_xz = -cos(c->pitch) * sin(c->yaw);
+	camera_zx = sin(-c->yaw);
+	camera_zz = cos(-c->pitch) * cos(-c->yaw);
+	camera_xx = cos(-c->yaw);
+	camera_xz = -cos(-c->pitch) * sin(-c->yaw);
 
 	// update camera position
 	*c->x -= c->speed*dir_z*camera_zx;//*c->transform->A[0][2];
