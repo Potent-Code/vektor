@@ -11,12 +11,13 @@ void textbox_set_text(textbox tb, const char *str);
 void textbox_add_text(textbox tb, const char *str);
 void textbox_clear_text(textbox tb);
 void textbox_find_lines(textbox tb);
-void move_textbox(void *tbp, float x, float y);
-void textbox_resize(void *tbp, float x, float y);
-void textbox_mousemove(void *tbp);
-void textbox_mouseup(void *tbp);
-void draw_textbox(void *tbp);
-void free_textbox(void *tbp);
+void textbox_move(void* tbp, float x, float y);
+//void textbox_resize(void* tbp, float x, float y);
+void textbox_mousemove(void* tbp);
+void textbox_mouseup(void* tbp);
+void textbox_init(void* tbp);
+void textbox_draw(void* tbp);
+void textbox_remove(void* tbp);
 Uint32 blink_timer=0;
 
 textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
@@ -35,11 +36,15 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 	tb->active = 1;
 	tb->start_line = 0;
 
-	tb->draw = &draw_textbox;
+	tb->vertices = NULL;
+	tb->tcoords = NULL;
+
+	tb->init = &textbox_init;
 	tb->update = NULL;
-	tb->remove = &free_textbox;
-	tb->resize = &textbox_resize;
-	tb->move = &move_textbox;
+	tb->draw = &textbox_draw;
+	tb->remove = &textbox_remove;
+	tb->resize = NULL;//&textbox_resize;
+	tb->move = &textbox_move;
 
 	tb->sb = add_scrollbar(tb->x+(tb->f->w*tb->line_width)+8., tb->y, tb->f->h, (unsigned int)tb->lines);
 	tb->sb->hb->action = NULL;
@@ -184,7 +189,7 @@ void textbox_mousemove(void *tbp)
 	}
 }
 
-void move_textbox(void *tbp, float x, float y)
+void textbox_move(void* tbp, float x, float y)
 {
 	textbox tb = tbp;
 	tb->screen_x = x;
@@ -194,40 +199,47 @@ void move_textbox(void *tbp, float x, float y)
 	textbox_find_lines(tbp);
 }
 
-void textbox_resize(void *tbp, float w_scale, float h_scale)
+/*void textbox_resize(void* tbp, float w_scale, float h_scale)
 {
 	textbox tb = tbp;
 	tb->line_width = tb->lwidth_orig * w_scale;
 	tb->lines = tb->lines_orig * h_scale;
 	textbox_find_lines(tbp);
-}
+}*/
 
-void draw_textbox(void *tbp)
+void textbox_init(void* tbp)
 {
 	textbox tb = tbp;
-	unsigned int i,j,k;
-	unsigned int line_count=1;
-	int char_position=0;
-	float x;
-	unsigned int letter=0;
-	unsigned int col=0;
-	unsigned int len = strlen(tb->data);
-	uint32_t tb_draw_time;
+	unsigned int i,j;
+	float x,y;
 
-	if(tb->active == 0) return;
-
-	// fonts have a transparent background, enable alpha blending
-	glColor4f(1.0,1.0,1.0,1.0);
-	glEnable(GL_TEXTURE_2D);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_BLEND);
-	glBindTexture(GL_TEXTURE_2D, tb->f->tex.gl_id);
-	glBegin(GL_QUADS);
-
-	// draw rows of multiline textbox
-	for (j=0; j < tb->lines; j++)
+	tb->vertices = zero_vector(tb->lines*tb->line_width*12);
+	tb->tcoords = zero_vector(tb->lines*tb->line_width*8);
+	// rows of multiline textbox
+	for (j = 0; j < tb->lines; j++)
 	{
-		if (j == 0)
+		for (i = 0; i < tb->line_width; i++)
+		{
+			x = tb->x + (i*tb->f->w);
+			y = j*tb->f->h;
+			// top right
+			tb->vertices->a[(j*tb->line_width)+i] = x + tb->f->w;
+			tb->vertices->a[(j*tb->line_width)+i+1] = tb->y + tb->f->h - y;
+			tb->vertices->a[(j*tb->line_width)+i+2] = tb->z;
+			// top left
+			tb->vertices->a[(j*tb->line_width)+i+3] = x;
+			tb->vertices->a[(j*tb->line_width)+i+4] = tb->y + tb->f->h - y;
+			tb->vertices->a[(j*tb->line_width)+i+5] = tb->z;
+			// bottom left
+			tb->vertices->a[(j*tb->line_width)+i+6] = x;
+			tb->vertices->a[(j*tb->line_width)+i+7] = tb->y - y;
+			tb->vertices->a[(j*tb->line_width)+i+8] = tb->z;
+			// bottom right
+			tb->vertices->a[(j*tb->line_width)+i+9] = x + tb->f->w;
+			tb->vertices->a[(j*tb->line_width)+i+10] = tb->y - y;
+			tb->vertices->a[(j*tb->line_width)+i+11] = tb->z;
+		}
+		/*if (j == 0)
 		{
 			k=1;
 		}
@@ -235,7 +247,7 @@ void draw_textbox(void *tbp)
 		{
 			k=0;
 		}
-		// draw columns of textbox
+		// columns
 		for (i=(k*tb->sb->line_offsets[tb->start_line])+letter; i < len; i++)
 		{
 			// end of the line
@@ -249,7 +261,32 @@ void draw_textbox(void *tbp)
 				}
 				break;
 			}
-			// printable character
+		}*/
+	}
+	#ifdef __APPLE__
+	glGenVertexArraysAPPLE(1, &tb->vao_id);
+	glBindVertexArrayAPPLE(tb->vao_id);
+	#else
+	glGenVertexArrays(1, &tb->vao_id);
+	glBindVertexArray(tb->vao_id);
+	#endif
+
+	glGenBuffers(2, tb->vbo_ids);
+
+	// set up vertices buffer
+	glBindBuffer(GL_ARRAY_BUFFER, tb->vbo_ids[0]);
+	glBufferData(GL_ARRAY_BUFFER, tb->vertices->n*sizeof(float), tb->vertices->a, GL_STATIC_DRAW);
+	glVertexAttribPointer(shader->vs->in_vertex, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(shader->vs->in_vertex);
+
+	// set up tcoords buffer
+	glBindBuffer(GL_ARRAY_BUFFER, tb->vbo_ids[1]);
+	glBufferData(GL_ARRAY_BUFFER, tb->tcoords->n*sizeof(float), tb->tcoords->a, GL_STATIC_DRAW);
+	glVertexAttribPointer(shader->vs->in_tcoords, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(shader->vs->in_tcoords);
+
+}
+			/*/ printable character
 			if ((int)tb->data[i] >= 33 && (int)tb->data[i] <= 126)
 			{
 				char_position = font_get_glyph(tb->data[i]);
@@ -271,7 +308,6 @@ void draw_textbox(void *tbp)
 				col++;
 				continue;
 			}
-
 			// draw a small quad in place with a font character texture mapped to it
 			x = tb->x + col*tb->f->w;
 			glTexCoord2f((float)(char_position+1)/94.,1);
@@ -283,7 +319,7 @@ void draw_textbox(void *tbp)
 			glTexCoord2f((float)(char_position+1)/94.,0);
 			glVertex3f(x + tb->f->w, tb->y - (line_count*tb->f->h), tb->z);
 			col++;
-		}
+			}
 		col=0;
 	}
 	
@@ -319,14 +355,49 @@ void draw_textbox(void *tbp)
 	if(tb->sb->total_lines >= tb->lines && tb->lines > 1)
 	{
 		draw_scrollbar(tb->sb);
-	}
-}
+	}*/
 
-void free_textbox(void *tbp)
+void textbox_draw(void* tbp)
 {
 	textbox tb = tbp;
-	free(tb->sb);
-	free(tb->data);
-	free(tb);
+
+	if(tb->active == 0) return;
+
+	#ifdef __APPLE__
+	glBindVertexArrayAPPLE(tb->vao_id);
+	#else
+	glBindVertexArray(tb->vao_id);
+	#endif
+	glVertexAttrib3f(shader->vs->in_color, 1.0, 0.0, 0.0);
+	glDrawArrays(GL_QUADS, 0, tb->vertices->n / 3);
+
+	#ifdef __APPLE__
+	glBindVertexArrayAPPLE(0);
+	#else
+	glBindVertexArray(0);
+	#endif
+}
+
+void textbox_remove(void* tbp)
+{
+	textbox tb = tbp;
+	if (tb != NULL)
+	{
+		if (tb->vertices != NULL)
+		{
+			free_vector(tb->vertices);
+			tb->vertices = NULL;
+		}
+		if (tb->tcoords != NULL)
+		{
+			free_vector(tb->tcoords);
+			tb->tcoords = NULL;
+		}
+		free(tb->sb);
+		tb->sb = NULL;
+		free(tb->data);
+		tb->data = NULL;
+		free(tb);
+	}
 }
 

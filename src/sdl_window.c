@@ -281,6 +281,16 @@ void vektor_init(const char *title)
 	// set up default objects
 	cam = add_camera(0.0, 0.0, 0.0);
 
+
+	add_font("/usr/local/share/vektor/fonts/default.font");
+	//add_texture("/usr/local/share/vektor/logo.texture", &texture_logo);
+	//add_texture("/usr/local/share/vektor/ui/scroll_bar.texture", &texture_scrollbar);
+	//init_console(-276,174,522,352);
+	
+	fps_disp = add_textbox(((float)window_w/2.)-80., ((float)window_h/2.)-4.0, 5, 1, 6);
+	add_object_2d(fps_disp, fps_disp->init, NULL, fps_disp->draw, fps_disp->remove);
+	fps_disp->z = 0.5;
+
 	ran_init = 1;
 }
 

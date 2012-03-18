@@ -142,6 +142,9 @@ void render_update(void)
 void render_draw(void)
 {
 	int i;
+	//float p,y; // temporary variables
+	//float pos[3];
+	float zero_pos[3] = { 0.0, 0.0, 0.0 };
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -149,17 +152,16 @@ void render_draw(void)
 	glUseProgram(shader->id);
 	
 	// set uniforms
-	//glUniformMatrix4fv(shader->vs->modelview, 1, GL_TRUE, cam->transform->A[0]);
 	glUniform1f(shader->vs->window_w, (float)4.0);
 	glUniform1f(shader->vs->window_h, (float)3.0);
 	glUniform1f(shader->vs->view_angle, 45.0f);
 	glUniform1f(shader->vs->z_near, 0.5f);
 	glUniform1f(shader->vs->z_far, 500.0f);
 	
-	glUniform3fv(shader->vs->camera_position, 1, cam->position);
-	glUniform1f(shader->vs->camera_pitch, cam->pitch);
-	glUniform1f(shader->vs->camera_yaw, cam->yaw);
-
+	//glUniform3fv(shader->vs->camera_position, 1, cam->position);
+	//glUniform1f(shader->vs->camera_pitch, cam->pitch);
+	//glUniform1f(shader->vs->camera_yaw, cam->yaw);
+	
 	// renderlist_2d draw
 	if(renderlist_2d != NULL)
 	{
@@ -171,6 +173,10 @@ void render_draw(void)
 			}
 		}
 	}
+
+	glUniform3fv(shader->vs->camera_position, 1, cam->position);
+	glUniform1f(shader->vs->camera_pitch, cam->pitch);
+	glUniform1f(shader->vs->camera_yaw, cam->yaw);
 
 	// renderlist_3d draw
 	if(renderlist_3d != NULL)
@@ -194,84 +200,6 @@ void render_draw(void)
 	#endif
 	glUseProgram(0);
 
-	//int i;
-
-	// examine this more carefully.
-	/*glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LEQUAL);
-	glClearDepth(1.0f);
-	glShadeModel(GL_SMOOTH);
-	glClearColor(0.0,0.0,0.0,0.0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glPushMatrix();
-	glLoadIdentity();
-	gluPerspective(45.0f,(float)window_w/(float)window_h,0.1f,120000.0f);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	camera_matrix(cam);
-
-	if(SDL_GetTicks() - motion_timer >= 25)
-	{
-		camera_move();
-		motion_timer = SDL_GetTicks();
-	}
-
-	// draw 3d render list
-	if(renderlist_3d != NULL)
-	{
-		for(i = 0; i < renderobjs3d_count; i++)
-		{
-			if(renderlist_3d[i].update != NULL)
-			{
-				renderlist_3d[i].update(renderlist_3d[i].object);
-			}
-			renderlist_3d[i].draw(renderlist_3d[i].object);
-		}
-	}
-
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
-	
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glPushMatrix();
-	glLoadIdentity();
-	gluOrtho2D(-window_w/2,window_w/2,-window_h/2,window_h/2);
-	
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
-
-	// draw 2d render list
-	// something better needs to be done about these
-	// draw/update functions. Right now the renderlist_2d[i] 
-	// function pointers are independent of the object function 
-	// pointers...
-	glDisable(GL_DEPTH_TEST);
-	if(renderlist_2d != NULL)
-	{
-		for(i=0; i < renderobjs2d_count; i++)
-		{
-			if(renderlist_2d[i].update != NULL)
-			{
-				renderlist_2d[i].update(renderlist_2d[i].object);
-			}
-			renderlist_2d[i].draw(renderlist_2d[i].object);
-		}
-	}
-
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
-	glPopMatrix();
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-
-	SDL_GL_SwapBuffers();
-	glFlush();
-
 	// update frames per second counter
 	framecount++;
 	if((l=(SDL_GetTicks() - last_update)) > 1000)
@@ -279,7 +207,7 @@ void render_draw(void)
 		sprintf(fps_disp->data,"%.0f fps",(float)framecount/((float)l/1000.));
 		last_update = SDL_GetTicks();
 		framecount=0;
-	}*/
+	}
 	
 }
 
