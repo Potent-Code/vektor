@@ -378,11 +378,17 @@ void vektor_run()
 			event_net_send();
 		}
 
-		//if (active == 1)
+		// TODO: Focus is not handled correctly on Apple. Bug in SDL?
+		#ifdef __APPLE__
+		render_update();
+		render_draw();
+		#else
+		if (active == 1)
 		{
 			render_update();
 			render_draw();
 		}
+		#endif // __APPLE__
 	}
 	event_quit(NULL);
 }
