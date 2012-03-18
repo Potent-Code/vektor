@@ -308,7 +308,8 @@ void vektor_run()
 	{
 		fprintf(stderr,"Please run vektor_init() first!\n");
 	}
-	
+
+	SDL_
 	enable_mouselook(cam);
 	// main window loop
 	while(!done)
@@ -378,20 +379,11 @@ void vektor_run()
 			event_net_send();
 		}
 
-		// TODO: this is stupid and needs to be looked into
-		#ifdef __APPLE__
-		if (active == 0)
+		//if (active == 1)
 		{
 			render_update();
 			render_draw();
 		}
-		#else
-		if (active == 1)
-		{
-			render_update();
-			render_draw();
-		}
-		#endif
 	}
 	event_quit(NULL);
 }

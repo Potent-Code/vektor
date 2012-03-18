@@ -4,11 +4,6 @@
 #include "camera.h"
 
 camera add_camera(float _x, float _y, float _z);
-/*void camera_transform(void* cp);
-void camera_matrix_reset(matrix mat);
-void camera_transform_rotate_x(camera c, float angle);
-void camera_transform_rotate_y(camera c, float angle);
-void camera_transform_rotate_z(camera c, float angle);*/
 void camera_mouselook(camera c);
 void camera_move(void* cp);
 void enable_mouselook(camera c);
@@ -35,61 +30,6 @@ camera add_camera(float _x, float _y, float _z)
 	c->type = CAMERA_TYPE_MOUSELOOK;
 	c->active = 1;
 
-	/*/ add transformation matrix
-	c->transform = identity_matrix(4);
-	if (c->transform == NULL)
-	{
-		log_err_sys("Camera matrix allocation failed");
-		free(c);
-		return NULL;
-	}
-
-	// add modelview matrix
-	c->modelview = identity_matrix(4);
-	if (c->modelview == NULL)
-	{
-		log_err_sys("Camera matrix allocation failed");
-		free_matrix(c->transform);
-		free(c);
-		return NULL;
-	}
-
-	// add rotate_x matrix
-	c->rotate_x = identity_matrix(4);
-	if (c->rotate_x == NULL)
-	{
-		log_err_sys("Camera matrix allocation failed");
-		free_matrix(c->transform);
-		free_matrix(c->modelview);
-		free(c);
-		return NULL;
-	}
-
-	// add rotate_y matrix
-	c->rotate_y = identity_matrix(4);
-	if (c->rotate_y == NULL)
-	{
-		log_err_sys("Camera matrix allocation failed");
-		free_matrix(c->transform);
-		free_matrix(c->modelview);
-		free_matrix(c->rotate_x);
-		free(c);
-		return NULL;
-	}
-	
-	// add rotate_z matrix
-	c->rotate_z = identity_matrix(4);
-	if (c->rotate_z == NULL)
-	{
-		log_err_sys("Camera matrix allocation failed");
-		free_matrix(c->transform);
-		free_matrix(c->modelview);
-		free_matrix(c->rotate_x);
-		free_matrix(c->rotate_y);
-		free(c);
-		return NULL;
-	}*/
-
 	// link coordinate names to position vektor
 	c->x = &c->position[0];
 	c->y = &c->position[1];
@@ -105,30 +45,6 @@ camera add_camera(float _x, float _y, float _z)
 
 	return c;
 }
-/*
-void camera_transform(void* cp)
-{
-	camera c = cp;
-
-	// set transformation matrix c->transform = c->transform * c->modelview
-	matrix_product(c->transform, c->modelview);
-}*/
-
-// reset the transform matrix to the identity
-/*void camera_matrix_reset(matrix mat)
-{
-	unsigned int i,j;
-
-	// reset transform matrix to identity
-	for (i = 0; i < mat->n; i++)
-	{
-		for (j = 0; j < mat->m; j++)
-		{
-			if (i == j) mat->A[i][j] = 1.0;
-			else mat->A[i][j] = 0.0;
-		}
-	}
-}*/
 
 void camera_mouselook(camera c)
 {
@@ -138,19 +54,8 @@ void camera_mouselook(camera c)
 	}
 
 	// mouse movement map
-	//c->dx += 2*M_PI*(mouse_x - last_mouse_x)/window_w;
-	//c->dy += M_PI*(last_mouse_y - mouse_y)/window_h;
 	c->dx += (2*M_PI)*(last_mouse_x - mouse_x)/window_h;
 	c->dy += M_PI*(mouse_y - last_mouse_y)/window_h;
-
-	/* reset orientation of camera
-	camera_matrix_reset(c->transform);
-	
-	// rotate by yaw around y axis
-	camera_transform_rotate_y(c, yaw);
-
-	// rotate by pitch around x axis
-	camera_transform_rotate_x(c, pitch);*/
 
 	// clamp to proper rotation domains
 	if((c->pitch+c->dy) > -M_PI/2. && (c->pitch+c->dy) < M_PI/2.)
@@ -177,6 +82,10 @@ void camera_move(void* cp)
 	camera c = cp;
 	float dir_z;
 	float dir_x;
+	float camera_zx;
+	float camera_zz;
+	float camera_xx;
+	float camera_xz;
 	dir_z = (float)(controls[0]-controls[2]);
 	dir_x = (float)(controls[3]-controls[1]);
 	
@@ -187,11 +96,17 @@ void camera_move(void* cp)
 		dir_x /= sqrt(2.);
 	}
 
+	// get camera look direction
+	camera_zx = sin(c->yaw);
+	camera_zz = cos(c->pitch) * cos(c->yaw);
+	camera_xx = cos(c->yaw);
+	camera_xz = -cos(c->pitch) * sin(c->yaw);
+
 	// update camera position
-	*c->x -= c->speed*dir_z;//*c->transform->A[0][2];
-	*c->z += c->speed*dir_z;//*c->transform->A[2][2];
-	*c->x -= c->speed*dir_x;//*c->transform->A[0][0];
-	*c->z += c->speed*dir_x;//*c->transform->A[2][0];
+	*c->x -= c->speed*dir_z*camera_zx;//*c->transform->A[0][2];
+	*c->z += c->speed*dir_z*camera_zz;//*c->transform->A[2][2];
+	*c->x -= c->speed*dir_x*camera_xx;//*c->transform->A[0][0];
+	*c->z += c->speed*dir_x*camera_xz;//*c->transform->A[2][0];
 }
 
 void enable_mouselook(camera c)
