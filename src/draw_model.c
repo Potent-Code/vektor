@@ -13,7 +13,7 @@ model model_add(const char* filename)
 	model mdl = model_load(filename);
 
 	model_deindex_vertices(mdl);
-	//model_deindex_tcoords(mdl);
+	model_deindex_tcoords(mdl);
 
 	// set up our matrix
 	mdl->view[0] = 1.0f;
@@ -136,15 +136,9 @@ void model_init(void* mp)
         glVertexAttribPointer(shader->vs->in_vertex, 3, GL_FLOAT, GL_FALSE, 0, 0);
         glEnableVertexAttribArray(shader->vs->in_vertex);
 
-        // set up colors buffer
-        //glBindBuffer(GL_ARRAY_BUFFER, mdl->vbo_ids[1]);
-        //glBufferData(GL_ARRAY_BUFFER, (mdl->vertices->n)*sizeof(float), mdl->vertices->a, GL_STATIC_DRAW);
-        //glVertexAttribPointer(shader->vs->in_color, 3, GL_FLOAT, GL_FALSE, 0, 0);
-        //glEnableVertexAttribArray(shader->vs->in_color);
-
 	// set up tcoords buffer
-	glBindBuffer(GL_ARRAY_BUFFER, mdl->vbo_ids[2]);
-	glBufferData(GL_ARRAY_BUFFER, (mdl->tcoords->n)*sizeof(float), mdl->vertices->a, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, mdl->vbo_ids[1]);
+	glBufferData(GL_ARRAY_BUFFER, (mdl->tcoords->n)*sizeof(float), mdl->tcoords->a, GL_STATIC_DRAW);
 	glVertexAttribPointer(shader->vs->in_tcoords, 2, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(shader->vs->in_tcoords);
 }
@@ -166,7 +160,6 @@ void model_draw(void* mp)
 
 	tex_uniform = glGetUniformLocation(shader->id, "texture_sampler");
 	glUniform1i(tex_uniform, 0);
-	glVertexAttrib2fv(shader->vs->in_tcoords, mdl->tcoords->a);
 	glVertexAttrib3f(shader->vs->in_color, 1.0, 1.0, 1.0);
 
 	// draw geometry
@@ -177,36 +170,6 @@ void model_draw(void* mp)
 	#else
 	glBindVertexArray(0);
 	#endif
-	//(void)mdl;
-	
-	//unsigned int i, j;
-	//unsigned int k = 0;
-
-	/*glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadMatrixf(mdl->view);
-	
-	glColor3f(1.0, 1.0, 1.0);
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, mdl->tex.gl_id);
-
-	for(i = 0; i < mdl->vcount->n; i++)
-	{
-		glBegin(GL_QUADS);
-		for (j = 0; j < 4; j++)
-		{
-			model_vertex_draw(mdl, k);
-			k+=3;
-		}
-		glEnd();
-	}
-	glDisable(GL_TEXTURE_2D);
-
-	//glMatrixMode(GL_MODELVIEW);
-	//glPushMatrix();
-	//glLoadMatrixf(mdl->view);
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();*/
 }
 
 void model_remove(void* mp)
