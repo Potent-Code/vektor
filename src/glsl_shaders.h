@@ -25,6 +25,7 @@ typedef struct {
 	// attributes
 	int in_vertex;
 	int in_color;
+	int in_tcoords;
 
 	// view port uniforms
 	int window_w;
@@ -44,6 +45,8 @@ typedef struct {
 	int id; // glCreateShader(GL_FRAGMENT_SHADER);
 
 	int vertex_color;
+	int vertex_tcoords;
+	int texture_sampler;
 } *fragment_shader;
 
 // shader program

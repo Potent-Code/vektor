@@ -3,6 +3,7 @@
 model model_add(const char* filename);
 void model_vertex_draw(model mdl, unsigned int _primitive_id);
 void model_deindex_vertices(model mdl);
+void model_deindex_tcoords(model mdl);
 void model_init(void* mp);
 void model_draw(void* mp);
 void model_remove(void* mp);
@@ -12,6 +13,7 @@ model model_add(const char* filename)
 	model mdl = model_load(filename);
 
 	model_deindex_vertices(mdl);
+	//model_deindex_tcoords(mdl);
 
 	// set up our matrix
 	mdl->view[0] = 1.0f;
@@ -26,7 +28,7 @@ model model_add(const char* filename)
 	mdl->update = NULL;
 	mdl->remove = &model_remove;
 
-	//add_texture(&mdl->texture_file[0], &mdl->tex);
+	add_texture(&mdl->texture_file[0], &mdl->tex);
 	add_object_3d(mdl, &model_init, NULL, &model_draw, &model_remove);
 	return mdl;
 }
@@ -82,6 +84,37 @@ void model_deindex_vertices(model mdl)
 	free_vector(indexed);
 }
 
+void model_deindex_tcoords(model mdl)
+{
+	vector indexed;
+	vector deindexed;
+	unsigned int i,j;
+	unsigned int k = 0;
+	unsigned int l = 0;
+	unsigned int tcoord_id;
+
+	// TODO: get rid of the 4's
+	indexed = mdl->tcoords;
+	deindexed = zero_vector(mdl->vcount->n * 4 * 2);
+
+	// deindex using polylist
+	for (i = 0; i < mdl->vcount->n; i++)
+	{
+		for (j = 0; j < 4; j++)
+		{
+			tcoord_id = mdl->polylist->a[k + 2];
+			deindexed->a[l] = indexed->a[(2 * tcoord_id)];
+			deindexed->a[l + 1] = indexed->a[(2 * tcoord_id) + 1];
+			k += 3;
+			l += 2;
+		}
+	}
+
+	// set the new vector and free the old
+	mdl->tcoords = deindexed;
+	free_vector(indexed);
+}
+
 void model_init(void* mp)
 {
 	model mdl = mp;
@@ -94,7 +127,7 @@ void model_init(void* mp)
         glBindVertexArray(mdl->vao_id);
         #endif
 
-        glGenBuffers(2, mdl->vbo_ids);
+        glGenBuffers(3, mdl->vbo_ids);
 
         // set up vertices buffer
         glBindBuffer(GL_ARRAY_BUFFER, mdl->vbo_ids[0]);
@@ -104,15 +137,22 @@ void model_init(void* mp)
         glEnableVertexAttribArray(shader->vs->in_vertex);
 
         // set up colors buffer
-        glBindBuffer(GL_ARRAY_BUFFER, mdl->vbo_ids[1]);
-        glBufferData(GL_ARRAY_BUFFER, (mdl->vertices->n)*sizeof(float), mdl->vertices->a, GL_STATIC_DRAW);
-        glVertexAttribPointer(shader->vs->in_color, 3, GL_FLOAT, GL_FALSE, 0, 0);
-        glEnableVertexAttribArray(shader->vs->in_color);
+        //glBindBuffer(GL_ARRAY_BUFFER, mdl->vbo_ids[1]);
+        //glBufferData(GL_ARRAY_BUFFER, (mdl->vertices->n)*sizeof(float), mdl->vertices->a, GL_STATIC_DRAW);
+        //glVertexAttribPointer(shader->vs->in_color, 3, GL_FLOAT, GL_FALSE, 0, 0);
+        //glEnableVertexAttribArray(shader->vs->in_color);
+
+	// set up tcoords buffer
+	glBindBuffer(GL_ARRAY_BUFFER, mdl->vbo_ids[2]);
+	glBufferData(GL_ARRAY_BUFFER, (mdl->tcoords->n)*sizeof(float), mdl->vertices->a, GL_STATIC_DRAW);
+	glVertexAttribPointer(shader->vs->in_tcoords, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(shader->vs->in_tcoords);
 }
 
 void model_draw(void* mp)
 {
 	model mdl = mp;
+	int tex_uniform;
 
 	#ifdef __APPLE__
 	glBindVertexArrayAPPLE(mdl->vao_id);
@@ -120,6 +160,16 @@ void model_draw(void* mp)
 	glBindVertexArray(mdl->vao_id);
 	#endif
 
+	// set up texture
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, mdl->tex.gl_id);
+
+	tex_uniform = glGetUniformLocation(shader->id, "texture_sampler");
+	glUniform1i(tex_uniform, 0);
+	glVertexAttrib2fv(shader->vs->in_tcoords, mdl->tcoords->a);
+	glVertexAttrib3f(shader->vs->in_color, 1.0, 1.0, 1.0);
+
+	// draw geometry
 	glDrawArrays(GL_QUADS, 0, mdl->vertices->n / 3);
 
 	#ifdef __APPLE__
@@ -170,4 +220,5 @@ void model_remove(void* mp)
 
 	model_free(m);
 }
+
 

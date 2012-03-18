@@ -39,6 +39,7 @@ void shader_init()
 
 	glBindAttribLocation(shader->id, 0, "in_vertex");
 	glBindAttribLocation(shader->id, 1, "in_color");
+	glBindAttribLocation(shader->id, 2, "in_tcoords");
 
 	// link shader
 	shader_link();
@@ -46,6 +47,7 @@ void shader_init()
 	// get attribute locations
 	shader->vs->in_vertex = glGetAttribLocation(shader->id, "in_vertex");
 	shader->vs->in_color = glGetAttribLocation(shader->id, "in_color");
+	shader->vs->in_tcoords = glGetAttribLocation(shader->id, "in_tcoords");
 
 	// get uniform locations
 	shader->vs->window_w = glGetUniformLocation(shader->id, "window_w");
@@ -58,6 +60,9 @@ void shader_init()
 	shader->vs->camera_position = glGetUniformLocation(shader->id, "camera_position");
 	shader->vs->camera_pitch = glGetUniformLocation(shader->id, "camera_pitch");
 	shader->vs->camera_yaw = glGetUniformLocation(shader->id, "camera_yaw");
+
+	// texture uniforms
+	shader->fs->texture_sampler = glGetUniformLocation(shader->id, "texture_uniform");
 }
 
 void vertex_shader_init(const char* filename)

@@ -105,7 +105,7 @@ typedef struct {
 	float* y;
 	float* z;
 	unsigned int vao_id;
-	unsigned int vbo_ids[2];
+	unsigned int vbo_ids[3];
 	void (*init)(void*);
 	void (*update)(void*);
 	void (*draw)(void*);

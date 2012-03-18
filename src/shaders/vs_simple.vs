@@ -17,9 +17,11 @@ uniform float camera_pitch; // mouse angles
 uniform float camera_yaw;
 
 // inputs and outputs
-in  vec3 in_vertex;
-in  vec3 in_color;
+in vec3 in_vertex;
+in vec3 in_color;
+in vec2 in_tcoords;
 out vec3 vertex_color;
+out vec2 vertex_tcoords;
 
 // a set of transformations for constructing a view
 // by Ryan Lucchese
@@ -93,5 +95,6 @@ void main(void)
 	// output of vertex shader
 	gl_Position = projection * (modelview * vec4(in_vertex, 1.0));
 	vertex_color = in_color;
+	vertex_tcoords = in_tcoords;
 }
 

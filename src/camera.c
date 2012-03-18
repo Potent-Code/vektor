@@ -90,7 +90,7 @@ void camera_move(void* cp)
 	dir_x = (float)(controls[3]-controls[1]);
 	
 	// normalize
-	if(!float_cmp(dir_z,0.,1) && !float_cmp(dir_x,0.,1))
+	if(!float_cmp(dir_z, 0.0, 1) && !float_cmp(dir_x, 0.0, 1))
 	{
 		dir_z /= sqrt(2.);
 		dir_x /= sqrt(2.);
@@ -103,10 +103,10 @@ void camera_move(void* cp)
 	camera_xz = -cos(-c->pitch) * sin(-c->yaw);
 
 	// update camera position
-	*c->x -= c->speed*dir_z*camera_zx;//*c->transform->A[0][2];
-	*c->z += c->speed*dir_z*camera_zz;//*c->transform->A[2][2];
-	*c->x -= c->speed*dir_x*camera_xx;//*c->transform->A[0][0];
-	*c->z += c->speed*dir_x*camera_xz;//*c->transform->A[2][0];
+	*c->x -= c->speed*dir_z*camera_zx;
+	*c->z += c->speed*dir_z*camera_zz;
+	*c->x -= c->speed*dir_x*camera_xx;
+	*c->z += c->speed*dir_x*camera_xz;
 }
 
 void enable_mouselook(camera c)
