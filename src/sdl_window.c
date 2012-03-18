@@ -309,7 +309,6 @@ void vektor_run()
 		fprintf(stderr,"Please run vektor_init() first!\n");
 	}
 
-	SDL_
 	enable_mouselook(cam);
 	// main window loop
 	while(!done)
