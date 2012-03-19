@@ -142,9 +142,6 @@ void render_update(void)
 void render_draw(void)
 {
 	int i;
-	//float p,y; // temporary variables
-	//float pos[3];
-	float zero_pos[3] = { 0.0, 0.0, 0.0 };
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
