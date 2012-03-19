@@ -101,20 +101,18 @@ void main(void)
 
 	// calculate projection transformation
 	mat4 projection = mat4(1.0);
-	switch (projection_type)
+	if (projection_type == 1) // standard perspective transformation
 	{
-		case 1: // standard perspective transformation
-			projection = transform_perspective_standard(radians(view_angle), (window_w / window_h), z_near, z_far);
-			break;
-		case 2: // oblique perspective transformation
-			projection = transform_perspective_oblique(0.0, window_w, 0.0, window_h, z_near, z_far);
-			break;
-		case 3: // orthographic projection
-			projection = transform_orthographic(-window_w/2.0, window_w/2.0, -window_h/2.0, window_h/2.0, -1.0, 1.0);
-			modelview = mat4(1.0);
-			break;
-		default: // no projection
-			break;
+		projection = transform_perspective_standard(radians(view_angle), (window_w / window_h), z_near, z_far);
+	}
+	if (projection_type == 2) // oblique perspective transformation
+	{
+		projection = transform_perspective_oblique(0.0, window_w, 0.0, window_h, z_near, z_far);
+	}
+	if (projection_type == 3) // orthographic projection
+	{
+		projection = transform_orthographic(-window_w/2.0, window_w/2.0, -window_h/2.0, window_h/2.0, -1.0, 1.0);
+		modelview = mat4(1.0);
 	}
 
 	// output of vertex shader
