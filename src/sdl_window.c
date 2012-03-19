@@ -278,7 +278,7 @@ void vektor_init(const char *title)
 	//init_console(-276,174,522,352);
 	
 	fps_disp = add_textbox(((float)window_w/2.0)-(12.0*(float)f->w) - 1.0, ((float)window_h/2.0)-(float)f->h - 1.0, 12, 1, 13);
-	add_object_2d(fps_disp, fps_disp->init, fps_disp->update, fps_disp->draw, fps_disp->remove);
+	add_object_2d(fps_disp, fps_disp->init, NULL, fps_disp->draw, fps_disp->remove);
 
 	ran_init = 1;
 }

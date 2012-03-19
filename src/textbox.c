@@ -70,6 +70,7 @@ void textbox_set_text(textbox tb, const char *str)
 	}
 	textbox_find_lines(tb);
 	input_set_pos(len);
+	textbox_update(tb);
 }
 
 // add on to a textbox's data field
@@ -85,6 +86,7 @@ void textbox_add_text(textbox tb, const char *str)
 	}
 	textbox_find_lines(tb);
 	input_set_pos(strlen(tb->data));
+	textbox_update(tb);
 }
 
 // empty a textbox's data field
@@ -93,6 +95,7 @@ void textbox_clear_text(textbox tb)
 	memset(tb->data,0,strlen(tb->data));
 	textbox_find_lines(tb);
 	input_set_pos(0);
+	textbox_update(tb);
 }
 
 void textbox_find_lines(textbox tb)

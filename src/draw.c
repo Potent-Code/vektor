@@ -142,6 +142,7 @@ void render_update(void)
 void render_draw(void)
 {
 	int i;
+	char fps_msg[256];
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -202,7 +203,8 @@ void render_draw(void)
 	framecount++;
 	if((l=(SDL_GetTicks() - last_update)) > 1000)
 	{
-		sprintf(fps_disp->data,"%.0f fps",(float)framecount/((float)l/1000.));
+		snprintf(fps_msg, 255, "%.0f fps", (float)framecount/((float)l/1000.));
+		textbox_set_text(fps_disp, fps_msg);
 		last_update = SDL_GetTicks();
 		framecount=0;
 	}
