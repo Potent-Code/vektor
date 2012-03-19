@@ -24,8 +24,9 @@ model model_add(const char* filename)
 	mdl->y = &mdl->view[13];
 	mdl->z = &mdl->view[14];
 
-	mdl->draw = &model_draw;
+	mdl->init = &model_init;
 	mdl->update = NULL;
+	mdl->draw = &model_draw;
 	mdl->remove = &model_remove;
 
 	add_texture(&mdl->texture_file[0], &mdl->tex);
@@ -119,22 +120,22 @@ void model_init(void* mp)
 {
 	model mdl = mp;
 
-        #ifdef __APPLE__
-        glGenVertexArraysAPPLE(1, &mdl->vao_id);
-        glBindVertexArrayAPPLE(mdl->vao_id);
-        #else
-        glGenVertexArrays(1, &mdl->vao_id);
-        glBindVertexArray(mdl->vao_id);
-        #endif
+	#ifdef __APPLE__
+	glGenVertexArraysAPPLE(1, &mdl->vao_id);
+	glBindVertexArrayAPPLE(mdl->vao_id);
+	#else
+	glGenVertexArrays(1, &mdl->vao_id);
+	glBindVertexArray(mdl->vao_id);
+	#endif
 
-        glGenBuffers(3, mdl->vbo_ids);
+	glGenBuffers(3, mdl->vbo_ids);
 
-        // set up vertices buffer
-        glBindBuffer(GL_ARRAY_BUFFER, mdl->vbo_ids[0]);
+	// set up vertices buffer
+	glBindBuffer(GL_ARRAY_BUFFER, mdl->vbo_ids[0]);
 
-        glBufferData(GL_ARRAY_BUFFER, (mdl->vertices->n)*sizeof(float), mdl->vertices->a, GL_STATIC_DRAW);
-        glVertexAttribPointer(shader->vs->in_vertex, 3, GL_FLOAT, GL_FALSE, 0, 0);
-        glEnableVertexAttribArray(shader->vs->in_vertex);
+	glBufferData(GL_ARRAY_BUFFER, (mdl->vertices->n)*sizeof(float), mdl->vertices->a, GL_STATIC_DRAW);
+	glVertexAttribPointer(shader->vs->in_vertex, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(shader->vs->in_vertex);
 
 	// set up tcoords buffer
 	glBindBuffer(GL_ARRAY_BUFFER, mdl->vbo_ids[1]);
@@ -146,7 +147,6 @@ void model_init(void* mp)
 void model_draw(void* mp)
 {
 	model mdl = mp;
-	int tex_uniform;
 
 	#ifdef __APPLE__
 	glBindVertexArrayAPPLE(mdl->vao_id);
@@ -158,8 +158,7 @@ void model_draw(void* mp)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, mdl->tex.gl_id);
 
-	tex_uniform = glGetUniformLocation(shader->id, "texture_sampler");
-	glUniform1i(tex_uniform, 0);
+	glUniform1i(shader->fs->texture_sampler, mdl->tex.gl_id);
 	glVertexAttrib3f(shader->vs->in_color, 1.0, 1.0, 1.0);
 
 	// draw geometry

@@ -55,6 +55,7 @@ void shader_init()
 	shader->vs->view_angle = glGetUniformLocation(shader->id, "view_angle");
 	shader->vs->z_near = glGetUniformLocation(shader->id, "z_near");
 	shader->vs->z_far = glGetUniformLocation(shader->id, "z_far");
+	shader->vs->projection_type = glGetUniformLocation(shader->id, "projection_type");
 
 	// camera uniforms
 	shader->vs->camera_position = glGetUniformLocation(shader->id, "camera_position");
@@ -111,7 +112,7 @@ char* shader_load(const char* filename)
 		free(source);
 		return NULL;
 	}
-
+	source[source_len - 1] = 0;
 	fclose(fd);
 
 	return source;

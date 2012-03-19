@@ -38,7 +38,7 @@ font add_font(const char *filename)
 
 void font_get_size(font f)
 {
-	f->w = (float)f->tex.w/94.;
+	f->w = (float)f->tex.w/95.;
 	f->h = (float)f->tex.h;
 }
 
@@ -47,9 +47,9 @@ int font_get_glyph(char c)
 {
 	if((int)c >= 33 && (int)c <= 126)
 	{
-		return (int)c-33;
+		return (int)c-32; // first glyph starts at 1
 	}
-	return -1;
+	return 0; // invalid characters are a space
 }
 
 void free_font(void *fp)

@@ -34,7 +34,7 @@ typedef struct
 	vector vertices;
 	vector tcoords;
 	unsigned int vao_id; // vertex array object id list
-	unsigned int vbo_ids[2]; // vertex buffer object id list
+	unsigned int vbo_ids[3]; // vertex buffer object id list
 	void (*init)(void*);
 	void (*resize)(void*, float, float);
 	void (*move)(void*, float, float);
@@ -55,6 +55,7 @@ extern void textbox_move(void* tbp, float x, float y);
 extern void textbox_mousemove(void* tbp);
 extern void textbox_mouseup(void* tbp);
 extern void textbox_init(void* tbp);
+extern void textbox_update(void* tbp);
 extern void textbox_draw(void* tbp);
 extern void textbox_remove(void* tbp);
 

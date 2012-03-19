@@ -21,6 +21,10 @@
 #include "draw.h"
 #include "keybind.h"
 
+#define PROJECTION_STANDARD 1
+#define PROJECTION_OBLIQUE 2
+#define PROJECTION_ORTHOGRAPHIC 3
+
 extern void quit(void* ev);
 extern void resize(unsigned int w, unsigned int h);
 extern void vektor_init(const char *title);

@@ -86,7 +86,7 @@ int load_texture(const char* filename, texture* tex)
 
 	fclose(fd);
 	
-	//glGenTextures(1, &tex->gl_id);
+	glGenTextures(1, &tex->gl_id);
 	glBindTexture(GL_TEXTURE_2D, tex->gl_id);
 	
 	// texture filtering

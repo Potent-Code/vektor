@@ -16,6 +16,7 @@ void textbox_move(void* tbp, float x, float y);
 void textbox_mousemove(void* tbp);
 void textbox_mouseup(void* tbp);
 void textbox_init(void* tbp);
+void textbox_update(void* tbp);
 void textbox_draw(void* tbp);
 void textbox_remove(void* tbp);
 Uint32 blink_timer=0;
@@ -27,7 +28,7 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 	tb = calloc(1, sizeof(*tb));
 	tb->x = x;
 	tb->y = y;
-	tb->z = 0.11;
+	tb->z = 0.0;
 	tb->line_width = tb->lwidth_orig = line_width;
 	tb->lines = tb->lines_orig = lines;
 	tb->data_len = data_len;
@@ -40,7 +41,7 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 	tb->tcoords = NULL;
 
 	tb->init = &textbox_init;
-	tb->update = NULL;
+	tb->update = &textbox_update;
 	tb->draw = &textbox_draw;
 	tb->remove = &textbox_remove;
 	tb->resize = NULL;//&textbox_resize;
@@ -211,6 +212,7 @@ void textbox_init(void* tbp)
 {
 	textbox tb = tbp;
 	unsigned int i,j;
+	unsigned int col = 0;
 	float x,y;
 
 	tb->vertices = zero_vector(tb->lines*tb->line_width*12);
@@ -218,12 +220,12 @@ void textbox_init(void* tbp)
 	// rows of multiline textbox
 	for (j = 0; j < tb->lines; j++)
 	{
-		for (i = 0; i < tb->line_width; i++)
+		for (i = 0; i < (tb->line_width*12); i+=12)
 		{
-			x = tb->x + (i*tb->f->w);
+			x = tb->x + (col*tb->f->w);
 			y = j*tb->f->h;
 			// top right
-			tb->vertices->a[(j*tb->line_width)+i] = x + tb->f->w;
+			tb->vertices->a[(j*tb->line_width)+i+0] = x + tb->f->w;
 			tb->vertices->a[(j*tb->line_width)+i+1] = tb->y + tb->f->h - y;
 			tb->vertices->a[(j*tb->line_width)+i+2] = tb->z;
 			// top left
@@ -238,30 +240,8 @@ void textbox_init(void* tbp)
 			tb->vertices->a[(j*tb->line_width)+i+9] = x + tb->f->w;
 			tb->vertices->a[(j*tb->line_width)+i+10] = tb->y - y;
 			tb->vertices->a[(j*tb->line_width)+i+11] = tb->z;
+			col++;
 		}
-		/*if (j == 0)
-		{
-			k=1;
-		}
-		else
-		{
-			k=0;
-		}
-		// columns
-		for (i=(k*tb->sb->line_offsets[tb->start_line])+letter; i < len; i++)
-		{
-			// end of the line
-			if (col == tb->line_width)
-			{
-				letter=i;
-				line_count++;
-				if (line_count > tb->lines)
-				{
-					if (tb->lines > 1) len = i;
-				}
-				break;
-			}
-		}*/
 	}
 	#ifdef __APPLE__
 	glGenVertexArraysAPPLE(1, &tb->vao_id);
@@ -281,10 +261,46 @@ void textbox_init(void* tbp)
 
 	// set up tcoords buffer
 	glBindBuffer(GL_ARRAY_BUFFER, tb->vbo_ids[1]);
-	glBufferData(GL_ARRAY_BUFFER, tb->tcoords->n*sizeof(float), tb->tcoords->a, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, tb->tcoords->n*sizeof(float), tb->tcoords->a, GL_DYNAMIC_DRAW);
 	glVertexAttribPointer(shader->vs->in_tcoords, 2, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(shader->vs->in_tcoords);
+}
 
+void textbox_update(void* tbp)
+{
+	textbox tb = tbp;
+	unsigned int i;
+	unsigned int line = 0;
+	unsigned int col = 0;
+	unsigned int cur_tcoord = 0;
+	int glyph_pos = 0;
+	for (i = 0; i < strlen(tb->data); i++)
+	{
+		if (tb->lines == 1) {
+			glyph_pos = font_get_glyph(tb->data[i]);
+			// top right
+			tb->tcoords->a[cur_tcoord] = (float)(glyph_pos+1)/95.0;
+			tb->tcoords->a[cur_tcoord+1] = 1.0;
+			// top left
+			tb->tcoords->a[cur_tcoord+2] = (float)glyph_pos/95.0;
+			tb->tcoords->a[cur_tcoord+3] = 1.0;
+			// bottom left
+			tb->tcoords->a[cur_tcoord+4] = (float)glyph_pos/95.0;
+			tb->tcoords->a[cur_tcoord+5] = 0.0;
+			// bottom right
+			tb->tcoords->a[cur_tcoord+6] = (float)(glyph_pos+1)/95.0;
+			tb->tcoords->a[cur_tcoord+7] = 0.0;
+		} else { // TODO: multiline textboxes
+			if ((tb->data[i] == '\n') || (col == tb->line_width))
+			{
+				line++;
+			}
+		}
+		col++;
+		cur_tcoord+=8;
+	}
+	glBindBuffer(GL_ARRAY_BUFFER, tb->vbo_ids[1]);
+	glBufferData(GL_ARRAY_BUFFER, tb->tcoords->n*sizeof(float), tb->tcoords->a, GL_DYNAMIC_DRAW);
 }
 			/*/ printable character
 			if ((int)tb->data[i] >= 33 && (int)tb->data[i] <= 126)
@@ -368,9 +384,19 @@ void textbox_draw(void* tbp)
 	#else
 	glBindVertexArray(tb->vao_id);
 	#endif
-	glVertexAttrib3f(shader->vs->in_color, 1.0, 0.0, 0.0);
+	// set up texture
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, tb->f->tex.gl_id);
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+	
+	glUniform1i(shader->fs->texture_sampler, tb->f->tex.gl_id);
+	glVertexAttrib3f(shader->vs->in_color, 1.0, 1.0, 1.0);
+
 	glDrawArrays(GL_QUADS, 0, tb->vertices->n / 3);
 
+	glDisable(GL_BLEND);
 	#ifdef __APPLE__
 	glBindVertexArrayAPPLE(0);
 	#else

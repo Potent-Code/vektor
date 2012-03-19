@@ -177,6 +177,7 @@ void vektor_init(const char *title)
 {
 	const SDL_VideoInfo *video_info;
 	char err_msg[256]; // stores error messages about version info
+	font f;
 
 	// initial values for SDL window
 	window_w = 1024;
@@ -282,14 +283,13 @@ void vektor_init(const char *title)
 	cam = add_camera(0.0, 0.0, 0.0);
 
 
-	add_font("/usr/local/share/vektor/fonts/default.font");
+	f = add_font("/usr/local/share/vektor/fonts/default.font");
 	//add_texture("/usr/local/share/vektor/logo.texture", &texture_logo);
 	//add_texture("/usr/local/share/vektor/ui/scroll_bar.texture", &texture_scrollbar);
 	//init_console(-276,174,522,352);
 	
-	fps_disp = add_textbox(((float)window_w/2.)-80., ((float)window_h/2.)-4.0, 5, 1, 6);
-	add_object_2d(fps_disp, fps_disp->init, NULL, fps_disp->draw, fps_disp->remove);
-	fps_disp->z = 0.5;
+	fps_disp = add_textbox(((float)window_w/2.0)-(12.0*(float)f->w) - 1.0, ((float)window_h/2.0)-(float)f->h - 1.0, 12, 1, 13);
+	add_object_2d(fps_disp, fps_disp->init, fps_disp->update, fps_disp->draw, fps_disp->remove);
 
 	ran_init = 1;
 }

@@ -152,32 +152,19 @@ void render_draw(void)
 	glUseProgram(shader->id);
 	
 	// set uniforms
-	glUniform1f(shader->vs->window_w, (float)4.0);
-	glUniform1f(shader->vs->window_h, (float)3.0);
+	glUniform1f(shader->vs->window_w, (float)(window_w));
+	glUniform1f(shader->vs->window_h, (float)(window_h));
 	glUniform1f(shader->vs->view_angle, 45.0f);
 	glUniform1f(shader->vs->z_near, 0.5f);
 	glUniform1f(shader->vs->z_far, 500.0f);
-	
-	//glUniform3fv(shader->vs->camera_position, 1, cam->position);
-	//glUniform1f(shader->vs->camera_pitch, cam->pitch);
-	//glUniform1f(shader->vs->camera_yaw, cam->yaw);
-	
-	// renderlist_2d draw
-	if(renderlist_2d != NULL)
-	{
-		for(i=0; i < renderobjs2d_count; i++)
-		{
-			if(renderlist_2d[i].draw != NULL)
-			{
-				renderlist_2d[i].draw(renderlist_2d[i].object);
-			}
-		}
-	}
 
+	// camera uniforms
 	glUniform3fv(shader->vs->camera_position, 1, cam->position);
 	glUniform1f(shader->vs->camera_pitch, cam->pitch);
 	glUniform1f(shader->vs->camera_yaw, cam->yaw);
 
+	glEnable(GL_DEPTH_TEST);
+	glUniform1i(shader->vs->projection_type, PROJECTION_STANDARD); // set standard perspective projection
 	// renderlist_3d draw
 	if(renderlist_3d != NULL)
 	{
@@ -186,6 +173,20 @@ void render_draw(void)
 			if(renderlist_3d[i].draw != NULL)
 			{
 				renderlist_3d[i].draw(renderlist_3d[i].object);
+			}
+		}
+	}
+	
+	glDisable(GL_DEPTH_TEST);
+	glUniform1i(shader->vs->projection_type, PROJECTION_ORTHOGRAPHIC); // set ortho projection
+	// renderlist_2d draw
+	if(renderlist_2d != NULL)
+	{
+		for(i=0; i < renderobjs2d_count; i++)
+		{
+			if(renderlist_2d[i].draw != NULL)
+			{
+				renderlist_2d[i].draw(renderlist_2d[i].object);
 			}
 		}
 	}

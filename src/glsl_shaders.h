@@ -33,6 +33,7 @@ typedef struct {
 	int view_angle;
 	int z_near;
 	int z_far;
+	int projection_type;
 
 	// camera uniforms
 	int camera_position; // vec3 location of camera
