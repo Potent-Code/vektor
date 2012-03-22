@@ -1,4 +1,4 @@
-/* sprite data types
+/* A textured 2D sprite
  * Ryan Lucchese
  * December 21 2010 */
 
@@ -12,22 +12,6 @@
 #include "texture.h"
 #include "draw.h"
 
-// linked list of texture coordinates
-//struct texture_coordinates
-//{
-//	int col; // column index in frame matrix
-//	int row; // row index in frame matrix
-//	float blx, bly;
-//	float brx, bry;
-//	float trx, trny;
-//	float tlx, tly;
-//	struct texture_coordinates *next;
-//};
-
-// animation frame type
-//typedef struct texture_coordinates frame;
-
-// sprite itself
 struct _sprite
 {
 	// data
@@ -49,7 +33,7 @@ struct _sprite
 	// these pointers allow sprites to be nested and linked
 	struct _sprite* parent;
 	struct _sprite* children;
-	struct _sprite* next;
+	struct _sprite* siblings;
 
 	// function pointers
 	void (*init)(void*);
@@ -60,7 +44,7 @@ struct _sprite
 
 typedef struct _sprite* sprite;
 
-extern sprite add_sprite(float _x, float _y, const char* filename);
+extern sprite sprite_add(float _x, float _y, const char* filename);
 extern void sprite_init(void* sp);
 extern void sprite_update(void* sp);
 extern void sprite_draw(void* sp);
