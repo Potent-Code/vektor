@@ -33,6 +33,7 @@ typedef struct {
 	int view_angle;
 	int z_near;
 	int z_far;
+	int ctm; // current transformation matrix
 	int projection_type;
 
 	// camera uniforms

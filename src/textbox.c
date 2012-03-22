@@ -26,6 +26,9 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 	textbox tb;
 
 	tb = calloc(1, sizeof(*tb));
+	tb->modelview = identity_matrix(4);
+	tb->ctm = identity_matrix(4);
+
 	tb->x = x;
 	tb->y = y;
 	tb->z = 0.0;
@@ -396,6 +399,7 @@ void textbox_draw(void* tbp)
 	
 	glUniform1i(shader->fs->texture_sampler, tb->f->tex.gl_id);
 	glVertexAttrib3f(shader->vs->in_color, 1.0, 1.0, 1.0);
+	glUniformMatrix4fv(shader->vs->ctm, 1, GL_TRUE, tb->ctm->A[0]);
 
 	glDrawArrays(GL_QUADS, 0, tb->vertices->n / 3);
 

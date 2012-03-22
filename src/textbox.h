@@ -33,6 +33,8 @@ typedef struct
 	char *data;
 	vector vertices;
 	vector tcoords;
+	matrix modelview;
+	matrix ctm;
 	unsigned int vao_id; // vertex array object id list
 	unsigned int vbo_ids[3]; // vertex buffer object id list
 	void (*init)(void*);

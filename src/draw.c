@@ -21,6 +21,7 @@ Uint32 last_update=0;
 Uint32 motion_timer=0;
 Uint32 l;
 camera cam;
+matrix ctm;
 
 void add_object_2d(void *obj, void (*init)(void*), void (*update)(void*), void (*draw)(void*), void (*remove)(void*))
 {
@@ -80,6 +81,7 @@ void render_init(void)
 	int i;
 
 	add_listener(&render_done, NULL, EVENT_QUIT);
+	ctm = identity_matrix(4);
 
 	// renderlist_2d init
 	if(renderlist_2d != NULL)
@@ -155,6 +157,7 @@ void render_draw(void)
 	glUniform1f(shader->vs->view_angle, 45.0f);
 	glUniform1f(shader->vs->z_near, 0.5f);
 	glUniform1f(shader->vs->z_far, 500.0f);
+	glUniformMatrix4fv(shader->vs->ctm, 1, GL_TRUE, ctm->A[0]);
 
 	// camera uniforms
 	glUniform3fv(shader->vs->camera_position, 1, cam->position);
@@ -214,4 +217,6 @@ void render_draw(void)
 void render_done(void* p)
 {
 	(void)p;
+	free(ctm);
+	camera_remove(cam);
 }

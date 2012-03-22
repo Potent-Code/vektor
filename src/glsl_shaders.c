@@ -33,7 +33,6 @@ void shader_init()
 	shader->id = glCreateProgram();
 
 	// initialize shaders
-	//vertex_shader_init(TRANSFORMS_SHADER);
 	vertex_shader_init(VERTEX_SHADER);
 	fragment_shader_init(FRAGMENT_SHADER);
 
@@ -55,6 +54,7 @@ void shader_init()
 	shader->vs->view_angle = glGetUniformLocation(shader->id, "view_angle");
 	shader->vs->z_near = glGetUniformLocation(shader->id, "z_near");
 	shader->vs->z_far = glGetUniformLocation(shader->id, "z_far");
+	shader->vs->ctm = glGetUniformLocation(shader->id, "ctm");
 	shader->vs->projection_type = glGetUniformLocation(shader->id, "projection_type");
 
 	// camera uniforms

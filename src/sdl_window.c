@@ -23,7 +23,7 @@ unsigned int color_depth;
 SDL_Surface *surface;
 font default_font;
 
-texture texture_logo;
+sprite sprite_logo;
 texture texture_scrollbar;
 
 void quit(void* ev)
@@ -77,67 +77,61 @@ void resize(unsigned int w, unsigned int h)
 
 void intro(void)
 {
-	/*Uint32 start,current;
+	uint32_t start,current;
 	start=SDL_GetTicks();
 	int et;
+	sprite_logo->update(sprite_logo);
 
 	for(current=SDL_GetTicks();(et=(current-start)) <= 2500; current=SDL_GetTicks())
 	{
-		glDisable(GL_DEPTH_TEST);
-		glShadeModel(GL_SMOOTH);
-		glClearColor(0.0,0.0,0.0,1.0);
-		glClear(GL_COLOR_BUFFER_BIT);
-	
-		glMatrixMode(GL_PROJECTION);
-		glPushMatrix();
-		glLoadIdentity();
-		gluOrtho2D(-512,512,-384,384);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glMatrixMode(GL_MODELVIEW);
-		glPushMatrix();
-		glLoadIdentity();
+		glClearColor(0.0, 0.0, 0.0, 0.0);
+		glUseProgram(shader->id);
 	
-		if(et < 1000)
-		{	
-			glColor4f(1.0,1.0,1.0,(float)et/1000.);
+		// set uniforms
+		glUniform1f(shader->vs->window_w, (float)(window_w));
+		glUniform1f(shader->vs->window_h, (float)(window_h));
+		glUniform1f(shader->vs->view_angle, 45.0f);
+		glUniform1f(shader->vs->z_near, 0.5f);
+		glUniform1f(shader->vs->z_far, 500.0f);
+
+		// camera uniforms
+		glUniform3fv(shader->vs->camera_position, 1, cam->position);
+		glUniform1f(shader->vs->camera_pitch, cam->pitch);
+		glUniform1f(shader->vs->camera_yaw, cam->yaw);
+
+		glDisable(GL_DEPTH_TEST);
+		glUniform1i(shader->vs->projection_type, PROJECTION_ORTHOGRAPHIC); // set ortho projection
+
+		if (et < 1000)
+		{
+			sprite_logo->colors[2] = 0.0;
+			sprite_logo->colors[3] = (float)et/1000.0;
 		}
 		else if (et > 2000)
 		{
-			glColor4f(1.0,1.0,1.0,(float)(2500-et)/500.);
+			sprite_logo->colors[3] = (float)(2500-et)/500.0;
 		}
 		else
 		{
-			glColor4f(1.0,1.0,1.0,1.0);
+			sprite_logo->colors[3] = 1.0;
 		}
-		glEnable(GL_TEXTURE_2D);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_BLEND);
-		glBindTexture(GL_TEXTURE_2D, texture_logo.gl_id);
-		glBegin(GL_QUADS);
-			glTexCoord2f(1,1);
-			glVertex3f(texture_logo.w/2, texture_logo.h/2, 0);
-			glTexCoord2f(0,1);
-			glVertex3f((texture_logo.w/2) - texture_logo.w, texture_logo.h/2, 0);
-			glTexCoord2f(0,0);
-			glVertex3f((texture_logo.w/2) - texture_logo.w, (texture_logo.h/2) - texture_logo.h, 0);
-			glTexCoord2f(1,0);
-			glVertex3f(texture_logo.w/2, (texture_logo.h/2 - texture_logo.h), 0);
-		glEnd();
-		glDisable(GL_BLEND);
-		glDisable(GL_TEXTURE_2D);
-	
-		glMatrixMode(GL_MODELVIEW);
-		glPopMatrix();
-
-		glMatrixMode(GL_PROJECTION);
-		glPopMatrix();
+		sprite_logo->draw(sprite_logo);
 
 		SDL_GL_SwapBuffers();
-
-		glEnd();
 		glFlush();
-	}*/
-	
+
+		#ifdef __APPLE__
+		glBindVertexArrayAPPLE(0);
+		#else
+		glBindVertexArray(0);
+		#endif
+		glUseProgram(0);
+	}
+
+	//sprite_logo->remove(sprite_logo);
+	sprite_logo->colors[3] = 0.0;
 	// draw whatever comes after this screen
 	render_update();
 	render_draw();
@@ -177,6 +171,8 @@ void vektor_init(const char *title)
 {
 	const SDL_VideoInfo *video_info;
 	char err_msg[256]; // stores error messages about version info
+	float logo_x;
+	float logo_y;
 	font f;
 
 	// initial values for SDL window
@@ -270,10 +266,12 @@ void vektor_init(const char *title)
 
 	// set up default objects
 	cam = add_camera(0.0, 0.0, 0.0);
-
-
 	f = add_font("/usr/local/share/vektor/fonts/default.font");
-	//add_texture("/usr/local/share/vektor/logo.texture", &texture_logo);
+
+	// calculate a centering x and y and set up sprite for logo screen
+	logo_x = ((((float)(window_w) / 2.0) - 400.0)/((float)(window_w) / 2.0)) - 1.0;
+	logo_y = ((((float)(window_h) / 2.0) - 300.0)/((float)(window_h) / 2.0)) - 1.0;
+	sprite_logo = add_sprite(logo_x, logo_y, "/usr/local/share/vektor/logo.texture");
 	//add_texture("/usr/local/share/vektor/ui/scroll_bar.texture", &texture_scrollbar);
 	//init_console(-276,174,522,352);
 	

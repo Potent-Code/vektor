@@ -2,50 +2,68 @@
  * Ryan Lucchese
  * December 21 2010 */
 
-#ifndef SPRITE_H
-#define SPRITE_H
+#ifndef sprite_h
+#define sprite_h
 
+#include <mathlib.h>
 #include <math.h>
 #include <time.h>
 #include "sdl.h"
+#include "texture.h"
+#include "draw.h"
 
 // linked list of texture coordinates
-struct texture_coordinates
-{
-	int col; // column index in frame matrix
-	int row; // row index in frame matrix
-	float blx, bly;
-	float brx, bry;
-	float trx, trny;
-	float tlx, tly;
-	struct texture_coordinates *next;
-};
+//struct texture_coordinates
+//{
+//	int col; // column index in frame matrix
+//	int row; // row index in frame matrix
+//	float blx, bly;
+//	float brx, bry;
+//	float trx, trny;
+//	float tlx, tly;
+//	struct texture_coordinates *next;
+//};
 
 // animation frame type
-typedef struct texture_coordinates frame;
+//typedef struct texture_coordinates frame;
 
 // sprite itself
-typedef struct
+struct _sprite
 {
 	// data
-	float x;
-	float y;
+	float *x;
+	float *y;
+	float *z;
 	float width;
 	float height;
-	float speed;
-	float coords[4][2];
-	GLuint texture;
-	frame * f;
+	matrix modelview;
+	matrix ctm; // current transformation matrix ctm = modelview * parent->ctm
+	float vertices[12];
+	float tcoords[8];
+	float colors[4];
 
-	// timers
-	clock_t motion_timer;
-	clock_t anim_timer;
+	unsigned int vao_id;
+	unsigned int vbo_ids[2];
+	texture tex;
 
-	// pointer to sprite redraw function
+	// these pointers allow sprites to be nested and linked
+	struct _sprite* parent;
+	struct _sprite* children;
+	struct _sprite* next;
+
+	// function pointers
+	void (*init)(void*);
+	void (*update)(void*);
 	void (*draw)(void*);
-} *sprite;
+	void (*remove)(void*);
+};
 
-// set s->coords to points of sprite quad
-extern void get_coords(sprite s);
+typedef struct _sprite* sprite;
+
+extern sprite add_sprite(float _x, float _y, const char* filename);
+extern void sprite_init(void* sp);
+extern void sprite_update(void* sp);
+extern void sprite_draw(void* sp);
+extern void sprite_remove(void* sp);
 
 #endif

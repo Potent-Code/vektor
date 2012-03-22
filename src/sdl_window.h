@@ -20,6 +20,7 @@
 #include "console.h"
 #include "draw.h"
 #include "keybind.h"
+#include "sprite.h"
 
 #define PROJECTION_STANDARD 1
 #define PROJECTION_OBLIQUE 2

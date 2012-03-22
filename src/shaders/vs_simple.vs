@@ -12,6 +12,7 @@ uniform float z_near; // near clip plane
 uniform float z_far; // far clip plane
 
 // transformation uniforms
+uniform mat4 ctm; // current transformation matrix
 uniform int projection_type;
 uniform vec3 camera_position; // position vector of camera
 uniform float camera_pitch; // mouse angles
@@ -19,9 +20,9 @@ uniform float camera_yaw;
 
 // inputs and outputs
 in vec3 in_vertex;
-in vec3 in_color;
+in vec4 in_color;
 in vec2 in_tcoords;
-out vec3 vertex_color;
+out vec4 vertex_color;
 out vec2 vertex_tcoords;
 
 // a set of transformations for constructing a view
@@ -97,7 +98,7 @@ mat4 transform_translate(const in vec3 loc)
 void main(void)
 {
 	// calculate modelview transformation
-	mat4 modelview = (transform_rotate_x(camera_pitch) * transform_rotate_y(camera_yaw)) * transform_translate(camera_position);
+	mat4 camera = (transform_rotate_x(camera_pitch) * transform_rotate_y(camera_yaw)) * transform_translate(camera_position);
 
 	// calculate projection transformation
 	mat4 projection = mat4(1.0);
@@ -111,14 +112,14 @@ void main(void)
 			break;
 		case 3: // orthographic projection
 			projection = transform_orthographic(-window_w/2.0, window_w/2.0, -window_h/2.0, window_h/2.0, -1.0, 1.0);
-			modelview = mat4(1.0);
+			camera = mat4(1.0);
 			break;
 		default: // no projection
 			break;
 	}
 
 	// output of vertex shader
-	gl_Position = projection * (modelview * vec4(in_vertex, 1.0));
+	gl_Position = ctm * (projection * (camera * vec4(in_vertex, 1.0)));
 	vertex_color = in_color;
 	vertex_tcoords = in_tcoords;
 }
