@@ -35,7 +35,7 @@ sprite sprite_add(float _x, float _y, const char* filename)
 	s->colors[2] = 1.0;
 	s->colors[3] = 1.0;
 
-	add_texture(filename, &s->tex);
+	if (filename != NULL) add_texture(filename, &s->tex);
 
 	s->width = (float)s->tex.w;
 	s->height = (float)s->tex.h;
