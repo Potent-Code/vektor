@@ -18,6 +18,7 @@ typedef struct
 	void (*remove)(void*);
 } render_object;
 
+
 extern unsigned int framecount;
 extern int renderobjs2d_count;
 extern int renderobjs3d_count;

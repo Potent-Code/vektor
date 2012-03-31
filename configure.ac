@@ -2,9 +2,9 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.60])
-AC_INIT([vektor], [0.1], [ryan.lucchese@gmail.com])
+AC_INIT([vektor], [0.1], [ryan.lucchese@write-c.com])
 AM_INIT_AUTOMAKE([vektor], [0.1])
-AC_CONFIG_SRCDIR([src/draw.h])
+AC_CONFIG_SRCDIR([src/vektor.h])
 AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_MACRO_DIR([m4])
 
