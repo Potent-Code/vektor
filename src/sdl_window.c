@@ -258,7 +258,7 @@ void vektor_init(const char *title)
 
 	// add quit event listener
 	add_listener(&quit, NULL, EVENT_QUIT);
-	keybind_add(NULL, &event_quit, NULL, key_escape);
+	keybind_add(NULL, &event_quit, NULL, vektor_key_escape);
 
 	init_network();
 

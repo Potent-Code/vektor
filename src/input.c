@@ -51,331 +51,331 @@ void get_key(SDL_keysym *keysym)
 	{
 		// function keys
 		case SDLK_ESCAPE:
-			keybind_down(key_escape);
+			keybind_down(vektor_key_escape);
 			break;
 		case SDLK_F1:
-			keybind_down(key_f1);
+			keybind_down(vektor_key_f1);
 			break;
 		case SDLK_F2:
-			keybind_down(key_f2);
+			keybind_down(vektor_key_f2);
 			break;
 		case SDLK_F3:
-			keybind_down(key_f3);
+			keybind_down(vektor_key_f3);
 			break;
 		case SDLK_F4:
-			keybind_down(key_f4);
+			keybind_down(vektor_key_f4);
 			break;
 		case SDLK_F5:
-			keybind_down(key_f5);
+			keybind_down(vektor_key_f5);
 			break;
 		case SDLK_F6:
-			keybind_down(key_f6);
+			keybind_down(vektor_key_f6);
 			break;
 		case SDLK_F7:
-			keybind_down(key_f7);
+			keybind_down(vektor_key_f7);
 			break;
 		case SDLK_F8:
-			keybind_down(key_f8);
+			keybind_down(vektor_key_f8);
 			break;
 		case SDLK_F9:
-			keybind_down(key_f9);
+			keybind_down(vektor_key_f9);
 			break;
 		case SDLK_F10:
-			keybind_down(key_f10);
+			keybind_down(vektor_key_f10);
 			break;
 		case SDLK_F11:
-			keybind_down(key_f11);
+			keybind_down(vektor_key_f11);
 			break;
 		case SDLK_F12:
-			keybind_down(key_f12);
+			keybind_down(vektor_key_f12);
 			break;
 
 		// `1234567890-= backspace
 		case SDLK_BACKQUOTE:
-			keybind_down(key_backtick);
+			keybind_down(vektor_key_backtick);
 			break;
 		case SDLK_1:
-			keybind_down(key_1);
+			keybind_down(vektor_key_1);
 			break;
 		case SDLK_2:
-			keybind_down(key_2);
+			keybind_down(vektor_key_2);
 			break;
 		case SDLK_3:
-			keybind_down(key_3);
+			keybind_down(vektor_key_3);
 			break;
 		case SDLK_4:
-			keybind_down(key_4);
+			keybind_down(vektor_key_4);
 			break;
 		case SDLK_5:
-			keybind_down(key_5);
+			keybind_down(vektor_key_5);
 			break;
 		case SDLK_6:
-			keybind_down(key_6);
+			keybind_down(vektor_key_6);
 			break;
 		case SDLK_7:
-			keybind_down(key_7);
+			keybind_down(vektor_key_7);
 			break;
 		case SDLK_8:
-			keybind_down(key_8);
+			keybind_down(vektor_key_8);
 			break;
 		case SDLK_9:
-			keybind_down(key_9);
+			keybind_down(vektor_key_9);
 			break;
 		case SDLK_0:
-			keybind_down(key_0);
+			keybind_down(vektor_key_0);
 			break;
 		case SDLK_MINUS:
-			keybind_down(key_dash);
+			keybind_down(vektor_key_dash);
 			break;
 		case SDLK_EQUALS:
-			keybind_down(key_equal);
+			keybind_down(vektor_key_equal);
 			break;
 		case SDLK_BACKSPACE:
-			keybind_down(key_backspace);
+			keybind_down(vektor_key_backspace);
 			break;
 
 		// 	qwertyuiop[] backslash
 		case SDLK_q:
-			keybind_down(key_q);
+			keybind_down(vektor_key_q);
 			break;
 		case SDLK_w:
-			keybind_down(key_w);
+			keybind_down(vektor_key_w);
 			controls[0] = 1;
 			break;
 		case SDLK_e:
-			keybind_down(key_e);
+			keybind_down(vektor_key_e);
 			break;
 		case SDLK_r:
-			keybind_down(key_r);
+			keybind_down(vektor_key_r);
 			break;
 		case SDLK_t:
-			keybind_down(key_t);
+			keybind_down(vektor_key_t);
 			break;
 		case SDLK_y:
-			keybind_down(key_y);
+			keybind_down(vektor_key_y);
 			break;
 		case SDLK_u:
-			keybind_down(key_u);
+			keybind_down(vektor_key_u);
 			break;
 		case SDLK_i:
-			keybind_down(key_i);
+			keybind_down(vektor_key_i);
 			break;
 		case SDLK_o:
-			keybind_down(key_o);
+			keybind_down(vektor_key_o);
 			break;
 		case SDLK_p:
-			keybind_down(key_p);
+			keybind_down(vektor_key_p);
 			break;
 		case SDLK_LEFTBRACKET:
-			keybind_down(key_bracketl);
+			keybind_down(vektor_key_bracketl);
 			break;
 		case SDLK_RIGHTBRACKET:
-			keybind_down(key_bracketr);
+			keybind_down(vektor_key_bracketr);
 			break;
 		case SDLK_BACKSLASH:
-			keybind_down(key_backslash);
+			keybind_down(vektor_key_backslash);
 			break;
 
 		// asdfghjkl;' enter
 		case SDLK_CAPSLOCK:
-			keybind_down(key_caps);
+			keybind_down(vektor_key_caps);
 			break;
 		case SDLK_a:
-			keybind_down(key_a);
+			keybind_down(vektor_key_a);
 			controls[1] = 1;
 			break;
 		case SDLK_s:
-			keybind_down(key_s);
+			keybind_down(vektor_key_s);
 			controls[2] = 1;
 			break;
 		case SDLK_d:
-			keybind_down(key_d);
+			keybind_down(vektor_key_d);
 			controls[3] = 1;
 			break;
 		case SDLK_f:
-			keybind_down(key_f);
+			keybind_down(vektor_key_f);
 			break;
 		case SDLK_g:
-			keybind_down(key_g);
+			keybind_down(vektor_key_g);
 			break;
 		case SDLK_h:
-			keybind_down(key_h);
+			keybind_down(vektor_key_h);
 			break;
 		case SDLK_j:
-			keybind_down(key_j);
+			keybind_down(vektor_key_j);
 			break;
 		case SDLK_k:
-			keybind_down(key_k);
+			keybind_down(vektor_key_k);
 			break;
 		case SDLK_l:
-			keybind_down(key_l);
+			keybind_down(vektor_key_l);
 			break;
 		case SDLK_SEMICOLON:
-			keybind_down(key_semicolon);
+			keybind_down(vektor_key_semicolon);
 			break;
 		case SDLK_QUOTE:
-			keybind_down(key_quote);
+			keybind_down(vektor_key_quote);
 			break;
 		case SDLK_RETURN:
-			keybind_down(key_enter);
+			keybind_down(vektor_key_enter);
 			break;
 
 		// zxcvbnm,./
 		case SDLK_LSHIFT:
-			keybind_down(key_shiftl);
+			keybind_down(vektor_key_shiftl);
 			break;
 		case SDLK_z:
-			keybind_down(key_z);
+			keybind_down(vektor_key_z);
 			break;
 		case SDLK_x:
-			keybind_down(key_x);
+			keybind_down(vektor_key_x);
 			break;
 		case SDLK_c:
-			keybind_down(key_c);
+			keybind_down(vektor_key_c);
 			break;
 		case SDLK_v:
-			keybind_down(key_v);
+			keybind_down(vektor_key_v);
 			break;
 		case SDLK_b:
-			keybind_down(key_b);
+			keybind_down(vektor_key_b);
 			break;
 		case SDLK_n:
-			keybind_down(key_n);
+			keybind_down(vektor_key_n);
 			break;
 		case SDLK_m:
-			keybind_down(key_m);
+			keybind_down(vektor_key_m);
 			break;
 		case SDLK_COMMA:
-			keybind_down(key_comma);
+			keybind_down(vektor_key_comma);
 			break;
 		case SDLK_PERIOD:
-			keybind_down(key_fullstop);
+			keybind_down(vektor_key_fullstop);
 			break;
 		case SDLK_SLASH:
-			keybind_down(key_slash);
+			keybind_down(vektor_key_slash);
 			break;
 		case SDLK_RSHIFT:
-			keybind_down(key_shiftr);
+			keybind_down(vektor_key_shiftr);
 			break;
 
 		// bottom row
 		case SDLK_LCTRL:
-			keybind_down(key_ctrll);
+			keybind_down(vektor_key_ctrll);
 			break;
 		case SDLK_LSUPER:
-			keybind_down(key_winl);
+			keybind_down(vektor_key_winl);
 			break;
 		case SDLK_LALT:
-			keybind_down(key_altl);
+			keybind_down(vektor_key_altl);
 			break;
 		case SDLK_SPACE:
-			keybind_down(key_space);
+			keybind_down(vektor_key_space);
 			break;
 		case SDLK_RALT:
-			keybind_down(key_altr);
+			keybind_down(vektor_key_altr);
 			break;
 		case SDLK_RSUPER:
-			keybind_down(key_winr);
+			keybind_down(vektor_key_winr);
 			break;
 		case SDLK_RMETA:
-			keybind_down(key_option);
+			keybind_down(vektor_key_option);
 			break;
 		case SDLK_RCTRL:
-			keybind_down(key_ctrlr);
+			keybind_down(vektor_key_ctrlr);
 			break;
 
 		// middle column
 		case SDLK_PRINT:
-			keybind_down(key_printscrn);
+			keybind_down(vektor_key_printscrn);
 			break;
 		case SDLK_SCROLLOCK:
-			keybind_down(key_scrolllock);
+			keybind_down(vektor_key_scrolllock);
 			break;
 		case SDLK_BREAK:
-			keybind_down(key_break);
+			keybind_down(vektor_key_break);
 			break;
 		case SDLK_INSERT:
-			keybind_down(key_insert);
+			keybind_down(vektor_key_insert);
 			break;
 		case SDLK_HOME:
-			keybind_down(key_home);
+			keybind_down(vektor_key_home);
 			break;
 		case SDLK_PAGEUP:
-			keybind_down(key_pgup);
+			keybind_down(vektor_key_pgup);
 			break;
 		case SDLK_DELETE:
-			keybind_down(key_delete);
+			keybind_down(vektor_key_delete);
 			break;
 		case SDLK_END:
-			keybind_down(key_end);
+			keybind_down(vektor_key_end);
 			break;
 		case SDLK_PAGEDOWN:
-			keybind_down(key_pgdn);
+			keybind_down(vektor_key_pgdn);
 			break;
 		case SDLK_UP:
-			keybind_down(key_up);
+			keybind_down(vektor_key_up);
 			break;
 		case SDLK_LEFT:
-			keybind_down(key_left);
+			keybind_down(vektor_key_left);
 			break;
 		case SDLK_DOWN:
-			keybind_down(key_down);
+			keybind_down(vektor_key_down);
 			break;
 		case SDLK_RIGHT:
-			keybind_down(key_right);
+			keybind_down(vektor_key_right);
 			break;
 
 		// numpad
 		case SDLK_NUMLOCK:
-			keybind_down(key_numlock);
+			keybind_down(vektor_key_numlock);
 			break;
 		case SDLK_KP_DIVIDE:
-			keybind_down(key_divide);
+			keybind_down(vektor_key_divide);
 			break;
 		case SDLK_KP_MULTIPLY:
-			keybind_down(key_multiply);
+			keybind_down(vektor_key_multiply);
 			break;
 		case SDLK_KP_MINUS:
-			keybind_down(key_minus);
+			keybind_down(vektor_key_minus);
 			break;
 		case SDLK_KP_PLUS:
-			keybind_down(key_plus);
+			keybind_down(vektor_key_plus);
 			break;
 		case SDLK_KP_ENTER:
-			keybind_down(key_num_enter);
+			keybind_down(vektor_key_num_enter);
 			break;
 		case SDLK_KP_PERIOD:
-			keybind_down(key_decimal);
+			keybind_down(vektor_key_decimal);
 			break;
 		case SDLK_KP0:
-			keybind_down(key_num_0);
+			keybind_down(vektor_key_num_0);
 			break;
 		case SDLK_KP1:
-			keybind_down(key_num_1);
+			keybind_down(vektor_key_num_1);
 			break;
 		case SDLK_KP2:
-			keybind_down(key_num_2);
+			keybind_down(vektor_key_num_2);
 			break;
 		case SDLK_KP3:
-			keybind_down(key_num_3);
+			keybind_down(vektor_key_num_3);
 			break;
 		case SDLK_KP4:
-			keybind_down(key_num_4);
+			keybind_down(vektor_key_num_4);
 			break;
 		case SDLK_KP5:
-			keybind_down(key_num_5);
+			keybind_down(vektor_key_num_5);
 			break;
 		case SDLK_KP6:
-			keybind_down(key_num_6);
+			keybind_down(vektor_key_num_6);
 			break;
 		case SDLK_KP7:
-			keybind_down(key_num_7);
+			keybind_down(vektor_key_num_7);
 			break;
 		case SDLK_KP8:
-			keybind_down(key_num_8);
+			keybind_down(vektor_key_num_8);
 			break;
 		case SDLK_KP9:
-			keybind_down(key_num_9);
+			keybind_down(vektor_key_num_9);
 			break;
 
 		/*case SDLK_ESCAPE:
@@ -473,335 +473,335 @@ void get_keyup(SDL_keysym *keysym)
 	{
 		// function keys
 		case SDLK_ESCAPE:
-			keybind_up(key_escape);
+			keybind_up(vektor_key_escape);
 			break;
 		case SDLK_F1:
-			keybind_up(key_f1);
+			keybind_up(vektor_key_f1);
 			break;
 		case SDLK_F2:
-			keybind_up(key_f2);
+			keybind_up(vektor_key_f2);
 			break;
 		case SDLK_F3:
-			keybind_up(key_f3);
+			keybind_up(vektor_key_f3);
 			break;
 		case SDLK_F4:
-			keybind_up(key_f4);
+			keybind_up(vektor_key_f4);
 			break;
 		case SDLK_F5:
-			keybind_up(key_f5);
+			keybind_up(vektor_key_f5);
 			break;
 		case SDLK_F6:
-			keybind_up(key_f6);
+			keybind_up(vektor_key_f6);
 			break;
 		case SDLK_F7:
-			keybind_up(key_f7);
+			keybind_up(vektor_key_f7);
 			break;
 		case SDLK_F8:
-			keybind_up(key_f8);
+			keybind_up(vektor_key_f8);
 			break;
 		case SDLK_F9:
-			keybind_up(key_f9);
+			keybind_up(vektor_key_f9);
 			break;
 		case SDLK_F10:
-			keybind_up(key_f10);
+			keybind_up(vektor_key_f10);
 			break;
 		case SDLK_F11:
-			keybind_up(key_f11);
+			keybind_up(vektor_key_f11);
 			break;
 		case SDLK_F12:
-			keybind_up(key_f12);
+			keybind_up(vektor_key_f12);
 			break;
 
 		// `1234567890-= backspace
 		case SDLK_BACKQUOTE:
-			keybind_up(key_backtick);
+			keybind_up(vektor_key_backtick);
 			break;
 		case SDLK_1:
-			keybind_up(key_1);
+			keybind_up(vektor_key_1);
 			break;
 		case SDLK_2:
-			keybind_up(key_2);
+			keybind_up(vektor_key_2);
 			break;
 		case SDLK_3:
-			keybind_up(key_3);
+			keybind_up(vektor_key_3);
 			break;
 		case SDLK_4:
-			keybind_up(key_4);
+			keybind_up(vektor_key_4);
 			break;
 		case SDLK_5:
-			keybind_up(key_5);
+			keybind_up(vektor_key_5);
 			break;
 		case SDLK_6:
-			keybind_up(key_6);
+			keybind_up(vektor_key_6);
 			break;
 		case SDLK_7:
-			keybind_up(key_7);
+			keybind_up(vektor_key_7);
 			break;
 		case SDLK_8:
-			keybind_up(key_8);
+			keybind_up(vektor_key_8);
 			break;
 		case SDLK_9:
-			keybind_up(key_9);
+			keybind_up(vektor_key_9);
 			break;
 		case SDLK_0:
-			keybind_up(key_0);
+			keybind_up(vektor_key_0);
 			break;
 		case SDLK_MINUS:
-			keybind_up(key_dash);
+			keybind_up(vektor_key_dash);
 			break;
 		case SDLK_EQUALS:
-			keybind_up(key_equal);
+			keybind_up(vektor_key_equal);
 			break;
 		case SDLK_BACKSPACE:
-			keybind_up(key_backspace);
+			keybind_up(vektor_key_backspace);
 			break;
 
 		// 	qwertyuiop[] backslash
 		case SDLK_q:
-			keybind_up(key_q);
+			keybind_up(vektor_key_q);
 			break;
 		case SDLK_w:
-			keybind_up(key_w);
+			keybind_up(vektor_key_w);
 			controls[0] = 0;
 			break;
 		case SDLK_e:
-			keybind_up(key_e);
+			keybind_up(vektor_key_e);
 			break;
 		case SDLK_r:
-			keybind_up(key_r);
+			keybind_up(vektor_key_r);
 			break;
 		case SDLK_t:
-			keybind_up(key_t);
+			keybind_up(vektor_key_t);
 			break;
 		case SDLK_y:
-			keybind_up(key_y);
+			keybind_up(vektor_key_y);
 			break;
 		case SDLK_u:
-			keybind_up(key_u);
+			keybind_up(vektor_key_u);
 			break;
 		case SDLK_i:
-			keybind_up(key_i);
+			keybind_up(vektor_key_i);
 			break;
 		case SDLK_o:
-			keybind_up(key_o);
+			keybind_up(vektor_key_o);
 			break;
 		case SDLK_p:
-			keybind_up(key_p);
+			keybind_up(vektor_key_p);
 			break;
 		case SDLK_LEFTBRACKET:
-			keybind_up(key_bracketl);
+			keybind_up(vektor_key_bracketl);
 			break;
 		case SDLK_RIGHTBRACKET:
-			keybind_up(key_bracketr);
+			keybind_up(vektor_key_bracketr);
 			break;
 		case SDLK_BACKSLASH:
-			keybind_up(key_backslash);
+			keybind_up(vektor_key_backslash);
 			break;
 
 		// asdfghjkl;' enter
 		case SDLK_CAPSLOCK:
-			keybind_up(key_caps);
+			keybind_up(vektor_key_caps);
 			break;
 		case SDLK_a:
-			keybind_up(key_a);
+			keybind_up(vektor_key_a);
 			controls[1] = 0;
 			break;
 		case SDLK_s:
-			keybind_up(key_s);
+			keybind_up(vektor_key_s);
 			controls[2] = 0;
 			break;
 		case SDLK_d:
-			keybind_up(key_d);
+			keybind_up(vektor_key_d);
 			controls[3] = 0;
 			break;
 		case SDLK_f:
-			keybind_up(key_f);
+			keybind_up(vektor_key_f);
 			break;
 		case SDLK_g:
-			keybind_up(key_g);
+			keybind_up(vektor_key_g);
 			break;
 		case SDLK_h:
-			keybind_up(key_h);
+			keybind_up(vektor_key_h);
 			break;
 		case SDLK_j:
-			keybind_up(key_j);
+			keybind_up(vektor_key_j);
 			break;
 		case SDLK_k:
-			keybind_up(key_k);
+			keybind_up(vektor_key_k);
 			break;
 		case SDLK_l:
-			keybind_up(key_l);
+			keybind_up(vektor_key_l);
 			break;
 		case SDLK_SEMICOLON:
-			keybind_up(key_semicolon);
+			keybind_up(vektor_key_semicolon);
 			break;
 		case SDLK_QUOTE:
-			keybind_up(key_quote);
+			keybind_up(vektor_key_quote);
 			break;
 		case SDLK_RETURN:
 			event_return();
-			keybind_up(key_enter);
+			keybind_up(vektor_key_enter);
 			break;
 
 		// zxcvbnm,./
 		case SDLK_LSHIFT:
-			keybind_up(key_shiftl);
+			keybind_up(vektor_key_shiftl);
 			break;
 		case SDLK_z:
-			keybind_up(key_z);
+			keybind_up(vektor_key_z);
 			break;
 		case SDLK_x:
-			keybind_up(key_x);
+			keybind_up(vektor_key_x);
 			break;
 		case SDLK_c:
-			keybind_up(key_c);
+			keybind_up(vektor_key_c);
 			break;
 		case SDLK_v:
-			keybind_up(key_v);
+			keybind_up(vektor_key_v);
 			break;
 		case SDLK_b:
-			keybind_up(key_b);
+			keybind_up(vektor_key_b);
 			break;
 		case SDLK_n:
-			keybind_up(key_n);
+			keybind_up(vektor_key_n);
 			break;
 		case SDLK_m:
-			keybind_up(key_m);
+			keybind_up(vektor_key_m);
 			break;
 		case SDLK_COMMA:
-			keybind_up(key_comma);
+			keybind_up(vektor_key_comma);
 			break;
 		case SDLK_PERIOD:
-			keybind_up(key_fullstop);
+			keybind_up(vektor_key_fullstop);
 			break;
 		case SDLK_SLASH:
-			keybind_up(key_slash);
+			keybind_up(vektor_key_slash);
 			break;
 		case SDLK_RSHIFT:
-			keybind_up(key_shiftr);
+			keybind_up(vektor_key_shiftr);
 			break;
 
 		// bottom row
 		case SDLK_LCTRL:
-			keybind_up(key_ctrll);
+			keybind_up(vektor_key_ctrll);
 			break;
 		case SDLK_LSUPER:
-			keybind_up(key_winl);
+			keybind_up(vektor_key_winl);
 			break;
 		case SDLK_LALT:
-			keybind_up(key_altl);
+			keybind_up(vektor_key_altl);
 			break;
 		case SDLK_SPACE:
-			keybind_up(key_space);
+			keybind_up(vektor_key_space);
 			break;
 		case SDLK_RALT:
-			keybind_up(key_altr);
+			keybind_up(vektor_key_altr);
 			break;
 		case SDLK_RSUPER:
-			keybind_up(key_winr);
+			keybind_up(vektor_key_winr);
 			break;
 		case SDLK_RMETA:
-			keybind_up(key_option);
+			keybind_up(vektor_key_option);
 			break;
 		case SDLK_RCTRL:
-			keybind_up(key_ctrlr);
+			keybind_up(vektor_key_ctrlr);
 			break;
 
 		// middle column
 		case SDLK_PRINT:
-			keybind_up(key_printscrn);
+			keybind_up(vektor_key_printscrn);
 			break;
 		case SDLK_SCROLLOCK:
-			keybind_up(key_scrolllock);
+			keybind_up(vektor_key_scrolllock);
 			break;
 		case SDLK_BREAK:
-			keybind_up(key_break);
+			keybind_up(vektor_key_break);
 			break;
 		case SDLK_INSERT:
-			keybind_up(key_insert);
+			keybind_up(vektor_key_insert);
 			break;
 		case SDLK_HOME:
-			keybind_up(key_home);
+			keybind_up(vektor_key_home);
 			break;
 		case SDLK_PAGEUP:
-			keybind_up(key_pgup);
+			keybind_up(vektor_key_pgup);
 			break;
 		case SDLK_DELETE:
-			keybind_up(key_delete);
+			keybind_up(vektor_key_delete);
 			break;
 		case SDLK_END:
-			keybind_up(key_end);
+			keybind_up(vektor_key_end);
 			break;
 		case SDLK_PAGEDOWN:
-			keybind_up(key_pgdn);
+			keybind_up(vektor_key_pgdn);
 			break;
 		case SDLK_UP:
-			keybind_up(key_up);
+			keybind_up(vektor_key_up);
 			break;
 		case SDLK_LEFT:
-			keybind_up(key_left);
+			keybind_up(vektor_key_left);
 			break;
 		case SDLK_DOWN:
-			keybind_up(key_down);
+			keybind_up(vektor_key_down);
 			break;
 		case SDLK_RIGHT:
-			keybind_up(key_right);
+			keybind_up(vektor_key_right);
 			break;
 
 		// numpad
 		case SDLK_NUMLOCK:
-			keybind_up(key_numlock);
+			keybind_up(vektor_key_numlock);
 			break;
 		case SDLK_KP_DIVIDE:
-			keybind_up(key_divide);
+			keybind_up(vektor_key_divide);
 			break;
 		case SDLK_KP_MULTIPLY:
-			keybind_up(key_multiply);
+			keybind_up(vektor_key_multiply);
 			break;
 		case SDLK_KP_MINUS:
-			keybind_up(key_minus);
+			keybind_up(vektor_key_minus);
 			break;
 		case SDLK_KP_PLUS:
-			keybind_up(key_plus);
+			keybind_up(vektor_key_plus);
 			break;
 		case SDLK_KP_ENTER:
-			keybind_up(key_num_enter);
+			keybind_up(vektor_key_num_enter);
 			break;
 		case SDLK_KP_PERIOD:
-			keybind_up(key_decimal);
+			keybind_up(vektor_key_decimal);
 			break;
 		case SDLK_KP0:
-			keybind_up(key_num_0);
+			keybind_up(vektor_key_num_0);
 			break;
 		case SDLK_KP1:
-			keybind_up(key_num_1);
+			keybind_up(vektor_key_num_1);
 			break;
 		case SDLK_KP2:
-			keybind_up(key_num_2);
+			keybind_up(vektor_key_num_2);
 			break;
 		case SDLK_KP3:
-			keybind_up(key_num_3);
+			keybind_up(vektor_key_num_3);
 			break;
 		case SDLK_KP4:
-			keybind_up(key_num_4);
+			keybind_up(vektor_key_num_4);
 			break;
 		case SDLK_KP5:
-			keybind_up(key_num_5);
+			keybind_up(vektor_key_num_5);
 			break;
 		case SDLK_KP6:
-			keybind_up(key_num_6);
+			keybind_up(vektor_key_num_6);
 			break;
 		case SDLK_KP7:
-			keybind_up(key_num_7);
+			keybind_up(vektor_key_num_7);
 			break;
 		case SDLK_KP8:
-			keybind_up(key_num_8);
+			keybind_up(vektor_key_num_8);
 			break;
 		case SDLK_KP9:
-			keybind_up(key_num_9);
+			keybind_up(vektor_key_num_9);
 			break;
 		default:
-			// keybind_up(key_none);
+			// keybind_up(vektor_key_none);
 			break;
 	}
 }
