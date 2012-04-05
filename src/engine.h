@@ -22,10 +22,12 @@
 #include "keybind.h"
 #include "sprite.h"
 
-extern void quit(void* ev);
+extern void vektor_quit(void* ev);
 extern void vektor_init(const char *title);
-extern void scene_init();
 extern void vektor_run();
-extern void intro();
+extern void vektor_intro();
+
+extern void get_gl_version(int* major, int* minor);
+extern void get_glsl_version(int* major, int* minor);
 
 #endif

@@ -5,12 +5,10 @@
 
 #include "engine.h"
 
-void quit(void* ev);
-void resize(unsigned int w, unsigned int h);
+void vektor_quit(void* ev);
 void vektor_init(const char* title);
-void scene_init();
 void vektor_run();
-void intro();
+void vektor_intro();
 
 void get_gl_version(int* major, int* minor);
 void get_glsl_version(int* major, int* minor);
@@ -23,7 +21,7 @@ font default_font;
 sprite sprite_logo;
 texture texture_scrollbar;
 
-void quit(void* ev)
+void vektor_quit(void* ev)
 {
 	int i;
 	
@@ -242,7 +240,7 @@ void vektor_init(const char *title)
 	add_listener(&shader_remove, NULL, EVENT_QUIT);
 
 	// add quit event listener
-	add_listener(&quit, NULL, EVENT_QUIT);
+	add_listener(&vektor_quit, NULL, EVENT_QUIT);
 	keybind_add(NULL, &event_quit, NULL, vektor_key_escape);
 
 	init_network();
@@ -266,14 +264,6 @@ void vektor_init(const char *title)
 	ran_init = 1;
 }
 
-void scene_init()
-{
-	render_init();
-
-	vektor_run();
-}
-
-
 void vektor_run()
 {
 	int done = 0;
@@ -284,11 +274,13 @@ void vektor_run()
 	// draw intro logo
 	if(ran_init != 0)
 	{
+		render_init();
 		intro();
 	}
 	else
 	{
 		fprintf(stderr,"Please run vektor_init() first!\n");
+		return;
 	}
 
 	enable_mouselook(cam);
