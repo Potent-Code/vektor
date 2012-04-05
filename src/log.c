@@ -30,6 +30,8 @@ void init_log(void)
 		log_fd = fopen("vektor.log", "w");
 		#endif
 		log_add_no_eol("Starting Vektor Engine ");
+		log_add_no_eol(PACKAGE_VERSION);
+		log_add_no_eol(" on ");
 
 		// add the date and time to header line
 		time(&rawtime);

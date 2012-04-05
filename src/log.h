@@ -12,6 +12,8 @@
 #include <time.h>
 #include <sys/time.h>
 
+#include "config.h"
+
 extern void init_log(void);
 extern void log_add(const char* str);
 extern void log_add_no_eol(const char* str);
