@@ -77,16 +77,16 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" \
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libvektor_la_LIBADD =
 am__libvektor_la_SOURCES_DIST = image.h sdl.h ui.h log.h log.c \
-	sdl_window.h sdl_window.c texture.h texture.c input.h input.c \
-	event.h event.c net.h net.c sprite.h sprite.c draw.h draw.c \
-	font.h font.c textbox.h textbox.c scrollbar.h scrollbar.c \
-	camera.h camera.c skybox.h skybox.c window.h window.c \
-	console.h console.c button.h button.c tabbar.h tabbar.c \
-	clickable.h clickable.c model.h model.c draw_model.h \
-	draw_model.c keys.h keybind.h keybind.c glsl_shaders.h \
-	glsl_shaders.c ui_window.h ui_window.c SDLMain.m
+	engine.h engine.c texture.h texture.c input.h input.c event.h \
+	event.c net.h net.c sprite.h sprite.c draw.h draw.c font.h \
+	font.c textbox.h textbox.c scrollbar.h scrollbar.c camera.h \
+	camera.c skybox.h skybox.c window.h window.c console.h \
+	console.c button.h button.c tabbar.h tabbar.c clickable.h \
+	clickable.c model.h model.c draw_model.h draw_model.c keys.h \
+	keybind.h keybind.c glsl_shaders.h glsl_shaders.c ui_window.h \
+	ui_window.c SDLMain.m
 @DARWIN_TRUE@am__objects_1 = SDLMain.lo
-am_libvektor_la_OBJECTS = log.lo sdl_window.lo texture.lo input.lo \
+am_libvektor_la_OBJECTS = log.lo engine.lo texture.lo input.lo \
 	event.lo net.lo sprite.lo draw.lo font.lo textbox.lo \
 	scrollbar.lo camera.lo skybox.lo window.lo console.lo \
 	button.lo tabbar.lo clickable.lo model.lo draw_model.lo \
@@ -300,14 +300,14 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 lib_LTLIBRARIES = libvektor.la
-libvektor_la_SOURCES = image.h sdl.h ui.h log.h log.c sdl_window.h \
-	sdl_window.c texture.h texture.c input.h input.c event.h \
-	event.c net.h net.c sprite.h sprite.c draw.h draw.c font.h \
-	font.c textbox.h textbox.c scrollbar.h scrollbar.c camera.h \
-	camera.c skybox.h skybox.c window.h window.c console.h \
-	console.c button.h button.c tabbar.h tabbar.c clickable.h \
-	clickable.c model.h model.c draw_model.h draw_model.c keys.h \
-	keybind.h keybind.c glsl_shaders.h glsl_shaders.c ui_window.h \
+libvektor_la_SOURCES = image.h sdl.h ui.h log.h log.c engine.h \
+	engine.c texture.h texture.c input.h input.c event.h event.c \
+	net.h net.c sprite.h sprite.c draw.h draw.c font.h font.c \
+	textbox.h textbox.c scrollbar.h scrollbar.c camera.h camera.c \
+	skybox.h skybox.c window.h window.c console.h console.c \
+	button.h button.c tabbar.h tabbar.c clickable.h clickable.c \
+	model.h model.c draw_model.h draw_model.c keys.h keybind.h \
+	keybind.c glsl_shaders.h glsl_shaders.c ui_window.h \
 	ui_window.c $(am__append_1)
 @DARWIN_FALSE@libvektor_la_LDFLAGS = -lSDL -lGL -lGLU -lmathlib
 @DARWIN_TRUE@libvektor_la_LDFLAGS = -framework SDL -framework OpenGL \
@@ -467,6 +467,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/console.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/draw.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/draw_model.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/engine.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/event.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/font.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/glsl_shaders.Plo@am__quote@
@@ -480,7 +481,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/model.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scrollbar.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sdl_window.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/skybox.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sprite.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tabbar.Plo@am__quote@

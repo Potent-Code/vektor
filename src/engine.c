@@ -3,7 +3,7 @@
  * by Ryan Lucchese
  * December 21 2010 */
 
-#include "sdl_window.h"
+#include "engine.h"
 
 void quit(void* ev);
 void resize(unsigned int w, unsigned int h);
@@ -58,18 +58,6 @@ void quit(void* ev)
 
 	SDL_Quit();
 	exit(0);
-}
-
-void resize(unsigned int w, unsigned int h)
-{
-	// we should never have a 0 height window
-	if(h == 0) h = 1;
-
-	glViewport(0, 0, (GLint)w, (GLint)h);
-	
-	window_width = w;
-	window_height = h;
-	shaders_resize(w, h);
 }
 
 void intro(void)
