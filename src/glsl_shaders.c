@@ -49,8 +49,8 @@ void shader_init()
 	shader->vs->in_tcoords = glGetAttribLocation(shader->id, "in_tcoords");
 
 	// get uniform locations
-	shader->vs->window_w = glGetUniformLocation(shader->id, "window_w");
-	shader->vs->window_h = glGetUniformLocation(shader->id, "window_h");
+	shader->vs->window_width = glGetUniformLocation(shader->id, "window_width");
+	shader->vs->window_height = glGetUniformLocation(shader->id, "window_height");
 	shader->vs->view_angle = glGetUniformLocation(shader->id, "view_angle");
 	shader->vs->z_near = glGetUniformLocation(shader->id, "z_near");
 	shader->vs->z_far = glGetUniformLocation(shader->id, "z_far");
@@ -190,8 +190,8 @@ void shaders_resize(int w, int h)
 {
 	if ((shader != NULL) && (shader->vs != NULL))
 	{
-		glUniform1f(shader->vs->window_w, (float)w);
-		glUniform1f(shader->vs->window_h, (float)h);
+		glUniform1f(shader->vs->window_width, (float)w);
+		glUniform1f(shader->vs->window_height, (float)h);
 	}
 }
 

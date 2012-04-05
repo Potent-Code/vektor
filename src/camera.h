@@ -8,6 +8,9 @@
 #include <math.h>
 #include <mathlib.h>
 
+#include "log.h"
+#include "window.h"
+
 // types of cameras
 #define CAMERA_TYPE_FIXED 1
 #define CAMERA_TYPE_FOLLOW 2
@@ -30,7 +33,6 @@ typedef struct
 	unsigned int active;
 } *camera;
 
-#include "sdl_window.h"
 #include "input.h"
 #include "event.h"
 

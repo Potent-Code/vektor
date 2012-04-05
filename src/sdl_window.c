@@ -17,9 +17,6 @@ void get_glsl_version(int* major, int* minor);
 
 int ran_init = 0;
 int video_flags;
-unsigned int window_w;
-unsigned int window_h;
-unsigned int color_depth;
 SDL_Surface *surface;
 font default_font;
 
@@ -70,8 +67,8 @@ void resize(unsigned int w, unsigned int h)
 
 	glViewport(0, 0, (GLint)w, (GLint)h);
 	
-	window_w = w;
-	window_h = h;
+	window_width = w;
+	window_height = h;
 	shaders_resize(w, h);
 }
 
@@ -90,8 +87,8 @@ void intro(void)
 		glUseProgram(shader->id);
 	
 		// set uniforms
-		glUniform1f(shader->vs->window_w, (float)(window_w));
-		glUniform1f(shader->vs->window_h, (float)(window_h));
+		glUniform1f(shader->vs->window_width, (float)(window_width));
+		glUniform1f(shader->vs->window_height, (float)(window_height));
 		glUniform1f(shader->vs->view_angle, 45.0f);
 		glUniform1f(shader->vs->z_near, 0.5f);
 		glUniform1f(shader->vs->z_far, 500.0f);
@@ -176,8 +173,8 @@ void vektor_init(const char *title)
 	font f;
 
 	// initial values for SDL window
-	window_w = 1024;
-	window_h = 768;
+	window_width = 1024;
+	window_height = 768;
 	color_depth = 32;
 
 	// OpenGL / GLSL version numbers
@@ -220,8 +217,8 @@ void vektor_init(const char *title)
 	SDL_WM_SetCaption(title, NULL);
 
 	// get ready to draw
-	surface = SDL_SetVideoMode(window_w, window_h, color_depth, video_flags);
-	resize(window_w, window_h);
+	surface = SDL_SetVideoMode(window_width, window_height, color_depth, video_flags);
+	resize(window_width, window_height);
 
 	// get OpenGL version
 	get_gl_version(&gl_vers_major, &gl_vers_minor);
@@ -269,13 +266,13 @@ void vektor_init(const char *title)
 	f = add_font("/usr/local/share/vektor/fonts/default.font");
 
 	// calculate a centering x and y and set up sprite for logo screen
-	logo_x = ((((float)(window_w) / 2.0) - 400.0)/((float)(window_w) / 2.0)) - 1.0;
-	logo_y = ((((float)(window_h) / 2.0) - 300.0)/((float)(window_h) / 2.0)) - 1.0;
+	logo_x = ((((float)(window_width) / 2.0) - 400.0)/((float)(window_width) / 2.0)) - 1.0;
+	logo_y = ((((float)(window_height) / 2.0) - 300.0)/((float)(window_height) / 2.0)) - 1.0;
 	sprite_logo = sprite_add(logo_x, logo_y, "/usr/local/share/vektor/logo.texture");
 	//add_texture("/usr/local/share/vektor/ui/scroll_bar.texture", &texture_scrollbar);
 	//init_console(-276,174,522,352);
 	
-	fps_disp = add_textbox(((float)window_w/2.0)-(12.0*(float)f->w) - 1.0, ((float)window_h/2.0)-(float)f->h - 1.0, 12, 1, 13);
+	fps_disp = add_textbox(((float)window_width/2.0)-(12.0*(float)f->w) - 1.0, ((float)window_height/2.0)-(float)f->h - 1.0, 12, 1, 13);
 	add_object_2d(fps_disp, fps_disp->init, NULL, fps_disp->draw, fps_disp->remove);
 
 	ran_init = 1;

@@ -3,11 +3,17 @@
  * Ryan Lucchese
  * December 21 2010 */
 
-#ifndef DRAW_H
-#define DRAW_H
+#ifndef draw_h
+#define draw_h
 
-#include "sdl_window.h"
+#include "window.h"
+#include "glsl_shaders.h"
 #include "camera.h"
+#include "textbox.h"
+
+#define PROJECTION_STANDARD 1
+#define PROJECTION_OBLIQUE 2
+#define PROJECTION_ORTHOGRAPHIC 3
 
 typedef struct
 {

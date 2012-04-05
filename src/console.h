@@ -13,6 +13,7 @@
 #include "keybind.h"
 #include "log.h"
 #include "draw.h"
+#include "net.h"
 
 // types
 typedef struct
@@ -24,8 +25,8 @@ typedef struct
 	int active;
 	window win;
 	tabbar tabs;
-	bitmap cpane;
-	bitmap in_bar;
+	//bitmap cpane;
+	//bitmap in_bar;
 	textbox tb_out;
 	textbox tb_in;
 	void (*update)(void *);

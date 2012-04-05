@@ -11,6 +11,7 @@
 #include "sdl.h"
 #include "texture.h"
 #include "draw.h"
+#include "glsl_shaders.h"
 
 struct _sprite
 {

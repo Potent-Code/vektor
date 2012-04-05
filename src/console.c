@@ -70,8 +70,8 @@ console init_console(int x, int y, int w, int h)
 	add_listener(&chat_recv, c->tb_out, EVENT_NET_RECV);
 
 	// add content pane
-	c->cpane = add_bitmap(10, -65, 502, 262, &texture_cpane);
-	c->in_bar = add_bitmap(20, -293, 482, 25, &texture_input_bar); 
+	//c->cpane = add_bitmap(10, -65, 502, 262, &texture_cpane);
+	//c->in_bar = add_bitmap(20, -293, 482, 25, &texture_input_bar); 
 
 	// add buttons
 	console_btn = add_button(x + 5, y + 5, 87, 26, &texture_btn_console);
@@ -90,8 +90,8 @@ console init_console(int x, int y, int w, int h)
 
 	// attach objects to window
 	window_addchild(c->win, c->tabs, c->tabs->draw, c->tabs->move, c->tabs->resize, c->tabs->remove);
-	window_addchild(c->win, c->cpane, c->cpane->draw, c->cpane->move, c->cpane->resize, c->cpane->remove);
-	window_addchild(c->win, c->in_bar, c->in_bar->draw, c->in_bar->move, c->in_bar->resize, c->in_bar->remove);
+	//window_addchild(c->win, c->cpane, c->cpane->draw, c->cpane->move, c->cpane->resize, c->cpane->remove);
+	//window_addchild(c->win, c->in_bar, c->in_bar->draw, c->in_bar->move, c->in_bar->resize, c->in_bar->remove);
 	window_addchild(c->win, c->tb_out, c->tb_out->draw, c->tb_out->move, c->tb_out->resize, c->tb_out->remove);
 	window_addchild(c->win, c->tb_in, c->tb_in->draw, c->tb_in->move, c->tb_in->resize, c->tb_in->remove);
 
@@ -154,7 +154,7 @@ void set_console(void *bp)
 	set_input(main_console->tb_in->data, 1000);
 	textbox_add_text(main_console->tb_in, "v$ ");
 	main_console->tb_in->active = 1;
-	main_console->in_bar->active = 1;
+	//main_console->in_bar->active = 1;
 	main_console->tb_out->lines = 16;
 	textbox_find_lines(main_console->tb_out);
 }
@@ -169,7 +169,7 @@ void set_chat(void *bp)
 	textbox_clear_text(main_console->tb_in);
 	set_input(main_console->tb_in->data, 1000);
 	main_console->tb_in->active = 1;
-	main_console->in_bar->active = 1;
+	//main_console->in_bar->active = 1;
 	main_console->tb_out->lines = 16;
 	textbox_find_lines(main_console->tb_out);
 }
@@ -184,7 +184,7 @@ void set_log(void *bp)
 	textbox_clear_text(main_console->tb_in);
 	set_input(NULL, 0);
 	main_console->tb_in->active = 0;
-	main_console->in_bar->active = 0;
+	//main_console->in_bar->active = 0;
 	main_console->tb_out->lines = 18;
 	textbox_find_lines(main_console->tb_out);
 }

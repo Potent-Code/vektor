@@ -54,8 +54,8 @@ void camera_mouselook(camera c)
 	}
 
 	// mouse movement map
-	c->dx += (2*M_PI)*(last_mouse_x - mouse_x)/window_h;
-	c->dy += M_PI*(mouse_y - last_mouse_y)/window_h;
+	c->dx += (2*M_PI)*(last_mouse_x - mouse_x)/window_width;
+	c->dy += M_PI*(mouse_y - last_mouse_y)/window_height;
 
 	// clamp to proper rotation domains
 	if((c->pitch+c->dy) > -M_PI/2. && (c->pitch+c->dy) < M_PI/2.)

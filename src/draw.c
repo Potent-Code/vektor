@@ -152,8 +152,8 @@ void render_draw(void)
 	glUseProgram(shader->id);
 	
 	// set uniforms
-	glUniform1f(shader->vs->window_w, (float)(window_w));
-	glUniform1f(shader->vs->window_h, (float)(window_h));
+	glUniform1f(shader->vs->window_width, (float)(window_width));
+	glUniform1f(shader->vs->window_height, (float)(window_height));
 	glUniform1f(shader->vs->view_angle, 45.0f);
 	glUniform1f(shader->vs->z_near, 0.5f);
 	glUniform1f(shader->vs->z_far, 500.0f);

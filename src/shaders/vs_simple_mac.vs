@@ -5,8 +5,8 @@
 // March 15 2012
 
 // view port uniforms
-uniform float window_w; // window width
-uniform float window_h; // window height
+uniform float window_width; // window width
+uniform float window_height; // window height
 uniform float view_angle; // field of view in degrees
 uniform float z_near; // near clip plane
 uniform float z_far; // far clip plane
@@ -104,15 +104,15 @@ void main(void)
 	mat4 projection = mat4(1.0);
 	if (projection_type == 1) // standard perspective transformation
 	{
-		projection = transform_perspective_standard(radians(view_angle), (window_w / window_h), z_near, z_far);
+		projection = transform_perspective_standard(radians(view_angle), (window_width / window_height), z_near, z_far);
 	}
 	if (projection_type == 2) // oblique perspective transformation
 	{
-		projection = transform_perspective_oblique(0.0, window_w, 0.0, window_h, z_near, z_far);
+		projection = transform_perspective_oblique(0.0, window_width, 0.0, window_height, z_near, z_far);
 	}
 	if (projection_type == 3) // orthographic projection
 	{
-		projection = transform_orthographic(-window_w/2.0, window_w/2.0, -window_h/2.0, window_h/2.0, -1.0, 1.0);
+		projection = transform_orthographic(-window_width/2.0, window_width/2.0, -window_height/2.0, window_height/2.0, -1.0, 1.0);
 		camera = mat4(1.0);
 	}
 

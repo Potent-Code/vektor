@@ -2,7 +2,7 @@
  * by Ryan Lucchese
  * July 24 2011 */
 
-#include "window.h"
+#include "ui_window.h"
 
 window add_window(int x, int y, int w, int h);
 void draw_window(void *wp);

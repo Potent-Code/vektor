@@ -111,31 +111,6 @@ typedef struct {
 	void (*draw)(void*);
 	void (*remove)(void*);
 } *model;
-// ***************************************
-// *              bitmap                 *
-// ***************************************
-// types
-typedef struct
-{
-	int x;
-	int y;
-	int w;
-	int h;
-	int w_orig;
-	int h_orig;
-	int active;
-	texture* tex;
-	void (*resize)(void *, float, float);
-	void (*move)(void *, float, float);
-	void (*update)(void *);
-	void (*draw)(void *);
-	void (*remove)(void *);
-} *bitmap;
-
-// methods
-extern bitmap add_bitmap(int x, int y, int w, int h, texture* _tex);
-extern void draw_bitmap(void *bp);
-extern void resize_bitmap(void *bp, float w_scale, float h_scale);
 
 
 // ***************************************
@@ -308,28 +283,6 @@ extern int nfonts;
 
 
 // ***************************************
-// *               ground                *
-// ***************************************
-// types
-typedef struct
-{
-	float x;
-	float y;
-	float z;
-	float w;
-	float h;
-	texture tex;
-	void (*update)(void *);
-	void (*draw)(void *);
-	void (*remove)(void *);
-} *ground;
-
-// methods
-extern ground add_ground(float x, float z, float w, float h, const char* filename);
-extern void draw_ground(void *bp);
-
-
-// ***************************************
 // *               image                 *
 // ***************************************
 typedef struct
@@ -401,67 +354,6 @@ extern int sockfd;
 extern struct sockaddr_in server_addr;
 extern struct pollfd net_read;
 extern struct pollfd net_write;
-
-// ***************************************
-// *               plant                 *
-// ***************************************
-typedef struct
-{
-	float x1,y1; // start coordinates
-	float x2,y2; // end coordinates
-	float angle; // angle of current branch
-} *branch;
-
-typedef struct
-{
-	float x;
-	float y;
-	float l; // length of a branch
-	float angle; // angle increment
-	unsigned int iterations;
-	unsigned int nbranches;
-	branch branches;
-	void (*update)(void *);
-	void (*draw)(void *);
-	void (*remove)(void *);
-} *plant;
-
-extern plant add_plant(float x, float y, float l, float angle, unsigned int iterations);
-extern void draw_plant(void *pp);
-extern void free_plant(void *pp);
-extern unsigned int grow(plant p, unsigned int n);
-
-
-// ***************************************
-// *               player                *
-// ***************************************
-// methods
-/*extern sprite player_sprite(float x, float y, float width, float height, unsigned int texture);
-extern void animate_player(sprite player);
-extern void move_player(sprite player);
-extern void draw_player(void *p);*/
-
-
-// ***************************************
-// *              pyramid                *
-// ***************************************
-// types
-typedef struct
-{
-	float x;
-	float y;
-	float z;
-	float h;
-	texture tex;
-	void (*update)(void *);
-	void (*draw)(void *);
-	void (*remove)(void *);
-} *pyramid;
-
-// methods
-extern pyramid add_pyramid(float x, float y, float z, float h, const char* filename);
-extern void draw_pyramid(void *pp);
-
 
 // ***************************************
 // *             scrollbar               *
@@ -662,26 +554,6 @@ extern void window_mousedown(void *wp);
 extern void window_mouseup(void *wp);
 extern void window_dragresize(void *wp);
 extern void window_addchild(window w, void *p, void (*draw)(void*), void (*move)(void*,float,float), void (*resize)(void*,float,float), void (*remove)(void*));
-
-// ** triangle
-// types
-typedef struct
-{
-	float vertices[9];
-	float colors[9];
-	unsigned int vao_id; // vertex array object id list
-	unsigned int vbo_ids[2]; // vertex buffer object id list
-	void (*init)(void*);
-	void (*update)(void*);
-	void (*draw)(void*);
-	void (*remove)(void*);
-} *triangle;
-
-// methods
-extern triangle triangle_add();
-extern void triangle_init(void* tp);
-extern void triangle_draw(void* tp);
-extern void triangle_remove(void* tp);
 
 #ifdef __cplusplus
 }

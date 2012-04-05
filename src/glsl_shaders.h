@@ -28,8 +28,8 @@ typedef struct {
 	int in_tcoords;
 
 	// view port uniforms
-	int window_w;
-	int window_h;
+	int window_width;
+	int window_height;
 	int view_angle;
 	int z_near;
 	int z_far;
