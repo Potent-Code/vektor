@@ -7,5 +7,5 @@ Name: vektor
 Description: Vektor game engine
 Requires: libpng-1.4 sdl-1.2 mathlib-0.1
 Version: @PACKAGE_VERSION@
-Libs: -lGL -lGLU -lSDL -lpng
+Libs: -lGL -lGLU -lSDL -lpng -lz
 Default Cflags: -O0 -g3 -Wall -Wextra
