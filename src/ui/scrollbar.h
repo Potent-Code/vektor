@@ -7,7 +7,7 @@
 
 #include "texture.h"
 #include "sdl.h"
-#include "clickable.h"
+#include "mousehandler.h"
 
 // types
 typedef struct

@@ -25,11 +25,9 @@ AC_ARG_ENABLE([nodebug], [AC_HELP_STRING([--enable-nodebug],
 
 # Checks for libraries.
 AC_PROG_CXX
-#AX_CHECK_GL
-#AX_CHECK_GLU
 
 # Checks for header files.
-AC_CHECK_HEADERS([fcntl.h netdb.h stdlib.h string.h sys/param.h sys/socket.h sys/time.h unistd.h])
+AC_CHECK_HEADERS([fcntl.h netdb.h stdlib.h string.h sys/param.h sys/socket.h sys/time.h unistd.h mathlib.h png.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_SIZE_T
@@ -51,4 +49,4 @@ else
 	AM_CONDITIONAL([DARWIN],false)
 fi
 
-AC_OUTPUT(Makefile src/Makefile src/shaders/Makefile share/Makefile)
+AC_OUTPUT(Makefile src/Makefile src/ui/Makefile src/shaders/Makefile share/Makefile)

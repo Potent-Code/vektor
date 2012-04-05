@@ -8277,6 +8277,10 @@ _lt_linker_boilerplate=`cat conftest.err`
 $RM -r conftest*
 
 
+## CAVEAT EMPTOR:
+## There is no encapsulation within the following macros, do not change
+## the running order or otherwise move them around unless you know exactly
+## what you are doing...
 if test -n "$compiler"; then
 
 lt_prog_compiler_no_builtin_flag=
@@ -15557,11 +15561,9 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
-#AX_CHECK_GL
-#AX_CHECK_GLU
 
 # Checks for header files.
-for ac_header in fcntl.h netdb.h stdlib.h string.h sys/param.h sys/socket.h sys/time.h unistd.h
+for ac_header in fcntl.h netdb.h stdlib.h string.h sys/param.h sys/socket.h sys/time.h unistd.h mathlib.h png.h
 do :
   as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
 ac_fn_c_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"
@@ -15766,7 +15768,7 @@ fi
 
 fi
 
-ac_config_files="$ac_config_files Makefile src/Makefile src/shaders/Makefile share/Makefile"
+ac_config_files="$ac_config_files Makefile src/Makefile src/ui/Makefile src/shaders/Makefile share/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -16896,6 +16898,7 @@ do
     "vektor.pc") CONFIG_FILES="$CONFIG_FILES vektor.pc" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
+    "src/ui/Makefile") CONFIG_FILES="$CONFIG_FILES src/ui/Makefile" ;;
     "src/shaders/Makefile") CONFIG_FILES="$CONFIG_FILES src/shaders/Makefile" ;;
     "share/Makefile") CONFIG_FILES="$CONFIG_FILES share/Makefile" ;;
 

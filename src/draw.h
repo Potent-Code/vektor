@@ -9,7 +9,7 @@
 #include "window.h"
 #include "glsl_shaders.h"
 #include "camera.h"
-#include "textbox.h"
+#include "ui/textbox.h"
 
 #define PROJECTION_STANDARD 1
 #define PROJECTION_OBLIQUE 2
