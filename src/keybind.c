@@ -5,7 +5,7 @@
 #include "keybind.h"
 
 // one pointer for each key
-keybind keymap[n_keys];
+keybind keymap[vektor_key_last];
 
 void keybind_up(int key);
 void keybind_down(int key);
