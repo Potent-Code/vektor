@@ -9,8 +9,8 @@ keybind keymap[vektor_key_last];
 
 void keybind_up(int key);
 void keybind_down(int key);
-void keybind_add(void* _obj, void (*_up)(void*), void (*_down)(void*), int key);
-void keybind_remove(void* _obj, void (*_up)(void*), void (*_down)(void*),  int key);
+void keybind_add(void* _obj, void (*_down)(void*), void (*_up)(void*), int key);
+void keybind_remove(void* _obj, void (*_down)(void*), void (*_up)(void*),  int key);
 void keybind_remove_all(void* kp);
 
 void keybind_up(int key)
@@ -45,7 +45,7 @@ void keybind_down(int key)
 	}
 }
 
-void keybind_add(void* _obj, void (*_up)(void*), void (*_down)(void*), int key)
+void keybind_add(void* _obj, void (*_down)(void*), void (*_up)(void*), int key)
 {
 	keybind cur;
 
@@ -80,7 +80,7 @@ void keybind_add(void* _obj, void (*_up)(void*), void (*_down)(void*), int key)
 
 }
 
-void keybind_remove(void* _obj, void (*_up)(void*), void (*_down)(void*), int key)
+void keybind_remove(void* _obj, void (*_down)(void*), void (*_up)(void*), int key)
 {
 	// TODO
 	(void)_obj;
