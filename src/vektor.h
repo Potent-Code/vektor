@@ -694,8 +694,24 @@ enum
 	vektor_key_last,
 };
 
+struct key_listener
+{
+	void (*up)(void*);
+	void (*down)(void*);
+	void* obj;
+	struct key_listener* next;
+};
+
+typedef struct key_listener* keybind;
+
+extern void keybind_up(int key);
+extern void keybind_down(int key);
+extern void keybind_add(void* _obj, void (*_up)(void*), void (*_down)(void*), int key);
+extern void keybind_remove(void* _obj, void (*_up)(void*), void (*_down)(void*), int key);
+extern void keybind_remove_all(void* kp);
+
 #ifdef __cplusplus
 }
 #endif // __cplusplus
 
-#endif // vektor_h
+#endif
