@@ -254,7 +254,8 @@ void vektor_init(const char *title)
 	// calculate a centering x and y and set up sprite for logo screen
 	logo_x = ((((float)(window_width) / 2.0) - 400.0)/((float)(window_width) / 2.0)) - 1.0;
 	logo_y = ((((float)(window_height) / 2.0) - 300.0)/((float)(window_height) / 2.0)) - 1.0;
-	sprite_logo = sprite_add(logo_x, logo_y, "/usr/local/share/vektor/logo.texture");
+	sprite_logo = sprite_new(logo_x, logo_y, "/usr/local/share/vektor/logo.texture");
+	sprite_add(sprite_logo);
 	//add_texture("/usr/local/share/vektor/ui/scroll_bar.texture", &texture_scrollbar);
 	//init_console(-276,174,522,352);
 	
