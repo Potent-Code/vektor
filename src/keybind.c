@@ -17,7 +17,7 @@ void keybind_up(int key)
 {
 	keybind cur;
 
-	if (key > n_keys)
+	if ((key >= vektor_key_last) || (key < 0))
 	{
 		fprintf(stderr, "Invalid key %d\n", key);
 		return;
@@ -33,7 +33,7 @@ void keybind_down(int key)
 {
 	keybind cur;
 
-	if (key > n_keys)
+	if ((key >= vektor_key_last) || (key < 0))
 	{
 		fprintf(stderr, "Invalid key %d\n", key);
 		return;
@@ -49,7 +49,7 @@ void keybind_add(void* _obj, void (*_down)(void*), void (*_up)(void*), int key)
 {
 	keybind cur;
 
-	if (key > n_keys)
+	if ((key > vektor_key_last) || (key < 0))
 	{
 		fprintf(stderr, "Invalid key %d\n", key);
 		return;
@@ -97,7 +97,7 @@ void keybind_remove_all(void* kp)
 
 	(void)kp;
 
-	for (i = 0; i < n_keys; i++)
+	for (i = 0; i < vektor_key_last; i++)
 	{	
 		for (cur = keymap[i]; cur != NULL;)
 		{

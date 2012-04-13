@@ -5,14 +5,12 @@
 #ifndef keys_h
 #define keys_h
 
-#define n_keys 		104
-
 enum
 {
-	vektor_key_none  = 0,
+	vektor_key_none  = -1,
 	
 	// function keys
-	vektor_key_escape,
+	vektor_key_escape = 0,
 	vektor_key_f1,
 	vektor_key_f2,
 	vektor_key_f3,

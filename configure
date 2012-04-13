@@ -750,7 +750,6 @@ with_gnu_ld
 with_sysroot
 enable_libtool_lock
 enable_nodebug
-with_gnu_ld
 '
       ac_precious_vars='build_alias
 host_alias
@@ -762,16 +761,9 @@ LIBS
 CPPFLAGS
 OBJC
 OBJCFLAGS
-LDFLAGS
-LIBS
-CPPFLAGS
-OBJC
 CPP
-CPPFLAGS
 CXX
 CXXFLAGS
-LDFLAGS
-LIBS
 CCC
 CXXCPP'
 
@@ -8285,10 +8277,6 @@ _lt_linker_boilerplate=`cat conftest.err`
 $RM -r conftest*
 
 
-## CAVEAT EMPTOR:
-## There is no encapsulation within the following macros, do not change
-## the running order or otherwise move them around unless you know exactly
-## what you are doing...
 if test -n "$compiler"; then
 
 lt_prog_compiler_no_builtin_flag=

@@ -563,14 +563,13 @@ extern void window_addchild(window w, void *p, void (*draw)(void*), void (*move)
 // ***************************************
 // *                keys                 *
 // ***************************************
-#define n_keys 		104
 
 enum
 {
-	vektor_key_none  = 0,
+	vektor_key_none  = -1,
 	
 	// function keys
-	vektor_key_escape,
+	vektor_key_escape = 0,
 	vektor_key_f1,
 	vektor_key_f2,
 	vektor_key_f3,
@@ -706,9 +705,18 @@ typedef struct key_listener* keybind;
 
 extern void keybind_up(int key);
 extern void keybind_down(int key);
-extern void keybind_add(void* _obj, void (*_up)(void*), void (*_down)(void*), int key);
-extern void keybind_remove(void* _obj, void (*_up)(void*), void (*_down)(void*), int key);
+extern void keybind_add(void* _obj, void (*_down)(void*), void (*_up)(void*), int key);
+extern void keybind_remove(void* _obj, void (*_down)(void*), void (*_up)(void*), int key);
 extern void keybind_remove_all(void* kp);
+
+
+// ***************************************
+// *             keystates               *
+// ***************************************
+extern void keystates_init();
+extern int keystate_get(int key);
+extern void keystates_remove();
+
 
 #ifdef __cplusplus
 }
