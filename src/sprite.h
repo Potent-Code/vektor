@@ -45,7 +45,8 @@ struct _sprite
 
 typedef struct _sprite* sprite;
 
-extern sprite sprite_add(float _x, float _y, const char* filename);
+extern sprite sprite_new(float _x, float _y, const char* filename);
+extern void sprite_add(void* sp);
 extern void sprite_init(void* sp);
 extern void sprite_update(void* sp);
 extern void sprite_draw(void* sp);

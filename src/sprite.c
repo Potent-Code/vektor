@@ -4,13 +4,14 @@
 
 #include "sprite.h"
 
-sprite sprite_add(float _x, float _y, const char* filename);
+sprite sprite_new(float _x, float _y, const char* filename);
+void sprite_add(void* sp);
 void sprite_init(void* sp);
 void sprite_update(void* sp);
 void sprite_draw(void* sp);
 void sprite_remove(void* sp);
 
-sprite sprite_add(float _x, float _y, const char* filename)
+sprite sprite_new(float _x, float _y, const char* filename)
 {
 	sprite s;
 
@@ -45,9 +46,13 @@ sprite sprite_add(float _x, float _y, const char* filename)
 	s->draw = &sprite_draw;
 	s->remove = &sprite_remove;
 
-	add_object_2d(s, s->init, s->update, s->draw, s->remove);
-
 	return s;
+}
+
+void sprite_add(void* sp)
+{
+	sprite s = sp;
+	add_object_2d(s, s->init, s->update, s->draw, s->remove);
 }
 
 void sprite_init(void* sp)
