@@ -20,6 +20,7 @@
 #include "draw.h"
 #include "ui/textbox.h"
 #include "keybind.h"
+#include "keystates.h"
 #include "sprite.h"
 
 extern void vektor_quit(void* ev);

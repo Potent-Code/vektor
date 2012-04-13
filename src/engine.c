@@ -172,6 +172,9 @@ void vektor_init(const char *title)
 	// start logging
 	init_log();
 
+	// init keystates
+	keystates_init();
+
 	// initialize SDL
 	SDL_Init(SDL_INIT_VIDEO);
 	video_info = SDL_GetVideoInfo();
