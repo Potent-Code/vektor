@@ -132,6 +132,8 @@ enum
 	vektor_key_num_7,
 	vektor_key_num_8,
 	vektor_key_num_9,
+	
+	vektor_key_last,
 };
 
 #endif // keys_h
