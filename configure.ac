@@ -38,6 +38,15 @@ AC_FUNC_REALLOC
 AC_CHECK_FUNCS([gethostbyname2 memmove memset select socket])
 AC_CONFIG_FILES([vektor.pc])
 
+# Check for indent program to clean up vektor.h
+#AC_ARG_VAR([INDENT], [use indent program to format vektor.h])
+AC_CHECK_PROG([INDENT], [indent], [yes], [no])
+if test "${INDENT}" = "yes"; then
+	AM_CONDITIONAL([HAVE_INDENT], true)
+else
+	AM_CONDITIONAL([HAVE_INDENT], false)
+fi
+
 # Check for running OS X
 AC_MSG_CHECKING([if running Darwin])
 UNAME=`uname -s`
