@@ -4,6 +4,8 @@
  * December 21 2010 */
 
 #ifndef draw_h
+
+#ifndef vektor_in_h
 #define draw_h
 
 #include "window.h"
@@ -14,6 +16,7 @@
 #define PROJECTION_STANDARD 1
 #define PROJECTION_OBLIQUE 2
 #define PROJECTION_ORTHOGRAPHIC 3
+#endif // vektor_in_h
 
 typedef struct
 {

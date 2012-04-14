@@ -3,10 +3,14 @@
  * April 12 2012 */
 
 #ifndef keystates_h
+
+#ifndef vektor_in_h
 #define keystates_h
 
 #include "keybind.h"
 #include "event.h"
+
+#endif // vektor_in_h
 
 extern void keystates_init();
 extern int keystate_get(int key);

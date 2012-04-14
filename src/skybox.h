@@ -2,12 +2,16 @@
  * by Ryan Lucchese
  * July 3 2011 */
 
-#ifndef SKYBOX_H
-#define SKYBOX_H
+#ifndef skybox_h
+
+#ifndef vektor_in_h
+#define skybox_h
 
 #include "sdl.h"
 #include "texture.h"
 #include "draw.h"
+
+#endif // vektor_in_h
 
 typedef struct
 {
@@ -22,4 +26,4 @@ typedef struct
 extern skybox add_skybox(float x, float y, float z, float h, const char *filename);
 extern void draw_skybox(void *sp);
 
-#endif
+#endif // skybox_h

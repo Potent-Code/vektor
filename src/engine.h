@@ -4,6 +4,8 @@
  * December 21 2010 */
 
 #ifndef engine_h
+
+#ifndef vektor_in_h
 #define engine_h
 
 #include "sdl.h"
@@ -22,6 +24,7 @@
 #include "keybind.h"
 #include "keystates.h"
 #include "sprite.h"
+#endif // vektor_in_h
 
 extern void vektor_quit(void* ev);
 extern void vektor_init(const char *title);

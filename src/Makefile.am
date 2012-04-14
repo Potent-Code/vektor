@@ -9,6 +9,13 @@ endif
 libvektor_la_LDFLAGS += -lmathlib
 libvektor_la_LIBADD = ui/libvektorui.la
 include_HEADERS = vektor.h
+
+vektor.h: vektor_out_1.h vektor_in.h vektor_out_3.h
+	${CC} -E vektor_in.h | sed '/^\#/d' | indent -st -ut -ts2 -sob > vektor_out_2.h && cat vektor_out_1.h vektor_out_2.h vektor_out_3.h >> vektor.h
+
+clean-local:
+	rm -rf vektor_out_2.h vektor.h
+
 bin_PROGRAMS = maketexture makemodel
 maketexture_SOURCES = image.h maketexture.h maketexture.c
 maketexture_LDFLAGS = -lz -lpng

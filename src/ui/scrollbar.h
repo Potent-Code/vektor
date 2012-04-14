@@ -5,8 +5,8 @@
 #ifndef SCROLLBAR_H
 #define SCROLLBAR_H
 
-#include "texture.h"
-#include "sdl.h"
+#include "../texture.h"
+#include "../sdl.h"
 #include "mousehandler.h"
 
 // types

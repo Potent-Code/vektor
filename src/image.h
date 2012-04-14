@@ -3,9 +3,12 @@
  * December 21 2010 */
 
 #ifndef image_h
+
+#ifndef vektor_in_h
 #define image_h
 
 #include <stdint.h>
+#endif // vektor_in_h
 
 typedef struct
 {

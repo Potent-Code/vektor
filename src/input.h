@@ -2,14 +2,17 @@
  * Ryan Lucchese
  * December 21 2010 */
 
-#ifndef INPUT_H
-#define INPUT_H
+#ifndef input_h
+
+#ifndef vektor_in_h
+#define input_h
 
 #include <stdint.h>
 
 #include "sdl.h"
 #include "event.h"
 #include "keybind.h"
+#endif // vektor_in_h
 
 // methods
 extern void input_set_pos(int pos);
@@ -26,9 +29,6 @@ extern int unicode;
 extern char *input_buffer;
 extern int ib_count;
 extern int ib_len;
-/*extern int mouse_state;
-extern int mouse_x;
-extern int mouse_y;*/
 extern int last_mouse_x;
 extern int last_mouse_y;
 

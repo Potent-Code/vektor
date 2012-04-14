@@ -2,8 +2,10 @@
  * by Ryan Lucchese
  * July 25 2011 */
 
-#ifndef EVENT_H
-#define EVENT_H
+#ifndef event_h
+
+#ifndef vektor_in_h
+#define event_h
 
 #include <stdlib.h>
 
@@ -14,6 +16,8 @@
 #define EVENT_NET_RECV 5
 #define EVENT_NET_SEND 6
 #define EVENT_QUIT 7
+
+#endif // vektor_in_h
 
 struct event_chain
 {
@@ -40,4 +44,4 @@ extern void event_net_send(void);
 extern void event_quit(void* p);
 
 
-#endif
+#endif // event_h

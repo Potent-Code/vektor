@@ -3,6 +3,8 @@
  * July 30 2011 */
 
 #ifndef log_h
+
+#ifndef vektor_in_h
 #define log_h
 
 #include <errno.h>
@@ -14,6 +16,8 @@
 
 #include "config.h"
 
+#endif // vektor_in_h
+
 extern void init_log(void);
 extern void log_add(const char* str);
 extern void log_add_no_eol(const char* str);
@@ -24,4 +28,4 @@ extern void _log_err_sys(const char* str, int error, const char* func, const cha
 extern char* log_get(void);
 extern void log_remove(void* p);
 
-#endif
+#endif // log_h

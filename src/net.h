@@ -2,8 +2,10 @@
  * by Ryan Lucchese
  * December 21 2010 */
 
-#ifndef NET_H
-#define NET_H
+#ifndef net_h
+
+#ifndef vektor_in_h
+#define net_h
 
 #include <stdio.h>
 #include <string.h>
@@ -20,6 +22,7 @@
 
 #define TEST_HOST "zeno1337.com"
 #define TEST_PORT 57157
+#endif // vektor_in_h
 
 extern void init_network(void);
 extern int recv_ready(void);
@@ -27,9 +30,11 @@ extern int send_ready(void);
 extern int recv_message(char *buffer);
 extern int send_message(char *buffer);
 
+#ifndef vektor_in_h
 extern int sockfd;
 extern struct sockaddr_in server_addr;
 extern struct pollfd net_read;
 extern struct pollfd net_write;
+#endif // vektor_in_h
 
-#endif
+#endif // net_h

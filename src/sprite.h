@@ -3,6 +3,8 @@
  * December 21 2010 */
 
 #ifndef sprite_h
+
+#ifndef vektor_in_h
 #define sprite_h
 
 #include <mathlib.h>
@@ -12,6 +14,8 @@
 #include "texture.h"
 #include "draw.h"
 #include "glsl_shaders.h"
+#endif // vektor_in_h
+
 
 struct _sprite
 {

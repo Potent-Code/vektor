@@ -3,12 +3,15 @@
  * December 29 2011 */
 
 #ifndef keybind_h
+
+#ifndef vektor_in_h
 #define keybind_h
 
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "keys.h"
+#endif // vektor_in_h
 
 struct key_listener
 {

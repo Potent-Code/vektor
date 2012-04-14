@@ -3,7 +3,10 @@
  * December 29 2011 */
 
 #ifndef keys_h
+
+#ifndef vektor_in_h
 #define keys_h
+#endif // vektor_in_h
 
 enum
 {

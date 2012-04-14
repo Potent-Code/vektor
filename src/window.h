@@ -3,10 +3,13 @@
  * April 4 2012 */
 
 #ifndef window_h
+
+#ifndef vektor_in_h
 #define window_h
 
 #include "sdl.h"
 #include "glsl_shaders.h"
+#endif // vektor_in_h
 
 extern unsigned int window_width;
 extern unsigned int window_height;

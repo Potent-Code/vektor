@@ -575,7 +575,7 @@ PACKAGE_STRING='vektor 0.1'
 PACKAGE_BUGREPORT='ryan.lucchese@write-c.com'
 PACKAGE_URL=''
 
-ac_unique_file="src/vektor.h"
+ac_unique_file="src/engine.h"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>

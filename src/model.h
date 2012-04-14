@@ -3,6 +3,8 @@
  * December 25 2011 */
 
 #ifndef model_h
+
+#ifndef vektor_in_h
 #define model_h
 
 #include <stdio.h>
@@ -20,6 +22,7 @@
 
 #include "image.h"
 #include "log.h"
+#endif // vektor_in_h
 
 typedef struct {
 	char name[256];

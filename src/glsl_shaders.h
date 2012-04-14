@@ -3,6 +3,8 @@
  * January 9 2012 */
 
 #ifndef glsl_shaders_h
+
+#ifndef vektor_in_h
 #define glsl_shaders_h
 
 #include "sdl.h"
@@ -17,6 +19,8 @@
 #define FRAGMENT_SHADER "/usr/local/share/vektor/shaders/fs_simple.fs"
 #define TRANSFORMS_SHADER "/usr/local/share/vektor/shaders/view_transforms.vs"
 #endif
+
+#endif // vektor_in_h
 
 // vertex shader
 typedef struct {

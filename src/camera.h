@@ -3,6 +3,8 @@
  * June 7 2011 */
 
 #ifndef camera_h
+
+#ifndef vektor_in_h
 #define camera_h
 
 #include <math.h>
@@ -10,6 +12,8 @@
 
 #include "log.h"
 #include "window.h"
+
+#endif // vektor_in_h
 
 // types of cameras
 #define CAMERA_TYPE_FIXED 1
@@ -33,8 +37,10 @@ typedef struct
 	unsigned int active;
 } *camera;
 
+#ifndef vektor_in_h
 #include "input.h"
 #include "event.h"
+#endif // vektor_in_h
 
 extern camera add_camera(float _x, float _y, float _z);
 extern void camera_mouselook(camera c);
