@@ -1,4 +1,4 @@
-/* this file is used to generate vektor.h: gcc -E vektor_in.h | sed '/^\#/d' | indent -st -ut -ts2 -sob > vektor_out.h
+/* this file is used to generate vektor.h: gcc -E vektor_in.h | sed '/^\#/d' | indent -st -ut -ts2 -sob -hnl -l0 > vektor_out.h
  * by Ryan Lucchese
  * April 13 2012 */
 
