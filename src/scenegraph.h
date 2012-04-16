@@ -6,6 +6,13 @@
 
 #endif // vektor_in_h
 
+enum
+{
+	sg_root_node,
+	sg_sprite_node,
+	sg_node_count
+};
+
 struct _scenegraph_node
 {
 	float *x;
@@ -30,43 +37,6 @@ struct _scenegraph_node
 
 typedef struct _scenegraph_node scenegraph_node;
 
-/*scenegraph_node scenegraph_node_new(void *object, scenegraph_node *node_ptr)
-{
-	sprite s;
-
-	// allocations
-	s = calloc(1, sizeof(*s));
-	s->modelview = identity_matrix(4);
-	s->ctm = identity_matrix(4);
-
-	// link coordinates to modelview matrix
-	
-	s->x = &s->modelview->A[0][3];
-	s->y = &s->modelview->A[1][3];
-	s->z = &s->modelview->A[2][3];
-
-	// set initial coordinates
-	*s->x = _x;
-	*s->y = _y;
-	*s->z = 0.0;
-
-	// set initial color to white
-	s->colors[0] = 1.0;
-	s->colors[1] = 1.0;
-	s->colors[2] = 1.0;
-	s->colors[3] = 1.0;
-
-	if (filename != NULL) add_texture(filename, &s->tex);
-
-	s->width = (float)s->tex.w;
-	s->height = (float)s->tex.h;
-
-	s->init = &sprite_init;
-	s->update = &sprite_update;
-	s->draw = &sprite_draw;
-	s->remove = &sprite_remove;
-
-	return s;
-};*/
+scenegraph_node rootNode;
 
 #endif
