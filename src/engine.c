@@ -63,7 +63,7 @@ void intro(void)
 	uint32_t start,current;
 	start=SDL_GetTicks();
 	int et;
-	sprite_logo->update(sprite_logo);
+	sprite_logo->scene_data.update(sprite_logo);
 
 	for(current=SDL_GetTicks();(et=(current-start)) <= 2500; current=SDL_GetTicks())
 	{
@@ -100,7 +100,7 @@ void intro(void)
 		{
 			sprite_logo->colors[3] = 1.0;
 		}
-		sprite_logo->draw(sprite_logo);
+		sprite_logo->scene_data.draw(sprite_logo);
 
 		SDL_GL_SwapBuffers();
 		glFlush();

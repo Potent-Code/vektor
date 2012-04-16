@@ -13,46 +13,48 @@ void sprite_remove(void* sp);
 
 sprite sprite_new(float _x, float _y, const char* filename)
 {
-	sprite s;
+	sprite new;
 
 	// allocations
-	s = calloc(1, sizeof(*s));
-	s->modelview = identity_matrix(4);
-	s->ctm = identity_matrix(4);
+	new = calloc(1, sizeof(*new));
+	new->scene_data.modelview = identity_matrix(4);
+	new->scene_data.ctm = identity_matrix(4);
 
 	// link coordinates to modelview matrix
-	s->x = &s->modelview->A[0][3];
-	s->y = &s->modelview->A[1][3];
-	s->z = &s->modelview->A[2][3];
+	
+	new->scene_data.x = &new->scene_data.modelview->A[0][3];
+	new->scene_data.y = &new->scene_data.modelview->A[1][3];
+	new->scene_data.z = &new->scene_data.modelview->A[2][3];
 
 	// set initial coordinates
-	*s->x = _x;
-	*s->y = _y;
-	*s->z = 0.0;
+	*new->scene_data.x = _x;
+	*new->scene_data.y = _y;
+	*new->scene_data.z = 0.0;
 
 	// set initial color to white
-	s->colors[0] = 1.0;
-	s->colors[1] = 1.0;
-	s->colors[2] = 1.0;
-	s->colors[3] = 1.0;
+	new->colors[0] = 1.0;
+	new->colors[1] = 1.0;
+	new->colors[2] = 1.0;
+	new->colors[3] = 1.0;
 
-	if (filename != NULL) add_texture(filename, &s->tex);
+	if (filename != NULL) add_texture(filename, &new->tex);
 
-	s->width = (float)s->tex.w;
-	s->height = (float)s->tex.h;
+	new->width = (float)new->tex.w;
+	new->height = (float)new->tex.h;
 
-	s->init = &sprite_init;
-	s->update = &sprite_update;
-	s->draw = &sprite_draw;
-	s->remove = &sprite_remove;
+	new->scene_data.init = &sprite_init;
+	new->scene_data.update = &sprite_update;
+	new->scene_data.draw = &sprite_draw;
+	new->scene_data.remove = &sprite_remove;
 
-	return s;
+	return new;
+	
 }
 
 void sprite_add(void* sp)
 {
 	sprite s = sp;
-	add_object_2d(s, s->init, s->update, s->draw, s->remove);
+	add_object_2d(s, s->scene_data.init, s->scene_data.update, s->scene_data.draw, s->scene_data.remove);
 }
 
 void sprite_init(void* sp)
@@ -63,19 +65,19 @@ void sprite_init(void* sp)
 	// top right
 	s->vertices[0] = s->width;
 	s->vertices[1] = s->height;
-	s->vertices[2] = *s->z;
+	s->vertices[2] = *s->scene_data.z;
 	// top left
 	s->vertices[3] = 0.0;
 	s->vertices[4] = s->height;
-	s->vertices[5] = *s->z;
+	s->vertices[5] = *s->scene_data.z;
 	// bottom left
 	s->vertices[6] = 0.0;
 	s->vertices[7] = 0.0;
-	s->vertices[8] = *s->z;
+	s->vertices[8] = *s->scene_data.z;
 	// bottom right
 	s->vertices[9] = s->width;
 	s->vertices[10] = 0.0;
-	s->vertices[11] = *s->z;
+	s->vertices[11] = *s->scene_data.z;
 
 	// set up texture coordinates
 	// top right
@@ -119,15 +121,15 @@ void sprite_update(void* sp)
 	sprite s = sp;
 
 	// reset current transformation matrix
-	if (s->parent != NULL)
+	if (s->scene_data.parent != NULL)
 	{
-		matrix_set(s->ctm, s->parent->ctm);
+		matrix_set(s->scene_data.ctm, s->scene_data.parent->ctm);
 	} else {
-		matrix_set_identity(s->ctm);
+		matrix_set_identity(s->scene_data.ctm);
 	}
 
 	// apply modelview to ctm
-	matrix_product_rev(s->modelview, s->ctm);
+	matrix_product_rev(s->scene_data.modelview, s->scene_data.ctm);
 }
 
 void sprite_draw(void* sp)
@@ -148,7 +150,7 @@ void sprite_draw(void* sp)
 	
 	glUniform1i(shader->fs->texture_sampler, s->tex.gl_id);
 	glVertexAttrib4fv(shader->vs->in_color, s->colors);
-	glUniformMatrix4fv(shader->vs->ctm, 1, GL_TRUE, s->ctm->A[0]);
+	glUniformMatrix4fv(shader->vs->ctm, 1, GL_TRUE, s->scene_data.ctm->A[0]);
 
 	glDrawArrays(GL_QUADS, 0, 4);
 
@@ -167,23 +169,23 @@ void sprite_remove(void* sp)
 	if (s != NULL)
 	{
 		// free matrix
-		if (s->modelview != NULL)
+		if (s->scene_data.modelview != NULL)
 		{
-			free_matrix(s->modelview);
-			s->modelview = NULL;
+			free_matrix(s->scene_data.modelview);
+			s->scene_data.modelview = NULL;
 		}
 
-		if (s->ctm != NULL)
+		if (s->scene_data.ctm != NULL)
 		{
-			free_matrix(s->ctm);
-			s->ctm = NULL;
+			free_matrix(s->scene_data.ctm);
+			s->scene_data.ctm = NULL;
 		}
 
 		// clear function pointers to prevent use
-		s->init = NULL;
-		s->update = NULL;
-		s->draw = NULL;
-		s->remove = NULL;
+		s->scene_data.init = NULL;
+		s->scene_data.update = NULL;
+		s->scene_data.draw = NULL;
+		s->scene_data.remove = NULL;
 
 		free(s);
 	}

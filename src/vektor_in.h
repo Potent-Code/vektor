@@ -16,6 +16,8 @@
 
 #include "texture.h"
 
+#include "scenegraph.h"
+
 #include "sprite.h"
 
 #include "skybox.h"
