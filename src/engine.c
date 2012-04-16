@@ -246,8 +246,9 @@ void vektor_init(const char *title)
 	add_listener(&vektor_quit, NULL, vektor_event_quit);
 	keybind_add(NULL, &event_quit, NULL, vektor_key_escape);
 
-	init_network();
-
+	//init_network();
+	
+	scenegraph_init();
 	shader_init();
 
 	// set up default objects

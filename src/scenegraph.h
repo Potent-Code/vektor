@@ -10,7 +10,7 @@ enum
 {
 	sg_root_node,
 	sg_sprite_node,
-	sg_node_count
+	sg_last_node,
 };
 
 struct _scenegraph_node
@@ -26,7 +26,7 @@ struct _scenegraph_node
 	// these pointers allow sprites to be nested and linked
 	struct _scenegraph_node* parent;
 	struct _scenegraph_node* children;
-	struct _scenegraph_node* siblings;
+	//struct _scenegraph_node* siblings;
 
 	// function pointers
 	void (*init)(void*);
@@ -37,6 +37,8 @@ struct _scenegraph_node
 
 typedef struct _scenegraph_node scenegraph_node;
 
-scenegraph_node rootNode;
+extern scenegraph_node rootNode;
+
+extern void scenegraph_init(void);
 
 #endif

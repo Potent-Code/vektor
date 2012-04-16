@@ -17,7 +17,8 @@ enum
 	vektor_event_return,
 	vektor_event_net_recv,
 	vektor_event_net_send,
-	vektor_event_quit
+	vektor_event_quit,
+	vektor_event_last,
 };
 
 #endif // vektor_in_h
