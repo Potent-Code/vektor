@@ -80,7 +80,7 @@ void render_init(void)
 {
 	int i;
 
-	add_listener(&render_done, NULL, EVENT_QUIT);
+	add_listener(&render_done, NULL, vektor_event_quit);
 	ctm = identity_matrix(4);
 
 	// renderlist_2d init

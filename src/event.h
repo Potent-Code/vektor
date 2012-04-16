@@ -9,13 +9,16 @@
 
 #include <stdlib.h>
 
-#define EVENT_MOUSEUP 1
-#define EVENT_MOUSEDOWN 2
-#define EVENT_MOUSEMOVE 3
-#define EVENT_RETURN 4
-#define EVENT_NET_RECV 5
-#define EVENT_NET_SEND 6
-#define EVENT_QUIT 7
+enum
+{
+	vektor_event_mouseup,
+	vektor_event_mousedown,
+	vektor_event_mousemove,
+	vektor_event_return,
+	vektor_event_net_recv,
+	vektor_event_net_send,
+	vektor_event_quit
+};
 
 #endif // vektor_in_h
 

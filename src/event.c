@@ -83,31 +83,31 @@ void add_listener(void (*_call)(void*), void *_obj, unsigned int type)
 {
 	switch(type)
 	{
-		case EVENT_MOUSEUP:
+		case vektor_event_mouseup:
 			lmup_end = link_listener(lmup, lmup_end, _call, _obj);
 			if (lmup == NULL) lmup = lmup_end;
 			break;
-		case EVENT_MOUSEDOWN:
+		case vektor_event_mousedown:
 			lmdn_end = link_listener(lmdn, lmdn_end, _call,  _obj);
 			if (lmdn == NULL) lmdn = lmdn_end;
 			break;
-		case EVENT_MOUSEMOVE:
+		case vektor_event_mousemove:
 			lmm_end = link_listener(lmm, lmm_end, _call, _obj);
 			if (lmm == NULL) lmm = lmm_end;
 			break;
-		case EVENT_RETURN:
+		case vektor_event_return:
 			lret_end = link_listener(lret, lret_end, _call, _obj);
 			if (lret == NULL) lret = lret_end;
 			break;
-		case EVENT_NET_RECV:
+		case vektor_event_net_recv:
 			lnet_recv_end = link_listener(lnet_recv, lnet_recv_end, _call, _obj);
 			if (lnet_recv == NULL) lnet_recv = lnet_recv_end;
 			break;
-		case EVENT_NET_SEND:
+		case vektor_event_net_send:
 			lnet_send_end = link_listener(lnet_send, lnet_send_end, _call, _obj);
 			if (lnet_send == NULL) lnet_send = lnet_send_end;
 			break;
-		case EVENT_QUIT:
+		case vektor_event_quit:
 			lev_quit_end = link_listener(lev_quit, lev_quit_end, _call, _obj);
 			if (lev_quit == NULL) lev_quit = lev_quit_end;
 			break;

@@ -24,7 +24,7 @@ void keystates_init()
 		keybind_add(&key_states[i], &keystate_activate, &keystate_deactivate, i);
 	}
 	// make sure array gets freed
-	add_listener(&keystates_remove, NULL, EVENT_QUIT);
+	add_listener(&keystates_remove, NULL, vektor_event_quit);
 }
 
 void keystate_activate(void* p_key)

@@ -56,7 +56,7 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 	tb->sb->hb->x_orig = tb->sb->hb->x;
 	tb->sb->hb->y_orig = tb->sb->hb->y;
 	
-	add_listener(&textbox_mousemove, tb, EVENT_MOUSEMOVE);
+	add_listener(&textbox_mousemove, tb, vektor_event_mousemove);
 	return tb;
 }
 

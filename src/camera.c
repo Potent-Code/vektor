@@ -41,7 +41,7 @@ camera add_camera(float _x, float _y, float _z)
 	*c->z = _z;
 
 	// set cleanup event listener
-	add_listener(&camera_remove, c, EVENT_QUIT);
+	add_listener(&camera_remove, c, vektor_event_quit);
 
 	return c;
 }

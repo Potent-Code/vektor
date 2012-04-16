@@ -240,10 +240,10 @@ void vektor_init(const char *title)
 	SDL_EnableUNICODE(1);
 
 	// cleanup event listeners
-	add_listener(&shader_remove, NULL, EVENT_QUIT);
+	add_listener(&shader_remove, NULL, vektor_event_quit);
 
 	// add quit event listener
-	add_listener(&vektor_quit, NULL, EVENT_QUIT);
+	add_listener(&vektor_quit, NULL, vektor_event_quit);
 	keybind_add(NULL, &event_quit, NULL, vektor_key_escape);
 
 	init_network();

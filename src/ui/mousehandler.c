@@ -30,8 +30,8 @@ clickable clickable_add(float x, float y, float w, float h, void* obj, void (*ac
 	c->move = &clickable_move;
 	c->remove = &free;
 
-	add_listener(&clickable_mousedown, c, EVENT_MOUSEDOWN);
-	add_listener(&clickable_mouseup, c, EVENT_MOUSEUP);
+	add_listener(&clickable_mousedown, c, vektor_event_mousedown);
+	add_listener(&clickable_mouseup, c, vektor_event_mouseup);
 
 	return c;
 }

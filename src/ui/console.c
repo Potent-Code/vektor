@@ -66,8 +66,8 @@ console init_console(int x, int y, int w, int h)
 	textbox_set_text(c->tb_in, "v$ ");
 
 	// add textbox listeners
-	add_listener(&console_return, c->tb_in, EVENT_RETURN);
-	add_listener(&chat_recv, c->tb_out, EVENT_NET_RECV);
+	add_listener(&console_return, c->tb_in, vektor_event_return);
+	add_listener(&chat_recv, c->tb_out, vektor_event_net_recv);
 
 	// add content pane
 	//c->cpane = add_bitmap(10, -65, 502, 262, &texture_cpane);

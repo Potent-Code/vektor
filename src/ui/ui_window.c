@@ -55,9 +55,9 @@ window add_window(int x, int y, int w, int h)
 	wi->draw = &draw_window;
 	wi->remove = &free_window;
 	
-	add_listener(&window_mousedown, wi, EVENT_MOUSEDOWN);
-	add_listener(&window_mouseup, wi, EVENT_MOUSEUP);
-	add_listener(&window_dragresize, wi, EVENT_MOUSEMOVE);
+	add_listener(&window_mousedown, wi, vektor_event_mousedown);
+	add_listener(&window_mouseup, wi, vektor_event_mouseup);
+	add_listener(&window_dragresize, wi, vektor_event_mousemove);
 	return wi;
 }
 
