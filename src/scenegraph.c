@@ -1,5 +1,7 @@
 #include "scenegraph.h"
 
+scenegraph_node rootNode;
+
 void scenegraph_init()
 {
 	rootNode.ctm = identity_matrix(4);
