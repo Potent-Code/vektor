@@ -104,6 +104,9 @@ void scenegraph_addchild(void* pParent, void* pChild)
 		}
 	}
 
+	// set the parent pointer
+	childNode->parent = parentNode;
+
 	// does this parentNode have any children yet?
 	if (parentNode->children == NULL)
 	{
@@ -121,6 +124,7 @@ void scenegraph_addchild(void* pParent, void* pChild)
 			tmpNode->siblings = childNode;
 		}
 	}
+
 }
 
 void scenegraph_init_nodes(void* pNode)
