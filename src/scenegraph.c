@@ -34,7 +34,7 @@ void scenegraph_init()
 	rootNode.node_type = sg_root_node;
 
 	// add the master nodes
-	for (i = sg_camera; i < sg_last_node; i++)
+	for (i = sg_camera; i <= sg_last_node; i++)
 	{
 		masterNodes[i] = calloc(1, sizeof(*masterNodes[i]));
 		
@@ -51,6 +51,7 @@ void scenegraph_init()
 		
 		masterNodes[i]->node_type = i;
 		masterNodes[i]->node_object = masterNodes[i];
+		scenegraph_addchild(&rootNode, masterNodes[i]);
 	}
 
 	masterNodes[sg_camera]->init = &render_init;

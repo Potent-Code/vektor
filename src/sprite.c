@@ -5,7 +5,7 @@
 #include "sprite.h"
 
 sprite sprite_new(float _x, float _y, const char* filename);
-void sprite_add(void* sp);
+void sprite_add(void* pParent, void* pSprite);
 void sprite_init(void* sp);
 void sprite_update(void* sp);
 void sprite_draw(void* sp);
@@ -54,10 +54,10 @@ sprite sprite_new(float _x, float _y, const char* filename)
 	
 }
 
-void sprite_add(void* sp)
+void sprite_add(void* pParent, void* pSprite)
 {
-	sprite s = sp;
-	scenegraph_addchild(NULL, &s->scene_data);
+	sprite s = pSprite;
+	scenegraph_addchild(pParent, &(s->scene_data));
 
 	//add_object_2d(s, s->scene_data.init, s->scene_data.update, s->scene_data.draw, s->scene_data.remove);
 }
