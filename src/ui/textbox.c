@@ -426,6 +426,16 @@ void textbox_remove(void* tbp)
 			free_vector(tb->tcoords);
 			tb->tcoords = NULL;
 		}
+		if (tb->ctm != NULL)
+		{
+			free_matrix(tb->ctm);
+			tb->ctm = NULL;
+		}
+		if (tb->modelview != NULL)
+		{
+			free_matrix(tb->modelview);
+			tb->modelview = NULL;
+		}
 		free(tb->sb);
 		tb->sb = NULL;
 		free(tb->data);

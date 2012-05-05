@@ -2,14 +2,13 @@
  * by Ryan Lucchese
  * July 24 2011 */
 
-#ifndef WINDOW_H
-#define WINDOW_H
+#ifndef ui_window_h
+#define ui_window_h
 
 #include "sdl.h"
 #include "texture.h"
 #include "event.h"
 #include "ui.h"
-//#include "camera.h"
 
 // types
 
@@ -55,4 +54,4 @@ extern void window_mouseup(void *wp);
 extern void window_dragresize(void *wp);
 extern void window_addchild(window w, void *p, void (*draw)(void*), void (*move)(void*,float,float), void (*resize)(void*,float,float), void (*remove)(void*));
 
-#endif
+#endif // !ui_window_h

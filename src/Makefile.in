@@ -912,7 +912,7 @@ uninstall-am: uninstall-binPROGRAMS uninstall-includeHEADERS \
 
 
 @HAVE_INDENT_TRUE@vektor.h: vektor_out_1.h vektor_in.h vektor_out_3.h
-@HAVE_INDENT_TRUE@	${CC} -E vektor_in.h | sed '/^\#/d' | indent -st -ut -ts2 -sob -hnl -l0 > vektor_out_2.h && cat vektor_out_1.h vektor_out_2.h vektor_out_3.h >> vektor.h
+@HAVE_INDENT_TRUE@	${CC} -E vektor_in.h | indent -st -ut -ts2 -sob -hnl -l0 > vektor_out_2.h && cat vektor_out_1.h vektor_out_2.h vektor_out_3.h >> vektor.h
 @HAVE_INDENT_FALSE@vektor.h: vektor_out_1.h vektor_in.h vektor_out_3.h
 @HAVE_INDENT_FALSE@	${CC} -E vektor_in.h | sed '/^\#/d' > vektor_out_2.h && cat vektor_out_1.h vektor_out_2.h vektor_out_3.h >> vektor.h
 

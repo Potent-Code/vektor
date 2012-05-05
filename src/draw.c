@@ -217,6 +217,6 @@ void render_draw(void)
 void render_done(void* p)
 {
 	(void)p;
-	free(ctm);
+	free_matrix(ctm);
 	camera_remove(cam);
 }

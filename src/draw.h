@@ -10,6 +10,7 @@
 
 #include "window.h"
 #include "glsl_shaders.h"
+#include "scenegraph.h"
 #include "camera.h"
 #include "ui/textbox.h"
 
