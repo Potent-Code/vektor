@@ -8,17 +8,15 @@
 #include <mathlib.h>
 #include <string.h>
 #include "../sdl.h"
+#include "../glsl_shaders.h"
+#include "../scenegraph.h"
 #include "font.h"
 #include "scrollbar.h"
 #include "../input.h"
-#include "../glsl_shaders.h"
 
 // types
 typedef struct
 {
-	float x;
-	float y;
-	float z;
 	float screen_x;
 	float screen_y;
 	unsigned int line_width;
@@ -33,16 +31,12 @@ typedef struct
 	char *data;
 	vector vertices;
 	vector tcoords;
-	matrix modelview;
-	matrix ctm;
+
+	scenegraph_node scene_data;
 	unsigned int vao_id; // vertex array object id list
 	unsigned int vbo_ids[3]; // vertex buffer object id list
-	void (*init)(void*);
 	void (*resize)(void*, float, float);
 	void (*move)(void*, float, float);
-	void (*update)(void*);
-	void (*draw)(void*);
-	void (*remove)(void*);
 } *textbox;
 
 extern textbox fps_disp;

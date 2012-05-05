@@ -196,7 +196,7 @@ void render_last()
 	if((l=(SDL_GetTicks() - last_update)) > 1000)
 	{
 		snprintf(fps_msg, 255, "%.0f fps", (float)framecount/((float)l/1000.));
-		textbox_set_text(fps_disp, fps_msg);
+		//textbox_set_text(fps_disp, fps_msg);
 		last_update = SDL_GetTicks();
 		framecount=0;
 	}

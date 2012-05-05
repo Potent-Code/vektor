@@ -26,12 +26,9 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 	textbox tb;
 
 	tb = calloc(1, sizeof(*tb));
-	tb->modelview = identity_matrix(4);
-	tb->ctm = identity_matrix(4);
 
-	tb->x = x;
-	tb->y = y;
-	tb->z = 0.0;
+	scenegraph_node_init(&(tb->scene_data));
+
 	tb->line_width = tb->lwidth_orig = line_width;
 	tb->lines = tb->lines_orig = lines;
 	tb->data_len = data_len;
@@ -43,14 +40,16 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 	tb->vertices = NULL;
 	tb->tcoords = NULL;
 
-	tb->init = &textbox_init;
-	tb->update = &textbox_update;
-	tb->draw = &textbox_draw;
-	tb->remove = &textbox_remove;
+	tb->scene_data.node_object = tb;
+
+	tb->scene_data.init = &textbox_init;
+	tb->scene_data.update = &textbox_update;
+	tb->scene_data.draw = &textbox_draw;
+	tb->scene_data.remove = &textbox_remove;
 	tb->resize = NULL;//&textbox_resize;
 	tb->move = &textbox_move;
 
-	tb->sb = add_scrollbar(tb->x+(tb->f->w*tb->line_width)+8., tb->y, tb->f->h, (unsigned int)tb->lines);
+	tb->sb = add_scrollbar(*tb->scene_data.x+(tb->f->w*tb->line_width)+8., *tb->scene_data.y, tb->f->h, (unsigned int)tb->lines);
 	tb->sb->hb->action = NULL;
 	tb->sb->hb->obj = tb;
 	tb->sb->hb->x_orig = tb->sb->hb->x;
@@ -153,8 +152,8 @@ void textbox_find_lines(textbox tb)
 
 	// set new scrollbar height and position
 	tb->sb->h = ((float)tb->sb->lines)*tb->sb->line_height*((float)tb->sb->lines/(float)tb->sb->total_lines);
-	tb->sb->x = (float)(tb->x+(tb->f->w*tb->line_width)+8.);
-	tb->sb->y = ((float)(tb->y - (tb->lines*tb->f->h) + tb->sb->h));
+	tb->sb->x = (float)(*tb->scene_data.x+(tb->f->w*tb->line_width)+8.);
+	tb->sb->y = ((float)(*tb->scene_data.y - (tb->lines*tb->f->h) + tb->sb->h));
 	tb->sb->hb->h = tb->sb->h;
 	tb->sb->hb->y = tb->sb->y + tb->screen_y;
 	tb->sb->hb->x = tb->sb->x + tb->screen_x;
@@ -172,8 +171,8 @@ void textbox_mousemove(void *tbp)
 	if(clickable_test(tb->sb->hb) == 1)
 	{
 		shift_y = (float)(tb->sb->hb->y - tb->sb->hb->y_orig);
-		max_y = (float)(tb->y);
-		min_y = (float)(tb->y - (tb->lines * tb->f->h) + tb->sb->h);
+		max_y = (float)(*tb->scene_data.y);
+		min_y = (float)(*tb->scene_data.y - (tb->lines * tb->f->h) + tb->sb->h);
 		next_y = (float)((mouse_y - tb->screen_y) + (tb->sb->h));
 		last_y = tb->sb->y;
 
@@ -228,24 +227,24 @@ void textbox_init(void* tbp)
 	{
 		for (i = 0; i < (tb->line_width*12); i+=12)
 		{
-			x = tb->x + (col*tb->f->w);
+			x = *tb->scene_data.x + (col*tb->f->w);
 			y = j*tb->f->h;
 			// top right
 			tb->vertices->a[(j*tb->line_width)+i+0] = x + tb->f->w;
-			tb->vertices->a[(j*tb->line_width)+i+1] = tb->y + tb->f->h - y;
-			tb->vertices->a[(j*tb->line_width)+i+2] = tb->z;
+			tb->vertices->a[(j*tb->line_width)+i+1] = *tb->scene_data.y + tb->f->h - y;
+			tb->vertices->a[(j*tb->line_width)+i+2] = *tb->scene_data.z;
 			// top left
 			tb->vertices->a[(j*tb->line_width)+i+3] = x;
-			tb->vertices->a[(j*tb->line_width)+i+4] = tb->y + tb->f->h - y;
-			tb->vertices->a[(j*tb->line_width)+i+5] = tb->z;
+			tb->vertices->a[(j*tb->line_width)+i+4] = *tb->scene_data.y + tb->f->h - y;
+			tb->vertices->a[(j*tb->line_width)+i+5] = *tb->scene_data.z;
 			// bottom left
 			tb->vertices->a[(j*tb->line_width)+i+6] = x;
-			tb->vertices->a[(j*tb->line_width)+i+7] = tb->y - y;
-			tb->vertices->a[(j*tb->line_width)+i+8] = tb->z;
+			tb->vertices->a[(j*tb->line_width)+i+7] = *tb->scene_data.y - y;
+			tb->vertices->a[(j*tb->line_width)+i+8] = *tb->scene_data.z;
 			// bottom right
 			tb->vertices->a[(j*tb->line_width)+i+9] = x + tb->f->w;
-			tb->vertices->a[(j*tb->line_width)+i+10] = tb->y - y;
-			tb->vertices->a[(j*tb->line_width)+i+11] = tb->z;
+			tb->vertices->a[(j*tb->line_width)+i+10] = *tb->scene_data.y - y;
+			tb->vertices->a[(j*tb->line_width)+i+11] = *tb->scene_data.z;
 			col++;
 		}
 	}
@@ -399,7 +398,7 @@ void textbox_draw(void* tbp)
 	
 	glUniform1i(shader->fs->texture_sampler, tb->f->tex.gl_id);
 	glVertexAttrib3f(shader->vs->in_color, 1.0, 1.0, 1.0);
-	glUniformMatrix4fv(shader->vs->ctm, 1, GL_TRUE, tb->ctm->A[0]);
+	glUniformMatrix4fv(shader->vs->ctm, 1, GL_TRUE, tb->scene_data.ctm->A[0]);
 
 	glDrawArrays(GL_QUADS, 0, tb->vertices->n / 3);
 
@@ -426,16 +425,7 @@ void textbox_remove(void* tbp)
 			free_vector(tb->tcoords);
 			tb->tcoords = NULL;
 		}
-		if (tb->ctm != NULL)
-		{
-			free_matrix(tb->ctm);
-			tb->ctm = NULL;
-		}
-		if (tb->modelview != NULL)
-		{
-			free_matrix(tb->modelview);
-			tb->modelview = NULL;
-		}
+		scenegraph_node_remove(&(tb->scene_data));
 		free(tb->sb);
 		tb->sb = NULL;
 		free(tb->data);

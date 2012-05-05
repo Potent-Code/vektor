@@ -12,21 +12,21 @@
 #include "glsl_shaders.h"
 #include "scenegraph.h"
 #include "camera.h"
-#include "ui/textbox.h"
+//#include "ui/textbox.h"
 
 #define PROJECTION_STANDARD 1
 #define PROJECTION_OBLIQUE 2
 #define PROJECTION_ORTHOGRAPHIC 3
 #endif // vektor_in_h
 
-typedef struct
-{
-	void *object;
-	void (*init)(void*);
-	void (*update)(void*);
-	void (*draw)(void*);
-	void (*remove)(void*);
-} render_object;
+//typedef struct
+//{
+//	void *object;
+//	void (*init)(void*);
+//	void (*update)(void*);
+//	void (*draw)(void*);
+//	void (*remove)(void*);
+//} render_object;
 
 
 extern unsigned int framecount;

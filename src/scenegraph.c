@@ -1,6 +1,6 @@
 #include "scenegraph.h"
 
-scenegraph_node rootNode;
+scenegraph_node* rootNode;
 scenegraph_node* masterNodes[sg_last_node + 1];
 
 int scenegraph_is_init = 0;
@@ -12,26 +12,23 @@ void scenegraph_init_nodes(void* pNode);
 void scenegraph_update(void* pNode);
 void scenegraph_draw(void* pNode);
 void scenegraph_remove(void* pNode);
+void scenegraph_node_remove(void* pNode);
 void scenegraph_cleanup(void* p);
+
+scenegraph_node* scenegraph_node_new();
+void scenegraph_init_node(scenegraph_node* node);
 
 void scenegraph_init()
 {
 	int i;
 
 	add_listener(&scenegraph_cleanup, NULL, vektor_event_quit);
-	
-	rootNode.ctm = identity_matrix(4);
-	rootNode.modelview = identity_matrix(4);
-	
-	rootNode.x = &rootNode.modelview->A[0][3];
-	rootNode.y = &rootNode.modelview->A[1][3];
-	rootNode.z = &rootNode.modelview->A[2][3];
-	
-	*rootNode.x = 0.0;
-	*rootNode.y = 0.0;
-	*rootNode.z = 0.0;
 
-	rootNode.node_type = sg_root_node;
+	rootNode = scenegraph_node_new();
+	scenegraph_node_init(rootNode);
+
+	rootNode->node_type = sg_root_node;
+	rootNode->remove = &scenegraph_node_remove;
 
 	// add the master nodes
 	for (i = sg_camera; i <= sg_last_node; i++)
@@ -51,7 +48,8 @@ void scenegraph_init()
 		
 		masterNodes[i]->node_type = i;
 		masterNodes[i]->node_object = masterNodes[i];
-		scenegraph_addchild(&rootNode, masterNodes[i]);
+		masterNodes[i]->remove = &scenegraph_node_remove;
+		scenegraph_addchild(rootNode, masterNodes[i]);
 	}
 
 	masterNodes[sg_camera]->init = &render_init;
@@ -59,15 +57,6 @@ void scenegraph_init()
 	masterNodes[sg_camera]->draw = &render_camera;
 	masterNodes[sg_geometry_2d]->draw = &render_ortho;
 	masterNodes[sg_last_node]->draw = &render_last;
-
-	rootNode.parent = NULL;
-	rootNode.children = NULL;
-	rootNode.siblings = NULL;
-
-	rootNode.init = NULL;
-	rootNode.update = NULL;
-	rootNode.draw = NULL;
-	rootNode.remove = NULL;
 
 	scenegraph_is_init = 1;
 }
@@ -138,7 +127,7 @@ void scenegraph_init_nodes(void* pNode)
 			log_err("Tried to init a scenegraph_node before scenegraph_init() was called!");
 			return;
 		}
-		curNode = &rootNode;
+		curNode = rootNode;
 	}
 
 	// init the current node
@@ -162,7 +151,7 @@ void scenegraph_update(void* pNode)
 			log_err("Tried to update a scenegraph_node before scenegraph_init() was called!");
 			return;
 		}
-		curNode = &rootNode;
+		curNode = rootNode;
 	}
 
 	// update the current node
@@ -186,7 +175,7 @@ void scenegraph_draw(void* pNode)
 			log_err("Tried to draw a scenegraph_node before scenegraph_init() was called!");
 			return;
 		}
-		curNode = &rootNode;
+		curNode = rootNode;
 	}
 
 	// draw the current node
@@ -211,7 +200,7 @@ void scenegraph_remove(void* pNode)
 			log_err("Tried to draw a scenegraph_node before scenegraph_init() was called!");
 			return;
 		}
-		curNode = &rootNode;
+		curNode = rootNode;
 	}
 
 	// check if this node is the first child of its parent
@@ -245,17 +234,55 @@ void scenegraph_remove(void* pNode)
 	}
 }
 
+void scenegraph_node_remove(void* pNode)
+{
+	scenegraph_node* node = pNode;
+
+	free_matrix(node->ctm);
+	free_matrix(node->modelview);
+
+	free(node);
+}
+
 void scenegraph_cleanup(void* p)
 {
-	int i;
+//	int i;
 	(void)p;
+	scenegraph_remove(rootNode);
 
-	for (i = sg_camera; i <= sg_last_node; i++)
-	{
-		scenegraph_remove(masterNodes[i]);
-		masterNodes[i] = NULL;
-	}
+//	for (i = sg_camera; i <= sg_last_node; i++)
+//	{
+//		scenegraph_remove(masterNodes[i]);
+//		masterNodes[i] = NULL;
+//	}
 
-	free_matrix(rootNode.ctm);
-	free_matrix(rootNode.modelview);
+	//free_matrix(rootNode->ctm);
+	//free_matrix(rootNode->modelview);
+}
+
+scenegraph_node* scenegraph_node_new()
+{
+	scenegraph_node* new;
+	new = malloc(sizeof(*new));
+	scenegraph_node_init(new);
+	return new;
+}
+
+void scenegraph_node_init(scenegraph_node* node)
+{
+	node->ctm = identity_matrix(4);
+	node->modelview = identity_matrix(4);
+	
+	node->x = &node->modelview->A[0][3];
+	node->y = &node->modelview->A[1][3];
+	node->z = &node->modelview->A[2][3];
+	
+	node->parent = NULL;
+	node->children = NULL;
+	node->siblings = NULL;
+
+	node->init = NULL;
+	node->update = NULL;
+	node->draw = NULL;
+	node->remove = NULL;
 }

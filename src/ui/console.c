@@ -92,8 +92,8 @@ console init_console(int x, int y, int w, int h)
 	window_addchild(c->win, c->tabs, c->tabs->draw, c->tabs->move, c->tabs->resize, c->tabs->remove);
 	//window_addchild(c->win, c->cpane, c->cpane->draw, c->cpane->move, c->cpane->resize, c->cpane->remove);
 	//window_addchild(c->win, c->in_bar, c->in_bar->draw, c->in_bar->move, c->in_bar->resize, c->in_bar->remove);
-	window_addchild(c->win, c->tb_out, c->tb_out->draw, c->tb_out->move, c->tb_out->resize, c->tb_out->remove);
-	window_addchild(c->win, c->tb_in, c->tb_in->draw, c->tb_in->move, c->tb_in->resize, c->tb_in->remove);
+	window_addchild(c->win, c->tb_out, c->tb_out->scene_data.draw, c->tb_out->move, c->tb_out->resize, c->tb_out->scene_data.remove);
+	window_addchild(c->win, c->tb_in, c->tb_in->scene_data.draw, c->tb_in->move, c->tb_in->resize, c->tb_in->scene_data.remove);
 
 	//add_object_2d(c, NULL, &draw_console, NULL, &free_console);
 	

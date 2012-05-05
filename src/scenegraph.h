@@ -43,7 +43,7 @@ struct _scenegraph_node
 
 typedef struct _scenegraph_node scenegraph_node;
 
-extern scenegraph_node rootNode;
+extern scenegraph_node* rootNode;
 
 extern void scenegraph_init(void);
 
@@ -55,5 +55,10 @@ extern void scenegraph_init_nodes(void *pNode);
 extern void scenegraph_update(void *pNode);
 extern void scenegraph_draw(void *pNode);
 extern void scenegraph_remove(void* pNode);
+extern void scenegraph_node_remove(void* pNode); // for calloc created nodes
+
+// scenegraph_node methods
+extern scenegraph_node* scenegraph_node_new();
+extern void scenegraph_node_init(scenegraph_node* node);
 
 #endif

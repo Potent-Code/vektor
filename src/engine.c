@@ -260,11 +260,12 @@ void vektor_init(const char *title)
 	logo_x = ((((float)(window_width) / 2.0) - 400.0)/((float)(window_width) / 2.0)) - 1.0;
 	logo_y = ((((float)(window_height) / 2.0) - 300.0)/((float)(window_height) / 2.0)) - 1.0;
 	sprite_logo = sprite_new(logo_x, logo_y, "/usr/local/share/vektor/logo.texture");
-	sprite_add(NULL, sprite_logo);
+	scenegraph_addchild(NULL, &(sprite_logo->scene_data));
 	//add_texture("/usr/local/share/vektor/ui/scroll_bar.texture", &texture_scrollbar);
 	//init_console(-276,174,522,352);
 	
 	fps_disp = add_textbox(((float)window_width/2.0)-(12.0*(float)f->w) - 1.0, ((float)window_height/2.0)-(float)f->h - 1.0, 12, 1, 13);
+	scenegraph_addchild(NULL, &(fps_disp->scene_data));
 	//add_object_2d(fps_disp, fps_disp->init, NULL, fps_disp->draw, fps_disp->remove);
 
 	ran_init = 1;
@@ -281,6 +282,7 @@ void vektor_run()
 	if(ran_init != 0)
 	{
 		render_init();
+		scenegraph_init_nodes(NULL);
 		intro();
 	}
 	else
