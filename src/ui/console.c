@@ -95,7 +95,7 @@ console init_console(int x, int y, int w, int h)
 	window_addchild(c->win, c->tb_out, c->tb_out->draw, c->tb_out->move, c->tb_out->resize, c->tb_out->remove);
 	window_addchild(c->win, c->tb_in, c->tb_in->draw, c->tb_in->move, c->tb_in->resize, c->tb_in->remove);
 
-	add_object_2d(c, NULL, &draw_console, NULL, &free_console);
+	//add_object_2d(c, NULL, &draw_console, NULL, &free_console);
 	
 	keybind_add(c, &toggle_console, NULL, vektor_key_f1);
 	toggle_console(c);

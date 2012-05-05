@@ -23,7 +23,7 @@ texture texture_scrollbar;
 
 void vektor_quit(void* ev)
 {
-	int i;
+//	int i;
 	
 	(void)ev;
 
@@ -34,22 +34,22 @@ void vektor_quit(void* ev)
 	free_all_fonts();
 
 	// free 3d render objects
-	if(renderlist_3d != NULL)
-	{
-		for(i=0; i < renderobjs3d_count; i++)
-		{
-			renderlist_3d[i].remove(renderlist_3d[i].object);
-		}
-	}
+//	if(renderlist_3d != NULL)
+//	{
+//		for(i=0; i < renderobjs3d_count; i++)
+//		{
+//			renderlist_3d[i].remove(renderlist_3d[i].object);
+//		}
+//	}
 
 	// free 2d render objects
-	if(renderlist_2d != NULL)
-	{
-		for(i=0; i < renderobjs2d_count; i++)
-		{
-			renderlist_2d[i].remove(renderlist_2d[i].object);
-		}
-	}
+//	if(renderlist_2d != NULL)
+//	{
+//		for(i=0; i < renderobjs2d_count; i++)
+//		{
+//			renderlist_2d[i].remove(renderlist_2d[i].object);
+//		}
+//	}
 
 	// write and clean up log
 	log_remove(NULL);
@@ -116,8 +116,8 @@ void intro(void)
 	//sprite_logo->remove(sprite_logo);
 	sprite_logo->colors[3] = 0.0;
 	// draw whatever comes after this screen
-	render_update();
-	render_draw();
+	//render_update();
+	//render_draw();
 }
 
 void get_gl_version(int* major, int* minor)
@@ -264,7 +264,7 @@ void vektor_init(const char *title)
 	//init_console(-276,174,522,352);
 	
 	fps_disp = add_textbox(((float)window_width/2.0)-(12.0*(float)f->w) - 1.0, ((float)window_height/2.0)-(float)f->h - 1.0, 12, 1, 13);
-	add_object_2d(fps_disp, fps_disp->init, NULL, fps_disp->draw, fps_disp->remove);
+	//add_object_2d(fps_disp, fps_disp->init, NULL, fps_disp->draw, fps_disp->remove);
 
 	ran_init = 1;
 }
@@ -364,8 +364,8 @@ void vektor_run()
 		#else
 		if (active == 1)
 		{
-			render_update();
-			render_draw();
+			scenegraph_update(NULL);
+			scenegraph_draw(NULL);
 		}
 		#endif // __APPLE__
 	}

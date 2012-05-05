@@ -4,13 +4,17 @@
 #define scenegraph_h
 #include <mathlib.h>
 #include "log.h"
+#include "event.h"
+#include "draw.h"
 
 #endif // vektor_in_h
 
 enum
 {
-	sg_root_node,
-	sg_sprite_node,
+	sg_root_node = -1,
+	sg_camera = 0,
+	sg_geometry_3d,
+	sg_geometry_2d,
 	sg_last_node,
 };
 
@@ -23,6 +27,7 @@ struct _scenegraph_node
 	matrix ctm; // current transformation matrix ctm = modelview * parent->ctm
 
 	void *node_object;
+	int node_type;
 
 	// these pointers allow sprites to be nested and linked
 	struct _scenegraph_node* parent;

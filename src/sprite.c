@@ -31,6 +31,9 @@ sprite sprite_new(float _x, float _y, const char* filename)
 	*new->scene_data.y = _y;
 	*new->scene_data.z = 0.0;
 
+	// set type
+	new->scene_data.node_type = sg_geometry_2d;
+
 	// set initial color to white
 	new->colors[0] = 1.0;
 	new->colors[1] = 1.0;
@@ -54,7 +57,9 @@ sprite sprite_new(float _x, float _y, const char* filename)
 void sprite_add(void* sp)
 {
 	sprite s = sp;
-	add_object_2d(s, s->scene_data.init, s->scene_data.update, s->scene_data.draw, s->scene_data.remove);
+	scenegraph_addchild(NULL, &s->scene_data);
+
+	//add_object_2d(s, s->scene_data.init, s->scene_data.update, s->scene_data.draw, s->scene_data.remove);
 }
 
 void sprite_init(void* sp)

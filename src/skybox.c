@@ -23,7 +23,7 @@ skybox add_skybox(float x, float y, float z, float h, const char *filename)
 	s->tex.min_filter = GL_NEAREST;
 	s->tex.mag_filter = GL_NEAREST;
 
-	add_object_3d(s, NULL, &draw_skybox, NULL, NULL);
+	//add_object_3d(s, NULL, &draw_skybox, NULL, NULL);
 	return s;
 }
 
