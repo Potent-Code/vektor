@@ -56,4 +56,8 @@ extern void scenegraph_update(void *pNode);
 extern void scenegraph_draw(void *pNode);
 extern void scenegraph_remove(void* pNode);
 
+// scenegraph_node methods
+extern scenegraph_node* scenegraph_node_new();
+extern void scenegraph_node_init(scenegraph_node* node);
+
 #endif

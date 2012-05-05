@@ -254,3 +254,30 @@ void scenegraph_cleanup(void* p)
 	free_matrix(rootNode.ctm);
 	free_matrix(rootNode.modelview);
 }
+
+scenegraph_node* scenegraph_node_new()
+{
+	scenegraph_node* new;
+	new = malloc(sizeof(*new));
+	scenegraph_node_init(new);
+	return new;
+}
+
+void scenegraph_node_init(scenegraph_node* node)
+{
+	node->ctm = identity_matrix(4);
+	node->modelview = identity_matrix(4);
+	
+	node->x = &node->modelview->A[0][3];
+	node->y = &node->modelview->A[1][3];
+	node->z = &node->modelview->A[2][3];
+	
+	node->parent = NULL;
+	node->children = NULL;
+	node->siblings = NULL;
+
+	node->init = NULL;
+	node->update = NULL;
+	node->draw = NULL;
+	node->remove = NULL;
+}
