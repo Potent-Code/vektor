@@ -46,64 +46,15 @@ void intro(void)
 	uint32_t start,current;
 	start=SDL_GetTicks();
 	int et;
-	sprite_logo->scene_data.update(sprite_logo);
+//	sprite_logo->scene_data.update(sprite_logo);
 
 	for(current=SDL_GetTicks();(et=(current-start)) <= 2500; current=SDL_GetTicks())
 	{
+		scenegraph_update(NULL);
 		scenegraph_draw(NULL);
-		/*glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		glClearColor(0.0, 0.0, 0.0, 0.0);
-		glUseProgram(shader->id);
-	
-		// set uniforms
-		glUniform1f(shader->vs->window_width, (float)(window_width));
-		glUniform1f(shader->vs->window_height, (float)(window_height));
-		glUniform1f(shader->vs->view_angle, 45.0f);
-		glUniform1f(shader->vs->z_near, 0.5f);
-		glUniform1f(shader->vs->z_far, 500.0f);
-
-		// camera uniforms
-		glUniform3fv(shader->vs->camera_position, 1, cam->position);
-		glUniform1f(shader->vs->camera_pitch, cam->pitch);
-		glUniform1f(shader->vs->camera_yaw, cam->yaw);
-
-		glDisable(GL_DEPTH_TEST);
-		glUniform1i(shader->vs->projection_type, PROJECTION_ORTHOGRAPHIC); // set ortho projection
-
-		if (et < 1000)
-		{
-			sprite_logo->colors[2] = 0.0;
-			sprite_logo->colors[3] = (float)et/1000.0;
-		}
-		else if (et > 2000)
-		{
-			sprite_logo->colors[3] = (float)(2500-et)/500.0;
-		}
-		else
-		{
-			sprite_logo->colors[3] = 1.0;
-		}
-		scenegraph_draw(sprite_logo);
-		//sprite_logo->scene_data.draw(sprite_logo);
-
-		SDL_GL_SwapBuffers();
-		glFlush();
-
-		#ifdef __APPLE__
-		glBindVertexArrayAPPLE(0);
-		#else
-		glBindVertexArray(0);
-		#endif
-		glUseProgram(0);*/
 	}
 
 	scenegraph_remove(sprite_logo);
-	//sprite_logo->remove(sprite_logo);
-	//sprite_logo->colors[3] = 0.0;
-	// draw whatever comes after this screen
-	//render_update();
-	//render_draw();
 }
 
 void get_gl_version(int* major, int* minor)
