@@ -23,9 +23,7 @@ texture texture_scrollbar;
 camera cam;
 
 void vektor_quit(void* ev)
-{
-//	int i;
-	
+{	
 	(void)ev;
 
 	// free keybinds
@@ -46,7 +44,6 @@ void intro(void)
 	uint32_t start,current;
 	start=SDL_GetTicks();
 	int et;
-//	sprite_logo->scene_data.update(sprite_logo);
 
 	for(current=SDL_GetTicks();(et=(current-start)) <= 2500; current=SDL_GetTicks())
 	{
@@ -173,7 +170,7 @@ void vektor_init(const char *title)
 
 	// this is deprecated in SDL 1.3
 	// something better should be done about this
-	SDL_EnableKeyRepeat(150,20);
+	SDL_EnableKeyRepeat(150, 20);
 	SDL_EnableUNICODE(1);
 
 	// cleanup event listeners
@@ -197,12 +194,9 @@ void vektor_init(const char *title)
 	logo_y = ((((float)(window_height) / 2.0) - 300.0)/((float)(window_height) / 2.0)) - 1.0;
 	sprite_logo = sprite_new(logo_x, logo_y, "/usr/local/share/vektor/logo.texture");
 	scenegraph_addchild(NULL, &(sprite_logo->scene_data));
-	//add_texture("/usr/local/share/vektor/ui/scroll_bar.texture", &texture_scrollbar);
-	//init_console(-276,174,522,352);
 	
 	fps_disp = add_textbox(((float)window_width/2.0)-(12.0*(float)f->w) - 1.0, ((float)window_height/2.0)-(float)f->h - 1.0, 12, 1, 13);
 	scenegraph_addchild(NULL, &(fps_disp->scene_data));
-	//add_object_2d(fps_disp, fps_disp->init, NULL, fps_disp->draw, fps_disp->remove);
 
 	ran_init = 1;
 }
