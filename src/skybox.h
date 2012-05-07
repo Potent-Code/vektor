@@ -9,7 +9,6 @@
 
 #include "sdl.h"
 #include "texture.h"
-#include "draw.h"
 
 #endif // vektor_in_h
 

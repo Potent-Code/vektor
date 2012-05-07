@@ -32,34 +32,26 @@ void scenegraph_init()
 
 	add_listener(&scenegraph_cleanup, NULL, vektor_event_quit);
 
+	// add the root node (universal ancestor)
 	rootNode = scenegraph_node_new();
-	scenegraph_node_init(rootNode);
 
 	rootNode->node_type = sg_root_node;
+	rootNode->node_object = rootNode;
 	rootNode->remove = &scenegraph_node_remove;
 
-	// add the master nodes
+	// add the master nodes (one for each node type)
 	for (i = sg_first_node; i <= sg_last_node; i++)
 	{
-		masterNodes[i] = calloc(1, sizeof(*masterNodes[i]));
-		
-		masterNodes[i]->ctm = identity_matrix(4);
-		masterNodes[i]->modelview = identity_matrix(4);
+		masterNodes[i] = scenegraph_node_new();
 
-		masterNodes[i]->x = &masterNodes[i]->modelview->A[0][3];
-		masterNodes[i]->y = &masterNodes[i]->modelview->A[1][3];
-		masterNodes[i]->z = &masterNodes[i]->modelview->A[2][3];
-
-		*masterNodes[i]->x = 0.0;
-		*masterNodes[i]->y = 0.0;
-		*masterNodes[i]->z = 0.0;
-		
 		masterNodes[i]->node_type = i;
 		masterNodes[i]->node_object = masterNodes[i];
 		masterNodes[i]->remove = &scenegraph_node_remove;
+
 		scenegraph_addchild(rootNode, masterNodes[i]);
 	}
 
+	// set up master node methods
 	masterNodes[sg_first_node]->draw = &render_first;
 	masterNodes[sg_geometry_2d]->draw = &render_ortho;
 	masterNodes[sg_last_node]->draw = &render_last;
@@ -126,7 +118,8 @@ void scenegraph_init_nodes(void* pNode)
 {
 	scenegraph_node* curNode = pNode;
 	scenegraph_node* tmpNode = NULL;
-	
+
+	// start at rootNode if given a NULL argument
 	if (curNode == NULL)
 	{
 		if (scenegraph_is_init == 0)
@@ -152,6 +145,7 @@ void scenegraph_update(void* pNode)
 	scenegraph_node* curNode = pNode;
 	scenegraph_node* tmpNode = NULL;
 	
+	// start at rootNode if given a NULL argument
 	if (curNode == NULL)
 	{
 		if (scenegraph_is_init == 0)
@@ -177,6 +171,7 @@ void scenegraph_draw(void* pNode)
 	scenegraph_node* curNode = pNode;
 	scenegraph_node* tmpNode = NULL;
 	
+	// start at rootNode if given a NULL argument
 	if (curNode == NULL)
 	{
 		if (scenegraph_is_init == 0)
@@ -202,6 +197,7 @@ void scenegraph_remove(void* pNode)
 	scenegraph_node* curNode = pNode;
 	scenegraph_node* tmpNode = NULL;
 	
+	// start at rootNode if given a NULL argument
 	if (curNode == NULL)
 	{
 		if (scenegraph_is_init == 0)
@@ -243,6 +239,7 @@ void scenegraph_remove(void* pNode)
 	}
 }
 
+// remove a node created by scenegraph_node_new
 void scenegraph_node_remove(void* pNode)
 {
 	scenegraph_node* node = pNode;
@@ -253,12 +250,14 @@ void scenegraph_node_remove(void* pNode)
 	free(node);
 }
 
+// remove the entire scene graph
 void scenegraph_cleanup(void* p)
 {
 	(void)p;
 	scenegraph_remove(rootNode);
 }
 
+// allocate a new node
 scenegraph_node* scenegraph_node_new()
 {
 	scenegraph_node* new;

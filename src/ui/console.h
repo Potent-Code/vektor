@@ -12,7 +12,6 @@
 #include "event.h"
 #include "keybind.h"
 #include "log.h"
-#include "draw.h"
 #include "net.h"
 
 // types

@@ -7,14 +7,10 @@
 #ifndef vektor_in_h
 #define sprite_h
 
-//#include "scenegraph.h"
-//#include <mathlib.h>
-//#include <math.h>
-//#include <time.h>
 #include "sdl.h"
 #include "texture.h"
-#include "draw.h"
-//#include "glsl_shaders.h"
+#include "scenegraph.h"
+
 #endif // vektor_in_h
 
 

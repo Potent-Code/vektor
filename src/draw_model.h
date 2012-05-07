@@ -9,7 +9,6 @@
 
 #include "sdl.h"
 #include "texture.h"
-#include "draw.h"
 #include "model.h"
 #include "glsl_shaders.h"
 
