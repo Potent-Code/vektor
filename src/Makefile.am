@@ -12,7 +12,7 @@ include_HEADERS = vektor.h
 
 if HAVE_INDENT
 vektor.h: vektor_out_1.h vektor_in.h vektor_out_3.h
-	${CC} -E vektor_in.h | indent -st -ut -ts2 -sob -hnl -l0 > vektor_out_2.h && cat vektor_out_1.h vektor_out_2.h vektor_out_3.h >> vektor.h
+	${CC} -E vektor_in.h | indent -st -ts2 -sob -hnl -l0 > vektor_out_2.h && cat vektor_out_1.h vektor_out_2.h vektor_out_3.h >> vektor.h
 else
 vektor.h: vektor_out_1.h vektor_in.h vektor_out_3.h
 	${CC} -E vektor_in.h | sed '/^\#/d' > vektor_out_2.h && cat vektor_out_1.h vektor_out_2.h vektor_out_3.h >> vektor.h
