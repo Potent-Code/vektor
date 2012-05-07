@@ -23,6 +23,11 @@ AC_ARG_ENABLE([nodebug], [AC_HELP_STRING([--enable-nodebug],
 	          [build without debugging information (default NO)])],
 		      [test "$enableval" = "yes" && CFLAGS="-O3 -Wall -Wextra"])
 
+AM_CONDITIONAL([HAVE_INDENT], false)
+AC_ARG_ENABLE([indent], [AC_HELP_STRING([--enable-indent],
+	      [use indent to clean up vektor.h (default NO)])],
+	      [AM_CONDITIONAL([HAVE_INDENT], test "$enableval" = "yes")])
+
 # Checks for libraries.
 AC_PROG_CXX
 
@@ -40,12 +45,14 @@ AC_CONFIG_FILES([vektor.pc])
 
 # Check for indent program to clean up vektor.h
 #AC_ARG_VAR([INDENT], [use indent program to format vektor.h])
-AC_CHECK_PROG([INDENT], [indent], [yes], [no])
-if test "${INDENT}" = "yes"; then
-	AM_CONDITIONAL([HAVE_INDENT], true)
-else
-	AM_CONDITIONAL([HAVE_INDENT], false)
-fi
+#if test "${indent}" = "yes"; then
+#	AC_CHECK_PROG([INDENT], [indent], [yes], [no])
+#	if test "${INDENT}" = "yes"; then
+#		AM_CONDITIONAL([HAVE_INDENT], true)
+#	else
+#		AM_CONDITIONAL([HAVE_INDENT], false)
+#	fi
+#fi
 
 # Check for running OS X
 AC_MSG_CHECKING([if running Darwin])
