@@ -41,6 +41,10 @@ camera add_camera(float _x, float _y, float _z)
 	c->scene_data.node_type = sg_camera;
 	c->scene_data.node_object = c;
 
+	*c->scene_data.x = _x;
+	*c->scene_data.y = _y;
+	*c->scene_data.z = _z;
+
 	scenegraph_addchild(NULL, &(c->scene_data));
 
 	return c;

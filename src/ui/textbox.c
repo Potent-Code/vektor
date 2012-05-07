@@ -49,6 +49,9 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 	tb->resize = NULL;//&textbox_resize;
 	tb->move = &textbox_move;
 
+	*tb->scene_data.x = x;
+	*tb->scene_data.y = y;
+
 	tb->sb = add_scrollbar(*tb->scene_data.x+(tb->f->w*tb->line_width)+8., *tb->scene_data.y, tb->f->h, (unsigned int)tb->lines);
 	tb->sb->hb->action = NULL;
 	tb->sb->hb->obj = tb;
