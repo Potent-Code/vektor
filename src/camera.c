@@ -5,7 +5,8 @@
 
 camera add_camera(float _x, float _y, float _z);
 void camera_mouselook(camera c);
-void camera_move(void* cp);
+void camera_update(void* cp);
+void camera_draw(void* cp);
 void enable_mouselook(camera c);
 void disable_mouselook(camera c);
 void camera_remove(void* cp);
@@ -30,18 +31,17 @@ camera add_camera(float _x, float _y, float _z)
 	c->type = CAMERA_TYPE_MOUSELOOK;
 	c->active = 1;
 
-	// link coordinate names to position vektor
-	c->x = &c->position[0];
-	c->y = &c->position[1];
-	c->z = &c->position[2];
+	scenegraph_node_init(&(c->scene_data));
 
-	// set initial camera position
-	*c->x = _x;
-	*c->y = _y;
-	*c->z = _z;
+	c->scene_data.init = NULL;
+	c->scene_data.update = &camera_update;
+	c->scene_data.draw = &camera_draw;
+	c->scene_data.remove = &camera_remove;
 
-	// set cleanup event listener
-	add_listener(&camera_remove, c, vektor_event_quit);
+	c->scene_data.node_type = sg_camera;
+	c->scene_data.node_object = c;
+
+	scenegraph_addchild(NULL, &(c->scene_data));
 
 	return c;
 }
@@ -77,9 +77,10 @@ void camera_mouselook(camera c)
 	SDL_WarpMouse(512, 384);
 }
 
-void camera_move(void* cp)
+void camera_update(void* cp)
 {
 	camera c = cp;
+	enable_mouselook(c);
 	float dir_z;
 	float dir_x;
 	float camera_zx;
@@ -103,10 +104,25 @@ void camera_move(void* cp)
 	camera_xz = -cos(-c->pitch) * sin(-c->yaw);
 
 	// update camera position
-	*c->x -= c->speed*dir_z*camera_zx;
-	*c->z += c->speed*dir_z*camera_zz;
-	*c->x -= c->speed*dir_x*camera_xx;
-	*c->z += c->speed*dir_x*camera_xz;
+	*c->scene_data.x -= c->speed*dir_z*camera_zx;
+	*c->scene_data.z += c->speed*dir_z*camera_zz;
+	*c->scene_data.x -= c->speed*dir_x*camera_xx;
+	*c->scene_data.z += c->speed*dir_x*camera_xz;
+}
+
+void camera_draw(void* cp)
+{
+	camera c = cp;
+
+	glUniformMatrix4fv(shader->vs->ctm, 1, GL_TRUE, c->scene_data.ctm->A[0]);
+
+	// camera uniforms
+	glUniform3fv(shader->vs->camera_position, 1, c->position);
+	glUniform1f(shader->vs->camera_pitch, c->pitch);
+	glUniform1f(shader->vs->camera_yaw, c->yaw);
+
+	glEnable(GL_DEPTH_TEST);
+	glUniform1i(shader->vs->projection_type, PROJECTION_STANDARD); // set standard perspective projection
 }
 
 void enable_mouselook(camera c)

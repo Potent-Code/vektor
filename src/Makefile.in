@@ -76,16 +76,16 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 libvektor_la_DEPENDENCIES = ui/libvektorui.la
 am__libvektor_la_SOURCES_DIST = image.h sdl.h log.h log.c engine.h \
 	engine.c texture.h texture.c input.h input.c event.h event.c \
-	net.h net.c sprite.h sprite.c draw.h draw.c camera.h camera.c \
-	skybox.h skybox.c window.h window.c model.h model.c \
-	draw_model.h draw_model.c keys.h keybind.h keybind.c \
-	keystates.h keystates.c glsl_shaders.h glsl_shaders.c \
-	scenegraph.c SDLMain.m
+	net.h net.c sprite.h sprite.c camera.h camera.c skybox.h \
+	skybox.c window.h window.c model.h model.c draw_model.h \
+	draw_model.c keys.h keybind.h keybind.c keystates.h \
+	keystates.c glsl_shaders.h glsl_shaders.c scenegraph.c \
+	SDLMain.m
 @DARWIN_TRUE@am__objects_1 = SDLMain.lo
 am_libvektor_la_OBJECTS = log.lo engine.lo texture.lo input.lo \
-	event.lo net.lo sprite.lo draw.lo camera.lo skybox.lo \
-	window.lo model.lo draw_model.lo keybind.lo keystates.lo \
-	glsl_shaders.lo scenegraph.lo $(am__objects_1)
+	event.lo net.lo sprite.lo camera.lo skybox.lo window.lo \
+	model.lo draw_model.lo keybind.lo keystates.lo glsl_shaders.lo \
+	scenegraph.lo $(am__objects_1)
 libvektor_la_OBJECTS = $(am_libvektor_la_OBJECTS)
 libvektor_la_LINK = $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(OBJCLD) $(AM_OBJCFLAGS) $(OBJCFLAGS) \
@@ -297,11 +297,10 @@ top_srcdir = @top_srcdir@
 lib_LTLIBRARIES = libvektor.la
 libvektor_la_SOURCES = image.h sdl.h log.h log.c engine.h engine.c \
 	texture.h texture.c input.h input.c event.h event.c net.h \
-	net.c sprite.h sprite.c draw.h draw.c camera.h camera.c \
-	skybox.h skybox.c window.h window.c model.h model.c \
-	draw_model.h draw_model.c keys.h keybind.h keybind.c \
-	keystates.h keystates.c glsl_shaders.h glsl_shaders.c \
-	scenegraph.c $(am__append_1)
+	net.c sprite.h sprite.c camera.h camera.c skybox.h skybox.c \
+	window.h window.c model.h model.c draw_model.h draw_model.c \
+	keys.h keybind.h keybind.c keystates.h keystates.c \
+	glsl_shaders.h glsl_shaders.c scenegraph.c $(am__append_1)
 @DARWIN_FALSE@libvektor_la_LDFLAGS = -lSDL -lGL -lGLU -lmathlib
 @DARWIN_TRUE@libvektor_la_LDFLAGS = -framework SDL -framework OpenGL \
 @DARWIN_TRUE@	-lmathlib
@@ -456,7 +455,6 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SDLMain.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/camera.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/draw.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/draw_model.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/engine.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/event.Plo@am__quote@

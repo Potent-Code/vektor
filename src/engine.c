@@ -20,6 +20,7 @@ font default_font;
 
 sprite sprite_logo;
 texture texture_scrollbar;
+camera cam;
 
 void vektor_quit(void* ev)
 {
@@ -32,24 +33,6 @@ void vektor_quit(void* ev)
 
 	// free fonts
 	free_all_fonts();
-
-	// free 3d render objects
-//	if(renderlist_3d != NULL)
-//	{
-//		for(i=0; i < renderobjs3d_count; i++)
-//		{
-//			renderlist_3d[i].remove(renderlist_3d[i].object);
-//		}
-//	}
-
-	// free 2d render objects
-//	if(renderlist_2d != NULL)
-//	{
-//		for(i=0; i < renderobjs2d_count; i++)
-//		{
-//			renderlist_2d[i].remove(renderlist_2d[i].object);
-//		}
-//	}
 
 	// write and clean up log
 	log_remove(NULL);
@@ -67,7 +50,8 @@ void intro(void)
 
 	for(current=SDL_GetTicks();(et=(current-start)) <= 2500; current=SDL_GetTicks())
 	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		scenegraph_draw(NULL);
+		/*glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glClearColor(0.0, 0.0, 0.0, 0.0);
 		glUseProgram(shader->id);
@@ -100,7 +84,8 @@ void intro(void)
 		{
 			sprite_logo->colors[3] = 1.0;
 		}
-		sprite_logo->scene_data.draw(sprite_logo);
+		scenegraph_draw(sprite_logo);
+		//sprite_logo->scene_data.draw(sprite_logo);
 
 		SDL_GL_SwapBuffers();
 		glFlush();
@@ -110,12 +95,12 @@ void intro(void)
 		#else
 		glBindVertexArray(0);
 		#endif
-		glUseProgram(0);
+		glUseProgram(0);*/
 	}
 
 	scenegraph_remove(sprite_logo);
 	//sprite_logo->remove(sprite_logo);
-	sprite_logo->colors[3] = 0.0;
+	//sprite_logo->colors[3] = 0.0;
 	// draw whatever comes after this screen
 	//render_update();
 	//render_draw();
@@ -281,7 +266,6 @@ void vektor_run()
 	// draw intro logo
 	if(ran_init != 0)
 	{
-		render_init();
 		scenegraph_init_nodes(NULL);
 		intro();
 	}
@@ -291,7 +275,6 @@ void vektor_run()
 		return;
 	}
 
-	enable_mouselook(cam);
 	// main window loop
 	while(!done)
 	{

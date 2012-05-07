@@ -3,7 +3,9 @@
 scenegraph_node* rootNode;
 scenegraph_node* masterNodes[sg_last_node + 1];
 
-int scenegraph_is_init = 0;
+unsigned int scenegraph_is_init = 0;
+unsigned int framecount = 0;
+uint32_t last_update = 0;
 
 void scenegraph_init();
 void scenegraph_addchild(void* pParent, void* pChild);
@@ -18,6 +20,12 @@ void scenegraph_cleanup(void* p);
 scenegraph_node* scenegraph_node_new();
 void scenegraph_init_node(scenegraph_node* node);
 
+
+// masterNodes methods
+void render_first();
+void render_ortho();
+void render_last();
+
 void scenegraph_init()
 {
 	int i;
@@ -31,7 +39,7 @@ void scenegraph_init()
 	rootNode->remove = &scenegraph_node_remove;
 
 	// add the master nodes
-	for (i = sg_camera; i <= sg_last_node; i++)
+	for (i = sg_first_node; i <= sg_last_node; i++)
 	{
 		masterNodes[i] = calloc(1, sizeof(*masterNodes[i]));
 		
@@ -52,9 +60,7 @@ void scenegraph_init()
 		scenegraph_addchild(rootNode, masterNodes[i]);
 	}
 
-	masterNodes[sg_camera]->init = &render_init;
-	masterNodes[sg_camera]->update = &render_update;
-	masterNodes[sg_camera]->draw = &render_camera;
+	masterNodes[sg_first_node]->draw = &render_first;
 	masterNodes[sg_geometry_2d]->draw = &render_ortho;
 	masterNodes[sg_last_node]->draw = &render_last;
 
@@ -119,6 +125,7 @@ void scenegraph_addchild(void* pParent, void* pChild)
 void scenegraph_init_nodes(void* pNode)
 {
 	scenegraph_node* curNode = pNode;
+	scenegraph_node* tmpNode = NULL;
 	
 	if (curNode == NULL)
 	{
@@ -133,16 +140,17 @@ void scenegraph_init_nodes(void* pNode)
 	// init the current node
 	if (curNode->init != NULL) curNode->init(curNode->node_object);
 
-	// init siblings of the current node
-	if (curNode->siblings != NULL) scenegraph_init_nodes(curNode->siblings);
-
 	// init children of the current node
-	if (curNode->children != NULL) scenegraph_init_nodes(curNode->children);
+	for (tmpNode = curNode->children; tmpNode != NULL; tmpNode = tmpNode->siblings)
+	{
+		scenegraph_init_nodes(tmpNode);
+	}		
 }
 
 void scenegraph_update(void* pNode)
 {
 	scenegraph_node* curNode = pNode;
+	scenegraph_node* tmpNode = NULL;
 	
 	if (curNode == NULL)
 	{
@@ -157,16 +165,17 @@ void scenegraph_update(void* pNode)
 	// update the current node
 	if (curNode->update != NULL) curNode->update(curNode->node_object);
 
-	// update siblings of the current node
-	if (curNode->siblings != NULL) scenegraph_update(curNode->siblings);
-
 	// update children of the current node
-	if (curNode->children != NULL) scenegraph_update(curNode->children);
+	for (tmpNode = curNode->children; tmpNode != NULL; tmpNode = tmpNode->siblings)
+	{
+		scenegraph_update(tmpNode);
+	}
 }
 
 void scenegraph_draw(void* pNode)
 {
 	scenegraph_node* curNode = pNode;
+	scenegraph_node* tmpNode = NULL;
 	
 	if (curNode == NULL)
 	{
@@ -181,11 +190,11 @@ void scenegraph_draw(void* pNode)
 	// draw the current node
 	if (curNode->draw != NULL) curNode->draw(curNode->node_object);
 
-	// draw siblings of the current node
-	if (curNode->siblings != NULL) scenegraph_draw(curNode->siblings);
-
 	// draw children of the current node
-	if (curNode->children != NULL) scenegraph_draw(curNode->children);
+	for (tmpNode = curNode->children; tmpNode != NULL; tmpNode = tmpNode->siblings)
+	{
+		scenegraph_draw(tmpNode);
+	}
 }
 
 void scenegraph_remove(void* pNode)
@@ -197,7 +206,7 @@ void scenegraph_remove(void* pNode)
 	{
 		if (scenegraph_is_init == 0)
 		{
-			log_err("Tried to draw a scenegraph_node before scenegraph_init() was called!");
+			log_err("Tried to remove a scenegraph_node before scenegraph_init() was called!");
 			return;
 		}
 		curNode = rootNode;
@@ -246,18 +255,8 @@ void scenegraph_node_remove(void* pNode)
 
 void scenegraph_cleanup(void* p)
 {
-//	int i;
 	(void)p;
 	scenegraph_remove(rootNode);
-
-//	for (i = sg_camera; i <= sg_last_node; i++)
-//	{
-//		scenegraph_remove(masterNodes[i]);
-//		masterNodes[i] = NULL;
-//	}
-
-	//free_matrix(rootNode->ctm);
-	//free_matrix(rootNode->modelview);
 }
 
 scenegraph_node* scenegraph_node_new()
@@ -285,4 +284,55 @@ void scenegraph_node_init(scenegraph_node* node)
 	node->update = NULL;
 	node->draw = NULL;
 	node->remove = NULL;
+}
+
+
+// masterNode methods
+void render_first()
+{	
+	glEnable(GL_DEPTH_TEST);
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glClearColor(0.0, 0.0, 0.0, 0.0);
+	glUseProgram(shader->id);
+	
+	// set uniforms
+	glUniform1f(shader->vs->window_width, (float)(window_width));
+	glUniform1f(shader->vs->window_height, (float)(window_height));
+	glUniform1f(shader->vs->view_angle, 45.0f);
+	glUniform1f(shader->vs->z_near, 0.5f);
+	glUniform1f(shader->vs->z_far, 500.0f);
+}
+
+void render_ortho()
+{	
+	glDisable(GL_DEPTH_TEST);
+	glUniform1i(shader->vs->projection_type, PROJECTION_ORTHOGRAPHIC); // set ortho projection
+}
+
+void render_last()
+{
+	uint32_t elapsed = 0;
+	char fps_msg[256];
+
+	SDL_GL_SwapBuffers();
+	glFlush();
+
+	#ifdef __APPLE__
+	glBindVertexArrayAPPLE(0);
+	#else
+	glBindVertexArray(0);
+	#endif
+	glUseProgram(0);
+
+	// update frames per second counter
+	framecount++;
+	if((elapsed = (SDL_GetTicks() - last_update)) > 1000)
+	{
+		snprintf(fps_msg, 255, "%.0f fps", (float)framecount / ((float)elapsed / 1000.));
+		//textbox_set_text(fps_disp, fps_msg);
+		last_update = SDL_GetTicks();
+		framecount = 0;
+	}
 }

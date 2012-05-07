@@ -5,14 +5,21 @@
 #include <mathlib.h>
 #include "log.h"
 #include "event.h"
-#include "draw.h"
+#include "glsl_shaders.h"
+#include "window.h"
+
+#define PROJECTION_STANDARD 1
+#define PROJECTION_OBLIQUE 2
+#define PROJECTION_ORTHOGRAPHIC 3
 
 #endif // vektor_in_h
 
 enum
 {
 	sg_root_node = -1,
-	sg_camera = 0,
+	sg_first_node = 0,
+	sg_camera,
+	sg_light,
 	sg_geometry_3d,
 	sg_geometry_2d,
 	sg_last_node,

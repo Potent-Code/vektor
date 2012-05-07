@@ -1,5 +1,5 @@
 lib_LTLIBRARIES = libvektor.la
-libvektor_la_SOURCES = image.h sdl.h log.h log.c engine.h engine.c texture.h texture.c input.h input.c event.h event.c net.h net.c sprite.h sprite.c draw.h draw.c camera.h camera.c skybox.h skybox.c window.h window.c model.h model.c draw_model.h draw_model.c keys.h keybind.h keybind.c keystates.h keystates.c glsl_shaders.h glsl_shaders.c scenegraph.c
+libvektor_la_SOURCES = image.h sdl.h log.h log.c engine.h engine.c texture.h texture.c input.h input.c event.h event.c net.h net.c sprite.h sprite.c camera.h camera.c skybox.h skybox.c window.h window.c model.h model.c draw_model.h draw_model.c keys.h keybind.h keybind.c keystates.h keystates.c glsl_shaders.h glsl_shaders.c scenegraph.c
 if DARWIN
 libvektor_la_SOURCES += SDLMain.m
 libvektor_la_LDFLAGS = -framework SDL -framework OpenGL

@@ -11,6 +11,7 @@
 #include <mathlib.h>
 
 #include "log.h"
+#include "scenegraph.h"
 #include "window.h"
 
 #endif // vektor_in_h
@@ -22,9 +23,7 @@
 
 typedef struct
 {
-	float *x;
-	float *y;
-	float *z;
+	scenegraph_node scene_data;
 	float position[3]; // position vektor (*x, *y, *z)
 	float speed; // movement speed
 	// for mouse calculations
@@ -44,7 +43,8 @@ typedef struct
 
 extern camera add_camera(float _x, float _y, float _z);
 extern void camera_mouselook(camera c);
-extern void camera_move(void* cp);
+extern void camera_update(void* cp);
+extern void camera_draw(void* cp);
 extern void enable_mouselook(camera c);
 extern void disable_mouselook(camera c);
 extern void camera_remove(void* cp);

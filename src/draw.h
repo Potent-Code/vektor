@@ -14,9 +14,6 @@
 #include "camera.h"
 //#include "ui/textbox.h"
 
-#define PROJECTION_STANDARD 1
-#define PROJECTION_OBLIQUE 2
-#define PROJECTION_ORTHOGRAPHIC 3
 #endif // vektor_in_h
 
 //typedef struct
@@ -38,11 +35,6 @@ extern camera cam;
 
 //extern void add_object_2d(void *obj, void (*init)(void*), void (*update)(void*), void (*draw)(void*), void (*remove)(void*));
 //extern void add_object_3d(void *obj, void (*init)(void*), void (*update)(void*), void (*draw)(void*), void (*remove)(void*));
-extern void render_init();
-extern void render_update();
-extern void render_camera();
-extern void render_ortho();
-extern void render_last();
 //extern void render_draw();
 
 #endif
