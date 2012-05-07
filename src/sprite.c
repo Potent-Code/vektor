@@ -16,14 +16,7 @@ sprite sprite_new(float _x, float _y, const char* filename)
 
 	// allocations
 	new = calloc(1, sizeof(*new));
-	new->scene_data.modelview = identity_matrix(4);
-	new->scene_data.ctm = identity_matrix(4);
-
-	// link coordinates to modelview matrix
-	
-	new->scene_data.x = &new->scene_data.modelview->A[0][3];
-	new->scene_data.y = &new->scene_data.modelview->A[1][3];
-	new->scene_data.z = &new->scene_data.modelview->A[2][3];
+	scenegraph_node_init(get_scene_data(new));
 
 	// set initial coordinates
 	*new->scene_data.x = _x;
@@ -165,24 +158,9 @@ void sprite_remove(void* sp)
 
 	if (s != NULL)
 	{
-		// free matrix
-		if (s->scene_data.modelview != NULL)
-		{
-			free_matrix(s->scene_data.modelview);
-			s->scene_data.modelview = NULL;
-		}
-
-		if (s->scene_data.ctm != NULL)
-		{
-			free_matrix(s->scene_data.ctm);
-			s->scene_data.ctm = NULL;
-		}
-
-		// clear function pointers to prevent use
-		s->scene_data.init = NULL;
-		s->scene_data.update = NULL;
-		s->scene_data.draw = NULL;
-		s->scene_data.remove = NULL;
+		// free matrices
+		free_matrix(s->scene_data.ctm);
+		free_matrix(s->scene_data.modelview);
 
 		free(s);
 	}

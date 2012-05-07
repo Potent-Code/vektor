@@ -14,6 +14,8 @@
 
 #endif // vektor_in_h
 
+#define get_scene_data(obj) &(obj->scene_data)
+
 enum
 {
 	sg_root_node = -1,

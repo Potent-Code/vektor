@@ -20,4 +20,5 @@ extern "C" {
 #define log_err(str) _log_err(str, __func__, __FILE__, __LINE__)
 #define log_err_sys(str) _log_err_sys(str, errno, __func__, __FILE__, __LINE__)
 
+#define get_scene_data(obj) &(obj->scene_data)
 
