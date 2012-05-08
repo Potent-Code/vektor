@@ -25,7 +25,7 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 
 	tb = calloc(1, sizeof(*tb));
 
-	scenegraph_node_init(get_scene_data(tb));
+	scenegraph_node_init(get_scene_data(tb));	
 
 	tb->line_width = tb->lwidth_orig = line_width;
 	tb->lines = tb->lines_orig = lines;
@@ -427,16 +427,13 @@ void textbox_remove(void* tbp)
 			free_vector(tb->tcoords);
 			tb->tcoords = NULL;
 		}
-
-		// free matrices
-		free_matrix(tb->scene_data.modelview);
-		free_matrix(tb->scene_data.ctm);
 		
 		free(tb->sb);
 		tb->sb = NULL;
 		free(tb->data);
 		tb->data = NULL;
-		free(tb);
+
+		scenegraph_node_remove(get_scene_data(tb));
 	}
 }
 

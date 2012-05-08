@@ -24,7 +24,6 @@
 typedef struct
 {
 	scenegraph_node scene_data;
-	float position[3]; // position vektor (*x, *y, *z)
 	float speed; // movement speed
 	// for mouse calculations
 	float dx;
@@ -47,6 +46,5 @@ extern void camera_update(void* cp);
 extern void camera_draw(void* cp);
 extern void enable_mouselook(camera c);
 extern void disable_mouselook(camera c);
-extern void camera_remove(void* cp);
 
 #endif

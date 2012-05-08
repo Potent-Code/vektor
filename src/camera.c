@@ -9,7 +9,6 @@ void camera_update(void* cp);
 void camera_draw(void* cp);
 void enable_mouselook(camera c);
 void disable_mouselook(camera c);
-void camera_remove(void* cp);
 
 camera add_camera(float _x, float _y, float _z)
 {
@@ -31,12 +30,10 @@ camera add_camera(float _x, float _y, float _z)
 	c->type = CAMERA_TYPE_MOUSELOOK;
 	c->active = 1;
 
-	scenegraph_node_init(&(c->scene_data));
+	scenegraph_node_init(get_scene_data(c));
 
-	c->scene_data.init = NULL;
 	c->scene_data.update = &camera_update;
 	c->scene_data.draw = &camera_draw;
-	c->scene_data.remove = &camera_remove;
 
 	c->scene_data.node_type = sg_camera;
 	c->scene_data.node_object = c;
@@ -45,7 +42,7 @@ camera add_camera(float _x, float _y, float _z)
 	*c->scene_data.y = _y;
 	*c->scene_data.z = _z;
 
-	scenegraph_addchild(NULL, &(c->scene_data));
+	scenegraph_addchild(NULL, get_scene_data(c));
 
 	return c;
 }
@@ -121,7 +118,7 @@ void camera_draw(void* cp)
 	glUniformMatrix4fv(shader->vs->ctm, 1, GL_TRUE, c->scene_data.ctm->A[0]);
 
 	// camera uniforms
-	glUniform3fv(shader->vs->camera_position, 1, c->position);
+	glUniform3fv(shader->vs->camera_position, 1, c->scene_data.x);
 	glUniform1f(shader->vs->camera_pitch, c->pitch);
 	glUniform1f(shader->vs->camera_yaw, c->yaw);
 
@@ -141,11 +138,3 @@ void disable_mouselook(camera c)
 	SDL_ShowCursor(1);
 }
 
-void camera_remove(void* cp)
-{
-	camera c = cp;
-	if (c != NULL)
-	{
-		free(c);
-	}
-}

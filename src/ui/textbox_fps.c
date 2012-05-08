@@ -16,7 +16,7 @@ textbox_fps textbox_fps_new()
 	new->scene_data.update = &textbox_fps_update;
 
 	new->tb = add_textbox(((float)window_width/2.0)-(12.0*(float)default_font->w) - 1.0, ((float)window_height/2.0)-(float)default_font->h - 1.0, 12, 1, 13);
-
+	
 	// link the textbox scenegraph node to this scenegraph node
 	scenegraph_addchild(get_scene_data(new), get_scene_data(new->tb));
 

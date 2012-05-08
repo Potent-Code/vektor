@@ -239,7 +239,8 @@ void scenegraph_remove(void* pNode)
 	}
 }
 
-// remove a node created by scenegraph_node_new
+// remove a node: minimal removal of any scenegraph node.
+// overridden remove methods should call this at the end
 void scenegraph_node_remove(void* pNode)
 {
 	scenegraph_node* node = pNode;
@@ -247,7 +248,7 @@ void scenegraph_node_remove(void* pNode)
 	free_matrix(node->ctm);
 	free_matrix(node->modelview);
 
-	free(node);
+	free(node->node_object);
 }
 
 // remove the entire scene graph
@@ -282,7 +283,7 @@ void scenegraph_node_init(scenegraph_node* node)
 	node->init = NULL;
 	node->update = NULL;
 	node->draw = NULL;
-	node->remove = NULL;
+	node->remove = &scenegraph_node_remove; // all nodes require at least this
 }
 
 
