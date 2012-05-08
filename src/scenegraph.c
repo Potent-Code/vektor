@@ -248,6 +248,9 @@ void scenegraph_node_remove(void* pNode)
 	free_matrix(node->ctm);
 	free_matrix(node->modelview);
 
+	// remove all children first
+	scenegraph_remove(node->children);
+
 	free(node->node_object);
 }
 

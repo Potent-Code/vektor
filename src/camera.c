@@ -118,7 +118,7 @@ void camera_draw(void* cp)
 	glUniformMatrix4fv(shader->vs->ctm, 1, GL_TRUE, c->scene_data.ctm->A[0]);
 
 	// camera uniforms
-	glUniform3fv(shader->vs->camera_position, 1, c->scene_data.x);
+	glUniform3f(shader->vs->camera_position, *c->scene_data.x, *c->scene_data.y, *c->scene_data.z);
 	glUniform1f(shader->vs->camera_pitch, c->pitch);
 	glUniform1f(shader->vs->camera_yaw, c->yaw);
 
