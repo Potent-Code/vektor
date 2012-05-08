@@ -39,8 +39,6 @@ typedef struct
 	void (*move)(void*, float, float);
 } *textbox;
 
-extern textbox fps_disp;
-
 // methods
 extern textbox add_textbox(float x, float y, int line_width, int lines, int data_len);
 extern void textbox_set_text(textbox tb, const char* str);

@@ -20,6 +20,7 @@
 #include "ui/scrollbar.h"
 #include "camera.h"
 #include "ui/textbox.h"
+#include "ui/textbox_fps.h"
 #include "keybind.h"
 #include "keystates.h"
 #include "sprite.h"
@@ -32,5 +33,7 @@ extern void vektor_intro();
 
 extern void get_gl_version(int* major, int* minor);
 extern void get_glsl_version(int* major, int* minor);
+
+extern font default_font;
 
 #endif

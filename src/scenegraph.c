@@ -312,9 +312,6 @@ void render_ortho()
 
 void render_last()
 {
-	uint32_t elapsed = 0;
-	char fps_msg[256];
-
 	SDL_GL_SwapBuffers();
 	glFlush();
 
@@ -324,14 +321,4 @@ void render_last()
 	glBindVertexArray(0);
 	#endif
 	glUseProgram(0);
-
-	// update frames per second counter
-	framecount++;
-	if((elapsed = (SDL_GetTicks() - last_update)) > 1000)
-	{
-		snprintf(fps_msg, 255, "%.0f fps", (float)framecount / ((float)elapsed / 1000.));
-		//textbox_set_text(fps_disp, fps_msg);
-		last_update = SDL_GetTicks();
-		framecount = 0;
-	}
 }

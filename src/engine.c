@@ -90,7 +90,8 @@ void vektor_init(const char *title)
 	char err_msg[256]; // stores error messages about version info
 	float logo_x;
 	float logo_y;
-	font f;
+	textbox_fps fps_disp;
+	//font f;
 
 	// initial values for SDL window
 	window_width = 1024;
@@ -187,7 +188,7 @@ void vektor_init(const char *title)
 
 	// set up default objects
 	cam = add_camera(0.0, 0.0, 0.0);
-	f = add_font("/usr/local/share/vektor/fonts/default.font");
+	default_font = add_font("/usr/local/share/vektor/fonts/default.font");
 
 	// calculate a centering x and y and set up sprite for logo screen
 	logo_x = ((((float)(window_width) / 2.0) - 400.0)/((float)(window_width) / 2.0)) - 1.0;
@@ -195,7 +196,7 @@ void vektor_init(const char *title)
 	sprite_logo = sprite_new(logo_x, logo_y, "/usr/local/share/vektor/logo.texture");
 	scenegraph_addchild(NULL, get_scene_data(sprite_logo));
 	
-	fps_disp = add_textbox(((float)window_width/2.0)-(12.0*(float)f->w) - 1.0, ((float)window_height/2.0)-(float)f->h - 1.0, 12, 1, 13);
+	fps_disp = textbox_fps_new();
 	scenegraph_addchild(NULL, get_scene_data(fps_disp));
 
 	ran_init = 1;

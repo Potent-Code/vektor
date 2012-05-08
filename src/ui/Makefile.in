@@ -47,7 +47,8 @@ CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libvektorui_la_LIBADD =
 am_libvektorui_la_OBJECTS = button.lo console.lo font.lo \
-	mousehandler.lo scrollbar.lo tabbar.lo textbox.lo ui_window.lo
+	mousehandler.lo scrollbar.lo tabbar.lo textbox.lo \
+	textbox_fps.lo ui_window.lo
 libvektorui_la_OBJECTS = $(am_libvektorui_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -190,7 +191,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 noinst_LTLIBRARIES = libvektorui.la
-libvektorui_la_SOURCES = button.c button.h console.c console.h font.c font.h mousehandler.c mousehandler.h scrollbar.c scrollbar.h tabbar.c tabbar.h textbox.c textbox.h ui_window.c ui_window.h
+libvektorui_la_SOURCES = button.c button.h console.c console.h font.c font.h mousehandler.c mousehandler.h scrollbar.c scrollbar.h tabbar.c tabbar.h textbox.c textbox.h textbox_fps.c textbox_fps.h ui_window.c ui_window.h
 all: all-am
 
 .SUFFIXES:
@@ -250,6 +251,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scrollbar.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tabbar.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/textbox.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/textbox_fps.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui_window.Plo@am__quote@
 
 .c.o:

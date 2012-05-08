@@ -4,8 +4,6 @@
 
 #include "textbox.h"
 
-textbox fps_disp;
-
 textbox add_textbox(float x, float y, int line_width, int lines, int data_len);
 void textbox_set_text(textbox tb, const char *str);
 void textbox_add_text(textbox tb, const char *str);
@@ -41,6 +39,7 @@ textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
 	tb->tcoords = NULL;
 
 	tb->scene_data.node_object = tb;
+	tb->scene_data.node_type = sg_geometry_2d;
 
 	tb->scene_data.init = &textbox_init;
 	tb->scene_data.update = &textbox_update;
