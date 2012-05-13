@@ -3,6 +3,9 @@
 #ifndef vektor_in_h
 #define scenegraph_h
 #include <mathlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "log.h"
 #include "event.h"
 #include "glsl_shaders.h"
@@ -18,7 +21,8 @@
 
 enum
 {
-	sg_root_node = -1,
+	sg_root_node = -2,
+	sg_scene_node = -1,
 	sg_first_node = 0,
 	sg_camera,
 	sg_light,
@@ -29,14 +33,17 @@ enum
 
 struct _scenegraph_node
 {
-	float *x;
-	float *y;
-	float *z;
-	matrix modelview;
+	// coordinations and transformations
+	float *x; // &modelview->A[0][3]
+	float *y; // &modelview->A[1][3]
+	float *z; // &modelview->A[2][3]
+	matrix modelview; // transformation matrix for this node
 	matrix ctm; // current transformation matrix ctm = modelview * parent->ctm
 
+	// node description
 	void *node_object;
 	int node_type;
+	char node_name[256];
 
 	// these pointers allow sprites to be nested and linked
 	struct _scenegraph_node* parent;
@@ -53,8 +60,11 @@ struct _scenegraph_node
 typedef struct _scenegraph_node scenegraph_node;
 
 extern scenegraph_node* rootNode;
+extern scenegraph_node* currentScene;
 
 extern void scenegraph_init(void);
+extern void scenegraph_scene_add(const char* sceneName);
+extern void scenegraph_scene_select(const char* sceneName);
 
 // link scenegraph nodes pParent == NULL means link to rootNode
 extern void scenegraph_addchild(void* pParent, void* pChild);

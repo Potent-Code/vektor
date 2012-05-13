@@ -4,7 +4,7 @@
 
 #include "textbox.h"
 
-textbox add_textbox(float x, float y, int line_width, int lines, int data_len);
+textbox textbox_new(float x, float y, int line_width, int lines, int data_len);
 void textbox_set_text(textbox tb, const char *str);
 void textbox_add_text(textbox tb, const char *str);
 void textbox_clear_text(textbox tb);
@@ -19,46 +19,46 @@ void textbox_draw(void* tbp);
 void textbox_remove(void* tbp);
 Uint32 blink_timer=0;
 
-textbox add_textbox(float x, float y, int line_width, int lines, int data_len)
+textbox textbox_new(float x, float y, int line_width, int lines, int data_len)
 {
-	textbox tb;
+	textbox new;
 
-	tb = calloc(1, sizeof(*tb));
+	new = calloc(1, sizeof(*new));
 
-	scenegraph_node_init(get_scene_data(tb));	
+	scenegraph_node_init(get_scene_data(new));	
 
-	tb->line_width = tb->lwidth_orig = line_width;
-	tb->lines = tb->lines_orig = lines;
-	tb->data_len = data_len;
-	tb->f = fonts[0]; // default font
-	tb->data = calloc(data_len,1);
-	tb->active = 1;
-	tb->start_line = 0;
+	new->line_width = new->lwidth_orig = line_width;
+	new->lines = new->lines_orig = lines;
+	new->data_len = data_len;
+	new->f = fonts[0]; // default font
+	new->data = calloc(data_len,1);
+	new->active = 1;
+	new->start_line = 0;
 
-	tb->vertices = NULL;
-	tb->tcoords = NULL;
+	new->vertices = NULL;
+	new->tcoords = NULL;
 
-	tb->scene_data.node_object = tb;
-	tb->scene_data.node_type = sg_geometry_2d;
+	new->scene_data.node_object = new;
+	new->scene_data.node_type = sg_geometry_2d;
 
-	tb->scene_data.init = &textbox_init;
-	tb->scene_data.update = &textbox_update;
-	tb->scene_data.draw = &textbox_draw;
-	tb->scene_data.remove = &textbox_remove;
-	tb->resize = NULL;//&textbox_resize;
-	tb->move = &textbox_move;
+	new->scene_data.init = &textbox_init;
+	new->scene_data.update = &textbox_update;
+	new->scene_data.draw = &textbox_draw;
+	new->scene_data.remove = &textbox_remove;
+	new->resize = NULL;//&textbox_resize;
+	new->move = &textbox_move;
 
-	*tb->scene_data.x = x;
-	*tb->scene_data.y = y;
+	*new->scene_data.x = x;
+	*new->scene_data.y = y;
 
-	tb->sb = add_scrollbar(*tb->scene_data.x+(tb->f->w*tb->line_width)+8., *tb->scene_data.y, tb->f->h, (unsigned int)tb->lines);
-	tb->sb->hb->action = NULL;
-	tb->sb->hb->obj = tb;
-	tb->sb->hb->x_orig = tb->sb->hb->x;
-	tb->sb->hb->y_orig = tb->sb->hb->y;
+	new->sb = add_scrollbar(*new->scene_data.x + (new->f->w * new->line_width) + 8., *new->scene_data.y, new->f->h, (unsigned int)new->lines);
+	new->sb->hb->action = NULL;
+	new->sb->hb->obj = new;
+	new->sb->hb->x_orig = new->sb->hb->x;
+	new->sb->hb->y_orig = new->sb->hb->y;
 	
-	add_listener(&textbox_mousemove, tb, vektor_event_mousemove);
-	return tb;
+	add_listener(&textbox_mousemove, new, vektor_event_mousemove);
+	return new;
 }
 
 // set a textbox's data field

@@ -56,8 +56,8 @@ console init_console(int x, int y, int w, int h)
 	c->tabs = add_tabbar(10, -26, 502, 36);
 
 	// add textboxes
-	c->tb_out = add_textbox(25, -80, 57, 16, 500000);
-	c->tb_in = add_textbox(25, -300, 59, 1, 1000);
+	c->tb_out = textbox_new(25, -80, 57, 16, 500000);
+	c->tb_in = textbox_new(25, -300, 59, 1, 1000);
 
 	console_data = c->tb_out->data;
 	chat_data = calloc(500000,1);

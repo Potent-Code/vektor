@@ -184,6 +184,8 @@ void vektor_init(const char *title)
 	//init_network();
 	
 	scenegraph_init();
+	scenegraph_scene_add("vektor_intro");
+	scenegraph_scene_select("vektor_intro");
 	shader_init();
 
 	// set up default objects
@@ -195,10 +197,13 @@ void vektor_init(const char *title)
 	logo_y = ((((float)(window_height) / 2.0) - 300.0)/((float)(window_height) / 2.0)) - 1.0;
 	sprite_logo = sprite_new(logo_x, logo_y, "/usr/local/share/vektor/logo.texture");
 	scenegraph_addchild(NULL, get_scene_data(sprite_logo));
-	
-	fps_disp = textbox_fps_new();
-	scenegraph_addchild(NULL, get_scene_data(fps_disp));
 
+	// add a default scene for the user
+	scenegraph_scene_add("Default Scene");
+	scenegraph_scene_select("Default Scene");
+	fps_disp = textbox_fps_new();
+	scenegraph_addchild(NULL, fps_disp);
+	
 	ran_init = 1;
 }
 
@@ -212,6 +217,7 @@ void vektor_run()
 	// draw intro logo
 	if(ran_init != 0)
 	{
+		scenegraph_scene_select("vektor_intro");
 		scenegraph_init_nodes(NULL);
 		intro();
 	}
@@ -220,6 +226,9 @@ void vektor_run()
 		fprintf(stderr,"Please run vektor_init() first!\n");
 		return;
 	}
+
+	scenegraph_scene_select("Default Scene");
+	scenegraph_init_nodes(NULL);
 
 	// main window loop
 	while(!done)

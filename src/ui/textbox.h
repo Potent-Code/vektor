@@ -40,7 +40,7 @@ typedef struct
 } *textbox;
 
 // methods
-extern textbox add_textbox(float x, float y, int line_width, int lines, int data_len);
+extern textbox textbox_new(float x, float y, int line_width, int lines, int data_len);
 extern void textbox_set_text(textbox tb, const char* str);
 extern void textbox_add_text(textbox tb, const char* str);
 extern void textbox_clear_text(textbox tb);

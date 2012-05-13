@@ -1,13 +1,15 @@
 #include "scenegraph.h"
 
-scenegraph_node* rootNode;
-scenegraph_node* masterNodes[sg_last_node + 1];
+scenegraph_node* rootNode = NULL;
+scenegraph_node* currentScene = NULL;
 
 unsigned int scenegraph_is_init = 0;
 unsigned int framecount = 0;
 uint32_t last_update = 0;
 
 void scenegraph_init();
+void scenegraph_scene_add(const char* sceneName);
+void scenegraph_scene_select(const char* sceneName);
 void scenegraph_addchild(void* pParent, void* pChild);
 
 void scenegraph_init_nodes(void* pNode);
@@ -21,15 +23,13 @@ scenegraph_node* scenegraph_node_new();
 void scenegraph_init_node(scenegraph_node* node);
 
 
-// masterNodes methods
+// master node methods
 void render_first();
 void render_ortho();
 void render_last();
 
 void scenegraph_init()
 {
-	int i;
-
 	add_listener(&scenegraph_cleanup, NULL, vektor_event_quit);
 
 	// add the root node (universal ancestor)
@@ -39,24 +39,63 @@ void scenegraph_init()
 	rootNode->node_object = rootNode;
 	rootNode->remove = &scenegraph_node_remove;
 
+	// give our root node a name
+	strncpy(rootNode->node_name, "rootNode", 254);
+	rootNode->node_name[255] = 0;
+
+	scenegraph_is_init = 1;
+}
+
+void scenegraph_scene_add(const char* sceneName)
+{
+	scenegraph_node* newScene = scenegraph_node_new();
+	scenegraph_node* tmpNode = NULL;
+	int i;
+
+	newScene->node_type = sg_scene_node;
+	newScene->node_object = newScene;
+	newScene->remove = &scenegraph_node_remove;
+
 	// add the master nodes (one for each node type)
 	for (i = sg_first_node; i <= sg_last_node; i++)
 	{
-		masterNodes[i] = scenegraph_node_new();
+		tmpNode = scenegraph_node_new();
 
-		masterNodes[i]->node_type = i;
-		masterNodes[i]->node_object = masterNodes[i];
-		masterNodes[i]->remove = &scenegraph_node_remove;
+		tmpNode->node_type = i;
+		tmpNode->node_object = tmpNode;
+		tmpNode->remove = &scenegraph_node_remove;
 
-		scenegraph_addchild(rootNode, masterNodes[i]);
+		// set up the master node methods for this scene
+		if (i == sg_first_node) tmpNode->draw = &render_first;
+		if (i == sg_geometry_2d) tmpNode->draw = &render_ortho;
+		if (i == sg_last_node) tmpNode->draw = &render_last;
+
+		scenegraph_addchild(newScene, tmpNode);
 	}
 
-	// set up master node methods
-	masterNodes[sg_first_node]->draw = &render_first;
-	masterNodes[sg_geometry_2d]->draw = &render_ortho;
-	masterNodes[sg_last_node]->draw = &render_last;
+	// copy our name to the scene
+	if (sceneName != NULL)
+	{
+		strncpy(newScene->node_name, sceneName, 254);
+		newScene->node_name[255] = 0;
+	}
 
-	scenegraph_is_init = 1;
+	// add the scene
+	scenegraph_addchild(rootNode, newScene);
+}
+
+void scenegraph_scene_select(const char* sceneName)
+{
+	scenegraph_node* tmpNode = NULL;
+
+	// search rootNode for this sceneName
+	for (tmpNode = rootNode->children; tmpNode != NULL; tmpNode = tmpNode->siblings)
+	{
+		if (strcmp(tmpNode->node_name, sceneName) == 0)
+		{
+			currentScene = tmpNode;
+		}
+	}
 }
 
 void scenegraph_addchild(void* pParent, void* pChild)
@@ -72,7 +111,7 @@ void scenegraph_addchild(void* pParent, void* pChild)
 		return;
 	}
 
-	// link to rootNode if parent_node is NULL
+	// link to a master node in the current scene if parent_node is NULL
 	if (parentNode == NULL)
 	{
 		if (scenegraph_is_init == 0)
@@ -82,7 +121,20 @@ void scenegraph_addchild(void* pParent, void* pChild)
 		}
 		if ((childNode->node_type <= sg_last_node) && (childNode->node_type >= 0))
 		{
-			parentNode = masterNodes[childNode->node_type];
+			// find the master node of the current scene which has the same type as the childNode
+			for (tmpNode = currentScene->children; tmpNode != NULL; tmpNode = tmpNode->siblings)
+			{
+				if (tmpNode->node_type == childNode->node_type)
+				{
+					parentNode = tmpNode;
+					break;
+				}
+			}
+			if (parentNode == NULL)
+			{
+				log_err("Failed to add a scenegraph_node to the current scene!");
+				return;
+			}
 		}
 		else
 		{
@@ -119,7 +171,7 @@ void scenegraph_init_nodes(void* pNode)
 	scenegraph_node* curNode = pNode;
 	scenegraph_node* tmpNode = NULL;
 
-	// start at rootNode if given a NULL argument
+	// start at currentScene if given a NULL argument
 	if (curNode == NULL)
 	{
 		if (scenegraph_is_init == 0)
@@ -127,7 +179,7 @@ void scenegraph_init_nodes(void* pNode)
 			log_err("Tried to init a scenegraph_node before scenegraph_init() was called!");
 			return;
 		}
-		curNode = rootNode;
+		curNode = currentScene;
 	}
 
 	// init the current node
@@ -145,7 +197,7 @@ void scenegraph_update(void* pNode)
 	scenegraph_node* curNode = pNode;
 	scenegraph_node* tmpNode = NULL;
 	
-	// start at rootNode if given a NULL argument
+	// start at currentScene if given a NULL argument
 	if (curNode == NULL)
 	{
 		if (scenegraph_is_init == 0)
@@ -153,7 +205,7 @@ void scenegraph_update(void* pNode)
 			log_err("Tried to update a scenegraph_node before scenegraph_init() was called!");
 			return;
 		}
-		curNode = rootNode;
+		curNode = currentScene;
 	}
 
 	// update the current node
@@ -171,7 +223,7 @@ void scenegraph_draw(void* pNode)
 	scenegraph_node* curNode = pNode;
 	scenegraph_node* tmpNode = NULL;
 	
-	// start at rootNode if given a NULL argument
+	// start at currentScene if given a NULL argument
 	if (curNode == NULL)
 	{
 		if (scenegraph_is_init == 0)
@@ -179,7 +231,7 @@ void scenegraph_draw(void* pNode)
 			log_err("Tried to draw a scenegraph_node before scenegraph_init() was called!");
 			return;
 		}
-		curNode = rootNode;
+		curNode = currentScene;
 	}
 
 	// draw the current node
@@ -197,7 +249,7 @@ void scenegraph_remove(void* pNode)
 	scenegraph_node* curNode = pNode;
 	scenegraph_node* tmpNode = NULL;
 	
-	// start at rootNode if given a NULL argument
+	// start at currentScene if given a NULL argument
 	if (curNode == NULL)
 	{
 		if (scenegraph_is_init == 0)
@@ -205,7 +257,7 @@ void scenegraph_remove(void* pNode)
 			log_err("Tried to remove a scenegraph_node before scenegraph_init() was called!");
 			return;
 		}
-		curNode = rootNode;
+		curNode = currentScene;
 	}
 
 	// check if this node is the first child of its parent
@@ -290,7 +342,7 @@ void scenegraph_node_init(scenegraph_node* node)
 }
 
 
-// masterNode methods
+// master node methods
 void render_first()
 {	
 	glEnable(GL_DEPTH_TEST);
