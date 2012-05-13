@@ -82,6 +82,9 @@ void scenegraph_scene_add(const char* sceneName)
 
 	// add the scene
 	scenegraph_addchild(rootNode, newScene);
+
+	log_add_no_eol("Added new scene ");
+	log_add(sceneName);
 }
 
 void scenegraph_scene_select(const char* sceneName)
@@ -94,6 +97,8 @@ void scenegraph_scene_select(const char* sceneName)
 		if (strcmp(tmpNode->node_name, sceneName) == 0)
 		{
 			currentScene = tmpNode;
+			log_add_no_eol("Selecting scene: ");
+			log_add(sceneName);
 		}
 	}
 }

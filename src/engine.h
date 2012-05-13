@@ -34,6 +34,8 @@ extern void vektor_intro();
 extern void get_gl_version(int* major, int* minor);
 extern void get_glsl_version(int* major, int* minor);
 
+#ifndef vektor_in_h
 extern font default_font;
+#endif // vektor_in_h
 
 #endif

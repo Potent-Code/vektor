@@ -182,11 +182,11 @@ void vektor_init(const char *title)
 	keybind_add(NULL, &event_quit, NULL, vektor_key_escape);
 
 	//init_network();
+	shader_init();
 	
 	scenegraph_init();
 	scenegraph_scene_add("vektor_intro");
 	scenegraph_scene_select("vektor_intro");
-	shader_init();
 
 	// set up default objects
 	cam = add_camera(0.0, 0.0, 0.0);
