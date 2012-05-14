@@ -13,6 +13,7 @@ void scenegraph_scene_select(const char* sceneName);
 void scenegraph_addchild(void* pParent, void* pChild);
 
 void scenegraph_init_nodes(void* pNode);
+void scenegraph_deinit_nodes(void* pNode);
 void scenegraph_update(void* pNode);
 void scenegraph_draw(void* pNode);
 void scenegraph_remove(void* pNode);
@@ -188,13 +189,47 @@ void scenegraph_init_nodes(void* pNode)
 	}
 
 	// init the current node
-	if (curNode->init != NULL) curNode->init(curNode->node_object);
+	if (curNode->init != NULL)
+	{
+		curNode->init(curNode->node_object);
+		curNode->is_init = 1;
+	}
 
 	// init children of the current node
 	for (tmpNode = curNode->children; tmpNode != NULL; tmpNode = tmpNode->siblings)
 	{
 		scenegraph_init_nodes(tmpNode);
 	}		
+}
+
+void scenegraph_deinit_nodes(void* pNode)
+{
+	scenegraph_node* curNode = pNode;
+	scenegraph_node* tmpNode = NULL;
+
+	// start at currentScene if given a NULL argument
+	if (curNode == NULL)
+	{
+		if (scenegraph_is_init == 0)
+		{
+			log_err("Tried to deinit a scenegraph_node before scenegraph_init() was called!");
+			return;
+		}
+		curNode = currentScene;
+	}
+
+	// deinit the current node
+	if (curNode->deinit != NULL)
+	{
+		curNode->deinit(curNode->node_object);
+		curNode->is_init = 0;
+	}
+
+	// deinit children of the current node
+	for (tmpNode = curNode->children; tmpNode != NULL; tmpNode = tmpNode->siblings)
+	{
+		scenegraph_deinit_nodes(tmpNode);
+	}
 }
 
 void scenegraph_update(void* pNode)
@@ -253,16 +288,10 @@ void scenegraph_remove(void* pNode)
 {
 	scenegraph_node* curNode = pNode;
 	scenegraph_node* tmpNode = NULL;
-	
-	// start at currentScene if given a NULL argument
+
 	if (curNode == NULL)
 	{
-		if (scenegraph_is_init == 0)
-		{
-			log_err("Tried to remove a scenegraph_node before scenegraph_init() was called!");
-			return;
-		}
-		curNode = currentScene;
+		return;
 	}
 
 	// check if this node is the first child of its parent
@@ -302,11 +331,13 @@ void scenegraph_node_remove(void* pNode)
 {
 	scenegraph_node* node = pNode;
 
+	if (node->is_init == 1) scenegraph_deinit_nodes(node);
+
 	free_matrix(node->ctm);
 	free_matrix(node->modelview);
 
 	// remove all children first
-	scenegraph_remove(node->children);
+	if (node->children != NULL) scenegraph_remove(node->children);
 
 	free(node->node_object);
 }
@@ -322,7 +353,7 @@ void scenegraph_cleanup(void* p)
 scenegraph_node* scenegraph_node_new()
 {
 	scenegraph_node* new;
-	new = malloc(sizeof(*new));
+	new = calloc(1, sizeof(*new));
 	scenegraph_node_init(new);
 	return new;
 }
@@ -335,12 +366,18 @@ void scenegraph_node_init(scenegraph_node* node)
 	node->x = &node->modelview->A[0][3];
 	node->y = &node->modelview->A[1][3];
 	node->z = &node->modelview->A[2][3];
+
+	node->node_type = sg_invalid_node; // this MUST be set to a positive type
+	node->node_object = node; // this most likely will be changed
+	node->node_name[0] = 0;
+	node->is_init = 0;
 	
 	node->parent = NULL;
 	node->children = NULL;
 	node->siblings = NULL;
 
 	node->init = NULL;
+	node->deinit = NULL;
 	node->update = NULL;
 	node->draw = NULL;
 	node->remove = &scenegraph_node_remove; // all nodes require at least this

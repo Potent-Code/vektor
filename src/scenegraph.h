@@ -21,6 +21,7 @@
 
 enum
 {
+	sg_invalid_node = -3,
 	sg_root_node = -2,
 	sg_scene_node = -1,
 	sg_first_node = 0,
@@ -44,6 +45,7 @@ struct _scenegraph_node
 	void *node_object;
 	int node_type;
 	char node_name[256];
+	int is_init; // is 0 if not initialized, 1 if is initialized
 
 	// these pointers allow sprites to be nested and linked
 	struct _scenegraph_node* parent;
@@ -52,6 +54,7 @@ struct _scenegraph_node
 
 	// function pointers
 	void (*init)(void*);
+	void (*deinit)(void*);
 	void (*update)(void*);
 	void (*draw)(void*);
 	void (*remove)(void*);
@@ -70,9 +73,10 @@ extern void scenegraph_scene_select(const char* sceneName);
 extern void scenegraph_addchild(void* pParent, void* pChild);
 
 // scenegraph state methods
-extern void scenegraph_init_nodes(void *pNode);
-extern void scenegraph_update(void *pNode);
-extern void scenegraph_draw(void *pNode);
+extern void scenegraph_init_nodes(void* pNode);
+extern void scenegraph_deinit_nodes(void* pNode);
+extern void scenegraph_update(void* pNode);
+extern void scenegraph_draw(void* pNode);
 extern void scenegraph_remove(void* pNode);
 extern void scenegraph_node_remove(void* pNode); // for calloc created nodes
 

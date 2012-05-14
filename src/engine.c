@@ -91,7 +91,6 @@ void vektor_init(const char *title)
 	float logo_x;
 	float logo_y;
 	textbox_fps fps_disp;
-	//font f;
 
 	// initial values for SDL window
 	window_width = 1024;

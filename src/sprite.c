@@ -158,10 +158,6 @@ void sprite_remove(void* sp)
 
 	if (s != NULL)
 	{
-		// free matrices
-		free_matrix(s->scene_data.ctm);
-		free_matrix(s->scene_data.modelview);
-
-		free(s);
+		scenegraph_node_remove(get_scene_data(s));
 	}
 }
