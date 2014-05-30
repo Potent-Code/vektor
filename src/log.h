@@ -14,8 +14,6 @@
 #include <time.h>
 #include <sys/time.h>
 
-#include "config.h"
-
 #endif // vektor_in_h
 
 extern void init_log(void);

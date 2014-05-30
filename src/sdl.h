@@ -7,8 +7,6 @@
 #ifndef vektor_in_h
 #define sdl_h
 
-#include "config.h"
-
 #define GL_GLEXT_PROTOTYPES
 #define NO_SDL_GLEXT
 #include <SDL/SDL.h>
