@@ -8,7 +8,7 @@
 #define camera_h
 
 #include <math.h>
-#include <mathlib.h>
+#include <delta.h>
 
 #include <core/log.h>
 #include <core/scenegraph.h>

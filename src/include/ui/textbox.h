@@ -5,7 +5,7 @@
 #ifndef textbox_h
 #define textbox_h
 
-#include <mathlib.h>
+#include <delta.h>
 #include <string.h>
 #include <core/sdl.h>
 #include <core/glsl_shaders.h>

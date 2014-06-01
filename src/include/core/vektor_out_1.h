@@ -14,7 +14,7 @@ extern "C" {
 
 #include <time.h>
 #include <stdint.h>
-#include <mathlib.h>
+#include <delta.h>
 
 
 #define log_err(str) _log_err(str, __func__, __FILE__, __LINE__)

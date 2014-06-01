@@ -18,7 +18,7 @@
 #include <dirent.h>
 #include <errno.h>
 
-#include <mathlib.h>
+#include <delta.h>
 
 #include <core/image.h>
 #include <core/log.h>
