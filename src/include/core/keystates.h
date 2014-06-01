@@ -7,8 +7,8 @@
 #ifndef vektor_in_h
 #define keystates_h
 
-#include "keybind.h"
-#include "event.h"
+#include <core/keybind.h>
+#include <core/event.h>
 
 #endif // vektor_in_h
 

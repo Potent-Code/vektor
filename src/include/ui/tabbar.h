@@ -5,10 +5,10 @@
 #ifndef TABBAR_H
 #define TABBAR_H
 
-#include "sdl.h"
-#include "texture.h"
-#include "event.h"
-#include "button.h"
+#include <core/sdl.h>
+#include <core/texture.h>
+#include <core/event.h>
+#include <ui/button.h>
 
 // types
 

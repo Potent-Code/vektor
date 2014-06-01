@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <png.h>
 #include <errno.h>
-#include "image.h"
+#include <core/image.h>
 
 image load_png(char *filename);
 int save_texture(image img, char *filename);

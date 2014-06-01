@@ -7,9 +7,10 @@
 #ifndef vektor_in_h
 #define glsl_shaders_h
 
-#include "sdl.h"
-#include "log.h"
+#include <core/sdl.h>
+#include <core/log.h>
 
+// TODO: re-evaluate this
 #ifdef __APPLE__
 #define VERTEX_SHADER "/usr/local/share/vektor/shaders/vs_simple_mac.vs"
 #define FRAGMENT_SHADER "/usr/local/share/vektor/shaders/fs_simple_mac.fs"

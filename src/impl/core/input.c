@@ -2,7 +2,7 @@
  * Ryan Lucchese
  * December 21 2010 */
 
-#include "input.h"
+#include <core/input.h>
 
 void input_set_pos(int pos);
 void input_add_pos(int pos);

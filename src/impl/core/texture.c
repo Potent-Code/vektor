@@ -2,7 +2,7 @@
  * by Ryan Lucchese
  * December 21 2010 */
 
-#include "texture.h"
+#include <core/texture.h>
 
 void add_texture(const char* filename, texture* tex);
 int load_texture(const char* filename, texture* tex);

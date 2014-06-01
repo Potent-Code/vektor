@@ -4,40 +4,23 @@
 
 #define vektor_in_h
 
-#include "log.h"
+#include <core/log.h>
+#include <core/glsl_shaders.h>
+#include <core/net.h>
+#include <core/sdl.h>
+#include <core/image.h>
+#include <core/texture.h>
+#include <core/scenegraph.h>
+#include <core/sprite.h>
+#include <core/skybox.h>
+#include <core/model.h>
+#include <core/draw_model.h>
+#include <core/event.h>
+#include <core/input.h>
+#include <core/keys.h>
+#include <core/keybind.h>
+#include <core/keystates.h>
+#include <core/window.h>
+#include <core/camera.h>
+#include <core/engine.h>
 
-#include "glsl_shaders.h"
-
-#include "net.h"
-
-#include "sdl.h"
-
-#include "image.h"
-
-#include "texture.h"
-
-#include "scenegraph.h"
-
-#include "sprite.h"
-
-#include "skybox.h"
-
-#include "model.h"
-
-#include "draw_model.h"
-
-#include "event.h"
-
-#include "input.h"
-
-#include "keys.h"
-
-#include "keybind.h"
-
-#include "keystates.h"
-
-#include "window.h"
-
-#include "camera.h"
-
-#include "engine.h"

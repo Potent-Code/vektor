@@ -9,9 +9,9 @@
 
 #include <stdint.h>
 
-#include "sdl.h"
-#include "event.h"
-#include "keybind.h"
+#include <core/sdl.h>
+#include <core/event.h>
+#include <core/keybind.h>
 #endif // vektor_in_h
 
 // methods

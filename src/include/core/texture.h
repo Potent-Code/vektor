@@ -10,9 +10,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "sdl.h"
-#include "image.h"
-#include "log.h"
+#include <core/sdl.h>
+#include <core/image.h>
+#include <core/log.h>
 
 #ifdef __APPLE__
 #define glGenerateMipmap glGenerateMipmapEXT

@@ -7,9 +7,9 @@
 #ifndef vektor_in_h
 #define sprite_h
 
-#include "sdl.h"
-#include "texture.h"
-#include "scenegraph.h"
+#include <core/sdl.h>
+#include <core/texture.h>
+#include <core/scenegraph.h>
 
 #endif // vektor_in_h
 

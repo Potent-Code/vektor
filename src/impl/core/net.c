@@ -2,7 +2,7 @@
  * by Ryan Lucchese
  * December 21 2010 */
 
-#include "net.h"
+#include <core/net.h>
 
 void init_network(void);
 int recv_ready(void);

@@ -7,10 +7,10 @@
 #ifndef vektor_in_h
 #define draw_model_h
 
-#include "sdl.h"
-#include "texture.h"
-#include "model.h"
-#include "glsl_shaders.h"
+#include <core/sdl.h>
+#include <core/texture.h>
+#include <core/model.h>
+#include <core/glsl_shaders.h>
 
 #endif // vektor_in_h
 

@@ -1,4 +1,5 @@
-#include "draw_model.h"
+
+#include <core/draw_model.h>
 
 model model_add(const char* filename);
 void model_vertex_draw(model mdl, unsigned int _primitive_id);

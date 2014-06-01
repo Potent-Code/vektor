@@ -10,9 +10,9 @@
 #include <math.h>
 #include <mathlib.h>
 
-#include "log.h"
-#include "scenegraph.h"
-#include "window.h"
+#include <core/log.h>
+#include <core/scenegraph.h>
+#include <core/window.h>
 
 #endif // vektor_in_h
 
@@ -36,8 +36,8 @@ typedef struct
 } *camera;
 
 #ifndef vektor_in_h
-#include "input.h"
-#include "event.h"
+#include <core/input.h>
+#include <core/event.h>
 #endif // vektor_in_h
 
 extern camera add_camera(float _x, float _y, float _z);

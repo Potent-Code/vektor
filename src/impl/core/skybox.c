@@ -1,7 +1,8 @@
 /* Skybox
  * by Ryan Lucchese
  * July 3 2011 */
-#include "skybox.h"
+
+#include <core/skybox.h>
 
 skybox add_skybox(float x, float y, float z, float h, const char *filename);
 void draw_skybox(void *sp);

@@ -1,4 +1,4 @@
-#include "textbox_fps.h"
+#include <ui/textbox_fps.h>
 
 textbox_fps textbox_fps_new();
 

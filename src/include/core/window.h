@@ -7,8 +7,8 @@
 #ifndef vektor_in_h
 #define window_h
 
-#include "sdl.h"
-#include "glsl_shaders.h"
+#include <core/sdl.h>
+#include <core/glsl_shaders.h>
 #endif // vektor_in_h
 
 extern unsigned int window_width;

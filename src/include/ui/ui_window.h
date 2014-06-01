@@ -5,10 +5,10 @@
 #ifndef ui_window_h
 #define ui_window_h
 
-#include "sdl.h"
-#include "texture.h"
-#include "event.h"
-#include "ui.h"
+#include <core/sdl.h>
+#include <core/texture.h>
+#include <core/event.h>
+#include <ui/ui.h>
 
 // types
 

@@ -2,7 +2,7 @@
  * by Ryan Lucchese
  * July 30 2011 */
 
-#include "log.h"
+#include <core/log.h>
 
 char* log_data = NULL;
 unsigned int log_size = 0;

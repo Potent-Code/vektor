@@ -20,8 +20,8 @@
 
 #include <mathlib.h>
 
-#include "image.h"
-#include "log.h"
+#include <core/image.h>
+#include <core/log.h>
 #endif // vektor_in_h
 
 typedef struct {

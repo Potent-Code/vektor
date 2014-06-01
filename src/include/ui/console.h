@@ -7,12 +7,12 @@
 
 #include <stdlib.h>
 
-#include "ui.h"
-#include "input.h"
-#include "event.h"
-#include "keybind.h"
-#include "log.h"
-#include "net.h"
+#include <ui/ui.h>
+#include <core/input.h>
+#include <core/event.h>
+#include <core/keybind.h>
+#include <core/log.h>
+#include <core/net.h>
 
 // types
 typedef struct

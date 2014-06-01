@@ -2,7 +2,7 @@
  * by Ryan Lucchese
  * July 24 2011 */
 
-#include "tabbar.h"
+#include <ui/tabbar.h>
 
 tabbar add_tabbar(int x, int y, int w, int h);
 void resize_tabbar(void *tp, float w_scale, float h_scale);

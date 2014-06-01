@@ -2,7 +2,7 @@
  * by Ryan Lucchese
  * May 20 2011 */
 
-#include "textbox.h"
+#include <ui/textbox.h>
 
 textbox textbox_new(float x, float y, int line_width, int lines, int data_len);
 void textbox_set_text(textbox tb, const char *str);

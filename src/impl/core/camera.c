@@ -1,7 +1,8 @@
 /* camera
  * by Ryan Lucchese
  * June 7 2011 */
-#include "camera.h"
+
+#include <core/camera.h>
 
 camera add_camera(float _x, float _y, float _z);
 void camera_mouselook(camera c);

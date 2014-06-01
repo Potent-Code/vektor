@@ -2,7 +2,7 @@
  * by Ryan Lucchese
  * July 25 2011 */
 
-#include "event.h"
+#include <core/event.h>
 
 int mouse_x=0;
 int mouse_y=0;

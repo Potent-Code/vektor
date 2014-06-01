@@ -2,7 +2,7 @@
  * by Ryan Lucchese
  * July 24 2011 */
 
-#include "button.h"
+#include <ui/button.h>
 
 button add_button(int x, int y, int w, int h, texture* _tex);
 void move_button(void *bp, float x, float y);

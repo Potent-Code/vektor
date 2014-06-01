@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "keys.h"
+#include <core/keys.h>
 #endif // vektor_in_h
 
 struct key_listener

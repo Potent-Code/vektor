@@ -5,10 +5,10 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include "sdl.h"
-#include "texture.h"
-#include "event.h"
-#include "mousehandler.h"
+#include <core/sdl.h>
+#include <core/texture.h>
+#include <core/event.h>
+#include <ui/mousehandler.h>
 
 // types
 typedef struct

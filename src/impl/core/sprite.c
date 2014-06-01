@@ -2,7 +2,7 @@
  * Ryan Lucchese
  * December 29 2010 */
 
-#include "sprite.h"
+#include <core/sprite.h>
 
 sprite sprite_new(float _x, float _y, const char* filename);
 void sprite_init(void* sp);

@@ -7,12 +7,12 @@
 
 #include <mathlib.h>
 #include <string.h>
-#include "../sdl.h"
-#include "../glsl_shaders.h"
-#include "../scenegraph.h"
-#include "font.h"
-#include "scrollbar.h"
-#include "../input.h"
+#include <core/sdl.h>
+#include <core/glsl_shaders.h>
+#include <core/scenegraph.h>
+#include <ui/font.h>
+#include <ui/scrollbar.h>
+#include <core/input.h>
 
 // types
 typedef struct

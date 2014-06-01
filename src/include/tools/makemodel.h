@@ -26,7 +26,7 @@
 
 #define VEKTOR_NO_LOG
 
-#include "model.h"
+#include <core/model.h>
 
 extern model load_dae(char *filename);
 

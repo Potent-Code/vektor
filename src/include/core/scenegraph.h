@@ -6,10 +6,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "log.h"
-#include "event.h"
-#include "glsl_shaders.h"
-#include "window.h"
+#include <core/log.h>
+#include <core/event.h>
+#include <core/glsl_shaders.h>
+#include <core/window.h>
 
 #define PROJECTION_STANDARD 1
 #define PROJECTION_OBLIQUE 2

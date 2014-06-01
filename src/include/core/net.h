@@ -18,7 +18,7 @@
 #include <sys/time.h>
 #include <poll.h>
 
-#include "log.h"
+#include <core/log.h>
 
 #define TEST_HOST "zeno1337.com"
 #define TEST_PORT 57157

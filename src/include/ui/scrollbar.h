@@ -5,9 +5,9 @@
 #ifndef SCROLLBAR_H
 #define SCROLLBAR_H
 
-#include "../texture.h"
-#include "../sdl.h"
-#include "mousehandler.h"
+#include <core/texture.h>
+#include <core/sdl.h>
+#include <ui/mousehandler.h>
 
 // types
 typedef struct

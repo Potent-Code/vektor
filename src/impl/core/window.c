@@ -2,7 +2,7 @@
  * by Ryan Lucchese
  * April 4 2012 */
 
-#include "window.h"
+#include <core/window.h>
 
 unsigned int window_width = 1024;
 unsigned int window_height = 768;

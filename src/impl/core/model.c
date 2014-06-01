@@ -2,7 +2,7 @@
  * by Ryan Lucchese
  * December 25 2011 */
 
-#include "model.h"
+#include <core/model.h>
 
 model model_load(const char* filename);
 void model_save(model mdl, const char* filename);

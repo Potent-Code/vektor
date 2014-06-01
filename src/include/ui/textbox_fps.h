@@ -5,10 +5,10 @@
 
 #define textbox_fps_h
 
-#include "../scenegraph.h"
-#include "../window.h"
-#include "../engine.h"
-#include "textbox.h"
+#include <core/scenegraph.h>
+#include <core/window.h>
+#include <core/engine.h>
+#include <ui/textbox.h>
 
 #endif // vektor_in_h
 

@@ -2,7 +2,7 @@
  * by Ryan Lucchese
  * August 14, 2011 */
 
-#include "mousehandler.h"
+#include <ui/mousehandler.h>
 
 clickable clickable_add(float x, float y, float w, float h, void *obj, void (*action)(void*));
 void clickable_mousedown(void *cp);

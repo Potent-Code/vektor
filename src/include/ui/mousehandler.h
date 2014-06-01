@@ -5,8 +5,8 @@
 #ifndef CLICKABLE_H
 #define CLICKABLE_H
 
-#include "../event.h"
-#include "../input.h"
+#include <core/event.h>
+#include <core/input.h>
 
 typedef struct
 {

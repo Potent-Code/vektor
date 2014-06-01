@@ -2,7 +2,7 @@
  * by Ryan Lucchese
  * May 20 2011 */
 
-#include "console.h"
+#include <ui/console.h>
 
 console init_console(int x, int y, int w, int h);
 void console_load_textures(void);

@@ -6,8 +6,8 @@
 #define FONT_H
 
 #include <string.h>
-#include "../log.h"
-#include "../texture.h"
+#include <core/log.h>
+#include <core/texture.h>
 
 // types
 typedef struct

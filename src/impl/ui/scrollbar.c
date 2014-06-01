@@ -2,7 +2,7 @@
  * by Ryan Lucchese
  * May 25 2011 */
 
-#include "scrollbar.h"
+#include <ui/scrollbar.h>
 
 scrollbar add_scrollbar(float x, float y, float line_height, unsigned int lines);
 void draw_scrollbar(scrollbar sb);

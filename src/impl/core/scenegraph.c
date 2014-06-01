@@ -1,4 +1,4 @@
-#include "scenegraph.h"
+#include <core/scenegraph.h>
 
 scenegraph_node* rootNode = NULL;
 scenegraph_node* currentScene = NULL;

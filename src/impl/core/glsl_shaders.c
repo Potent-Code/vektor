@@ -2,10 +2,11 @@
  * by Ryan Lucchese
  * January 9 2012 */
 
-#include "glsl_shaders.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+
+#include <core/glsl_shaders.h>
 
 void shader_init();
 void vertex_shader_init(const char* filename);

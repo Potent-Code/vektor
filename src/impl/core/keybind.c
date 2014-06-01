@@ -2,7 +2,7 @@
  * by Ryan Lucchese
  * December 29 2011 */
 
-#include "keybind.h"
+#include <core/keybind.h>
 
 // one pointer for each key
 keybind keymap[vektor_key_last];

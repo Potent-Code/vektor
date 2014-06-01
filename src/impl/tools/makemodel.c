@@ -2,7 +2,7 @@
  * by Ryan Lucchese
  * December 24 2011 */
 
-#include "makemodel.h"
+#include <tools/makemodel.h>
 
 void load_model_images(model mdl, xmlNodePtr cur, xmlNsPtr ns);
 void load_geometries(model mdl, xmlNodePtr cur, xmlNsPtr ns);

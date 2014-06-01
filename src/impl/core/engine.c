@@ -3,7 +3,7 @@
  * by Ryan Lucchese
  * December 21 2010 */
 
-#include "engine.h"
+#include <core/engine.h>
 
 void vektor_quit(void* ev);
 void vektor_init(const char* title);

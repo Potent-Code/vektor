@@ -2,7 +2,7 @@
  * by Ryan Lucchese
  * May 21 2011 */
 
-#include "font.h"
+#include <ui/font.h>
 
 font add_font(const char *filename);
 void font_get_size(font f);

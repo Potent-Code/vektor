@@ -2,7 +2,7 @@
  * by Ryan Lucchese
  * April 12 2012 */
 
-#include "keystates.h"
+#include <core/keystates.h>
 
 int* key_states;
 

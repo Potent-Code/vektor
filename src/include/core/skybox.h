@@ -7,8 +7,8 @@
 #ifndef vektor_in_h
 #define skybox_h
 
-#include "sdl.h"
-#include "texture.h"
+#include <core/sdl.h>
+#include <core/texture.h>
 
 #endif // vektor_in_h
 

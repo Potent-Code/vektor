@@ -2,7 +2,7 @@
  * by Ryan Lucchese
  * December 21 2010 */
 
-#include "maketexture.h"
+#include <tools/maketexture.h>
 
 int main(int argc, char ** argv)
 {

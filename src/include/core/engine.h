@@ -8,22 +8,22 @@
 #ifndef vektor_in_h
 #define engine_h
 
-#include "sdl.h"
-#include "glsl_shaders.h"
-#include "window.h"
-#include "log.h"
-#include "net.h"
-#include "input.h"
-#include "event.h"
-#include "texture.h"
-#include "ui/font.h"
-#include "ui/scrollbar.h"
-#include "camera.h"
-#include "ui/textbox.h"
-#include "ui/textbox_fps.h"
-#include "keybind.h"
-#include "keystates.h"
-#include "sprite.h"
+#include <core/sdl.h>
+#include <core/glsl_shaders.h>
+#include <core/window.h>
+#include <core/log.h>
+#include <core/net.h>
+#include <core/input.h>
+#include <core/event.h>
+#include <core/texture.h>
+#include <ui/font.h>
+#include <ui/scrollbar.h>
+#include <core/camera.h>
+#include <ui/textbox.h>
+#include <ui/textbox_fps.h>
+#include <core/keybind.h>
+#include <core/keystates.h>
+#include <core/sprite.h>
 #endif // vektor_in_h
 
 extern void vektor_quit(void* ev);
