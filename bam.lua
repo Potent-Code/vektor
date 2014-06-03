@@ -39,9 +39,21 @@ function NewVektorSettings()
 	-- add libpath
 	vektor_settings.dll.libpath:Add("/usr/local/lib")
 	vektor_settings.link.libpath:Add("/usr/local/lib")
-	
+
 	-- linker flags
 	return vektor_settings
+end
+
+-- extract a static library with `ar -x libX.a`
+function ExtractStaticLibrary(pathToLib)
+	local outputPath = objectPath .. "external/" .. PathFilename(pathToLib) .. "/"
+
+	print("Unpacking archive " .. pathToLib .. " to " .. outputPath)
+	--ExecuteSilent("rm -fR " .. outputPath)
+	ExecuteSilent("mkdir -p " .. outputPath)
+	ExecuteSilent("cd " .. outputPath .. " && ar -x " .. pathToLib)
+
+	return Collect(outputPath .. "*.o")
 end
 
 -- collect sources and compile
@@ -49,18 +61,24 @@ settings = NewVektorSettings()
 core_objects = Compile(settings, Collect(implPath .. "core/*.c"))
 ui_objects = Compile(settings, Collect(implPath .. "ui/*.c"))
 
+-- set up dependencies
 settings.dll.libs:Add("SDL", "GL", "xml2", "png", "delta")
-settings.link.libs:Add("SDL", "GL", "xml2", "png", "delta")
+settings.link.libs:Add("GL")
+libsdl_objects = ExtractStaticLibrary("/usr/local/lib/libSDL.a")
+libpng_objects = ExtractStaticLibrary("/usr/local/lib/libpng.a")
+libm_objects = ExtractStaticLibrary("/usr/lib/libm.a")
+libz_objects = ExtractStaticLibrary("/usr/lib/libz.a")
+libdelta_objects = ExtractStaticLibrary("/usr/local/lib/libdelta.a")
+libxml2_objects = ExtractStaticLibrary("/usr/local/lib/libxml2.a")
+liblzma_objects = ExtractStaticLibrary("/usr/lib/liblzma.a")
 
 -- make shared library libvektor.so
 libvektor = SharedLibrary(settings, "libvektor", core_objects, ui_objects)
 -- make static library libvektor.a
-libvektor_static = StaticLibrary(settings, "vektor", core_objects, ui_objects)
+libvektor_static = StaticLibrary(settings, "vektor", core_objects, ui_objects, libsdl_objects, libxml2_objects, liblzma_objects, libpng_objects, libm_objects, libz_objects, libdelta_objects)
 
 
 -- make tools
 settings = NewVektorSettings()
-settings.link.libpath:Add(".")
-settings.link.libs:Add("vektor")
-vektor_maketexture = Link(settings, "vektor_maketexture", Compile(settings, implPath .. "tools/maketexture.c"))
-vektor_makemodel = Link(settings, "vektor_makemodel", Compile(settings, implPath .. "tools/makemodel.c"))
+vektor_maketexture = Link(settings, "vektor_maketexture", Compile(settings, implPath .. "tools/maketexture.c"), libvektor_static)
+vektor_makemodel = Link(settings, "vektor_makemodel", Compile(settings, implPath .. "tools/makemodel.c"), libvektor_static)
