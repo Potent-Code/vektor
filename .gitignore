@@ -1,8 +1,9 @@
 # build outputs
-*.o
-*.so
-*.a
 obj/
+libvektor.so
+libvektor.a
+vektor_maketexture
+vektor_makemodel
 
 # vim swap files
 *.swp
