@@ -18,6 +18,13 @@ function NewVektorSettings()
 	-- use fPIC for making a shared object
 	vektor_settings.cc.flags:Add("-fPIC")
 	
+	-- set optimization level
+	if (vektor_settings.debug > 0) then
+		vektor_settings.cc.flags:Add("-O0")
+	else
+		vektor_settings.cc.flags:Add("-O3")
+	end
+	
 	-- set up include path
 	vektor_settings.cc.includes:Add(sourcePath .. "include", "/usr/local/include", "/usr/local/include/libxml2")
 	
