@@ -1,10 +1,10 @@
-Vektor Game Engine
+Vektor Graphics Engine
 ==============
 
 Installation
 ==============
 
-Run `./make.sh && sudo ./make.sh install && ./make.sh clean` to build, install, and clean Vektor Game Engine
+Run `./make.sh && sudo ./make.sh install && ./make.sh clean` to build, install, and clean Vektor Graphics Engine
 
 Usage
 ==============
