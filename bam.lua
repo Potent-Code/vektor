@@ -73,6 +73,10 @@ ui_objects = Compile(settings, Collect(implPath .. "ui/*.c"))
 settings.dll.libs:Add("SDL", "GL", "xml2", "png", "delta")
 settings.link.libs:Add("GL")
 libsdl_objects = ExtractStaticLibrary("/usr/local/lib/libSDL.a")
+libvga_objects = ExtractStaticLibrary("/usr/local/lib/libvga.a")
+libaa_objects = ExtractStaticLibrary("/usr/local/lib/libaa.a")
+libvgl_objects = ExtractStaticLibrary("/usr/lib/libvgl.a")
+libusbhid_objects = ExtractStaticLibrary("/usr/lib/libusbhid.a")
 libpng_objects = ExtractStaticLibrary("/usr/local/lib/libpng.a")
 libm_objects = ExtractStaticLibrary("/usr/lib/libm.a")
 libz_objects = ExtractStaticLibrary("/usr/lib/libz.a")
@@ -89,7 +93,20 @@ ExecuteSilent("mkdir -p " .. outputSharePath)
 -- make shared library libvektor.so
 libvektor = SharedLibrary(settings, outputLibPath .. "libvektor", core_objects, ui_objects)
 -- make static library libvektor.a
-libvektor_static = StaticLibrary(settings, outputLibPath .. "vektor", core_objects, ui_objects, libsdl_objects, libxml2_objects, liblzma_objects, libpng_objects, libm_objects, libz_objects, libdelta_objects)
+libvektor_static = StaticLibrary(settings, outputLibPath .. "vektor", 
+	core_objects, 
+	ui_objects, 
+	libsdl_objects, 
+	libvga_objects, 
+	libaa_objects, 
+	libvgl_objects, 
+	libusbhid_objects, 
+	libxml2_objects, 
+	liblzma_objects, 
+	libpng_objects, 
+	libm_objects, 
+	libz_objects, 
+	libdelta_objects)
 
 -- make library header
 print("Compiling vektor.h...")
