@@ -90,6 +90,13 @@ libvektor = SharedLibrary(settings, outputLibPath .. "libvektor", core_objects, 
 -- make static library libvektor.a
 libvektor_static = StaticLibrary(settings, outputLibPath .. "vektor", core_objects, ui_objects, libsdl_objects, libxml2_objects, liblzma_objects, libpng_objects, libm_objects, libz_objects, libdelta_objects)
 
+-- make library header
+print("Compiling vektor.h...")
+Execute(settings.cc.exe_c .. " -E -I" .. includePath .. " " .. includePath .. "core/vektor_in.h " ..
+	"| sed '/^\#/d' > " .. includePath .. "core/vektor_out_2.h " ..
+	"&& cat " .. includePath .. "core/vektor_out_1.h " .. includePath .. "core/vektor_out_2.h " .. includePath .. "core/vektor_out_3.h " ..
+	"| indent -st -ut -sob -bl -bbb -nce > " .. outputIncludePath .. "vektor.h" ..
+	"&& rm -f " .. includePath .. "core/vektor_out_2.h")
 
 -- make tools
 settings = NewVektorSettings()
