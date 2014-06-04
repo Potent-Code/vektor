@@ -25,4 +25,5 @@ int main(void)
 ```
 
 Compile with:
+
 `cc -o vektor_test vektor_test.c -l:libvektor.a -I/usr/local/include -L/usr/local/lib -lGL -lncurses -lthr`
