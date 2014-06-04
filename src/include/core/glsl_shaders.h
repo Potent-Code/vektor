@@ -12,13 +12,13 @@
 
 // TODO: re-evaluate this
 #ifdef __APPLE__
-#define VERTEX_SHADER "/usr/local/share/vektor/shaders/vs_simple_mac.vs"
-#define FRAGMENT_SHADER "/usr/local/share/vektor/shaders/fs_simple_mac.fs"
-#define TRANSFORMS_SHADER "/usr/local/share/vektor/shaders/view_transforms_mac.vs"
+#define VERTEX_SHADER "/usr/local/share/vektor/glsl/vs_simple_mac.vs"
+#define FRAGMENT_SHADER "/usr/local/share/vektor/glsl/fs_simple_mac.fs"
+#define TRANSFORMS_SHADER "/usr/local/share/vektor/glsl/view_transforms_mac.vs"
 #else
-#define VERTEX_SHADER "/usr/local/share/vektor/shaders/vs_simple.vs"
-#define FRAGMENT_SHADER "/usr/local/share/vektor/shaders/fs_simple.fs"
-#define TRANSFORMS_SHADER "/usr/local/share/vektor/shaders/view_transforms.vs"
+#define VERTEX_SHADER "/usr/local/share/vektor/glsl/vs_simple.vs"
+#define FRAGMENT_SHADER "/usr/local/share/vektor/glsl/fs_simple.fs"
+#define TRANSFORMS_SHADER "/usr/local/share/vektor/glsl/view_transforms.vs"
 #endif
 
 #endif // vektor_in_h
