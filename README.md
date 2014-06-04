@@ -8,7 +8,7 @@ Run `./make.sh && sudo ./make.sh install && ./make.sh clean` to build, install, 
 
 Usage
 ==============
-`
+```C
 #include <vektor.h>
 
 int main(void)
@@ -21,4 +21,4 @@ int main(void)
 	vektor_quit(NULL);
 	return 0;
 }
-`
+```
