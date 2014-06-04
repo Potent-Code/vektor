@@ -1,7 +1,14 @@
--- important paths
+-- input paths
 sourcePath = "src/"
+includePath = sourcePath .. "include/"
 implPath = sourcePath .. "impl/"
-objectPath = "obj/"
+
+-- output paths
+outputPath = "build/"
+objectPath = outputPath .. "obj/"
+outputLibPath = outputPath .. "usr/local/lib/"
+outputBinPath = outputPath .. "usr/local/bin/"
+outputIncludePath = outputPath .. "usr/local/include/"
 
 -- common settings for all Vektor outputs
 function NewVektorSettings()
@@ -26,7 +33,7 @@ function NewVektorSettings()
 	end
 	
 	-- set up include path
-	vektor_settings.cc.includes:Add(sourcePath .. "include", "/usr/local/include", "/usr/local/include/libxml2")
+	vektor_settings.cc.includes:Add(includePath, "/usr/local/include", "/usr/local/include/libxml2")
 	
 	-- version define (TODO: improve via gitflow/semver)
 	vektor_settings.cc.defines:Add("PACKAGE_VERSION=\\\"0.0.1\\\"")
@@ -46,14 +53,14 @@ end
 
 -- extract a static library with `ar -x libX.a`
 function ExtractStaticLibrary(pathToLib)
-	local outputPath = objectPath .. "external/" .. PathFilename(pathToLib) .. "/"
+	local objectOutputPath = objectPath .. "external/" .. PathFilename(pathToLib) .. "/"
 
-	print("Unpacking archive " .. pathToLib .. " to " .. outputPath)
-	--ExecuteSilent("rm -fR " .. outputPath)
-	ExecuteSilent("mkdir -p " .. outputPath)
-	ExecuteSilent("cd " .. outputPath .. " && ar -x " .. pathToLib)
+	print("Unpacking archive " .. pathToLib .. " to " .. objectOutputPath)
+	--ExecuteSilent("rm -fR " .. objectOutputPath)
+	ExecuteSilent("mkdir -p " .. objectOutputPath)
+	ExecuteSilent("cd " .. objectOutputPath .. " && ar -x " .. pathToLib)
 
-	return Collect(outputPath .. "*.o")
+	return Collect(objectOutputPath .. "*.o")
 end
 
 -- collect sources and compile
@@ -72,13 +79,19 @@ libdelta_objects = ExtractStaticLibrary("/usr/local/lib/libdelta.a")
 libxml2_objects = ExtractStaticLibrary("/usr/local/lib/libxml2.a")
 liblzma_objects = ExtractStaticLibrary("/usr/lib/liblzma.a")
 
+-- set up output directories
+ExecuteSilent("mkdir -p " .. outputPath .. "usr/local/include")
+ExecuteSilent("mkdir -p " .. outputPath .. "usr/local/lib")
+ExecuteSilent("mkdir -p " .. outputPath .. "usr/local/bin")
+ExecuteSilent("mkdir -p " .. outputPath .. "usr/local/share/vektor")
+
 -- make shared library libvektor.so
-libvektor = SharedLibrary(settings, "libvektor", core_objects, ui_objects)
+libvektor = SharedLibrary(settings, outputLibPath .. "libvektor", core_objects, ui_objects)
 -- make static library libvektor.a
-libvektor_static = StaticLibrary(settings, "vektor", core_objects, ui_objects, libsdl_objects, libxml2_objects, liblzma_objects, libpng_objects, libm_objects, libz_objects, libdelta_objects)
+libvektor_static = StaticLibrary(settings, outputLibPath .. "vektor", core_objects, ui_objects, libsdl_objects, libxml2_objects, liblzma_objects, libpng_objects, libm_objects, libz_objects, libdelta_objects)
 
 
 -- make tools
 settings = NewVektorSettings()
-vektor_maketexture = Link(settings, "vektor_maketexture", Compile(settings, implPath .. "tools/maketexture.c"), libvektor_static)
-vektor_makemodel = Link(settings, "vektor_makemodel", Compile(settings, implPath .. "tools/makemodel.c"), libvektor_static)
+vektor_maketexture = Link(settings, outputBinPath .. "vektor_maketexture", Compile(settings, implPath .. "tools/maketexture.c"), libvektor_static)
+vektor_makemodel = Link(settings, outputBinPath .. "vektor_makemodel", Compile(settings, implPath .. "tools/makemodel.c"), libvektor_static)

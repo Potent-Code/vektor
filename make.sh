@@ -16,11 +16,8 @@ elif [ "$1" == "install" ]; then
 	echo "vektor_maketexture -> /usr/local/bin/"
 	echo "vektor_makemodel -> /usr/local/bin/"
 elif [ "$1" == "clean" ]; then
-	echo "removing obj/"
-	echo "removing libvektor.*"
-	echo "removing vektor_maketexture"
-	echo "removing vektor_makemodel"
-	rm -fR obj libvektor.* vektor_maketexture vektor_makemodel
+	echo "removing build/"
+	rm -fR build
 else
 	echo "Usage:"
 	echo -e "\t$0\t\tBuild"
