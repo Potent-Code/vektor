@@ -5,16 +5,12 @@ if [ "$1" == "" ]; then
 	echo "Building Vektor..."
 	bam $BAMFLAGS -a Mode=Debug
 elif [ "$1" == "install" ]; then
-	cp libvektor.a /usr/local/lib/ &&
-	cp libvektor.so /usr/local/lib/ &&
-	cp src/include/vektor.h /usr/local/include/ &&
-	cp vektor_maketexture /usr/local/bin/ &&
-	cp vektor_makemodel /usr/local/bin || exit 1
-	echo "libvektor.a -> /usr/local/lib/"
-	echo "libvektor.so -> /usr/local/lib/"
-	echo "src/include/vektor.h -> /usr/local/include/"
-	echo "vektor_maketexture -> /usr/local/bin/"
-	echo "vektor_makemodel -> /usr/local/bin/"
+	cp build/usr/local/lib/* /usr/local/lib/ &&
+	cp build/usr/local/include/* /usr/local/include/ &&
+	cp build/usr/local/bin/* /usr/local/bin/ || exit 1
+	echo "build/usr/local/lib/* -> /usr/local/lib/"
+	echo "build/usr/local/include/* -> /usr/local/lib/"
+	echo "build/usr/local/bin/* -> /usr/local/bin/"
 elif [ "$1" == "clean" ]; then
 	echo "removing build/"
 	rm -fR build
