@@ -9,6 +9,7 @@ objectPath = outputPath .. "obj/"
 outputLibPath = outputPath .. "usr/local/lib/"
 outputBinPath = outputPath .. "usr/local/bin/"
 outputIncludePath = outputPath .. "usr/local/include/"
+outputSharePath = outputPath .. "usr/local/share/vektor/"
 
 -- common settings for all Vektor outputs
 function NewVektorSettings()
@@ -80,10 +81,10 @@ libxml2_objects = ExtractStaticLibrary("/usr/local/lib/libxml2.a")
 liblzma_objects = ExtractStaticLibrary("/usr/lib/liblzma.a")
 
 -- set up output directories
-ExecuteSilent("mkdir -p " .. outputPath .. "usr/local/include")
-ExecuteSilent("mkdir -p " .. outputPath .. "usr/local/lib")
-ExecuteSilent("mkdir -p " .. outputPath .. "usr/local/bin")
-ExecuteSilent("mkdir -p " .. outputPath .. "usr/local/share/vektor")
+ExecuteSilent("mkdir -p " .. outputIncludePath)
+ExecuteSilent("mkdir -p " .. outputLibPath)
+ExecuteSilent("mkdir -p " .. outputBinPath)
+ExecuteSilent("mkdir -p " .. outputSharePath)
 
 -- make shared library libvektor.so
 libvektor = SharedLibrary(settings, outputLibPath .. "libvektor", core_objects, ui_objects)
@@ -102,3 +103,20 @@ Execute(settings.cc.exe_c .. " -E -I" .. includePath .. " " .. includePath .. "c
 settings = NewVektorSettings()
 vektor_maketexture = Link(settings, outputBinPath .. "vektor_maketexture", Compile(settings, implPath .. "tools/maketexture.c"), libvektor_static)
 vektor_makemodel = Link(settings, outputBinPath .. "vektor_makemodel", Compile(settings, implPath .. "tools/makemodel.c"), libvektor_static)
+
+-- make assets
+ExecuteSilent("rm -fR " .. outputSharePath .. "*")
+ExecuteSilent("mkdir -p " .. outputSharePath .. "fonts")
+ExecuteSilent("mkdir -p " .. outputSharePath .. "ui")
+Execute("cp -af src/glsl " .. outputSharePath)
+Execute(outputBinPath .. "vektor_maketexture share/png/logo.png " .. outputSharePath .. "logo.texture")
+Execute(outputBinPath .. "vektor_maketexture share/png/fonts/default.png " .. outputSharePath .. "fonts/default.font")
+Execute(outputBinPath .. "vektor_maketexture share/png/ui/chat_button.png " .. outputSharePath .. "ui/chat_button.texture")
+Execute(outputBinPath .. "vektor_maketexture share/png/ui/console_button.png " .. outputSharePath .. "ui/console_button.texture")
+Execute(outputBinPath .. "vektor_maketexture share/png/ui/log_button.png " .. outputSharePath .. "ui/log_button.texture")
+Execute(outputBinPath .. "vektor_maketexture share/png/ui/scroll_bar.png " .. outputSharePath .. "ui/scroll_bar.texture")
+Execute(outputBinPath .. "vektor_maketexture share/png/ui/ui_content.png " .. outputSharePath .. "ui/ui_content.texture")
+Execute(outputBinPath .. "vektor_maketexture share/png/ui/ui_input_bar.png " .. outputSharePath .. "ui/ui_input_bar.texture")
+Execute(outputBinPath .. "vektor_maketexture share/png/ui/ui_menu_bg.png " .. outputSharePath .. "ui/ui_menu_bg.texture")
+Execute(outputBinPath .. "vektor_maketexture share/png/ui/ui_scrollbar.png " .. outputSharePath .. "ui/ui_scrollbar.texture")
+Execute(outputBinPath .. "vektor_maketexture share/png/ui/ui_window.png " .. outputSharePath .. "ui/ui_window.texture")

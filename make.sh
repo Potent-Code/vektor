@@ -7,10 +7,12 @@ if [ "$1" == "" ]; then
 elif [ "$1" == "install" ]; then
 	cp build/usr/local/lib/* /usr/local/lib/ &&
 	cp build/usr/local/include/* /usr/local/include/ &&
-	cp build/usr/local/bin/* /usr/local/bin/ || exit 1
+	cp build/usr/local/bin/* /usr/local/bin/ &&
+	cp -af build/usr/local/share/vektor /usr/local/share/ || exit 1
 	echo "build/usr/local/lib/* -> /usr/local/lib/"
 	echo "build/usr/local/include/* -> /usr/local/lib/"
 	echo "build/usr/local/bin/* -> /usr/local/bin/"
+	echo "build/usr/local/share/vektor -> /usr/local/share/"
 elif [ "$1" == "clean" ]; then
 	echo "removing build/"
 	rm -fR build
