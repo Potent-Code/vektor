@@ -21,4 +21,5 @@ int main(void)
 	vektor_quit(NULL);
 	return 0;
 }
+
 ```
