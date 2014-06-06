@@ -1,0 +1,8 @@
+# build outputs
+build/
+
+# vim swap files
+*.swp
+
+# bam temp dir
+.bam/
