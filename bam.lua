@@ -36,8 +36,8 @@ function NewVektorSettings()
 	-- set up include path
 	vektor_settings.cc.includes:Add(includePath, "/usr/local/include", "/usr/local/include/libxml2")
 	
-	-- version define (TODO: improve via gitflow/semver)
-	vektor_settings.cc.defines:Add("PACKAGE_VERSION=\\\"0.0.1\\\"")
+	-- set version string
+	vektor_settings.cc.defines:Add("PACKAGE_VERSION=\\\"`git describe --always --tags --dirty=-modified --abbrev=10`-`git rev-parse --abbrev-ref HEAD`\\\"")
 	
 	-- output objects to obj directory
 	vektor_settings.cc.Output = function(vektor_settings, input)
