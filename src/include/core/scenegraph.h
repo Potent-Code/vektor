@@ -2,7 +2,7 @@
 
 #ifndef vektor_in_h
 #define scenegraph_h
-#include <delta.h>
+#include <potent-code/delta.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

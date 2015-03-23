@@ -19,7 +19,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#include <delta.h>
+#include <potent-code/delta.h>
 
 #define COLLADA_XMLNS "http://www.collada.org/2005/11/COLLADASchema"
 #define COLLADA_VERSION "1.4.1"
